@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "account_id": "f53940e94f9aadb31afc5d7019f82096",
+  "account_id": "ec0a9ef71c2605e8e98f56312162e5ee",
   "name": "mlhk-in",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-04-09",
