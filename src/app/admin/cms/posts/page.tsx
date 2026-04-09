@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { blogPosts } from "@/lib/db/schema";
 import { sql } from "drizzle-orm";
@@ -9,7 +9,7 @@ import { Plus, Pencil } from "lucide-react";
 export const runtime = "edge";
 
 export default async function PostsPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const posts = await db.select().from(blogPosts).orderBy(sql`created_at desc`).all();
 

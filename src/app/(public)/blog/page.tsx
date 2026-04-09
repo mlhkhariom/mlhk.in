@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { blogPosts } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -9,7 +9,7 @@ export const runtime = "edge";
 export const metadata: Metadata = { title: "Blog" };
 
 export default async function BlogPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const posts = await db.select().from(blogPosts).where(eq(blogPosts.status, "published")).all();
 

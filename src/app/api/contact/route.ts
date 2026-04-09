@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   const { name, email, phone, company, message } = body;
   if (!name || !email) return NextResponse.json({ error: "Name and email required" }, { status: 400 });
 
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
 
   await db.insert(leads).values({

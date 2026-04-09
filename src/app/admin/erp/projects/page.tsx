@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { projects, clients } from "@/lib/db/schema";
 import { sql, eq } from "drizzle-orm";
@@ -17,7 +17,7 @@ const statusColor: Record<string, string> = {
 };
 
 export default async function ProjectsPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const allProjects = await db.select({ project: projects, clientName: clients.name })
     .from(projects).leftJoin(clients, eq(projects.clientId, clients.id))

@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { leads, clients, projects, invoices, tickets } from "@/lib/db/schema";
 import { eq, count, sql } from "drizzle-orm";
@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const runtime = "edge";
 
 export default async function AdminDashboard() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
 
   const [[totalLeads], [newLeads], [totalClients], [activeProjects], [openTickets], [pendingInvoices]] = await Promise.all([

@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { invoices, clients } from "@/lib/db/schema";
 import { sql, eq } from "drizzle-orm";
@@ -17,7 +17,7 @@ const statusColor: Record<string, string> = {
 };
 
 export default async function InvoicesPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const allInvoices = await db.select({ invoice: invoices, clientName: clients.name })
     .from(invoices).leftJoin(clients, eq(invoices.clientId, clients.id))

@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { blogPosts } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -8,7 +8,7 @@ export const runtime = "edge";
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1);
   if (!post || post.status !== "published") notFound();

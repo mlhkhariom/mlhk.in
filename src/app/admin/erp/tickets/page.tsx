@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { tickets, clients } from "@/lib/db/schema";
 import { sql, eq } from "drizzle-orm";
@@ -20,7 +20,7 @@ const priorityColor: Record<string, string> = {
 };
 
 export default async function TicketsPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const allTickets = await db.select({ ticket: tickets, clientName: clients.name })
     .from(tickets).leftJoin(clients, eq(tickets.clientId, clients.id))

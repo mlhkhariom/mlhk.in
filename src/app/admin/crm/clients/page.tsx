@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { clients } from "@/lib/db/schema";
 import { sql } from "drizzle-orm";
@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const runtime = "edge";
 
 export default async function ClientsPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const allClients = await db.select().from(clients).orderBy(sql`created_at desc`).all();
 

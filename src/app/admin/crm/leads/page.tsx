@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { sql } from "drizzle-orm";
@@ -16,7 +16,7 @@ const statusColor: Record<string, string> = {
 };
 
 export default async function LeadsPage() {
-  const { env } = getRequestContext();
+  const { env } = getCloudflareContext();
   const db = getDb(env.DB);
   const allLeads = await db.select().from(leads).orderBy(sql`created_at desc`).all();
 
