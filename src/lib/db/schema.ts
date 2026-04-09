@@ -248,6 +248,19 @@ export const subsidiaries = sqliteTable("subsidiaries", {
   active: integer("active", { mode: "boolean" }).default(true),
 });
 
+export const menus = sqliteTable("menus", {
+  id: text("id").primaryKey(),
+  location: text("location").notNull().unique(), // header, footer, mobile
+  items: text("items").notNull().default("[]"), // JSON array
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+});
+
+export const siteSettings = sqliteTable("site_settings", {
+  key: text("key").primaryKey(),
+  value: text("value"),
+  group: text("group").default("general"), // general, seo, social, appearance
+});
+
 export const settings = sqliteTable("settings", {
   key: text("key").primaryKey(),
   value: text("value"),
