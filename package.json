@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "pages:build": "opennextjs-cloudflare build",
+    "pages:deploy": "opennextjs-cloudflare deploy",
+    "pages:build-deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "next lint",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
