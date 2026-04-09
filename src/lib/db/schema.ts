@@ -172,6 +172,17 @@ export const ticketMessages = sqliteTable("ticket_messages", {
 
 // ─── CMS ─────────────────────────────────────────────────────────────────────
 
+export const pages = sqliteTable("pages", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  content: text("content"),
+  metaTitle: text("meta_title"),
+  metaDesc: text("meta_desc"),
+  status: text("status", { enum: ["draft", "published"] }).default("draft"),
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+});
+
 export const blogPosts = sqliteTable("blog_posts", {
   id: text("id").primaryKey(),
   slug: text("slug").notNull().unique(),
