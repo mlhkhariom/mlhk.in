@@ -1,5 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  "account_id": "f53940e94f9aadb31afc5d7019f82096",
   "name": "mlhk-in",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-04-09",
@@ -20,8 +21,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "mlhk-db",
-      "database_id": "REPLACE_WITH_YOUR_D1_ID"
+      "database_name": "mlhk-in",
+      "database_id": "odfc5efe8e-bcc1-4941-8ddb-854b439f7002"
     }
   ],
   "kv_namespaces": [
@@ -33,7 +34,7 @@
   "r2_buckets": [
     {
       "binding": "R2",
-      "bucket_name": "mlhk-media"
+      "bucket_name": "mlhk-in"
     }
   ],
   "observability": { "enabled": true },
