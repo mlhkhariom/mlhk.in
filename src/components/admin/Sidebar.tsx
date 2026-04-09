@@ -25,6 +25,7 @@ const nav = [
   { label: "ERP", type: "group" },
   { label: "Projects", href: "/admin/erp/projects", icon: FolderKanban },
   { label: "Invoices", href: "/admin/erp/invoices", icon: Receipt },
+  { label: "Expenses", href: "/admin/erp/expenses", icon: Receipt },
   { label: "Tickets", href: "/admin/erp/tickets", icon: Ticket },
   { label: "Other", type: "group" },
   { label: "Settings", href: "/admin/settings", icon: Settings },
