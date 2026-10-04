@@ -4,6 +4,16 @@ import { Save } from "lucide-react";
 
 const SECTIONS = [
   {
+    title: "Homepage",
+    fields: [
+      { key: "hero_title", label: "Hero Title" },
+      { key: "hero_subtitle", label: "Hero Subtitle", type: "textarea" },
+      { key: "cta_title", label: "CTA Section Title" },
+      { key: "cta_subtitle", label: "CTA Subtitle" },
+      { key: "announcement_bar", label: "Announcement Bar (blank = hidden)" },
+    ],
+  },
+  {
     title: "General",
     fields: [
       { key: "site_name", label: "Site Name" },

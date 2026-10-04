@@ -19,7 +19,9 @@ export default function LoginPage() {
       setError("Invalid email or password");
       setLoading(false);
     } else {
-      router.push("/admin/dashboard");
+      // Honour the ?next= set by middleware; only allow same-site paths.
+      const next = new URLSearchParams(window.location.search).get("next");
+      router.push(next && next.startsWith("/") && !next.startsWith("//") ? next : "/admin/dashboard");
     }
   }
 

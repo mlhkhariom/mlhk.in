@@ -3,10 +3,14 @@ import { getDb } from "@/lib/db";
 import { blogPosts, pages, leads, clients, projects, services, portfolio } from "@/lib/db/schema";
 import { like, or } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth/session";
 
 export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
+  const denied = await requireAdmin(req);
+  if (denied) return denied;
+
   const q = req.nextUrl.searchParams.get("q")?.trim();
   if (!q || q.length < 2) return NextResponse.json([]);
 

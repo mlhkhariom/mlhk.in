@@ -9,7 +9,9 @@ export default function ContactForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
-    const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    const honeypot = new FormData(e.currentTarget as HTMLFormElement).get("website");
+    const payload = { ...form, website: typeof honeypot === "string" ? honeypot : "" };
+    const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     setStatus(res.ok ? "done" : "error");
   }
 
@@ -35,6 +37,8 @@ export default function ContactForm() {
       </div>
       <textarea required rows={5} placeholder="Tell us about your project *" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
         className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+      {/* Honeypot — hidden from real users, catches naive bots. */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
       {status === "error" && <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>}
       <button type="submit" disabled={status === "loading"}
         className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2 disabled:opacity-60">
