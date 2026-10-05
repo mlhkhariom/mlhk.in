@@ -4,8 +4,10 @@ import { subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/public/Breadcrumbs";
 
-export const runtime = "edge";
+export const revalidate = 300;
 export const dynamic = "force-dynamic";
 
 export default async function SubsidiaryPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -16,8 +18,16 @@ export default async function SubsidiaryPage({ params }: { params: Promise<{ slu
   if (!brand) notFound();
 
   return (
+    <>
+    <JsonLd data={{
+      "@type": "Organization",
+      name: brand.name,
+      description: brand.tagline ?? "",
+      url: brand.url ?? `https://mlhk.in/subsidiaries/${brand.slug}`,
+      parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
+    }} />
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands", href: "/subsidiaries" }, { label: brand.name }]} />
     <div className="max-w-3xl mx-auto px-4 py-16">
-      <Link href="/subsidiaries" className="text-sm text-gray-400 hover:text-blue-600 mb-8 block">← All Brands</Link>
       {brand.logo && <img src={brand.logo} alt={brand.name} className="h-16 mb-6 object-contain" />}
       <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded mb-4 inline-block">{brand.sector}</span>
       <h1 className="text-4xl font-bold text-gray-900 mb-3">{brand.name}</h1>
@@ -30,6 +40,10 @@ export default async function SubsidiaryPage({ params }: { params: Promise<{ slu
           Visit Website →
         </a>
       )}
+      <div className="mt-10 pt-6 border-t border-gray-100">
+        <Link href="/subsidiaries" className="text-sm text-blue-600 hover:underline">← All Brands</Link>
+      </div>
     </div>
+    </>
   );
 }

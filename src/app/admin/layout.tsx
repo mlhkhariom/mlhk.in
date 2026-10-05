@@ -6,7 +6,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromHeaders, ADMIN_ROLES } from "@/lib/auth/session";
 
-export const runtime = "edge";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   // Authoritative guard for the whole admin panel. Middleware is only a fast

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Pencil } from "lucide-react";
 
-export const runtime = "edge";
 
 export default async function PostsPage() {
   const { env } = getCloudflareContext();

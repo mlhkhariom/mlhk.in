@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
 
-export const runtime = "edge";
 
 /** Public base URL for media, e.g. an R2 custom domain. Falls back to storing the bare key. */
 function mediaUrl(env: CloudflareEnv, key: string): string {

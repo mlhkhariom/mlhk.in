@@ -2,11 +2,18 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { portfolio } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
+import { buildSeo } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/public/Breadcrumbs";
+import Link from "next/link";
 import type { Metadata } from "next";
 
-export const runtime = "edge";
+export const revalidate = 60;
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Portfolio" };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSeo({ title: "Portfolio", description: "Projects we've built for clients across India.", path: "/portfolio" });
+}
 
 export default async function PortfolioPage() {
   const { env } = getCloudflareContext();
@@ -14,6 +21,19 @@ export default async function PortfolioPage() {
   const items = await db.select().from(portfolio).all();
 
   return (
+    <>
+    <JsonLd data={{
+      "@type": "ItemList",
+      name: "MLHK Infotech Portfolio",
+      itemListElement: items.map((p, i) => ({
+        "@type": "CreativeWork",
+        position: i + 1,
+        name: p.title,
+        description: p.description ?? "",
+        url: p.url ?? "https://mlhk.in/portfolio",
+      })),
+    }} />
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Portfolio" }]} />
     <div className="max-w-6xl mx-auto px-4 py-16">
       <div className="text-center mb-14">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Portfolio</h1>
@@ -36,6 +56,10 @@ export default async function PortfolioPage() {
           ))}
         </div>
       )}
+      <div className="text-center mt-12">
+        <Link href="/contact" className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">Start Your Project</Link>
+      </div>
     </div>
+    </>
   );
 }

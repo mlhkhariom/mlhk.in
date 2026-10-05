@@ -3,13 +3,20 @@ import { getDb } from "@/lib/db";
 import { services, subsidiaries, testimonials, portfolio } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { getSiteSettings } from "@/lib/site";
+import { buildSeo } from "@/lib/seo";
+import JsonLd, { WebSiteJsonLd } from "@/components/seo/JsonLd";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import type { Metadata } from "next";
 
-export const runtime = "edge";
+export const revalidate = 60;
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSeo();
+}
 
 export default async function HomePage() {
   const { env } = getCloudflareContext();
@@ -24,6 +31,19 @@ export default async function HomePage() {
 
   return (
     <>
+      <WebSiteJsonLd name="MLHK Infotech" url="https://mlhk.in" />
+      <JsonLd data={{
+        "@type": "Organization",
+        name: "MLHK Infotech",
+        url: "https://mlhk.in",
+        logo: "https://mlhk.in/logo.png",
+        foundingDate: "2020-04",
+        founder: { "@type": "Person", name: "Hariom Vishwkarma" },
+        address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: "Shajapur", addressRegion: "Madhya Pradesh", postalCode: "466001", addressCountry: "IN" },
+        sameAs: ["https://github.com/mlhkhariom"],
+        contactPoint: { "@type": "ContactPoint", email: "Mlhkinfotech@gmail.com", contactType: "sales", availableLanguage: ["en", "hi"] },
+      }} />
+
       {/* Announcement Bar */}
       {settings.announcement_bar && (
         <div className="bg-blue-600 text-white text-center text-xs py-2 px-4">{settings.announcement_bar}</div>

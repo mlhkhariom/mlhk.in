@@ -5,7 +5,6 @@ import { sql } from "drizzle-orm";
 import { Card, CardContent } from "@/components/ui/card";
 import LeadActions from "./LeadActions";
 
-export const runtime = "edge";
 
 const statusColor: Record<string, string> = {
   new: "bg-blue-50 text-blue-600",

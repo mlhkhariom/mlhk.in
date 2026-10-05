@@ -4,7 +4,6 @@ import { siteSettings } from "@/lib/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, getSession } from "@/lib/auth/session";
 
-export const runtime = "edge";
 
 /** Keys that a non-super-admin must not be able to change. */
 const PROTECTED_KEYS = new Set(["google_analytics", "search_console_verification"]);

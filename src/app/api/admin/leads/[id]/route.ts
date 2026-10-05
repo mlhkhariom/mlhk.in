@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
 
-export const runtime = "edge";
 
 const STATUSES = ["new", "contacted", "proposal", "won", "lost"] as const;
 

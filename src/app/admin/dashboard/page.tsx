@@ -5,7 +5,6 @@ import { eq, count, sql } from "drizzle-orm";
 import { Users, FolderKanban, Receipt, Ticket, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const runtime = "edge";
 
 export default async function AdminDashboard() {
   const { env } = getCloudflareContext();

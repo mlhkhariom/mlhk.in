@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
 import { toBool } from "@/lib/utils";
 
-export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);

@@ -5,10 +5,18 @@ export default function NotFound() {
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
       <p className="text-8xl font-bold text-blue-600 mb-4">404</p>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-      <p className="text-gray-500 mb-8">The page you're looking for doesn't exist.</p>
-      <Link href="/" className="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
-        Go Home
-      </Link>
+      <p className="text-gray-500 mb-8">The page you're looking for doesn't exist or has been moved.</p>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Link href="/" className="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+          Go Home
+        </Link>
+        <Link href="/blog" className="border border-gray-200 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+          Browse Blog
+        </Link>
+        <Link href="/services" className="border border-gray-200 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+          Our Services
+        </Link>
+      </div>
     </div>
   );
 }

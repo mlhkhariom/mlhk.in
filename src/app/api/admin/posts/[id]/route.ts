@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
 import { sanitizeHtml } from "@/lib/sanitize";
 
-export const runtime = "edge";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin(req);

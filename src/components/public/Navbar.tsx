@@ -1,7 +1,6 @@
 import { getMenu, getSiteSettings } from "@/lib/site";
 import NavbarClient from "./NavbarClient";
 
-export const runtime = "edge";
 
 export default async function Navbar() {
   const [items, settings] = await Promise.all([getMenu("header"), getSiteSettings()]);

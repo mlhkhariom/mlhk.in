@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/public/ContactForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { buildSeo } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/public/Breadcrumbs";
 
-export const metadata: Metadata = { title: "Contact" };
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSeo({ title: "Contact", description: "Have a project in mind? Let's talk. We respond within 24 hours.", path: "/contact" });
+}
 
 export default function ContactPage() {
   return (
+    <>
+    <JsonLd data={{
+      "@type": "ContactPage",
+      name: "Contact MLHK Infotech",
+      description: "Get in touch with MLHK Infotech for project inquiries. We respond within 24 hours.",
+      mainEntity: {
+        "@type": "Organization",
+        name: "MLHK Infotech",
+        email: "Mlhkinfotech@gmail.com",
+        address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: "Shajapur", addressRegion: "Madhya Pradesh", addressCountry: "IN" },
+        contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "Mlhkinfotech@gmail.com", availableLanguage: ["en", "hi"] },
+      },
+    }} />
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
     <div className="max-w-6xl mx-auto px-4 py-16">
       <div className="text-center mb-14">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h1>
@@ -35,5 +54,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

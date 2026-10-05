@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildSeo } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import Breadcrumbs from "@/components/public/Breadcrumbs";
 
-export const metadata: Metadata = { title: "About" };
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSeo({ title: "About", description: "A bootstrapped IT firm building enterprise-grade digital systems from Shajapur, MP.", path: "/about" });
+}
 
 const timeline = [
   { year: "2020", event: "Founded MLHK Infotech in Barnawad, Shajapur during the pandemic digital boom" },
@@ -14,6 +19,20 @@ const timeline = [
 
 export default function AboutPage() {
   return (
+    <>
+    <JsonLd data={{
+      "@type": "AboutPage",
+      name: "About MLHK Infotech",
+      description: "A bootstrapped IT firm building enterprise-grade digital systems from Shajapur, Madhya Pradesh, India.",
+      mainEntity: {
+        "@type": "Organization",
+        name: "MLHK Infotech",
+        foundingDate: "2020-04",
+        founder: { "@type": "Person", name: "Hariom Vishwkarma", jobTitle: "Founder & CEO" },
+        address: { "@type": "PostalAddress", addressLocality: "Barnawad, Shajapur", addressRegion: "Madhya Pradesh", addressCountry: "IN" },
+      },
+    }} />
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
     <div className="max-w-4xl mx-auto px-4 py-16">
       {/* Header */}
       <div className="text-center mb-16">
@@ -67,6 +86,14 @@ export default function AboutPage() {
           Work With Us
         </Link>
       </div>
+
+      {/* Internal links */}
+      <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-4 justify-center">
+        <Link href="/services" className="text-sm text-blue-600 hover:underline">Explore Our Services →</Link>
+        <Link href="/portfolio" className="text-sm text-blue-600 hover:underline">View Portfolio →</Link>
+        <Link href="/blog" className="text-sm text-blue-600 hover:underline">Read Our Blog →</Link>
+      </div>
     </div>
+    </>
   );
 }

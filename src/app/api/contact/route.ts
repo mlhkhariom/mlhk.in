@@ -3,7 +3,6 @@ import { getDb } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "edge";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX = { name: 120, email: 200, phone: 40, company: 160, message: 5000 };
@@ -48,6 +47,17 @@ export async function POST(req: NextRequest) {
     source: "website",
     status: "new",
   });
+
+  // Send email notifications (non-blocking — don't fail the request if email fails)
+  try {
+    const { sendLeadReply, sendLeadNotification } = await import("@/lib/email");
+    await Promise.allSettled([
+      sendLeadReply(name, email),
+      sendLeadNotification(name, email, message),
+    ]);
+  } catch {
+    // Email is best-effort; lead is already saved.
+  }
 
   return NextResponse.json({ success: true });
 }
