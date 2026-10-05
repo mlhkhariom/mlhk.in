@@ -15,7 +15,7 @@ const SESSION_COOKIES = [
   "__Secure-better-auth.session_token",
 ];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const hasSessionCookie = SESSION_COOKIES.some((name) => req.cookies.get(name)?.value);
