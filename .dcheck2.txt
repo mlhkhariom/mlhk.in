@@ -1,0 +1,17 @@
+Tag cache does not need populating
+
+ ⛅️ wrangler 4.147.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 65 files from the assets directory /home/mlhkhariom/mlhk.in/.open-next/assets
+🌀 Starting asset upload...
+🌀 Found 2 new or modified static assets to upload. Proceeding with upload...
++ /BUILD_ID
++ /_next/static/chunks/6d84893b0299ef02.css
+Uploaded 1 of 2 assets
+Uploaded 2 of 2 assets
+✨ Success! Uploaded 2 files (57 already uploaded) (3.13 sec)
+
+Total Upload: 14551.56 KiB / gzip: 3165.97 KiB
+---
+STILL_RUNNING

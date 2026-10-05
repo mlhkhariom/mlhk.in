@@ -30,12 +30,12 @@ const sections = [
   {
     heading: "4. Data Retention",
     content:
-      "We retain personal data only as long as necessary for the purposes outlined above. Client project data is retained for 7 years post-completion as per Indian tax and contract law requirements. You may request deletion of your data at any time by emailing Mlhkinfotech@gmail.com. Upon request, we will erase your data within 30 days unless retention is legally required.",
+      "We retain personal data only as long as necessary for the purposes outlined above. Client project data is retained for 7 years post-completion as per Indian tax and contract law requirements. You may request deletion of your data at any time by emailing admin@mlhk.in. Upon request, we will erase your data within 30 days unless retention is legally required.",
   },
   {
     heading: "5. Your Rights (DPDP Act, 2023)",
     content:
-      "Under the Digital Personal Data Protection Act, 2023, you have the right to: (a) access your personal data; (b) correct inaccurate data; (c) erase your data; (d) restrict processing; (e) withdraw consent; (f) nominate another individual to exercise these rights on your behalf; (g) file a complaint with the Data Protection Board of India. To exercise these rights, contact us at Mlhkinfotech@gmail.com.",
+      "Under the Digital Personal Data Protection Act, 2023, you have the right to: (a) access your personal data; (b) correct inaccurate data; (c) erase your data; (d) restrict processing; (e) withdraw consent; (f) nominate another individual to exercise these rights on your behalf; (g) file a complaint with the Data Protection Board of India. To exercise these rights, contact us at admin@mlhk.in.",
   },
   {
     heading: "6. Cookies & Analytics",
@@ -55,7 +55,7 @@ const sections = [
   {
     heading: "9. Grievance Redressal (IT Act, 2000 — Section 43A & 2026 Rules)",
     content:
-      "In accordance with the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, we have appointed a Grievance Officer. For any privacy-related complaints, contact: Grievance Officer, MLHK Infotech, Near Hanuman Temple, Barnawad, Shajapur, Madhya Pradesh 466001. Email: Mlhkinfotech@gmail.com. We will acknowledge complaints within 24 hours and resolve them within 30 days.",
+      "In accordance with the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, we have appointed a Grievance Officer. For any privacy-related complaints, contact: Grievance Officer, MLHK Infotech, Near Hanuman Temple, Barnawad, Shajapur, Madhya Pradesh 466001. Email: admin@mlhk.in. Phone: +91-9165100124. We will acknowledge complaints within 24 hours and resolve them within 30 days.",
   },
   {
     heading: "10. Changes to This Policy",
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
         <div className="mt-12 pt-8 border-t border-gray-100">
           <p className="text-sm text-gray-500 mb-4">
             For any privacy-related queries, contact us at{" "}
-            <a href="mailto:Mlhkinfotech@gmail.com" className="text-blue-600 hover:underline">Mlhkinfotech@gmail.com</a>
+            <a href="mailto:admin@mlhk.in" className="text-blue-600 hover:underline">admin@mlhk.in</a>
           </p>
           <Link href="/" className="text-sm text-blue-600 hover:underline">← Back to Home</Link>
         </div>

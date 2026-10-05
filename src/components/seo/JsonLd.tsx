@@ -87,7 +87,8 @@ export function OrganizationJsonLd() {
         sameAs: ["https://github.com/mlhkhariom"],
         contactPoint: {
           "@type": "ContactPoint",
-          email: "Mlhkinfotech@gmail.com",
+          email: "admin@mlhk.in",
+          telephone: "+919165100124",
           contactType: "sales",
           availableLanguage: ["en", "hi"],
         },

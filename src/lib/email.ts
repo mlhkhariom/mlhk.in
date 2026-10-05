@@ -44,7 +44,7 @@ export async function sendLeadReply(name: string, email: string) {
 /** Notify admin of new lead. */
 export async function sendLeadNotification(name: string, email: string, message: string) {
   return sendEmail({
-    to: "Mlhkinfotech@gmail.com",
+    to: "admin@mlhk.in",
     subject: `New Lead: ${name}`,
     html: `
       <div style="font-family:sans-serif;">

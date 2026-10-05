@@ -19,9 +19,10 @@ export default function ContactPage() {
       mainEntity: {
         "@type": "Organization",
         name: "MLHK Infotech",
-        email: "Mlhkinfotech@gmail.com",
+        email: "admin@mlhk.in",
+        telephone: "+919165100124",
         address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: "Shajapur", addressRegion: "Madhya Pradesh", addressCountry: "IN" },
-        contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "Mlhkinfotech@gmail.com", availableLanguage: ["en", "hi"] },
+        contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "admin@mlhk.in", telephone: "+919165100124", availableLanguage: ["en", "hi"] },
       },
     }} />
     <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
@@ -34,8 +35,8 @@ export default function ContactPage() {
         <div className="space-y-8">
           {[
             { icon: MapPin, label: "Address", value: "Near Hanuman Temple, Barnawad, Shajapur, MP" },
-            { icon: Mail, label: "Email", value: "Mlhkinfotech@gmail.com" },
-            { icon: Phone, label: "WhatsApp", value: "Available on WhatsApp" },
+            { icon: Mail, label: "Email", value: "admin@mlhk.in" },
+            { icon: Phone, label: "Phone", value: "+91-9165100124" },
             { icon: Clock, label: "Support", value: "24/7 Technical Support" },
           ].map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex gap-4">

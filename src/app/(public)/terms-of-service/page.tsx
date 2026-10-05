@@ -82,7 +82,7 @@ export default function TermsOfServicePage() {
         <div className="mt-12 pt-8 border-t border-gray-100">
           <p className="text-sm text-gray-500 mb-4">
             Questions about these terms? Contact us at{" "}
-            <a href="mailto:Mlhkinfotech@gmail.com" className="text-blue-600 hover:underline">Mlhkinfotech@gmail.com</a>
+            <a href="mailto:admin@mlhk.in" className="text-blue-600 hover:underline">admin@mlhk.in</a>
           </p>
           <Link href="/" className="text-sm text-blue-600 hover:underline">← Back to Home</Link>
         </div>

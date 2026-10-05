@@ -41,7 +41,8 @@ export default async function HomePage() {
         founder: { "@type": "Person", name: "Hariom Vishwkarma" },
         address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: "Shajapur", addressRegion: "Madhya Pradesh", postalCode: "466001", addressCountry: "IN" },
         sameAs: ["https://github.com/mlhkhariom"],
-        contactPoint: { "@type": "ContactPoint", email: "Mlhkinfotech@gmail.com", contactType: "sales", availableLanguage: ["en", "hi"] },
+        telephone: "+919165100124",
+        contactPoint: { "@type": "ContactPoint", email: "admin@mlhk.in", telephone: "+919165100124", contactType: "sales", availableLanguage: ["en", "hi"] },
       }} />
 
       {/* Announcement Bar */}

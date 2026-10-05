@@ -1,6 +1,41 @@
-# OpenNext Starter
+# MLHK Infotech — mlhk.in
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+> Enterprise-grade IT & Digital Solutions | Barnawad, Shajapur, Madhya Pradesh, India
+> Founder & CEO: **Hariom Vishwkarma** | Founded: **April 2020**
+
+- **Website:** https://mlhk.in
+- **Email:** admin@mlhk.in
+- **Phone:** +91-9165100124
+
+## About
+
+MLHK Infotech builds complete digital ecosystems — web development, mobile apps, SaaS platforms,
+CRM/ERP systems, AI automation, cybersecurity, and digital marketing — for businesses and startups
+across India.
+
+**Brands:** Erotix Green Energy (solar) · IKSC India (e-commerce) · Red Xerox Studio (creative) ·
+RX Media (media) · TET News (journalism) · Hariom Vishwkarma Institute of Technology (education)
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack) + React 19 + TypeScript
+- **Styling:** Tailwind CSS 4 + shadcn/ui
+- **DB/Storage:** Cloudflare D1 (Drizzle ORM) + R2 + KV
+- **Auth:** better-auth (role-based: super_admin, admin, manager, employee, client)
+- **Email:** Resend
+- **Deploy:** OpenNext for Cloudflare Workers
+
+## Modules
+
+| Module | Contents |
+|---|---|
+| Public site | Home, About, Services, Portfolio, Blog, Subsidiaries, Contact, legal pages |
+| CMS | Posts, Pages, Services, Portfolio, Testimonials, Subsidiaries, Media, Menus, Site Settings |
+| CRM | Leads pipeline, Clients, Follow-ups |
+| ERP | Projects (Kanban), Tasks, Invoices (GST), Expenses, Tickets |
+| Client Portal | Dashboard, Projects, Invoices, Tickets |
+
+## Getting Started
 
 ## Getting Started
 

@@ -20,7 +20,7 @@ const CONTENT = `# MLHK Infotech
 - [Our Brands](https://mlhk.in/subsidiaries): Ecosystem of ventures — Erotix Green Energy (solar), IKSC India (e-commerce), Red Xerox Studio (creative), RX Media (media), TET News (journalism).
 
 ## Contact
-- [Contact Us](https://mlhk.in/contact): Project inquiries, support. Email: Mlhkinfotech@gmail.com. Location: Barnawad, Shajapur, MP, India.
+- [Contact Us](https://mlhk.in/contact): Project inquiries, support. Email: admin@mlhk.in. Phone: +91-9165100124. Location: Barnawad, Shajapur, MP, India.
 
 ## Legal
 - [Privacy Policy](https://mlhk.in/privacy-policy): Data handling per DPDP Act 2023 and IT Act 2000 (2026 amendment).
@@ -36,7 +36,7 @@ const CONTENT = `# MLHK Infotech
 - What services does MLHK Infotech offer? Web development, mobile apps, SaaS, CRM/ERP, AI automation, cybersecurity, digital marketing.
 - Where is MLHK Infotech located? Barnawad, Shajapur, Madhya Pradesh, India.
 - When was MLHK Infotech founded? April 2020 by Hariom Vishwkarma.
-- How to contact MLHK Infotech? Email Mlhkinfotech@gmail.com or use the contact form at https://mlhk.in/contact.
+- How to contact MLHK Infotech? Email admin@mlhk.in, call +91-9165100124, or use the contact form at https://mlhk.in/contact.
 - What brands does MLHK Infotech operate? Erotix Green Energy, IKSC India, Red Xerox Studio, RX Media, TET News.
 `;
 
