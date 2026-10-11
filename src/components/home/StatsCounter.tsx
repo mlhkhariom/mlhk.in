@@ -48,12 +48,13 @@ export function StatsCounter({ stats }: { stats: StatItem[] }) {
         const render = () => {
           node.textContent = `${s.prefix ?? ""}${format(counter.v, grouping)}${s.suffix ?? ""}`;
         };
-        render();
+        // Server HTML already holds the final value; counting starts only when the strip enters view.
         gsap.to(counter, {
           v: s.value,
           duration: 2,
           ease: "power3.out",
           delay: i * 0.1,
+          onStart: render,
           onUpdate: render,
           scrollTrigger: { trigger: root, start: "top 80%", once: true },
         });
