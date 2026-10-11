@@ -2,65 +2,83 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { BRAND, SERVICE_LINES } from "@/lib/brand";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({
     title: "Terms of Service",
-    description: "Terms and conditions governing the use of MLHK Infotech's website and services, compliant with Indian IT Act 2000 (2026 amendment).",
+    description: "Terms governing use of the MLHK Infotech website and services, under the laws of India.",
     path: "/terms-of-service",
   });
 }
 
-const sections = [
+const LAST_UPDATED = "October 2026";
+
+const sections: { heading: string; body: string[] }[] = [
   {
-    heading: "1. Acceptance of Terms",
-    content:
-      "By accessing or using mlhk.in and any services provided by MLHK Infotech, you agree to be bound by these Terms of Service. If you do not agree, do not use our services. These terms are governed by the Information Technology Act, 2000 (as amended in 2026), the Indian Contract Act, 1872, and applicable Indian laws.",
+    heading: "1. Acceptance",
+    body: [
+      `By using ${BRAND.url} or engaging ${BRAND.name} for services, you agree to these terms. If you do not agree, please do not use the website or our services.`,
+    ],
   },
   {
-    heading: "2. Services Provided",
-    content:
-      "MLHK Infotech provides web development, mobile app development, SaaS solutions, CRM/ERP systems, AI automation, cybersecurity consulting, and digital marketing services. Specific deliverables, timelines, and pricing are defined in individual project agreements/contracts signed between the parties.",
+    heading: "2. Services",
+    body: [
+      `${BRAND.name} provides ${SERVICE_LINES.map((s) => s.title.toLowerCase()).join(", ")}, along with enterprise systems and AI automation.`,
+      "The scope, deliverables, timelines and fees for each engagement are set out in a separate written proposal or agreement. Where that agreement conflicts with these terms, the agreement prevails for that engagement.",
+    ],
   },
   {
-    heading: "3. Intellectual Property Rights",
-    content:
-      "All content on this website (text, images, code, designs, logos) is the property of MLHK Infotech unless otherwise stated. Upon full payment, clients receive ownership of custom-developed project deliverables. MLHK Infotech retains the right to showcase completed projects in its portfolio unless a non-disclosure agreement specifies otherwise.",
+    heading: "3. Website content and intellectual property",
+    body: [
+      `The text, design, logos and other content on this website belong to ${BRAND.name} unless stated otherwise. You may read and share pages for personal or business reference, but not copy or reuse the content commercially without written permission.`,
+      "Ownership of custom work for a client is governed by the project agreement. Unless the agreement says otherwise, ownership passes on full payment.",
+    ],
   },
   {
-    heading: "4. User Responsibilities",
-    content:
-      "Users must: (a) provide accurate information when using our services; (b) not engage in unauthorized access, hacking, or disruption of our systems; (c) not upload malicious content; (d) comply with all applicable Indian laws including the IT Act, 2000 and 2026 amendments. Violation of these terms may result in immediate termination of access and legal action under Sections 43, 66, 67, and 70 of the IT Act.",
+    heading: "4. Acceptable use",
+    body: [
+      "You agree to give accurate information when you contact us, not to attempt unauthorised access to our systems, and not to upload or send malicious content.",
+      "We may restrict access to anyone who breaches these obligations.",
+    ],
   },
   {
-    heading: "5. Limitation of Liability",
-    content:
-      "To the maximum extent permitted by Indian law, MLHK Infotech shall not be liable for indirect, incidental, special, or consequential damages arising from the use of our website or services. Our total liability shall not exceed the amount paid by the client for the specific service in question.",
+    heading: "5. Third-party links and services",
+    body: [
+      "This website links to third-party sites, including social platforms and client websites. We are not responsible for their content or practices.",
+    ],
   },
   {
-    heading: "6. Payment Terms",
-    content:
-      "Project payments are structured as per individual agreements. Typically: 30% advance, 40% mid-project, 30% on delivery. Invoices are issued with GST as applicable. Late payments attract 18% annual interest. Work may be suspended for accounts overdue beyond 30 days.",
+    heading: "6. Fees and payment",
+    body: [
+      "Fees, payment milestones, taxes and late-payment terms are stated in each project agreement or invoice. Nothing on this website is an offer or a price quotation.",
+    ],
   },
   {
-    heading: "7. Data Protection & Privacy",
-    content:
-      "We process personal data in accordance with the Digital Personal Data Protection Act, 2023 (DPDP Act) and IT Act, 2000. Please refer to our Privacy Policy for detailed information on data collection, storage, and your rights.",
+    heading: "7. Limitation of liability",
+    body: [
+      "To the extent permitted by law, we are not liable for indirect or consequential loss arising from use of this website. Our liability for any engagement is limited as set out in the relevant agreement.",
+    ],
   },
   {
-    heading: "8. Dispute Resolution",
-    content:
-      "Any disputes arising from these terms shall first be attempted through mutual negotiation. If unresolved within 30 days, disputes shall be referred to arbitration under the Arbitration and Conciliation Act, 1996. The arbitration shall be conducted in Hindi or English, with the seat at Shajapur, Madhya Pradesh. Courts at Shajapur shall have exclusive jurisdiction.",
+    heading: "8. Personal data",
+    body: [
+      "We process personal data as described in our Privacy Policy, which follows the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.",
+    ],
   },
   {
-    heading: "9. Governing Law",
-    content:
-      "These terms are governed by the laws of India, including but not limited to the Information Technology Act, 2000 (as amended 2026), Indian Contract Act, 1872, Consumer Protection Act, 2019, and Digital Personal Data Protection Act, 2023.",
+    heading: "9. Disputes and governing law",
+    body: [
+      "These terms are governed by the laws of India. Parties should first try to resolve any dispute by good-faith discussion.",
+      `Courts at ${BRAND.city}, Madhya Pradesh have jurisdiction over disputes not resolved this way, unless a project agreement sets a different forum.`,
+    ],
   },
   {
-    heading: "10. Changes to Terms",
-    content:
-      "We reserve the right to modify these terms at any time. Changes take effect upon posting on this page. Continued use of our services after modifications constitutes acceptance of the revised terms.",
+    heading: "10. Changes",
+    body: [
+      "We may update these terms. The date at the top shows the latest revision. Continued use after an update means you accept the revised terms.",
+    ],
   },
 ];
 
@@ -68,23 +86,28 @@ export default function TermsOfServicePage() {
   return (
     <>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]} />
-      <div className="max-w-3xl mx-auto px-4 py-16 bg-[#050607]">
-        <h1 className="font-display text-4xl font-bold tracking-tight text-white mb-3">Terms of Service</h1>
-        <p className="text-sm text-zinc-500 mb-10">Last Updated: January 2026</p>
-
+      <PageHero
+        eyebrow="Legal"
+        title={<>Terms of <span className="text-brand">service.</span></>}
+        description={`The terms that apply when you use our website and engage ${BRAND.name}. Last updated: ${LAST_UPDATED}.`}
+      />
+      <div className="mx-auto max-w-3xl bg-[#050607] px-4 pb-24 md:px-6">
         {sections.map((s) => (
-          <section key={s.heading} className="mb-8">
-            <h2 className="font-display text-lg font-bold text-white mb-2">{s.heading}</h2>
-            <p className="text-zinc-400 text-sm leading-relaxed">{s.content}</p>
+          <section key={s.heading} className="border-t border-white/10 py-8">
+            <h2 className="font-display text-lg font-bold text-white">{s.heading}</h2>
+            <div className="mt-3 space-y-3">
+              {s.body.map((p) => (
+                <p key={p} className="text-sm leading-relaxed text-zinc-400">{p}</p>
+              ))}
+            </div>
           </section>
         ))}
-
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <p className="text-sm text-zinc-500 mb-4">
-            Questions about these terms? Contact us at{" "}
-            <a href="mailto:admin@mlhk.in" className="text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">admin@mlhk.in</a>
+        <div className="mt-6 border-t border-white/10 pt-8">
+          <p className="text-sm text-zinc-500">
+            Questions:{" "}
+            <a href={`mailto:${BRAND.email}`} className="text-[#ffb84d] hover:text-white">{BRAND.email}</a>
           </p>
-          <Link href="/" className="text-sm text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">← Back to Home</Link>
+          <Link href="/" className="mt-4 inline-block text-sm font-semibold text-[#ffb84d] hover:text-white">← Back to home</Link>
         </div>
       </div>
     </>
