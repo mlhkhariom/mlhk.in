@@ -1,99 +1,107 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { BRAND, TIMELINE, VENTURES } from "@/lib/brand";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSeo({ title: "About", description: "A bootstrapped IT firm building enterprise-grade digital systems from Shajapur, MP.", path: "/about" });
+  return buildSeo({
+    title: "About",
+    description: "MLHK Infotech started in Barnawad, Shajapur in 2020. We build web, mobile, enterprise and AI systems for businesses across India.",
+    path: "/about",
+  });
 }
-
-const timeline = [
-  { year: "2020", event: "Founded MLHK Infotech in Barnawad, Shajapur during the pandemic digital boom" },
-  { year: "2021", event: "Launched first SaaS products and expanded to mobile app development" },
-  { year: "2022", event: "Founded IKSC India (e-commerce) and Red Xerox Studio (creative)" },
-  { year: "2023", event: "Launched Erotix Green Energy (solar), RX Media, and TET News" },
-  { year: "2024", event: "Expanded into AI automation, CIS benchmark auditing, and cloud consulting" },
-  { year: "2025+", event: "Building enterprise-grade digital ecosystems for businesses across India" },
-];
 
 export default function AboutPage() {
   return (
     <>
-    <JsonLd data={{
-      "@type": "AboutPage",
-      name: "About MLHK Infotech",
-      description: "A bootstrapped IT firm building enterprise-grade digital systems from Shajapur, Madhya Pradesh, India.",
-      mainEntity: {
-        "@type": "Organization",
-        name: "MLHK Infotech",
-        foundingDate: "2020-04",
-        founder: { "@type": "Person", name: "Hariom Vishwkarma", jobTitle: "Founder & CEO" },
-        address: { "@type": "PostalAddress", addressLocality: "Barnawad, Shajapur", addressRegion: "Madhya Pradesh", addressCountry: "IN" },
-      },
-    }} />
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
-    <div className="max-w-4xl mx-auto px-4 py-16">
-      {/* Header */}
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">About MLHK Infotech</h1>
-        <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-          A bootstrapped IT firm building enterprise-grade digital systems from Shajapur, Madhya Pradesh.
-        </p>
-      </div>
+      <JsonLd
+        data={{
+          "@type": "AboutPage",
+          name: `About ${BRAND.name}`,
+          description: "MLHK Infotech builds enterprise-grade digital systems from Shajapur, Madhya Pradesh, India.",
+          mainEntity: {
+            "@type": "Organization",
+            name: BRAND.name,
+            foundingDate: BRAND.foundedMonthIso,
+            founder: { "@type": "Person", name: BRAND.founder, jobTitle: BRAND.founderRole },
+            address: { "@type": "PostalAddress", addressLocality: BRAND.city, addressRegion: "Madhya Pradesh", addressCountry: "IN" },
+          },
+        }}
+      />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
 
-      {/* Founder */}
-      <div className="bg-blue-50 rounded-2xl p-8 mb-14 flex flex-col md:flex-row gap-8 items-center">
-        <div className="w-24 h-24 rounded-full bg-blue-200 flex items-center justify-center text-3xl font-bold text-blue-600 shrink-0">HV</div>
-        <div>
-          <p className="text-xs text-blue-500 font-semibold uppercase tracking-wide mb-1">Founder & CEO</p>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Hariom Vishwkarma</h2>
-          <p className="text-gray-600 text-sm leading-relaxed">
-            Technology entrepreneur and system architect based in Shajapur, MP. Started MLHK Infotech in April 2020 while studying Computer Applications at Vikram University, Ujjain. Experienced in full-lifecycle product development — UI/UX, automation, SaaS, and scaling. Also founder of IKSC India.
-          </p>
-          <div className="flex flex-wrap gap-2 mt-4">
-            {["Java", "Python (AI)", "SQL", "Node.js", "Android", "IBM Cloud", "System Architecture"].map(s => (
-              <span key={s} className="text-xs bg-white border text-gray-600 px-2 py-1 rounded-md">{s}</span>
-            ))}
+      <PageHero
+        eyebrow="About"
+        title={<>Founded in {BRAND.foundedYear}. <span className="text-brand">Built to last.</span></>}
+        description="MLHK Infotech is a technology company from Shajapur, Madhya Pradesh. We build complete digital systems that automate work, scale with the business and keep running after launch."
+      />
+
+      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-12">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.02] p-8 md:col-span-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Founder</p>
+            <h2 className="mt-4 font-display text-2xl font-bold text-white">{BRAND.founder}</h2>
+            <p className="mt-1 text-sm text-zinc-500">{BRAND.founderRole}</p>
+            <p className="mt-6 text-sm leading-relaxed text-zinc-400">
+              Technology entrepreneur and system architect based in Shajapur. Started MLHK Infotech in April {BRAND.foundedYear} while
+              studying Computer Applications at Vikram University, Ujjain. Experienced across the full product lifecycle: UI/UX,
+              automation, SaaS and scaling. Also founder of IKSC India.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {["Java", "Python (AI)", "SQL", "Node.js", "Android", "IBM Cloud", "System architecture"].map((s) => (
+                <li key={s} className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300">{s}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.02] p-8 md:col-span-7">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Mission</p>
+            <p className="mt-4 font-display text-2xl font-bold leading-snug text-white">
+              Every system we deliver should pay for itself by automating work, cutting waste or opening a new channel.
+            </p>
+            <p className="mt-6 text-sm leading-relaxed text-zinc-400">
+              We call this our zero-waste approach. Scope is agreed before code is written, and every feature has to justify its place
+              in the business.
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Mission */}
-      <div className="mb-14">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h2>
-        <p className="text-gray-600 leading-relaxed">
-          MLHK Infotech focuses on building complete digital ecosystems — not just websites or apps, but end-to-end systems that automate, scale, and grow businesses. We operate with a "Zero Waste" efficiency philosophy, ensuring every solution directly contributes to business outcomes.
-        </p>
-      </div>
-
-      {/* Timeline */}
-      <div className="mb-14">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Our Journey</h2>
-        <div className="relative border-l-2 border-blue-200 pl-8 space-y-8">
-          {timeline.map(({ year, event }) => (
-            <div key={year} className="relative">
-              <div className="absolute -left-[2.6rem] w-5 h-5 rounded-full bg-blue-600 border-4 border-white" />
-              <p className="text-blue-600 font-bold text-sm mb-1">{year}</p>
-              <p className="text-gray-600 text-sm">{event}</p>
-            </div>
-          ))}
+        <div className="mx-auto mt-20 max-w-6xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Our journey</p>
+          <ol className="mt-8 grid gap-px overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+            {TIMELINE.map((t) => (
+              <li key={t.year} className="bg-[#050607] p-7">
+                <time className="font-display text-2xl font-bold text-[#ffb84d]" dateTime={t.year}>{t.year}</time>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{t.event}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-      </div>
 
-      <div className="text-center">
-        <Link href="/contact" className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-          Work With Us
-        </Link>
-      </div>
+        <div className="mx-auto mt-20 max-w-6xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Ventures</p>
+          <ul className="mt-6 flex flex-wrap gap-3">
+            {VENTURES.map((v) => (
+              <li key={v.name} className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-zinc-200">
+                {v.name}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* Internal links */}
-      <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-4 justify-center">
-        <Link href="/services" className="text-sm text-blue-600 hover:underline">Explore Our Services →</Link>
-        <Link href="/portfolio" className="text-sm text-blue-600 hover:underline">View Portfolio →</Link>
-        <Link href="/blog" className="text-sm text-blue-600 hover:underline">Read Our Blog →</Link>
-      </div>
-    </div>
+        <div className="mt-20 text-center">
+          <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-7 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
+            Work with us
+            <span className="flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+              <ArrowUpRight className="size-4" />
+            </span>
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

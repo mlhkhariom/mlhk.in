@@ -1,65 +1,103 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { portfolio } from "@/lib/db/schema";
-import { Card, CardContent } from "@/components/ui/card";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSeo({ title: "Portfolio", description: "Projects we've built for clients across India.", path: "/portfolio" });
+  return buildSeo({
+    title: "Portfolio",
+    description: "Selected work from MLHK Infotech: web platforms, mobile apps and enterprise systems built for clients across India.",
+    path: "/portfolio",
+  });
 }
 
 export default async function PortfolioPage() {
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const items = await db.select().from(portfolio).all();
+  const items = await db.select().from(portfolio).all().catch(() => []);
 
   return (
     <>
-    <JsonLd data={{
-      "@type": "ItemList",
-      name: "MLHK Infotech Portfolio",
-      itemListElement: items.map((p, i) => ({
-        "@type": "CreativeWork",
-        position: i + 1,
-        name: p.title,
-        description: p.description ?? "",
-        url: p.url ?? "https://mlhk.in/portfolio",
-      })),
-    }} />
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Portfolio" }]} />
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <div className="text-center mb-14">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Portfolio</h1>
-        <p className="text-gray-500">Projects we've built for clients across India</p>
-      </div>
-      {items.length === 0 ? (
-        <p className="text-center text-gray-400 py-20">Portfolio coming soon...</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map(p => (
-            <Card key={p.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              {p.image && <img src={p.image} alt={p.title} className="w-full h-48 object-cover" />}
-              <CardContent className="p-5">
-                <h3 className="font-bold text-gray-900 mb-2">{p.title}</h3>
-                {p.description && <p className="text-sm text-gray-500 mb-3 leading-relaxed">{p.description}</p>}
-                {p.tags && <div className="flex flex-wrap gap-1 mb-3">{p.tags.split(",").map(t => <span key={t} className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded">{t.trim()}</span>)}</div>}
-                {p.url && <a href={p.url} target="_blank" className="text-xs text-blue-600 hover:underline">View Project →</a>}
-              </CardContent>
-            </Card>
-          ))}
+      <JsonLd
+        data={{
+          "@type": "ItemList",
+          name: "MLHK Infotech Portfolio",
+          itemListElement: items.map((p, i) => ({
+            "@type": "CreativeWork",
+            position: i + 1,
+            name: p.title,
+            description: p.description ?? "",
+            url: p.url ?? "https://mlhk.in/portfolio",
+          })),
+        }}
+      />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Portfolio" }]} />
+
+      <PageHero
+        eyebrow="Work"
+        title={<>Products we have <span className="text-brand">shipped.</span></>}
+        description="Web platforms, mobile apps and enterprise systems built for clients across India. Each one is measured against the outcome it was built to deliver."
+      />
+
+      <section className="bg-[#050607] px-4 pb-28 md:px-6">
+        <div className="mx-auto max-w-6xl">
+          {items.length === 0 ? (
+            <div className="rounded-[1.75rem] border border-dashed border-white/15 p-12 text-center">
+              <p className="font-display text-xl font-bold text-white">Case studies are being prepared.</p>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-zinc-400">
+                We are publishing project write-ups with the outcomes each client agreed to share. In the meantime,
+                talk to us about similar work.
+              </p>
+            </div>
+          ) : (
+            <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((p) => (
+                <li key={p.id} className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/40">
+                  {p.image && (
+                    <div className="aspect-[4/3] overflow-hidden bg-black">
+                      <img src={p.image} alt={p.title} loading="lazy" className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105" />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h2 className="font-display text-lg font-bold text-white">{p.title}</h2>
+                    {p.description && <p className="mt-2 text-sm leading-relaxed text-zinc-400">{p.description}</p>}
+                    {p.tags && (
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {p.tags.split(",").map((t) => (
+                          <li key={t} className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-zinc-300">{t.trim()}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {p.url && (
+                      <a href={p.url} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#ffb84d] hover:text-white">
+                        View project <ArrowUpRight className="size-4" />
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="mt-16 text-center">
+            <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-7 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
+              Start your project
+              <span className="flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                <ArrowUpRight className="size-4" />
+              </span>
+            </Link>
+          </div>
         </div>
-      )}
-      <div className="text-center mt-12">
-        <Link href="/contact" className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">Start Your Project</Link>
-      </div>
-    </div>
+      </section>
     </>
   );
 }

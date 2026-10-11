@@ -4,6 +4,7 @@ import { subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 
@@ -19,31 +20,47 @@ export default async function SubsidiaryPage({ params }: { params: Promise<{ slu
 
   return (
     <>
-    <JsonLd data={{
-      "@type": "Organization",
-      name: brand.name,
-      description: brand.tagline ?? "",
-      url: brand.url ?? `https://mlhk.in/subsidiaries/${brand.slug}`,
-      parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
-    }} />
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands", href: "/subsidiaries" }, { label: brand.name }]} />
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      {brand.logo && <img src={brand.logo} alt={brand.name} className="h-16 mb-6 object-contain" />}
-      <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded mb-4 inline-block">{brand.sector}</span>
-      <h1 className="text-4xl font-bold text-gray-900 mb-3">{brand.name}</h1>
-      {brand.tagline && <p className="text-xl text-gray-500 mb-6">{brand.tagline}</p>}
-      {brand.description && (
-        <div className="prose prose-gray max-w-none mb-8" dangerouslySetInnerHTML={{ __html: brand.description }} />
-      )}
-      {brand.url && (
-        <a href={brand.url} target="_blank" className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-block">
-          Visit Website →
-        </a>
-      )}
-      <div className="mt-10 pt-6 border-t border-gray-100">
-        <Link href="/subsidiaries" className="text-sm text-blue-600 hover:underline">← All Brands</Link>
-      </div>
-    </div>
+      <JsonLd
+        data={{
+          "@type": "Organization",
+          name: brand.name,
+          description: brand.tagline ?? "",
+          url: brand.url ?? `https://mlhk.in/subsidiaries/${brand.slug}`,
+          parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
+        }}
+      />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands", href: "/subsidiaries" }, { label: brand.name }]} />
+
+      <section className="relative isolate overflow-hidden bg-[#050607] px-4 pb-20 pt-10 md:px-6 md:pt-16">
+        <div aria-hidden className="pointer-events-none absolute left-1/2 top-[-30%] h-[400px] w-[80vw] max-w-3xl -translate-x-1/2 rounded-full bg-[#ff9f1c]/15 blur-[120px]" />
+        <div className="relative mx-auto max-w-3xl">
+          {brand.sector && (
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+              {brand.sector}
+            </span>
+          )}
+          {brand.logo && <img src={brand.logo} alt={brand.name} className="mt-8 h-14 w-auto object-contain" />}
+          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl">{brand.name}</h1>
+          {brand.tagline && <p className="mt-5 text-lg text-zinc-300">{brand.tagline}</p>}
+          {brand.description && (
+            <div className="prose prose-invert mt-8 max-w-none prose-p:text-zinc-400 prose-a:text-[#ffb84d]" dangerouslySetInnerHTML={{ __html: brand.description }} />
+          )}
+
+          <div className="mt-10 flex flex-wrap items-center gap-6">
+            {brand.url && (
+              <a href={brand.url} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-6 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
+                Visit website
+                <span className="flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                  <ArrowUpRight className="size-4" />
+                </span>
+              </a>
+            )}
+            <Link href="/subsidiaries" className="text-sm font-semibold text-zinc-400 hover:text-white">
+              All brands
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

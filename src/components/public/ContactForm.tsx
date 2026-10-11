@@ -17,9 +17,9 @@ export default function ContactForm() {
 
   if (status === "done") return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <CheckCircle size={48} className="text-green-500 mb-4" />
-      <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-      <p className="text-gray-500">We'll get back to you within 24 hours.</p>
+      <CheckCircle size={48} className="text-[#ffb84d] mb-4" />
+      <h3 className="font-display text-xl font-bold text-white mb-2">Message Sent!</h3>
+      <p className="text-zinc-400">We'll get back to you within 24 hours.</p>
     </div>
   );
 
@@ -27,21 +27,21 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input required placeholder="Your Name *" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-          className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          className="border border-white/10 bg-white/[0.03] text-white placeholder:text-zinc-500 rounded-xl px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/60 focus:border-[#ff9f1c]/40 transition-colors" />
         <input required type="email" placeholder="Email Address *" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-          className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          className="border border-white/10 bg-white/[0.03] text-white placeholder:text-zinc-500 rounded-xl px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/60 focus:border-[#ff9f1c]/40 transition-colors" />
         <input placeholder="Phone Number" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
-          className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          className="border border-white/10 bg-white/[0.03] text-white placeholder:text-zinc-500 rounded-xl px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/60 focus:border-[#ff9f1c]/40 transition-colors" />
         <input placeholder="Company Name" value={form.company} onChange={e => setForm({ ...form, company: e.target.value })}
-          className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          className="border border-white/10 bg-white/[0.03] text-white placeholder:text-zinc-500 rounded-xl px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/60 focus:border-[#ff9f1c]/40 transition-colors" />
       </div>
       <textarea required rows={5} placeholder="Tell us about your project *" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-        className="border rounded-lg px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+        className="border border-white/10 bg-white/[0.03] text-white placeholder:text-zinc-500 rounded-xl px-4 py-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/60 focus:border-[#ff9f1c]/40 transition-colors resize-none" />
       {/* Honeypot — hidden from real users, catches naive bots. */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-      {status === "error" && <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>}
+      {status === "error" && <p className="text-rose-400 text-sm">Something went wrong. Please try again.</p>}
       <button type="submit" disabled={status === "loading"}
-        className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2 disabled:opacity-60">
+        className="inline-flex items-center gap-2 rounded-full bg-[#ff9f1c] px-7 py-3 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60">
         <Send size={16} /> {status === "loading" ? "Sending..." : "Send Message"}
       </button>
     </form>

@@ -68,23 +68,23 @@ export default function TermsOfServicePage() {
   return (
     <>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]} />
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Terms of Service</h1>
-        <p className="text-sm text-gray-400 mb-8">Last Updated: January 2026</p>
+      <div className="max-w-3xl mx-auto px-4 py-16 bg-[#050607]">
+        <h1 className="font-display text-4xl font-bold tracking-tight text-white mb-3">Terms of Service</h1>
+        <p className="text-sm text-zinc-500 mb-10">Last Updated: January 2026</p>
 
         {sections.map((s) => (
           <section key={s.heading} className="mb-8">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">{s.heading}</h2>
-            <p className="text-gray-600 text-sm leading-relaxed">{s.content}</p>
+            <h2 className="font-display text-lg font-bold text-white mb-2">{s.heading}</h2>
+            <p className="text-zinc-400 text-sm leading-relaxed">{s.content}</p>
           </section>
         ))}
 
-        <div className="mt-12 pt-8 border-t border-gray-100">
-          <p className="text-sm text-gray-500 mb-4">
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <p className="text-sm text-zinc-500 mb-4">
             Questions about these terms? Contact us at{" "}
-            <a href="mailto:admin@mlhk.in" className="text-blue-600 hover:underline">admin@mlhk.in</a>
+            <a href="mailto:admin@mlhk.in" className="text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">admin@mlhk.in</a>
           </p>
-          <Link href="/" className="text-sm text-blue-600 hover:underline">← Back to Home</Link>
+          <Link href="/" className="text-sm text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">← Back to Home</Link>
         </div>
       </div>
     </>

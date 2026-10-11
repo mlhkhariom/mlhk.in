@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
     <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]} />
-    <article className="max-w-3xl mx-auto px-4 py-16">
+    <article className="mx-auto max-w-3xl bg-[#050607] px-4 pb-16 pt-12">
       <JsonLd data={{
         "@type": "BlogPosting",
         headline: post.title,
@@ -61,13 +61,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         wordCount: post.content ? Math.round(post.content.length / 5) : 0,
         inLanguage: "en-IN",
       }} />
-      {post.coverImage && <img src={post.coverImage} alt={post.title} className="w-full h-64 object-cover rounded-2xl mb-8" />}
-      <p className="text-xs text-blue-500 font-medium mb-3">{post.publishedAt?.slice(0, 10)}</p>
-      <h1 className="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
-      {post.excerpt && <p className="text-lg text-gray-500 mb-8 leading-relaxed border-l-4 border-blue-200 pl-4">{post.excerpt}</p>}
+      {post.coverImage && <img src={post.coverImage} alt={post.title} className="mb-10 h-72 w-full rounded-[1.75rem] object-cover" />}
+      <p className="mb-4 text-xs uppercase tracking-[0.16em] text-[#ffb84d]">{post.publishedAt?.slice(0, 10)}</p>
+      <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">{post.title}</h1>
+      {post.excerpt && <p className="mb-10 mt-6 border-l-2 border-[#ff9f1c] pl-5 text-lg leading-relaxed text-zinc-300">{post.excerpt}</p>}
       {/* Render HTML from RichEditor */}
       <div
-        className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-blue-600 prose-img:rounded-xl"
+        className="prose prose-invert max-w-none prose-headings:font-display prose-headings:text-white prose-p:text-zinc-400 prose-a:text-[#ffb84d] prose-strong:text-white prose-img:rounded-2xl"
         dangerouslySetInnerHTML={{ __html: post.content ?? "" }}
       />
     </article>
@@ -75,18 +75,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     {/* Related Posts — Internal Linking */}
     {related.length > 0 && (
       <section className="max-w-3xl mx-auto px-4 pb-16">
-        <div className="border-t border-gray-100 pt-10">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+        <div className="border-t border-white/10 pt-10">
+          <h2 className="font-display text-xl font-bold text-white mb-6">Related articles</h2>
           <div className="grid gap-4">
             {related.map(rp => (
-              <Link key={rp.id} href={`/blog/${rp.slug}`} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                <span className="text-blue-600 font-bold text-sm shrink-0">→</span>
-                <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">{rp.title}</span>
+              <Link key={rp.id} href={`/blog/${rp.slug}`} className="group flex items-center gap-3 rounded-xl border border-white/10 p-4 transition-colors hover:border-[#ff9f1c]/40 hover:bg-white/[0.03]">
+                <span className="shrink-0 text-sm font-bold text-[#ffb84d]">→</span>
+                <span className="text-sm font-medium text-zinc-300 transition-colors group-hover:text-white">{rp.title}</span>
               </Link>
             ))}
           </div>
           <div className="mt-6">
-            <Link href="/blog" className="text-sm text-blue-600 hover:underline">← Back to all posts</Link>
+            <Link href="/blog" className="text-sm font-semibold text-[#ffb84d] hover:text-white">← Back to all posts</Link>
           </div>
         </div>
       </section>

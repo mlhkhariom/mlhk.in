@@ -4,57 +4,95 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { BRAND } from "@/lib/brand";
+
+function InstagramGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSeo({ title: "Contact", description: "Have a project in mind? Let's talk. We respond within 24 hours.", path: "/contact" });
+  return buildSeo({
+    title: "Contact",
+    description: "Tell us about your project. MLHK Infotech replies with a plan, a timeline and a clear cost.",
+    path: "/contact",
+  });
 }
 
 export default function ContactPage() {
+  const rows: { icon: React.ComponentType<{ className?: string; strokeWidth?: number }>; label: string; value: string; href?: string }[] = [
+    { icon: MapPin, label: "Address", value: "Near Hanuman Temple, Barnawad, Shajapur, Madhya Pradesh", href: undefined },
+    { icon: Mail, label: "Email", value: BRAND.email, href: `mailto:${BRAND.email}` },
+    { icon: Phone, label: "Phone", value: BRAND.phoneDisplay, href: `tel:${BRAND.phoneE164}` },
+    { icon: Clock, label: "Support", value: "24/7 Technical Support", href: undefined },
+    { icon: InstagramGlyph, label: "Instagram", value: `@${BRAND.instagramHandle}`, href: BRAND.instagramUrl },
+  ];
+
   return (
     <>
-    <JsonLd data={{
-      "@type": "ContactPage",
-      name: "Contact MLHK Infotech",
-      description: "Get in touch with MLHK Infotech for project inquiries. We respond within 24 hours.",
-      mainEntity: {
-        "@type": "Organization",
-        name: "MLHK Infotech",
-        email: "admin@mlhk.in",
-        telephone: "+919165100124",
-        address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: "Shajapur", addressRegion: "Madhya Pradesh", addressCountry: "IN" },
-        contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "admin@mlhk.in", telephone: "+919165100124", availableLanguage: ["en", "hi"] },
-      },
-    }} />
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <div className="text-center mb-14">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h1>
-        <p className="text-gray-500 max-w-xl mx-auto">Have a project in mind? Let's talk. We respond within 24 hours.</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="space-y-8">
-          {[
-            { icon: MapPin, label: "Address", value: "Near Hanuman Temple, Barnawad, Shajapur, MP" },
-            { icon: Mail, label: "Email", value: "admin@mlhk.in" },
-            { icon: Phone, label: "Phone", value: "+91-9165100124" },
-            { icon: Clock, label: "Support", value: "24/7 Technical Support" },
-          ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex gap-4">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
-                <Icon size={18} className="text-blue-600" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">{label}</p>
-                <p className="text-sm text-gray-700 mt-0.5">{value}</p>
-              </div>
-            </div>
-          ))}
+      <JsonLd
+        data={{
+          "@type": "ContactPage",
+          name: `Contact ${BRAND.name}`,
+          description: "Get in touch with MLHK Infotech for project inquiries.",
+          mainEntity: {
+            "@type": "Organization",
+            name: BRAND.name,
+            email: BRAND.email,
+            telephone: BRAND.phoneE164,
+            address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: BRAND.city, addressRegion: "Madhya Pradesh", addressCountry: "IN" },
+            contactPoint: { "@type": "ContactPoint", contactType: "sales", email: BRAND.email, telephone: BRAND.phoneE164, availableLanguage: ["en", "hi"] },
+          },
+        }}
+      />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
+
+      <PageHero
+        eyebrow="Contact"
+        title={<>Tell us what you are <span className="text-brand">building.</span></>}
+        description="Share the goal, the users and the deadline. We reply within 24 hours with a plan and a timeline."
+      />
+
+      <section className="bg-[#050607] px-4 pb-28 md:px-6">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-12">
+          <ul className="space-y-4 md:col-span-4">
+            {rows.map(({ icon: Icon, label, value, href }) => {
+              const inner = (
+                <>
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#ff9f1c]/10 text-[#ffb84d]">
+                    <Icon className="size-[18px]" strokeWidth={1.6} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-[11px] uppercase tracking-[0.16em] text-zinc-500">{label}</span>
+                    <span className="mt-0.5 block text-sm leading-relaxed text-white">{value}</span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={label}>
+                  {href ? (
+                    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-[#ff9f1c]/40">
+                      {inner}
+                    </a>
+                  ) : (
+                    <div className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4">{inner}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.02] p-6 md:col-span-8 md:p-10">
+            <ContactForm />
+          </div>
         </div>
-        <div className="md:col-span-2 bg-white border rounded-2xl p-8">
-          <ContactForm />
-        </div>
-      </div>
-    </div>
+      </section>
     </>
   );
 }

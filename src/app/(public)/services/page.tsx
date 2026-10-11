@@ -3,73 +3,104 @@ import { getDb } from "@/lib/db";
 import { services } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import { ServiceJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { SERVICE_LINES, CAPABILITIES, FAQS } from "@/lib/brand";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
-const serviceFaqs = [
-  { question: "What web development services does MLHK Infotech offer?", answer: "We build custom websites, SaaS platforms, web applications, e-commerce stores, and admin dashboards using modern frameworks like Next.js, React, and Node.js." },
-  { question: "Do you provide mobile app development?", answer: "Yes, we develop native Android and cross-platform mobile apps for businesses and startups." },
-  { question: "What is included in your CRM/ERP solutions?", answer: "Our CRM/ERP systems include lead management, client tracking, invoicing, project management, ticketing, and expense tracking — fully customizable to your business." },
-  { question: "How long does a typical project take?", answer: "Simple websites take 1-2 weeks. SaaS platforms and custom apps typically take 4-12 weeks depending on complexity. We provide detailed timelines before starting." },
-];
+const ICONS = { web: Code2, mobile: Smartphone, marketing: Megaphone, branding: PenTool, support: LifeBuoy, enterprise: Building2, ai: Bot };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSeo({ title: "Services", description: "Complete technology solutions — Web, Mobile, SaaS, CRM, ERP, AI Automation.", path: "/services" });
+  return buildSeo({
+    title: "Services",
+    description: "Web development, mobile apps, digital marketing, graphics and branding, support, enterprise systems and AI automation from MLHK Infotech.",
+    path: "/services",
+  });
 }
 
 export default async function ServicesPage() {
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const allServices = await db.select().from(services).where(eq(services.active, true)).all();
+  const dbServices = await db.select().from(services).where(eq(services.active, true)).all().catch(() => []);
+
+  const lines = [
+    ...SERVICE_LINES.map((s) => ({ id: s.id, title: s.title, description: s.description, points: s.points as readonly string[] })),
+    ...CAPABILITIES.map((c) => ({ id: c.id, title: c.title, description: c.description, points: [] as readonly string[] })),
+  ];
 
   return (
     <>
-      <ServiceJsonLd services={allServices.map(s => ({ name: s.title, description: s.description ?? "" }))} />
-      <FaqJsonLd faqs={serviceFaqs} />
+      <ServiceJsonLd
+        services={[
+          ...lines.map((l) => ({ name: l.title, description: l.description })),
+          ...dbServices.map((s) => ({ name: s.title, description: s.description ?? "" })),
+        ]}
+      />
+      <FaqJsonLd faqs={FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-14">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Services</h1>
-          <p className="text-gray-500 max-w-xl mx-auto">Complete technology solutions — from idea to deployment and beyond.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allServices.map(s => (
-            <Card key={s.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-blue-600 font-bold">{s.title.slice(0, 2)}</div>
-                <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{s.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
-        {/* FAQ Section for AEO */}
-        <section className="mt-20">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">Frequently Asked Questions</h2>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {serviceFaqs.map(faq => (
-              <details key={faq.question} className="group border rounded-xl p-5">
-                <summary className="font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center">
+      <PageHero
+        eyebrow="Services"
+        title={<>Everything your business needs, <span className="text-brand">from one team.</span></>}
+        description="Web, mobile, marketing, branding, support, enterprise systems and AI automation. Each line is built to the same standard, and each one is accountable after launch."
+      />
+
+      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {lines.map((l) => {
+            const Icon = ICONS[l.id as keyof typeof ICONS] ?? Code2;
+            return (
+              <li key={l.id} className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.02] p-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]">
+                <span className="flex size-12 items-center justify-center rounded-2xl border border-[#ff9f1c]/25 bg-[#ff9f1c]/10 text-[#ffb84d]">
+                  <Icon className="size-5" strokeWidth={1.5} />
+                </span>
+                <h2 className="mt-7 font-display text-xl font-bold text-white">{l.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{l.description}</p>
+                {l.points.length > 0 && (
+                  <ul className="mt-6 flex flex-wrap gap-2">
+                    {l.points.map((p) => (
+                      <li key={p} className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300">{p}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section className="border-t border-white/10 bg-[#070809] px-4 py-24 md:px-6" aria-labelledby="faq-services">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Questions</p>
+          <h2 id="faq-services" className="mt-4 font-display text-3xl font-bold text-white md:text-4xl">Frequently asked</h2>
+          <div className="mt-10">
+            {FAQS.map((faq) => (
+              <details key={faq.question} className="group border-b border-white/10 py-5 first:pt-0">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-base font-medium text-white marker:content-none">
                   {faq.question}
-                  <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-white/15 text-[#ffb84d] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-open:rotate-45">+</span>
                 </summary>
-                <p className="mt-3 text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                <p className="mt-4 text-sm leading-relaxed text-zinc-400">{faq.answer}</p>
               </details>
             ))}
           </div>
-        </section>
-
-        <div className="text-center mt-14">
-          <Link href="/contact" className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">Discuss Your Project</Link>
         </div>
-      </div>
+      </section>
+
+      <section className="bg-[#050607] px-4 py-24 text-center md:px-6">
+        <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-7 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
+          Discuss your project
+          <span className="flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+            <ArrowUpRight className="size-4" />
+          </span>
+        </Link>
+      </section>
     </>
   );
 }

@@ -1,103 +1,120 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useDeferredValue } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { BrandMark, BrandWordmark } from "@/components/brand/BrandMark";
+import { cn } from "@/lib/utils";
 
 type MenuItem = { label: string; href: string; target?: string };
 
 export default function NavbarClient({ items, siteName }: { items: MenuItem[]; siteName: string }) {
   const [open, setOpen] = useState(false);
-  const [dark, setDark] = useState(true);
-  const [mounted, setMounted] = useState(false);
-  const deferredItems = useDeferredValue(items);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    setMounted(true);
-    // sync with system on first paint
-    const sys = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setDark(sys);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
-    const root = document.documentElement;
-    if (dark) root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [dark, mounted]);
-
-  const toggleTheme = () => setDark((d) => !d);
-
-  const navClasses =
-    "sticky top-0 z-50 bg-zinc-950/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60";
+    setOpen(false);
+  }, [pathname]);
 
   return (
-    <header className={navClasses}>
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-white">
-          {siteName}
+    <header className="sticky top-0 z-50 px-3 pt-3 md:px-6">
+      <div
+        className={cn(
+          "mx-auto flex h-16 max-w-6xl items-center justify-between rounded-2xl px-4 transition-[background-color,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          scrolled
+            ? "border border-white/10 bg-black/70 shadow-[0_18px_50px_-20px_rgba(255,159,28,0.35)] backdrop-blur-xl"
+            : "border border-transparent bg-transparent",
+        )}
+      >
+        <Link href="/" className="flex items-center gap-3" aria-label={`${siteName} home`}>
+          <BrandMark priority />
+          <BrandWordmark />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
-          {deferredItems.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              target={l.target}
-              className="text-sm font-medium text-zinc-300 hover:text-white transition-colors"
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          {items.map((l) => {
+            const active = pathname === l.href;
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                target={l.target}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "group relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                  active ? "text-white" : "text-zinc-400 hover:text-white",
+                )}
+              >
+                {l.label}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "absolute inset-x-3.5 -bottom-px h-px origin-left scale-x-0 bg-gradient-to-r from-amber-300 to-orange-500 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-x-100",
+                    active && "scale-x-100",
+                  )}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
-          {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {dark ? <Sun className="size-5" /> : <Moon className="size-5" />}
-            </button>
-          )}
           <Link
             href="/contact"
-            className="hidden md:inline-flex bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-blue-500 transition-colors"
+            className="group hidden items-center gap-2 rounded-full bg-[#ff9f1c] py-2 pl-4 pr-1.5 text-sm font-semibold text-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98] md:inline-flex"
           >
-            Get Started
+            Start a project
+            <span className="flex size-7 items-center justify-center rounded-full bg-black/10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+              <ArrowUpRight className="size-4" />
+            </span>
           </Link>
           <button
-            className="md:hidden p-2 text-zinc-400 hover:text-white"
-            onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
+            type="button"
+            className="flex size-10 items-center justify-center rounded-xl text-zinc-300 hover:bg-white/5 hover:text-white md:hidden"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-md px-4 py-4 flex flex-col gap-4">
-          {deferredItems.map((l) => (
+      <div
+        className={cn(
+          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-black/90 backdrop-blur-2xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden",
+          open ? "max-h-[80vh] opacity-100" : "pointer-events-none max-h-0 opacity-0",
+        )}
+      >
+        <nav className="flex flex-col gap-1 p-3" aria-label="Mobile">
+          {items.map((l, i) => (
             <Link
               key={l.href}
               href={l.href}
               target={l.target}
-              onClick={() => setOpen(false)}
-              className="text-base font-medium text-zinc-300 hover:text-white"
+              className="rounded-xl px-4 py-3 text-base font-medium text-zinc-200 transition-colors hover:bg-white/5 hover:text-white"
+              style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
             >
               {l.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-full text-center hover:bg-blue-500 transition-colors"
+            className="mt-2 rounded-xl bg-[#ff9f1c] px-4 py-3 text-center text-sm font-semibold text-black"
           >
-            Get Started
+            Start a project
           </Link>
-        </div>
-      )}
+        </nav>
+      </div>
     </header>
   );
 }

@@ -27,9 +27,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
   return (
     <>
     <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: page.title }]} />
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold text-gray-900 mb-8">{page.title}</h1>
-      <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: page.content ?? "" }} />
+    <div className="mx-auto max-w-3xl bg-[#050607] px-4 py-16">
+      <h1 className="mb-10 font-display text-4xl font-bold tracking-tight text-white md:text-5xl">{page.title}</h1>
+      <div className="prose prose-invert max-w-none prose-headings:font-display prose-headings:text-white prose-p:text-zinc-400 prose-a:text-[#ffb84d]" dangerouslySetInnerHTML={{ __html: page.content ?? "" }} />
     </div>
     </>
   );

@@ -1,19 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Unbounded } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 
-const geist = Geist({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const unbounded = Unbounded({ subsets: ["latin"], variable: "--font-display", weight: ["500", "700", "900"] });
 
 export const metadata: Metadata = {
-  title: { default: "MLHK Infotech — Enterprise IT & Digital Solutions", template: "%s | MLHK Infotech" },
-  description: "Enterprise-grade IT & Digital Solutions — Web, Mobile, SaaS, CRM, ERP, AI Automation. Based in Shajapur, MP, India.",
+  title: { default: "MLHK Infotech | Web, Mobile, AI and Enterprise Software", template: "%s | MLHK Infotech" },
+  description:
+    "MLHK Infotech builds web platforms, mobile apps, CRM and ERP systems, and AI automation. Innovate. Integrate. Elevate. Based in Shajapur, MP, India.",
   metadataBase: new URL("https://mlhk.in"),
+  applicationName: "MLHK Infotech",
+  icons: {
+    icon: [{ url: "/brand/mark.png", type: "image/png" }],
+    apple: [{ url: "/brand/mark.png" }],
+  },
   openGraph: {
     siteName: "MLHK Infotech",
     locale: "en_IN",
     type: "website",
     url: "https://mlhk.in",
+    images: [{ url: "/brand/logo-full.png", width: 1536, height: 1024, alt: "MLHK Infotech" }],
   },
   twitter: { card: "summary_large_image", site: "@mlhkinfotech" },
   alternates: {
@@ -27,13 +35,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#2563eb",
+  themeColor: "#050607",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className="dark">
-      <body className={`${geist.className} bg-background text-foreground antialiased`}>
+    <html lang="en-IN" className={`dark ${geist.variable} ${unbounded.variable}`}>
+      <body className="font-sans bg-[#050607] text-zinc-100 antialiased">
         {children}
         {/* Cloudflare Web Analytics */}
         <Script
