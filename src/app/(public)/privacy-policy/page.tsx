@@ -2,65 +2,101 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { BRAND } from "@/lib/brand";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({
     title: "Privacy Policy",
-    description: "How MLHK Infotech collects, uses, and protects your personal data in compliance with the IT Act, 2000 (as amended 2026) and DPDP Act, 2023.",
+    description:
+      "How MLHK Infotech collects, uses, stores and protects personal data under the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.",
     path: "/privacy-policy",
   });
 }
 
-const sections = [
+const LAST_UPDATED = "October 2026";
+
+const sections: { heading: string; body: string[] }[] = [
   {
-    heading: "1. Information We Collect",
-    content:
-      "We collect information you provide directly (name, email, phone, company name) through our contact form, client portal registration, and project communications. We also collect technical data (IP address, browser type, device info) automatically when you visit our website. Under the Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology Act, 2000 (as amended in 2026), we process data only with a lawful basis and your explicit consent.",
+    heading: "1. Who we are",
+    body: [
+      `${BRAND.name} (${BRAND.url}) is a technology company based in ${BRAND.location}. We act as a Data Fiduciary under the Digital Personal Data Protection Act, 2023 ("DPDP Act") for personal data we collect through this website and our contact channels.`,
+    ],
   },
   {
-    heading: "2. Purpose of Data Collection",
-    content:
-      "Your data is used to: (a) respond to inquiries and provide quotations; (b) deliver services under agreed contracts; (c) send project updates and invoices; (d) comply with legal obligations under Indian law; (e) improve our website and services through anonymized analytics. We do NOT sell, rent, or trade your personal data to third parties.",
+    heading: "2. Personal data we collect",
+    body: [
+      "Information you give us: name, email address, phone number, company name and the content of your project enquiry, when you use the contact form or write to us.",
+      "Project and account information: details needed to scope, deliver and support a project, and client portal details where you have an account.",
+      "Technical information: basic device and usage information needed to keep the website secure and working. We use privacy-friendly analytics that do not set tracking cookies (see section 7).",
+    ],
   },
   {
-    heading: "3. Data Storage & Security",
-    content:
-      "All data is stored on Cloudflare's infrastructure (D1 Database, R2 Storage, KV) with encryption at rest and in transit. Access is restricted to authorized personnel only. We implement industry-standard security measures including HTTPS/TLS 1.3, Content Security Policy headers, rate limiting, and input sanitization as mandated under Section 43A of the IT Act, 2000 and the 2026 amendment provisions.",
+    heading: "3. Purpose and lawful basis",
+    body: [
+      "We process personal data only for the purposes you agreed to: responding to your enquiry, preparing a proposal, delivering and supporting a contracted project, issuing invoices, and meeting legal obligations.",
+      "Where we rely on your consent, we ask for it in a clear notice that states the specific purpose. Where the DPDP Act allows processing for a legitimate use or a legal obligation without consent, we rely on that instead and tell you so.",
+      "We do not sell personal data.",
+    ],
   },
   {
-    heading: "4. Data Retention",
-    content:
-      "We retain personal data only as long as necessary for the purposes outlined above. Client project data is retained for 7 years post-completion as per Indian tax and contract law requirements. You may request deletion of your data at any time by emailing admin@mlhk.in. Upon request, we will erase your data within 30 days unless retention is legally required.",
+    heading: "4. Notice and consent",
+    body: [
+      "Under the DPDP Rules, 2025, notices must be clear, specific to each purpose, and available in English or any language listed in the Eighth Schedule of the Constitution on request.",
+      "You can withdraw consent at any time by writing to the contact address in section 10. Withdrawing consent does not affect processing already completed before the withdrawal.",
+    ],
   },
   {
-    heading: "5. Your Rights (DPDP Act, 2023)",
-    content:
-      "Under the Digital Personal Data Protection Act, 2023, you have the right to: (a) access your personal data; (b) correct inaccurate data; (c) erase your data; (d) restrict processing; (e) withdraw consent; (f) nominate another individual to exercise these rights on your behalf; (g) file a complaint with the Data Protection Board of India. To exercise these rights, contact us at admin@mlhk.in.",
+    heading: "5. Storage, security and sharing",
+    body: [
+      "We store data on Cloudflare infrastructure (databases and object storage) and send transactional email through Resend. Both are processors acting on our instructions.",
+      "We apply access controls so only authorised staff can view personal data, and we sanitise submitted input before storing it.",
+      "We will notify the Data Protection Board of India and affected individuals of a personal data breach as required by the DPDP Rules, 2025, including the intimation timelines in those rules.",
+      "Where we transfer personal data outside India, we do so only as permitted by the DPDP Act and the rules made under it.",
+    ],
   },
   {
-    heading: "6. Cookies & Analytics",
-    content:
-      "We use Cloudflare Web Analytics for privacy-preserving, cookie-free analytics. No tracking cookies are set. Essential cookies may be used for session management in the client portal (login state). You can block all cookies in your browser settings without affecting access to public pages.",
+    heading: "6. Retention and erasure",
+    body: [
+      "We keep personal data only as long as the purpose requires, or as a law requires. Enquiry records are reviewed periodically and erased when no longer needed.",
+      "Where a law requires us to keep records, such as financial or contract records, we keep them for the period that law specifies.",
+    ],
   },
   {
-    heading: "7. Third-Party Services",
-    content:
-      "We use the following third-party services: Cloudflare (hosting, CDN, database), Resend (email delivery), GitHub (code hosting). These processors are contractually bound to protect your data. No data is transferred outside India except to Cloudflare's global CDN edge locations for content delivery purposes.",
+    heading: "7. Cookies and analytics",
+    body: [
+      "Our public website uses Cloudflare Web Analytics, which does not set tracking cookies. If you use the client portal, a session cookie keeps you signed in. You can block cookies in your browser; public pages will still work.",
+    ],
   },
   {
-    heading: "8. Children's Privacy",
-    content:
-      "Our services are not directed at children under 18. We do not knowingly collect personal data from minors. If you believe a child has provided us data, contact us immediately for deletion.",
+    heading: "8. Your rights",
+    body: [
+      "Under the DPDP Act, 2023 you may ask us for: access to your personal data; correction or updating of inaccurate data; erasure of data that is no longer needed; and withdrawal of consent.",
+      "You may also nominate another person to exercise these rights on your behalf.",
+      "We respond to requests about your rights within 90 days, as required by the DPDP Rules, 2025, and usually much sooner.",
+    ],
   },
   {
-    heading: "9. Grievance Redressal (IT Act, 2000 — Section 43A & 2026 Rules)",
-    content:
-      "In accordance with the Information Technology Act, 2000 and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, we have appointed a Grievance Officer. For any privacy-related complaints, contact: Grievance Officer, MLHK Infotech, Near Hanuman Temple, Barnawad, Shajapur, Madhya Pradesh 466001. Email: admin@mlhk.in. Phone: +91-9165100124. We will acknowledge complaints within 24 hours and resolve them within 30 days.",
+    heading: "9. Children",
+    body: [
+      "Our services are for businesses and adults. Where we ever process personal data of a child, we will obtain verifiable consent from a parent or guardian as required by the DPDP Act and the rules.",
+      "If you believe a child's data was given to us, contact us and we will delete it.",
+    ],
   },
   {
-    heading: "10. Changes to This Policy",
-    content:
-      "We may update this Privacy Policy periodically. Material changes will be notified via email or a prominent notice on our website. The 'Last Updated' date at the top reflects the latest revision. Continued use of our services after changes constitutes acceptance.",
+    heading: "10. Grievance officer and contact",
+    body: [
+      `Grievance Officer, ${BRAND.name}, ${BRAND.location}.`,
+      `Email: ${BRAND.email}. Phone: ${BRAND.phoneDisplay}.`,
+      "We acknowledge privacy grievances and respond within 90 days, as required by the DPDP Rules, 2025.",
+      "If you are not satisfied with our response, you may complain to the Data Protection Board of India.",
+    ],
+  },
+  {
+    heading: "11. Changes to this policy",
+    body: [
+      "We update this policy when our practices or the law change. The date at the top shows the latest revision. Material changes will be announced on this website.",
+    ],
   },
 ];
 
@@ -68,23 +104,28 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
-      <div className="max-w-3xl mx-auto px-4 py-16 bg-[#050607]">
-        <h1 className="font-display text-4xl font-bold tracking-tight text-white mb-3">Privacy Policy</h1>
-        <p className="text-sm text-zinc-500 mb-10">Last Updated: January 2026</p>
-
+      <PageHero
+        eyebrow="Legal"
+        title={<>Privacy <span className="text-brand">policy.</span></>}
+        description={`How we handle personal data under the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025. Last updated: ${LAST_UPDATED}.`}
+      />
+      <div className="mx-auto max-w-3xl bg-[#050607] px-4 pb-24 md:px-6">
         {sections.map((s) => (
-          <section key={s.heading} className="mb-8">
-            <h2 className="font-display text-lg font-bold text-white mb-2">{s.heading}</h2>
-            <p className="text-zinc-400 text-sm leading-relaxed">{s.content}</p>
+          <section key={s.heading} className="border-t border-white/10 py-8">
+            <h2 className="font-display text-lg font-bold text-white">{s.heading}</h2>
+            <div className="mt-3 space-y-3">
+              {s.body.map((p) => (
+                <p key={p} className="text-sm leading-relaxed text-zinc-400">{p}</p>
+              ))}
+            </div>
           </section>
         ))}
-
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <p className="text-sm text-zinc-500 mb-4">
-            For any privacy-related queries, contact us at{" "}
-            <a href="mailto:admin@mlhk.in" className="text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">admin@mlhk.in</a>
+        <div className="mt-6 border-t border-white/10 pt-8">
+          <p className="text-sm text-zinc-500">
+            Questions about this policy:{" "}
+            <a href={`mailto:${BRAND.email}`} className="text-[#ffb84d] hover:text-white">{BRAND.email}</a>
           </p>
-          <Link href="/" className="text-sm text-[#ffb84d] hover:text-white underline-offset-4 hover:underline">← Back to Home</Link>
+          <Link href="/" className="mt-4 inline-block text-sm font-semibold text-[#ffb84d] hover:text-white">← Back to home</Link>
         </div>
       </div>
     </>
