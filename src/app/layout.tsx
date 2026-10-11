@@ -32,8 +32,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN">
-      <body className={geist.className}>
+    <html lang="en-IN" className="dark">
+      <body className={`${geist.className} bg-background text-foreground antialiased`}>
         {children}
         {/* Cloudflare Web Analytics */}
         <Script

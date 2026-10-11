@@ -5,7 +5,7 @@ import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 export default async function Footer() {
   const [items, settings] = await Promise.all([getMenu("footer"), getSiteSettings()]);
   return (
-    <footer className="bg-gray-900 text-gray-400 text-sm">
+    <footer className="bg-zinc-950 border-t border-zinc-800/60 text-zinc-400 text-sm">
       <OrganizationJsonLd />
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2 md:col-span-1">
@@ -36,7 +36,7 @@ export default async function Footer() {
           <Link href="/terms-of-service" className="block mb-1 hover:text-white transition-colors">Terms of Service</Link>
         </div>
       </div>
-      <div className="border-t border-gray-800 text-center py-4 text-xs">
+      <div className="border-t border-zinc-800/60 text-center py-4 text-xs">
         {settings.footer_text ?? `© ${new Date().getFullYear()} MLHK Infotech. Founded by Hariom Vishwkarma.`}
       </div>
     </footer>
