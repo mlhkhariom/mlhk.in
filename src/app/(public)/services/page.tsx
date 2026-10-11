@@ -8,7 +8,7 @@ import { buildSeo } from "@/lib/seo";
 import { ServiceJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
-import { SERVICE_LINES, CAPABILITIES, FAQS } from "@/lib/brand";
+import { SERVICE_LINES, CAPABILITIES, FAQS, SERVICE_DETAILS } from "@/lib/brand";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -30,8 +30,8 @@ export default async function ServicesPage() {
   const dbServices = await db.select().from(services).where(eq(services.active, true)).all().catch(() => []);
 
   const lines = [
-    ...SERVICE_LINES.map((s) => ({ id: s.id, title: s.title, description: s.description, points: s.points as readonly string[] })),
-    ...CAPABILITIES.map((c) => ({ id: c.id, title: c.title, description: c.description, points: [] as readonly string[] })),
+    ...SERVICE_LINES.map((s) => ({ id: s.id, slug: s.slug, title: s.title, description: s.description, points: s.points as readonly string[] })),
+    ...CAPABILITIES.map((c) => ({ id: c.id, slug: c.slug, title: c.title, description: c.description, points: [] as readonly string[] })),
   ];
 
   return (
@@ -62,6 +62,11 @@ export default async function ServicesPage() {
                 </span>
                 <h2 className="mt-7 font-display text-xl font-bold text-white">{l.title}</h2>
                 <p className="mt-3 text-sm leading-relaxed text-zinc-400">{l.description}</p>
+                {SERVICE_DETAILS.some((d) => d.slug === l.slug) && (
+                  <Link href={`/services/${l.slug}`} className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#ffb84d] hover:text-white">
+                    Explore {l.title.toLowerCase()} <ArrowUpRight className="size-4" />
+                  </Link>
+                )}
                 {l.points.length > 0 && (
                   <ul className="mt-6 flex flex-wrap gap-2">
                     {l.points.map((p) => (
