@@ -8,6 +8,8 @@ export function createAuth(env: CloudflareEnv) {
   return betterAuth({
     database: drizzleAdapter(db, { provider: "sqlite", schema }),
     secret: env.BETTER_AUTH_SECRET || process.env.BETTER_AUTH_SECRET,
+    baseURL: process.env.BETTER_AUTH_URL || "https://mlhk.in",
+    trustedOrigins: ["https://mlhk.in", "http://localhost:3000"],
     emailAndPassword: { enabled: true },
     session: {
       cookieCache: { enabled: true, maxAge: 60 * 60 * 24 * 7 },
