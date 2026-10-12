@@ -79,12 +79,12 @@ export default async function PortalDashboard() {
     <div>
       <Breadcrumbs items={[{ label: "Portal", href: "/portal/dashboard" }, { label: "Overview" }]} className="px-0 pt-0 pb-6" />
 
-      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-8">
+      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-6 sm:mb-8">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+          <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.22em] text-[#ffb84d]">
             Enterprise Client Workspace
           </p>
-          <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
+          <h1 className="mt-1.5 sm:mt-2 font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
             Welcome back, {session.user.name} 👋
           </h1>
         </div>
@@ -93,17 +93,17 @@ export default async function PortalDashboard() {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-10">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 mb-8 sm:mb-10">
         {stats.map(({ label, value, href, icon: Icon, color }) => (
           <Link key={label} href={href} prefetch={true} className="group block">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#ff9f1c]/30 hover:bg-white/[0.04] hover:shadow-[0_16px_40px_-16px_rgba(255,159,28,0.25)]">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#ff9f1c]/30 hover:bg-white/[0.04] hover:shadow-[0_16px_40px_-16px_rgba(255,159,28,0.25)]">
               <div className="flex items-center justify-between">
-                <span className={`flex size-10 items-center justify-center rounded-xl border ${color}`}>
-                  <Icon className="size-5" strokeWidth={1.75} />
+                <span className={`flex size-9 sm:size-10 items-center justify-center rounded-xl border ${color}`}>
+                  <Icon className="size-4 sm:size-5" strokeWidth={1.75} />
                 </span>
                 <ArrowUpRight className="size-4 text-zinc-600 transition-colors group-hover:text-[#ffb84d]" />
               </div>
-              <p className="mt-5 font-display text-3xl font-bold text-white">{value}</p>
+              <p className="mt-4 sm:mt-5 font-display text-2xl sm:text-3xl font-bold text-white tabular-nums">{value}</p>
               <p className="mt-1 text-xs uppercase tracking-wider text-zinc-400">{label}</p>
             </div>
           </Link>

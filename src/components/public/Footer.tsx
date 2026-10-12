@@ -69,7 +69,7 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="col-span-1 md:col-span-2">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200">Company</p>
           <ul className="space-y-3">
             {items.map((l) => (
@@ -82,7 +82,7 @@ export default async function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="col-span-1 md:col-span-3">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200">Resources</p>
           <ul className="space-y-3">
             <li><Link href="/blog" className="transition-colors hover:text-[#ffb84d]">Blog</Link></li>
@@ -93,7 +93,7 @@ export default async function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
+        <div className="col-span-2 md:col-span-3">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200">Contact</p>
           <ul className="space-y-3">
             <li><a href={`mailto:${email}`} className="transition-colors hover:text-[#ffb84d]">{email}</a></li>

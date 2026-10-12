@@ -23,9 +23,9 @@ export default function Breadcrumbs({
       <BreadcrumbJsonLd items={schemaItems} />
       <nav
         aria-label="Breadcrumb navigation"
-        className={`relative z-10 mx-auto max-w-6xl px-4 pt-4 pb-1 md:px-6 md:pt-6 md:pb-2 ${className}`}
+        className={`relative z-10 mx-auto max-w-6xl px-4 pt-3 pb-1 sm:pt-4 md:px-6 md:pt-6 md:pb-2 ${className}`}
       >
-        <ol className="inline-flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)] backdrop-blur-md scrollbar-none">
+        <ol className="inline-flex max-w-full items-center gap-1 sm:gap-1.5 overflow-x-auto overscroll-x-contain rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)] backdrop-blur-md scrollbar-none whitespace-nowrap">
           {items.map((item, i) => {
             const isFirst = i === 0;
             const isLast = i === items.length - 1;
@@ -33,11 +33,11 @@ export default function Breadcrumbs({
             return (
               <li
                 key={i}
-                className="inline-flex shrink-0 items-center gap-1.5 text-zinc-400"
+                className="inline-flex shrink-0 items-center gap-1 sm:gap-1.5 text-zinc-400"
               >
                 {i > 0 && (
                   <ChevronRight
-                    className="size-3 text-zinc-600 shrink-0"
+                    className="size-2.5 sm:size-3 text-zinc-600 shrink-0"
                     strokeWidth={1.8}
                     aria-hidden="true"
                   />
@@ -47,11 +47,11 @@ export default function Breadcrumbs({
                   <Link
                     href={item.href}
                     prefetch={true}
-                    className="group inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 font-medium transition-colors hover:bg-white/5 hover:text-[#ffb84d]"
+                    className="group inline-flex shrink-0 items-center gap-1 sm:gap-1.5 rounded-md px-1 sm:px-1.5 py-0.5 font-medium transition-colors hover:bg-white/5 hover:text-[#ffb84d]"
                   >
                     {isFirst && (
                       <Home
-                        className="size-3 text-zinc-400 transition-colors group-hover:text-[#ffb84d]"
+                        className="size-2.5 sm:size-3 text-zinc-400 transition-colors group-hover:text-[#ffb84d] shrink-0"
                         strokeWidth={1.75}
                       />
                     )}
@@ -59,19 +59,19 @@ export default function Breadcrumbs({
                   </Link>
                 ) : (
                   <span
-                    className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 font-medium text-white"
+                    className="inline-flex shrink-0 items-center gap-1 sm:gap-1.5 rounded-md px-1 sm:px-1.5 py-0.5 font-medium text-white"
                     aria-current={isLast ? "page" : undefined}
                   >
                     {isFirst && !item.href && (
-                      <Home className="size-3 text-[#ff9f1c]" strokeWidth={1.75} />
+                      <Home className="size-2.5 sm:size-3 text-[#ff9f1c] shrink-0" strokeWidth={1.75} />
                     )}
                     {isLast && (
                       <span
-                        className="size-1.5 shrink-0 rounded-full bg-[#ff9f1c] shadow-[0_0_8px_#ff9f1c]"
+                        className="size-1 sm:size-1.5 shrink-0 rounded-full bg-[#ff9f1c] shadow-[0_0_8px_#ff9f1c]"
                         aria-hidden="true"
                       />
                     )}
-                    <span className="max-w-[160px] truncate sm:max-w-[260px] md:max-w-none">
+                    <span className="max-w-[130px] xs:max-w-[190px] sm:max-w-[280px] md:max-w-none truncate">
                       {item.label}
                     </span>
                   </span>

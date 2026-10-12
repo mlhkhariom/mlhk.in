@@ -40,18 +40,18 @@ export default async function PortalTickets() {
     <div>
       <Breadcrumbs items={[{ label: "Portal", href: "/portal/dashboard" }, { label: "Support Tickets" }]} className="px-0 pt-0 pb-6" />
 
-      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-6 sm:mb-8">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+          <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.22em] text-[#ffb84d]">
             Enterprise Helpdesk
           </p>
-          <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
+          <h1 className="mt-1.5 sm:mt-2 font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
             Support Tickets
           </h1>
         </div>
         <a
           href="mailto:support@mlhk.in"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#ff9f1c] px-4 py-2 text-xs font-semibold text-black hover:bg-[#ffb84d] transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ff9f1c] px-4 py-2.5 text-xs font-semibold text-black hover:bg-[#ffb84d] transition-colors self-start sm:self-auto"
         >
           <AlertCircle className="size-3.5" />
           <span>Raise New Request</span>
@@ -59,39 +59,41 @@ export default async function PortalTickets() {
       </div>
 
       {allTickets.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-12 text-center">
+        <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-8 sm:p-12 text-center">
           <Ticket className="mx-auto size-10 text-zinc-600" strokeWidth={1.5} />
-          <p className="mt-4 font-display text-lg font-semibold text-zinc-400">No active support tickets.</p>
-          <p className="mt-1 text-sm text-zinc-600">Raise a ticket or email support@mlhk.in whenever you need assistance.</p>
+          <p className="mt-4 font-display text-base sm:text-lg font-semibold text-zinc-400">No active support tickets.</p>
+          <p className="mt-1 text-xs sm:text-sm text-zinc-600">Raise a ticket or email support@mlhk.in whenever you need assistance.</p>
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3 sm:gap-4">
           {allTickets.map((t) => (
             <div
               key={t.id}
-              className="group flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 hover:border-[#ff9f1c]/30 hover:bg-white/[0.04] md:flex-row md:items-center md:justify-between"
+              className="group flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6 transition-all duration-300 hover:border-[#ff9f1c]/30 hover:bg-white/[0.04] md:flex-row md:items-center md:justify-between"
             >
               <div>
-                <h3 className="font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">
+                <h3 className="font-display text-base sm:text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">
                   {t.title}
                 </h3>
                 {t.description && (
-                  <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-zinc-400">
+                  <p className="mt-1.5 max-w-2xl text-xs sm:text-sm leading-relaxed text-zinc-400">
                     {t.description}
                   </p>
                 )}
-                <div className="mt-3 flex items-center gap-3 text-xs text-zinc-500">
+                <div className="mt-2.5 flex items-center gap-3 text-xs text-zinc-500">
                   <span>Priority: <strong className="text-zinc-300 uppercase">{t.priority}</strong></span>
                 </div>
               </div>
 
-              <span
-                className={`inline-flex shrink-0 self-start md:self-center items-center rounded-full border px-3 py-1 text-xs font-semibold capitalize ${
-                  statusStyle[t.status ?? "open"] || statusStyle.open
-                }`}
-              >
-                {t.status?.replace("_", " ") ?? "open"}
-              </span>
+              <div className="flex items-center justify-between md:justify-end pt-2.5 border-t border-white/5 md:border-t-0 md:pt-0">
+                <span
+                  className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-xs font-semibold capitalize ${
+                    statusStyle[t.status ?? "open"] || statusStyle.open
+                  }`}
+                >
+                  {t.status?.replace("_", " ") ?? "open"}
+                </span>
+              </div>
             </div>
           ))}
         </div>

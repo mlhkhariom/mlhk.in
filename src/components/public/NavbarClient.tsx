@@ -93,30 +93,51 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
 
       <div
         className={cn(
-          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-black/90 backdrop-blur-2xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden",
-          open ? "max-h-[80vh] opacity-100" : "pointer-events-none max-h-0 opacity-0",
+          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-black/95 backdrop-blur-2xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]",
+          open ? "max-h-[85vh] opacity-100 p-3" : "pointer-events-none max-h-0 opacity-0 p-0",
         )}
       >
-        <nav className="flex flex-col gap-1 p-3" aria-label="Mobile">
-          {items.map((l, i) => (
+        <nav className="flex flex-col gap-1" aria-label="Mobile">
+          {items.map((l, i) => {
+            const active = pathname === l.href;
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                prefetch={true}
+                target={l.target}
+                className={cn(
+                  "flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors",
+                  active
+                    ? "bg-[#ff9f1c]/15 text-[#ffb84d] font-semibold"
+                    : "text-zinc-200 hover:bg-white/5 hover:text-white"
+                )}
+                style={{ transitionDelay: open ? `${i * 30}ms` : "0ms" }}
+              >
+                <span>{l.label}</span>
+                {active && (
+                  <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_8px_#ff9f1c]" />
+                )}
+              </Link>
+            );
+          })}
+          <div className="mt-2 pt-2 border-t border-white/10 flex flex-col gap-2">
             <Link
-              key={l.href}
-              href={l.href}
+              href="/contact"
               prefetch={true}
-              target={l.target}
-              className="rounded-xl px-4 py-3 text-base font-medium text-zinc-200 transition-colors hover:bg-white/5 hover:text-white"
-              style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#ff9f1c] px-4 py-3 text-center text-sm font-semibold text-black transition-transform active:scale-[0.98]"
             >
-              {l.label}
+              <span>Start a project</span>
+              <ArrowUpRight className="size-4" />
             </Link>
-          ))}
-          <Link
-            href="/contact"
-            prefetch={true}
-            className="mt-2 rounded-xl bg-[#ff9f1c] px-4 py-3 text-center text-sm font-semibold text-black"
-          >
-            Start a project
-          </Link>
+            <Link
+              href="/portal/dashboard"
+              prefetch={true}
+              className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-colors hover:text-white"
+            >
+              <span>Client Portal</span>
+            </Link>
+          </div>
         </nav>
       </div>
     </header>
