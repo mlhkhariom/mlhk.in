@@ -10,6 +10,11 @@ export async function GET(
     return new NextResponse("Bad Request", { status: 400 });
   }
 
+  // Prevent path traversal and malicious segments
+  if (key.some((segment) => segment === ".." || segment.includes("\\") || segment.includes("\0"))) {
+    return new NextResponse("Forbidden", { status: 403 });
+  }
+
   const objectKey = key.join("/");
 
   try {
@@ -28,6 +33,7 @@ export async function GET(
     object.writeHttpMetadata(headers as unknown as Headers);
     headers.set("ETag", object.httpEtag);
     headers.set("Cache-Control", "public, max-age=31536000, immutable");
+    headers.set("X-Content-Type-Options", "nosniff");
 
     return new NextResponse(object.body as unknown as BodyInit, {
       headers,

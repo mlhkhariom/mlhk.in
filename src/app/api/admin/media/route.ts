@@ -21,31 +21,73 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(await db.select().from(media).all());
 }
 
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
+const ALLOWED_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+  "image/avif",
+  "application/pdf",
+  "video/mp4",
+  "video/webm",
+  "audio/mpeg",
+]);
+
 export async function POST(req: NextRequest) {
   const denied = await requireAdmin(req);
   if (denied) return denied;
 
-  const { env } = getCloudflareContext();
-  const formData = await req.formData();
-  const file = formData.get("file") as File;
-  if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
+  try {
+    const { env } = getCloudflareContext();
+    const formData = await req.formData();
+    const file = formData.get("file") as File | null;
+    if (!file || typeof file === "string") {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
 
-  const key = `media/${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
-  const buffer = await file.arrayBuffer();
-  const r2 = (env as unknown as { R2?: R2Bucket }).R2;
-  if (!r2) {
-    return NextResponse.json(
-      { error: "Media storage is not configured (R2 bucket missing)" },
-      { status: 503 }
-    );
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { error: `File too large. Maximum allowed size is ${MAX_FILE_SIZE / (1024 * 1024)}MB` },
+        { status: 413 }
+      );
+    }
+
+    const mime = file.type?.toLowerCase();
+    if (!mime || !ALLOWED_MIME_TYPES.has(mime)) {
+      return NextResponse.json(
+        { error: "Unsupported file type. Only standard images, PDFs, and media are allowed." },
+        { status: 415 }
+      );
+    }
+
+    // Sanitize filename to prevent directory traversal and dangerous characters
+    const safeName = file.name
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "-")
+      .replace(/-+/g, "-");
+    const key = `media/${Date.now()}-${safeName}`;
+
+    const buffer = await file.arrayBuffer();
+    const r2 = (env as unknown as { R2?: R2Bucket }).R2;
+    if (!r2) {
+      return NextResponse.json(
+        { error: "Media storage is not configured (R2 bucket missing)" },
+        { status: 503 }
+      );
+    }
+    await r2.put(key, buffer, { httpMetadata: { contentType: mime } });
+
+    const url = mediaUrl(env, key);
+    const db = getDb(env.DB);
+    const id = crypto.randomUUID();
+    await db.insert(media).values({ id, name: safeName, url, type: mime, size: file.size });
+    return NextResponse.json({ id, name: safeName, url });
+  } catch (err) {
+    console.error("[MEDIA_UPLOAD_ERROR]", err);
+    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
   }
-  await r2.put(key, buffer, { httpMetadata: { contentType: file.type } });
-
-  const url = mediaUrl(env, key);
-  const db = getDb(env.DB);
-  const id = crypto.randomUUID();
-  await db.insert(media).values({ id, name: file.name, url, type: file.type, size: file.size });
-  return NextResponse.json({ id, name: file.name, url });
 }
 
 export async function DELETE(req: NextRequest) {

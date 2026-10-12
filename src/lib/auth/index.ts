@@ -19,5 +19,14 @@ export function createAuth(env: CloudflareEnv) {
         role: { type: "string", defaultValue: "client" },
       },
     },
+    rateLimit: {
+      window: 60,
+      max: 100,
+    },
+    advanced: {
+      ipAddress: {
+        ipAddressHeaders: ["cf-connecting-ip", "x-real-ip", "x-forwarded-for"],
+      },
+    },
   });
 }
