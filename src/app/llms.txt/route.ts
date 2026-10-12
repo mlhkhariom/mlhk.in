@@ -1,43 +1,51 @@
 /**
- * llms.txt — Machine-readable site description for AI agents (AEO/GEO).
- * Follows the llms.txt specification: https://llmstxt.org/
+ * llms.txt: machine-readable site summary for AI assistants (AEO/GEO).
+ * Specification: https://llmstxt.org/
+ * Built from src/lib/brand.ts so it always matches the pages on the site.
  */
+import { BRAND, SERVICE_LINES, CAPABILITIES, VENTURES, SERVICE_DETAILS } from "@/lib/brand";
 
-const CONTENT = `# MLHK Infotech
+const serviceLine = (slug: string) => SERVICE_DETAILS.find((s) => s.slug === slug);
 
-> MLHK Infotech is an enterprise-grade IT & Digital Solutions company based in Barnawad, Shajapur, Madhya Pradesh, India. Founded in April 2020 by Hariom Vishwkarma, we provide web development, mobile apps, SaaS, CRM/ERP, AI automation, cybersecurity, and digital marketing services.
+const CONTENT = `# ${BRAND.name}
 
-## About
-- [About Us](https://mlhk.in/about): Company history, mission, and founder details. Founded 2020, bootstrapped from Shajapur, MP.
-- [Services](https://mlhk.in/services): Complete technology solutions — Web, Mobile, SaaS, CRM/ERP, AI Automation, Cybersecurity, Digital Marketing.
-- [Portfolio](https://mlhk.in/portfolio): Projects built for clients across India.
+> ${BRAND.name} is a technology company in ${BRAND.location}, founded in ${BRAND.foundedYear} by ${BRAND.founder} (${BRAND.founderRole}). It builds web platforms, Android apps, enterprise systems (CRM, ERP, HRMS, billing, inventory and workflows), and AI-based operational automation for businesses across India. Tagline: "${BRAND.tagline}"
+
+## Services
+${SERVICE_LINES.map((s) => `- [${s.title}](${BRAND.url}/services/${s.slug}): ${s.description}`).join("\n")}
+${CAPABILITIES.map((c) => `- [${c.title}](${BRAND.url}/${c.slug === "ai-automation" ? "ai-automation" : `services/${c.slug}`}): ${c.description}`).join("\n")}
+- [How we work](${BRAND.url}/process): five delivery stages, from discovery to support.
+
+## Company
+- [About ${BRAND.name}](${BRAND.url}/about): history, founder and timeline.
+- [Our ventures](${BRAND.url}/subsidiaries): ${VENTURES.map((v) => v.name).join(", ")}.
+- [Portfolio](${BRAND.url}/portfolio): selected work and case studies as they are published.
+
+## Answers
+- [Frequently asked questions](${BRAND.url}/faq): services, timelines, support, data protection and AI automation.
 
 ## Blog
-- [Blog](https://mlhk.in/blog): Insights on technology, business, and digital transformation.
-- [RSS Feed](https://mlhk.in/feed.xml): RSS 2.0 feed of published blog posts.
-
-## Brands & Subsidiaries
-- [Our Brands](https://mlhk.in/subsidiaries): Ecosystem of ventures — Erotix Green Energy (solar), IKSC India (e-commerce), Red Xerox Studio (creative), RX Media (media), TET News (journalism).
+- [Journal](${BRAND.url}/blog): notes on building and running software for businesses.
+- [RSS feed](${BRAND.url}/feed.xml): published articles.
 
 ## Contact
-- [Contact Us](https://mlhk.in/contact): Project inquiries, support. Email: admin@mlhk.in. Phone: +91-9165100124. Location: Barnawad, Shajapur, MP, India.
+- [Contact page](${BRAND.url}/contact): project enquiries.
+- Email: ${BRAND.email}
+- Phone: ${BRAND.phoneDisplay}
+- Instagram: ${BRAND.instagramUrl}
+- Location: ${BRAND.location}
 
 ## Legal
-- [Privacy Policy](https://mlhk.in/privacy-policy): Data handling per DPDP Act 2023 and IT Act 2000 (2026 amendment).
-- [Terms of Service](https://mlhk.in/terms-of-service): Service terms governed by Indian law.
+- [Privacy policy](${BRAND.url}/privacy-policy): personal data handling under the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.
+- [Terms of service](${BRAND.url}/terms-of-service): terms under the laws of India.
 
-## Technical Details
-- Website: Next.js 16 + Cloudflare Workers + D1 Database + R2 Storage
-- Domain: https://mlhk.in
-- Language: English (India)
-- Timezone: Asia/Kolkata (IST, UTC+5:30)
-
-## FAQ
-- What services does MLHK Infotech offer? Web development, mobile apps, SaaS, CRM/ERP, AI automation, cybersecurity, digital marketing.
-- Where is MLHK Infotech located? Barnawad, Shajapur, Madhya Pradesh, India.
-- When was MLHK Infotech founded? April 2020 by Hariom Vishwkarma.
-- How to contact MLHK Infotech? Email admin@mlhk.in, call +91-9165100124, or use the contact form at https://mlhk.in/contact.
-- What brands does MLHK Infotech operate? Erotix Green Energy, IKSC India, Red Xerox Studio, RX Media, TET News.
+## Facts
+- Founded: ${BRAND.foundedYear} (April), in Barnawad, Shajapur, Madhya Pradesh.
+- Founder: ${BRAND.founder}.
+- Service lines: ${SERVICE_LINES.length} core lines plus ${CAPABILITIES.length} capability areas.
+- Ventures: ${VENTURES.length}.
+- Language: English (India). Timezone: Asia/Kolkata.
+- Site: ${BRAND.url}
 `;
 
 export async function GET() {
