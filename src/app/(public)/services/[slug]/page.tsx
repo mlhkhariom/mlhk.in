@@ -57,6 +57,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
       <PageHero eyebrow="Service" title={service.name} description={service.intro} />
 
+      <section className="bg-[#050607] px-4 pt-2 md:px-6">
+        <div className="mx-auto max-w-6xl rounded-[1.75rem] border border-[#ff9f1c]/20 bg-[#ff9f1c]/[0.04] p-7">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Who this is for</p>
+          <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-200">{service.audience}</p>
+        </div>
+      </section>
+
       <section className="bg-[#050607] px-4 pb-24 md:px-6">
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-12">
           <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.02] p-8 md:col-span-7">

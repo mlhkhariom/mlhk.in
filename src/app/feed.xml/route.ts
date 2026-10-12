@@ -1,20 +1,20 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { getDb } from "@/lib/db";
+import { safeDb } from "@/lib/db/safe";
 import { blogPosts } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 
 const BASE = "https://mlhk.in";
 
 export async function GET() {
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
+  const db = safeDb();
 
   const posts = await db
     .select()
     .from(blogPosts)
     .where(eq(blogPosts.status, "published"))
     .orderBy(desc(blogPosts.publishedAt))
-    .limit(20);
+    .limit(20)
+    .all()
+    .catch(() => []);
 
   const items = posts
     .map(

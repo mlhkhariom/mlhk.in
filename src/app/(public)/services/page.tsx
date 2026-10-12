@@ -1,4 +1,4 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { safeDb } from "@/lib/db/safe";
 import { getDb } from "@/lib/db";
 import { services } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -25,8 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPage() {
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
+  const db = safeDb();
   const dbServices = await db.select().from(services).where(eq(services.active, true)).all().catch(() => []);
 
   const lines = [

@@ -1,4 +1,4 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { safeDb } from "@/lib/db/safe";
 import { getDb } from "@/lib/db";
 import { portfolio } from "@/lib/db/schema";
 import { buildSeo } from "@/lib/seo";
@@ -21,8 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PortfolioPage() {
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
+  const db = safeDb();
   const items = await db.select().from(portfolio).all().catch(() => []);
 
   return (

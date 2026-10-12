@@ -6,7 +6,7 @@ import { WhyMlhk } from "@/components/home/WhyProcess";
 import { VenturesGrid, AboutTimeline } from "@/components/home/WorkAbout";
 import { StatsCounter, type StatItem } from "@/components/home/StatsCounter";
 import { Faq, ContactCTA } from "@/components/home/ContactCTA";
-import { BRAND, FAQS, SERVICE_LINES } from "@/lib/brand";
+import { BRAND, FAQS, SERVICE_LINES, VENTURES } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -22,8 +22,7 @@ export async function generateMetadata() {
 const STATS: StatItem[] = [
   { value: BRAND.foundedYear, label: "Founded", grouping: false },
   { value: 20, label: "Projects delivered", suffix: "+" },
-  { value: 6, label: "Ventures", suffix: "" },
-  { value: 24, label: "Support, hours a day", suffix: "/7" },
+  { value: VENTURES.length, label: "Brands", suffix: "" },
 ];
 
 export default async function HomePage() {

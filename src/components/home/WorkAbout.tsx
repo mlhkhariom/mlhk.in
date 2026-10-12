@@ -19,7 +19,7 @@ export function VenturesGrid() {
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Our ecosystem</p>
             <h2 id="ventures-heading" className="mt-4 font-display text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
-              Six ventures under one roof.
+              Our brands, listed in one place.
             </h2>
           </div>
           <Link href="/subsidiaries" className="inline-flex items-center gap-2 text-sm font-semibold text-[#ffb84d] hover:text-white">

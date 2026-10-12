@@ -1,4 +1,4 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { safeDb } from "@/lib/db/safe";
 import { getDb } from "@/lib/db";
 import { subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -23,8 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SubsidiariesPage() {
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
+  const db = safeDb();
   const dbBrands = await db.select().from(subsidiaries).where(eq(subsidiaries.active, true)).all().catch(() => []);
 
   // Use the admin-managed brand records when they exist; otherwise show the verified venture list.
@@ -58,8 +57,8 @@ export default async function SubsidiariesPage() {
 
       <PageHero
         eyebrow="Ecosystem"
-        title={<>Six ventures, <span className="text-brand">one group.</span></>}
-        description="MLHK Infotech runs a growing set of ventures across e-commerce, creative, energy, media, journalism and education."
+        title={<>Our brands, <span className="text-brand">one group.</span></>}
+        description="The brands listed on our website. Each one is presented as part of the MLHK ecosystem; the legal and ownership relationship of each is confirmed on request."
       />
 
       <section className="bg-[#050607] px-4 pb-28 md:px-6">
@@ -87,7 +86,7 @@ export default async function SubsidiariesPage() {
           ) : (
             <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
               {VENTURES.map((v, i) => (
-                <li key={v.name} className="group bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10]">
+                <li key={v.name} className={`group bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10] ${i === VENTURES.length - 1 && VENTURES.length % 3 === 2 ? "lg:col-span-2" : ""} ${i === VENTURES.length - 1 && VENTURES.length % 2 === 1 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
                   <span className="font-display text-xs text-zinc-600 tabular-nums">0{i + 1}</span>
                   <h2 className="mt-6 font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">{v.name}</h2>
                   <p className="mt-2 text-xs uppercase tracking-[0.16em] text-zinc-500">{v.sector}</p>

@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ChromeMark3D } from "@/components/home/ChromeMark3D";
 import { useReducedMotion } from "@/components/home/utils";
-import { BRAND } from "@/lib/brand";
+import { BRAND, VENTURES } from "@/lib/brand";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -88,7 +88,7 @@ export function Hero() {
             </div>
             <div>
               <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Ventures</dt>
-              <dd className="mt-1 font-display text-2xl font-bold text-white">6</dd>
+              <dd className="mt-1 font-display text-2xl font-bold text-white">{VENTURES.length}</dd>
             </div>
           </dl>
         </div>

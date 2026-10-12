@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { safeDb } from "@/lib/db/safe";
 import { getDb } from "@/lib/db";
 import { blogPosts } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -22,8 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
+  const db = safeDb();
   const posts = await db.select().from(blogPosts).where(eq(blogPosts.status, "published")).all().catch(() => []);
 
   return (

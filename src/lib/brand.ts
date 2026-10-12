@@ -124,12 +124,8 @@ export const VENTURES = [
 ] as const;
 
 export const TIMELINE = [
-  { year: "2020", event: "Founded MLHK Infotech in Barnawad, Shajapur during the digital boom of the pandemic." },
-  { year: "2021", event: "Launched first SaaS products and expanded into mobile app development." },
-  { year: "2022", event: "Founded IKSC India (e-commerce) and Red Xerox Studio (creative)." },
-  { year: "2023", event: "Launched Erotix Green Energy (solar), RX Media and TET News." },
-  { year: "2024", event: "Expanded into AI automation, CIS benchmark auditing and cloud consulting." },
-  { year: "2025", event: "Building complete digital ecosystems for businesses across India." },
+  { year: "2020", event: "MLHK Infotech established in Shajapur, Madhya Pradesh (year as shown on our website)." },
+  { year: "Today", event: "Web, mobile, enterprise, AI automation, cybersecurity and digital marketing services, with an operating base in Indore." },
 ] as const;
 
 export const FAQS = [
@@ -158,6 +154,7 @@ export const FAQS = [
 /** Detailed service pages. Each entry drives its /services/[slug] page, sitemap and structured data. */
 export type ServiceDetail = {
   slug: string;
+  audience: string;
   name: string;
   summary: string;
   intro: string;
@@ -169,6 +166,7 @@ export type ServiceDetail = {
 export const SERVICE_DETAILS: ServiceDetail[] = [
   {
     slug: "web-development",
+    audience: "Businesses that need a website or web platform that brings in enquiries, handles customers, or runs internal operations.",
     name: "Web Development",
     summary: "Business websites, web applications, SaaS products and internal dashboards.",
     intro:
@@ -192,6 +190,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "mobile-app-development",
+    audience: "Teams that need an Android app for customers, field staff or internal operations, with an admin panel and reporting.",
     name: "Mobile App Development",
     summary: "Android applications for small teams and enterprises, with admin panels and analytics.",
     intro:
@@ -215,6 +214,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "digital-marketing",
+    audience: "Businesses that want measurable search visibility and campaigns, with reporting tied to enquiries.",
     name: "Digital Marketing",
     summary: "Search visibility, campaign setup and performance tracking tied to real outcomes.",
     intro:
@@ -238,6 +238,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "graphics-and-branding",
+    audience: "Businesses building or refreshing a brand, a product interface or a consistent set of marketing assets.",
     name: "Graphics & Branding",
     summary: "Logos, identity systems and UI design in one consistent brand language.",
     intro:
@@ -261,6 +262,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "support-and-maintenance",
+    audience: "Businesses running a live website, app or internal system that needs monitoring, updates and fixes.",
     name: "Support & Maintenance",
     summary: "Monitoring, security updates and fixes after launch, so systems keep running.",
     intro:
@@ -284,6 +286,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "cybersecurity",
+    audience: "Organisations that run their own servers, networks or deployments and want them reviewed and hardened.",
     name: "Cybersecurity & IT Infrastructure",
     summary: "Network security, IT infrastructure, Linux server administration and secure deployment.",
     intro:
@@ -307,6 +310,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "enterprise-systems",
+    audience: "Organisations that run sales, operations, people or billing on spreadsheets and need one system of record.",
     name: "Enterprise Systems",
     summary: "CRM, ERP, HRMS, billing, inventory and workflow systems.",
     intro:
@@ -330,6 +334,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     slug: "ai-automation",
+    audience: "Businesses with repeated manual workflows, data entry or reporting that take time from skilled staff.",
     name: "AI & Automation",
     summary: "Operational automation, process workflows, data pipelines and smart dashboards.",
     intro:
