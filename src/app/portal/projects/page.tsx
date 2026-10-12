@@ -16,11 +16,13 @@ const statusColor: Record<string, string> = {
   cancelled: "bg-red-50 text-red-600",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PortalProjects() {
   const session = await getSessionFromHeaders(await headers());
   if (!session) redirect("/login?next=/portal/projects");
 
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const [client] = await db.select().from(clients).where(eq(clients.userId, session.user.id)).limit(1);
 

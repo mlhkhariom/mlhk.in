@@ -27,8 +27,10 @@ const statusColor: Record<string, string> = {
   lost: "bg-red-500/10 text-red-400 border-red-500/20",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
 
   const [

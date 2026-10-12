@@ -5,6 +5,30 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 90ms ease-out both vt-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 150ms ease-in both vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0.8;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0.8;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

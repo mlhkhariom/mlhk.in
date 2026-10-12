@@ -47,6 +47,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
               <Link
                 key={l.href}
                 href={l.href}
+                prefetch={true}
                 target={l.target}
                 aria-current={active ? "page" : undefined}
                 className={cn(
@@ -70,6 +71,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
+            prefetch={true}
             className="group hidden items-center gap-2 rounded-full bg-[#ff9f1c] py-2 pl-4 pr-1.5 text-sm font-semibold text-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98] md:inline-flex"
           >
             Start a project
@@ -100,6 +102,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
             <Link
               key={l.href}
               href={l.href}
+              prefetch={true}
               target={l.target}
               className="rounded-xl px-4 py-3 text-base font-medium text-zinc-200 transition-colors hover:bg-white/5 hover:text-white"
               style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
@@ -109,6 +112,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
           ))}
           <Link
             href="/contact"
+            prefetch={true}
             className="mt-2 rounded-xl bg-[#ff9f1c] px-4 py-3 text-center text-sm font-semibold text-black"
           >
             Start a project

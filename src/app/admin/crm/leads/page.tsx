@@ -38,8 +38,10 @@ const statusColor: Record<string, { bg: string; text: string; dot: string; borde
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function LeadsPage() {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const allLeads = await db.select().from(leads).orderBy(sql`created_at desc`).all();
 

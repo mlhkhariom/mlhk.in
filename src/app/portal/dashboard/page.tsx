@@ -9,12 +9,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FolderKanban, Receipt, Ticket } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function PortalDashboard() {
   const session = await getSessionFromHeaders(await headers());
   if (!session) redirect("/login?next=/portal/dashboard");
   const userId = session.user.id;
 
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
 
   // Find client record linked to this user

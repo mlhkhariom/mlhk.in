@@ -5,8 +5,10 @@ import { sql } from "drizzle-orm";
 import Link from "next/link";
 import { Plus, Pencil, ExternalLink, FileText, Calendar } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function PostsPage() {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const posts = await db.select().from(blogPosts).orderBy(sql`created_at desc`).all();
 

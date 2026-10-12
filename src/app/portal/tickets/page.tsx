@@ -15,11 +15,13 @@ const statusColor: Record<string, string> = {
   closed: "bg-gray-100 text-gray-500",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PortalTickets() {
   const session = await getSessionFromHeaders(await headers());
   if (!session) redirect("/login?next=/portal/tickets");
 
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const [client] = await db.select().from(clients).where(eq(clients.userId, session.user.id)).limit(1);
 

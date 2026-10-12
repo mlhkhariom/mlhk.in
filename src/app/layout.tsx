@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Geist, Unbounded } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { NavigationProgressBar } from "@/components/ui/NavigationProgressBar";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const unbounded = Unbounded({ subsets: ["latin"], variable: "--font-display", weight: ["500", "700", "900"] });
@@ -42,6 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`dark ${geist.variable} ${unbounded.variable}`}>
       <body className="font-sans bg-[#050607] text-zinc-100 antialiased">
+        <Suspense fallback={null}>
+          <NavigationProgressBar />
+        </Suspense>
         {children}
         {/* Cloudflare Web Analytics */}
         <Script
