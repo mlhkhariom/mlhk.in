@@ -6,10 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
 
 
-/** Public base URL for media, e.g. an R2 custom domain. Falls back to storing the bare key. */
+/** Public base URL for media, e.g. an R2 custom domain. Falls back to the worker's /api/media/ endpoint. */
 function mediaUrl(env: CloudflareEnv, key: string): string {
   const base = env.MEDIA_PUBLIC_URL;
-  return base ? `${base.replace(/\/$/, "")}/${key}` : key;
+  return base ? `${base.replace(/\/$/, "")}/${key}` : `/api/media/${key}`;
 }
 
 export async function GET(req: NextRequest) {
@@ -58,9 +58,14 @@ export async function DELETE(req: NextRequest) {
   const [row] = await db.select().from(media).where(eq(media.id, id)).limit(1);
 
   const r2 = (env as unknown as { R2?: R2Bucket }).R2;
-  // Only delete from R2 when we stored a bare key (no public base configured).
-  if (r2 && row && row.url.startsWith("media/")) {
-    await r2.delete(row.url).catch(() => {});
+  if (r2 && row) {
+    let objectKey = row.url;
+    if (objectKey.startsWith("/api/media/")) {
+      objectKey = objectKey.replace("/api/media/", "");
+    } else if (env.MEDIA_PUBLIC_URL && objectKey.startsWith(env.MEDIA_PUBLIC_URL)) {
+      objectKey = objectKey.replace(env.MEDIA_PUBLIC_URL.replace(/\/$/, "") + "/", "");
+    }
+    await r2.delete(objectKey).catch(() => {});
   }
   await db.delete(media).where(eq(media.id, id));
   return NextResponse.json({ success: true });
