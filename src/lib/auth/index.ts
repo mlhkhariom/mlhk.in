@@ -6,7 +6,7 @@ import * as schema from "@/lib/db/schema";
 export function createAuth(env: CloudflareEnv) {
   const db = getDb(env.DB);
   return betterAuth({
-    database: drizzleAdapter(db, { provider: "sqlite", schema }),
+    database: drizzleAdapter(db, { provider: "sqlite", schema, usePlural: true }),
     secret: env.BETTER_AUTH_SECRET || process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL || "https://mlhk.in",
     trustedOrigins: ["https://mlhk.in", "http://localhost:3000"],
