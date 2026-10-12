@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot } from "lucide-react";
+import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot, ShieldCheck } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/components/home/utils";
@@ -18,6 +18,7 @@ const ICONS = {
   support: LifeBuoy,
   enterprise: Building2,
   ai: Bot,
+  cybersecurity: ShieldCheck,
 } as const;
 
 type IconId = keyof typeof ICONS;
@@ -31,6 +32,7 @@ const SPAN: Record<string, string> = {
   support: "md:col-span-2",
   enterprise: "md:col-span-3",
   ai: "md:col-span-3",
+  cybersecurity: "md:col-span-3",
 };
 
 export function Services3D() {
@@ -59,8 +61,8 @@ export function Services3D() {
   }, [reduced]);
 
   const tiles = [
-    ...SERVICE_LINES.map((s) => ({ ...s, span: SPAN[s.id], icon: ICONS[s.id as IconId] })),
-    ...CAPABILITIES.map((c) => ({ id: c.id, title: c.title, description: c.description, points: [] as readonly string[], span: SPAN[c.id], icon: ICONS[c.id as IconId] })),
+    ...SERVICE_LINES.map((s) => ({ ...s, span: SPAN[s.id], icon: ICONS[s.id as IconId] ?? Code2 })),
+    ...CAPABILITIES.map((c) => ({ id: c.id, title: c.title, description: c.description, points: [] as readonly string[], span: SPAN[c.id], icon: ICONS[c.id as IconId] ?? Code2 })),
   ];
 
   return (

@@ -6,7 +6,7 @@ function getResend(): Resend {
   return new Resend(env.RESEND_API_KEY);
 }
 
-const FROM = "MLHK Infotech <hello@mlhk.in>";
+const FROM = "MLHK Infotech <support@mlhk.in>";
 
 export async function sendEmail(opts: {
   to: string | string[];
@@ -32,7 +32,7 @@ export async function sendLeadReply(name: string, email: string) {
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
         <h2 style="color:#2563eb;">Hi ${name},</h2>
-        <p>Thank you for contacting <strong>MLHK Infotech</strong>. We've received your inquiry and will get back to you within 24 hours.</p>
+        <p>Thank you for contacting <strong>MLHK Infotech</strong>. We've received your inquiry and will reply shortly.</p>
         <p>In the meantime, feel free to explore our <a href="https://mlhk.in/portfolio">portfolio</a> or <a href="https://mlhk.in/services">services</a>.</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
         <p style="font-size:12px;color:#6b7280;">MLHK Infotech · Barnawad, Shajapur, MP · <a href="https://mlhk.in">mlhk.in</a></p>

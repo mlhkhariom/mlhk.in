@@ -78,10 +78,10 @@ export function OrganizationJsonLd() {
         founder: { "@type": "Person", name: "Hariom Vishwkarma" },
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Near Hanuman Temple, Barnawad",
+          streetAddress: "Barnawad, Moman Barodia",
           addressLocality: "Shajapur",
           addressRegion: "Madhya Pradesh",
-          postalCode: "466001",
+          postalCode: "465236",
           addressCountry: "IN",
         },
         sameAs: ["https://github.com/mlhkhariom"],

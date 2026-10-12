@@ -11,7 +11,13 @@ export const BRAND = {
   founderRole: "Founder & CEO",
   foundedYear: 2020,
   foundedMonthIso: "2020-04",
-  location: "Barnawad, Shajapur, Madhya Pradesh, India",
+  location: "Barnawad, Moman Barodia, Shajapur, Madhya Pradesh 465236, India",
+  operatingBase: "Indore, Madhya Pradesh, India",
+  serviceArea: "India and international enquiries",
+  addressLine: "Barnawad, Moman Barodia, Shajapur",
+  postalCode: "465236",
+  mapsUrl: "https://maps.app.goo.gl/3oCmvy35ZmdjJi5P7?g_st=ac",
+  supportEmail: "support@mlhk.in",
   city: "Shajapur",
   email: "admin@mlhk.in",
   phoneDisplay: "+91-9165100124",
@@ -61,13 +67,20 @@ export const SERVICE_LINES = [
     slug: "support-and-maintenance",
     title: "Support & Maintenance",
     description:
-      "Ongoing hosting, updates, security monitoring and fixes after launch, so your systems stay running.",
+      "Ongoing hosting, updates, monitoring and fixes after launch, so your systems stay running.",
     points: ["Monitoring", "Security updates", "Bug fixes", "Technical support"],
   },
 ] as const;
 
 /** Capability areas from the company brief that go beyond the badge. */
 export const CAPABILITIES = [
+  {
+    id: "cybersecurity",
+    slug: "cybersecurity",
+    title: "Cybersecurity & IT Infrastructure",
+    description:
+      "Network security, IT infrastructure, Linux server administration and secure deployment for businesses that run their own systems.",
+  },
   {
     id: "enterprise",
     slug: "enterprise-systems",
@@ -108,7 +121,6 @@ export const VENTURES = [
   { name: "Erotix Green Energy", sector: "Solar energy" },
   { name: "RX Media", sector: "Media" },
   { name: "TET News", sector: "Journalism" },
-  { name: "Hariom Vishwkarma Institute of Technology", sector: "Education" },
 ] as const;
 
 export const TIMELINE = [
@@ -197,7 +209,7 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
       { step: "Release", text: "Store submission support, crash monitoring and a post-release fix window." },
     ],
     faqs: [
-      { question: "Do you build iOS apps too?", answer: "Our mobile delivery is Android-first. For iOS requirements we scope the work first and tell you honestly whether it fits our current capacity." },
+      { question: "Do you build iOS apps too?", answer: "We build Android applications. For iOS requirements we scope the work first and tell you whether it fits our current capability." },
       { question: "Can the app connect to our existing system?", answer: "Yes. We build secure APIs and integrate with existing databases, CRMs and ERP systems, subject to access to those systems." },
     ],
   },
@@ -266,8 +278,31 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
       { step: "Review", text: "Monthly summary of incidents, changes and recommendations." },
     ],
     faqs: [
-      { question: "Is support available outside office hours?", answer: "Our contact page lists 24/7 technical support. Critical incidents are handled around the clock, and the response window is set out in your support plan." },
+      { question: "Is support available outside office hours?", answer: "Support hours and response times are set out in your support plan, so you know exactly when and how to reach us before you sign." },
       { question: "Do you take over systems built by other teams?", answer: "Yes, after a short audit of the codebase, infrastructure and documentation to agree what is in scope." },
+    ],
+  },
+  {
+    slug: "cybersecurity",
+    name: "Cybersecurity & IT Infrastructure",
+    summary: "Network security, IT infrastructure, Linux server administration and secure deployment.",
+    intro:
+      "Your systems are only as dependable as the network, servers and deployment behind them. We help businesses secure and run that infrastructure, from the server and network layer to the applications that sit on top.",
+    deliverables: [
+      "Network and server security review, with findings and a prioritised fix list",
+      "Linux server administration, including hardening, updates and access control",
+      "Secure deployment with HTTPS, reverse proxies and certificate management",
+      "Security configuration checks for Windows and Linux systems against agreed benchmarks",
+    ],
+    process: [
+      { step: "Authorise", text: "Written scope and permission are agreed before any system is accessed." },
+      { step: "Assess", text: "We review configuration, access, exposure and update status." },
+      { step: "Fix", text: "Changes are applied in agreed windows, with a rollback plan for each one." },
+      { step: "Report", text: "Findings, changes made and the remaining risks are written down for your team." },
+    ],
+    faqs: [
+      { question: "Do you provide penetration testing or security certification?", answer: "We do not claim certification or accreditation. Any security testing is carried out only under a written scope agreed in advance, and we describe its limits in the report." },
+      { question: "Will my systems be fully protected after your work?", answer: "No security work can guarantee full protection. We reduce risk in the agreed scope and tell you what remains, so decisions are based on facts." },
     ],
   },
   {

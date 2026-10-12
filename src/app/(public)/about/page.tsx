@@ -49,7 +49,7 @@ export default function AboutPage() {
             <p className="mt-6 text-sm leading-relaxed text-zinc-400">
               Technology entrepreneur and system architect based in Shajapur. Started MLHK Infotech in April {BRAND.foundedYear} while
               studying Computer Applications at Vikram University, Ujjain. Experienced across the full product lifecycle: UI/UX,
-              automation, SaaS and scaling. Also founder of IKSC India.
+              automation, SaaS and scaling.
             </p>
             <ul className="mt-6 flex flex-wrap gap-2">
               {["Java", "Python (AI)", "SQL", "Node.js", "Android", "IBM Cloud", "System architecture"].map((s) => (
@@ -64,7 +64,7 @@ export default function AboutPage() {
               Every system we deliver should pay for itself by automating work, cutting waste or opening a new channel.
             </p>
             <p className="mt-6 text-sm leading-relaxed text-zinc-400">
-              We call this our zero-waste approach. Scope is agreed before code is written, and every feature has to justify its place
+              We agree scope before code is written, and every feature has to justify its place
               in the business.
             </p>
           </div>

@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db";
 import { services } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot } from "lucide-react";
+import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot, ShieldCheck } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import { ServiceJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
@@ -14,7 +14,7 @@ import type { Metadata } from "next";
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
-const ICONS = { web: Code2, mobile: Smartphone, marketing: Megaphone, branding: PenTool, support: LifeBuoy, enterprise: Building2, ai: Bot };
+const ICONS = { web: Code2, mobile: Smartphone, marketing: Megaphone, branding: PenTool, support: LifeBuoy, enterprise: Building2, ai: Bot, cybersecurity: ShieldCheck };
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({

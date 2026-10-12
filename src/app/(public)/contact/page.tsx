@@ -27,10 +27,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ContactPage() {
   const rows: { icon: React.ComponentType<{ className?: string; strokeWidth?: number }>; label: string; value: string; href?: string }[] = [
-    { icon: MapPin, label: "Address", value: "Near Hanuman Temple, Barnawad, Shajapur, Madhya Pradesh", href: undefined },
+    { icon: MapPin, label: "Address", value: `${BRAND.location}`, href: undefined },
     { icon: Mail, label: "Email", value: BRAND.email, href: `mailto:${BRAND.email}` },
     { icon: Phone, label: "Phone", value: BRAND.phoneDisplay, href: `tel:${BRAND.phoneE164}` },
-    { icon: Clock, label: "Support", value: "24/7 Technical Support", href: undefined },
+    { icon: Clock, label: "Support", value: "Support hours and response window set out in your plan", href: undefined },
     { icon: InstagramGlyph, label: "Instagram", value: `@${BRAND.instagramHandle}`, href: BRAND.instagramUrl },
   ];
 
@@ -46,7 +46,7 @@ export default function ContactPage() {
             name: BRAND.name,
             email: BRAND.email,
             telephone: BRAND.phoneE164,
-            address: { "@type": "PostalAddress", streetAddress: "Near Hanuman Temple, Barnawad", addressLocality: BRAND.city, addressRegion: "Madhya Pradesh", addressCountry: "IN" },
+            address: { "@type": "PostalAddress", streetAddress: BRAND.addressLine, addressLocality: BRAND.city, addressRegion: "Madhya Pradesh", postalCode: BRAND.postalCode, addressCountry: "IN" },
             contactPoint: { "@type": "ContactPoint", contactType: "sales", email: BRAND.email, telephone: BRAND.phoneE164, availableLanguage: ["en", "hi"] },
           },
         }}
@@ -56,7 +56,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title={<>Tell us what you are <span className="text-brand">building.</span></>}
-        description="Share the goal, the users and the deadline. We reply within 24 hours with a plan and a timeline."
+        description="Share the goal, the users and the deadline. We reply with a plan and a timeline."
       />
 
       <section className="bg-[#050607] px-4 pb-28 md:px-6">
