@@ -8,8 +8,8 @@ export default function SubsidiariesAdminPage() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Subsidiaries / Brands</h1>
+    <div className="space-y-6">
+      <h1 className="font-display text-2xl font-bold tracking-tight text-white">Subsidiaries / Brands</h1>
       <CrudTable
         title="Subsidiaries"
         data={data}

@@ -8,8 +8,8 @@ export default function ClientsPage() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Clients</h1>
+    <div className="space-y-6">
+      <h1 className="font-display text-2xl font-bold tracking-tight text-white">Clients & Organizations</h1>
       <CrudTable
         title="Client"
         data={data}

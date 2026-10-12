@@ -1,15 +1,14 @@
 import AdminSidebar from "@/components/admin/Sidebar";
 import AdminSearch from "@/components/admin/AdminSearch";
+import AdminUserMenu from "@/components/admin/AdminUserMenu";
 import Link from "next/link";
-import { Bell, ExternalLink } from "lucide-react";
+import { ExternalLink, Activity } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromHeaders, ADMIN_ROLES } from "@/lib/auth/session";
 
-
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Authoritative guard for the whole admin panel. Middleware is only a fast
-  // pre-filter; the real check happens here on every request.
+  // Authoritative guard for the whole admin panel.
   const session = await getSessionFromHeaders(await headers());
 
   if (!session) redirect("/login");
@@ -21,26 +20,42 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#07080a] text-zinc-100 overflow-hidden antialiased selection:bg-[#ff9f1c]/30 selection:text-white">
+      {/* Sidebar */}
       <AdminSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+
+      {/* Main Workspace */}
+      <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="h-14 bg-white border-b flex items-center justify-between px-6 shrink-0">
-          <AdminSearch />
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#07080a]/80 px-6 backdrop-blur-md z-30">
           <div className="flex items-center gap-4">
-            <a href="/" target="_blank" className="text-xs text-gray-500 hover:text-blue-600 flex items-center gap-1">
-              <ExternalLink size={13} /> View Site
-            </a>
-            <button className="relative text-gray-500 hover:text-gray-700">
-              <Bell size={18} />
-            </button>
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-              {(session.user.name ?? "A").slice(0, 1).toUpperCase()}
+            <AdminSearch />
+          </div>
+
+          <div className="flex items-center gap-3.5">
+            {/* Telemetry pill */}
+            <div className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-zinc-400">
+              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Cloudflare D1 • Active</span>
             </div>
+
+            <Link
+              href="/"
+              target="_blank"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-white/20 hover:text-white"
+            >
+              <ExternalLink className="size-3 text-[#ff9f1c]" />
+              <span>View Site</span>
+            </Link>
+
+            {/* User Dropdown */}
+            <AdminUserMenu user={session.user} />
           </div>
         </header>
-        <main className="flex-1 overflow-auto">
-          <div className="max-w-6xl mx-auto px-6 py-8">{children}</div>
+
+        {/* Content Viewport */}
+        <main className="flex-1 overflow-y-auto bg-[#07080a] px-6 py-8 md:px-10">
+          <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>
     </div>

@@ -1,12 +1,15 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "@/lib/auth/client";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle, Sparkles } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,47 +17,138 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    const res = await signIn.email({ email: form.email, password: form.password });
-    if (res.error) {
-      setError("Invalid email or password");
+
+    try {
+      const res = await signIn.email({
+        email: form.email.trim(),
+        password: form.password,
+      });
+
+      if (res.error) {
+        setError(res.error.message || "Invalid credentials. Please verify email and password.");
+        setLoading(false);
+      } else {
+        const next = new URLSearchParams(window.location.search).get("next");
+        router.push(next && next.startsWith("/") && !next.startsWith("//") ? next : "/admin/dashboard");
+      }
+    } catch {
+      setError("Network or authentication server error. Please try again.");
       setLoading(false);
-    } else {
-      // Honour the ?next= set by middleware; only allow same-site paths.
-      const next = new URLSearchParams(window.location.search).get("next");
-      router.push(next && next.startsWith("/") && !next.startsWith("//") ? next : "/admin/dashboard");
     }
   }
 
   return (
-    <div className="w-full max-w-sm">
-      <div className="text-center mb-8">
-        <Link href="/" className="text-2xl font-bold text-blue-600">MLHK Infotech</Link>
-        <p className="text-gray-500 text-sm mt-2">Sign in to Admin Panel</p>
+    <div className="w-full max-w-[420px]">
+      {/* Brand Header */}
+      <div className="mb-8 text-center">
+        <Link href="/" className="inline-flex items-center gap-2.5">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff9f1c] to-[#c2410c] text-black shadow-[0_0_24px_rgba(255,159,28,0.35)]">
+            <Sparkles className="size-5 text-[#050607]" />
+          </div>
+          <span className="font-display text-xl font-bold tracking-tight text-white">
+            MLHK<span className="text-[#ff9f1c]">.</span>
+          </span>
+        </Link>
+        <h1 className="mt-5 font-display text-2xl font-bold tracking-tight text-white">
+          Sign In to Console
+        </h1>
+        <p className="mt-1.5 text-xs text-zinc-400">
+          Secure control panel for admin & client operations
+        </p>
       </div>
-      <div className="bg-white rounded-2xl shadow-sm border p-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+      {/* Main Glass Card */}
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-xl shadow-[0_24px_50px_-12px_rgba(0,0,0,0.7)] sm:p-8">
+        {/* Subtle interior glow */}
+        <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 size-32 rounded-full bg-[#ff9f1c]/10 blur-2xl" />
+
+        <form onSubmit={handleSubmit} className="relative space-y-4">
+          {/* Error Message */}
+          {error && (
+            <div className="flex items-start gap-2.5 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-400">
+              <AlertCircle className="size-4 shrink-0 mt-0.5" />
+              <p className="leading-relaxed">{error}</p>
+            </div>
+          )}
+
+          {/* Email Field */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Email</label>
-            <input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-              className="border rounded-lg px-3 py-2.5 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label className="mb-1.5 block text-xs font-medium text-zinc-300">
+              Work Email
+            </label>
+            <div className="relative">
+              <Mail className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="name@company.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pl-10 pr-3.5 text-sm text-white placeholder-zinc-500 outline-none transition-all focus:border-[#ff9f1c]/60 focus:bg-white/[0.06] focus:ring-1 focus:ring-[#ff9f1c]/60"
+              />
+            </div>
           </div>
+
+          {/* Password Field */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Password</label>
-            <input type="password" required value={form.password} onChange={e => setForm({ ...form, password: e.target.value })}
-              className="border rounded-lg px-3 py-2.5 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-xs font-medium text-zinc-300">
+                Password
+              </label>
+            </div>
+            <div className="relative">
+              <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                autoComplete="current-password"
+                placeholder="••••••••••••"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pl-10 pr-10 text-sm text-white placeholder-zinc-500 outline-none transition-all focus:border-[#ff9f1c]/60 focus:bg-white/[0.06] focus:ring-1 focus:ring-[#ff9f1c]/60"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors hover:text-zinc-300"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+              </button>
+            </div>
           </div>
-          {error && <p className="text-red-500 text-xs">{error}</p>}
-          <button type="submit" disabled={loading}
-            className="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-60 text-sm">
-            {loading ? "Signing in..." : "Sign In"}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="group relative mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#ff9f1c] to-[#ffb84d] py-2.5 text-sm font-semibold text-[#0a0a0c] shadow-[0_12px_28px_-8px_rgba(255,159,28,0.45)] transition-all hover:brightness-105 active:scale-[0.99] disabled:opacity-60"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>Authenticating...</span>
+              </>
+            ) : (
+              <>
+                <span>Sign In to Console</span>
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </>
+            )}
           </button>
         </form>
       </div>
-      <p className="text-center text-xs text-gray-400 mt-4">
-        <Link href="/register" className="text-blue-600 hover:underline">Create account</Link>
-        {" · "}
-        <Link href="/" className="hover:text-blue-600">← Back to website</Link>
-      </p>
+
+      {/* Alternative Links */}
+      <div className="mt-6 flex flex-col items-center justify-center gap-2 text-center text-xs text-zinc-500">
+        <p>
+          Need a Client Portal account?{" "}
+          <Link href="/register" className="font-medium text-[#ffb84d] hover:underline">
+            Register here
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
