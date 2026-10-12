@@ -38,6 +38,10 @@
       "bucket_name": "mlhk-in-media"
     }
   ],
+  "vars": {
+    "BETTER_AUTH_URL": "https://mlhk.in",
+    "NEXT_PUBLIC_APP_URL": "https://mlhk.in"
+  },
   "observability": { "enabled": true },
   "upload_source_maps": true
 }
