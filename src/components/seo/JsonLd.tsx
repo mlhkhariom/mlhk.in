@@ -92,7 +92,6 @@ export function OrganizationJsonLd() {
           contactType: "sales",
           availableLanguage: ["en", "hi"],
         },
-        numberOfEmployees: { "@type": "QuantitativeValue", minValue: 1, maxValue: 10 },
       }}
     />
   );
