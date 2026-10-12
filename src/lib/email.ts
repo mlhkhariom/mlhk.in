@@ -1,11 +1,6 @@
 import { Resend } from "resend";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-function getResend(): Resend {
-  const { env } = getCloudflareContext();
-  return new Resend(env.RESEND_API_KEY);
-}
-
 const FROM = "MLHK Infotech <support@mlhk.in>";
 
 export async function sendEmail(opts: {
@@ -14,14 +9,24 @@ export async function sendEmail(opts: {
   html: string;
   replyTo?: string;
 }) {
-  const resend = getResend();
-  return resend.emails.send({
-    from: FROM,
-    to: opts.to,
-    subject: opts.subject,
-    html: opts.html,
-    ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
-  });
+  try {
+    const { env } = getCloudflareContext();
+    if (!env?.RESEND_API_KEY) {
+      console.warn("[EMAIL_SKIPPED] RESEND_API_KEY is not configured in environment.");
+      return null;
+    }
+    const resend = new Resend(env.RESEND_API_KEY);
+    return await resend.emails.send({
+      from: FROM,
+      to: opts.to,
+      subject: opts.subject,
+      html: opts.html,
+      ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
+    });
+  } catch (err) {
+    console.error("[EMAIL_SEND_FAILED]", err);
+    return null;
+  }
 }
 
 /** Lead auto-reply after contact form submission. */
