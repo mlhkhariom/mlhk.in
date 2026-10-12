@@ -12,7 +12,6 @@ import { SERVICE_LINES, CAPABILITIES, FAQS, SERVICE_DETAILS } from "@/lib/brand"
 import type { Metadata } from "next";
 
 export const revalidate = 60;
-export const dynamic = "force-dynamic";
 
 const ICONS = { web: Code2, mobile: Smartphone, marketing: Megaphone, branding: PenTool, support: LifeBuoy, enterprise: Building2, ai: Bot, cybersecurity: ShieldCheck };
 

@@ -10,7 +10,6 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
-export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({

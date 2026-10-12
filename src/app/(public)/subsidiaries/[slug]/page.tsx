@@ -1,21 +1,43 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { getDb } from "@/lib/db";
+import { safeDb } from "@/lib/db/safe";
 import { subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
+import type { Metadata } from "next";
 
 export const revalidate = 300;
-export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const db = safeDb();
+  const [brand] = await db
+    .select()
+    .from(subsidiaries)
+    .where(eq(subsidiaries.slug, slug))
+    .limit(1)
+    .catch(() => []);
+  if (!brand) return {};
+  return buildSeo({
+    title: `${brand.name} | MLHK Infotech Ecosystem`,
+    description: brand.tagline ?? `${brand.name} by MLHK Infotech`,
+    path: `/subsidiaries/${brand.slug}`,
+    image: brand.logo ?? undefined,
+  });
+}
 
 export default async function SubsidiaryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
-  const [brand] = await db.select().from(subsidiaries).where(eq(subsidiaries.slug, slug)).limit(1);
+  const db = safeDb();
+  const [brand] = await db
+    .select()
+    .from(subsidiaries)
+    .where(eq(subsidiaries.slug, slug))
+    .limit(1)
+    .catch(() => []);
   if (!brand) notFound();
 
   return (

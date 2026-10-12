@@ -8,3 +8,5 @@ dist
 .wrangler
 .agents/
 .git-check.txt
+*.tsbuildinfo
+.kilo/

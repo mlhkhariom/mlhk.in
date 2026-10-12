@@ -6,9 +6,14 @@ import { WhyMlhk } from "@/components/home/WhyProcess";
 import { VenturesGrid, AboutTimeline } from "@/components/home/WorkAbout";
 import { StatsCounter, type StatItem } from "@/components/home/StatsCounter";
 import { Faq, ContactCTA } from "@/components/home/ContactCTA";
+import { FeaturedWork } from "@/components/home/FeaturedWork";
+import { LatestPosts } from "@/components/home/LatestPosts";
 import { BRAND, FAQS, SERVICE_LINES, VENTURES } from "@/lib/brand";
+import { safeDb } from "@/lib/db/safe";
+import { portfolio, blogPosts } from "@/lib/db/schema";
+import { eq, desc, asc } from "drizzle-orm";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata() {
   return buildSeo({
@@ -22,10 +27,30 @@ export async function generateMetadata() {
 const STATS: StatItem[] = [
   { value: BRAND.foundedYear, label: "Founded", grouping: false },
   { value: 20, label: "Projects delivered", suffix: "+" },
-  { value: VENTURES.length, label: "Brands", suffix: "" },
+  { value: VENTURES.length, label: "Brands in ecosystem" },
+  { value: SERVICE_LINES.length, label: "Core service lines" },
 ];
 
 export default async function HomePage() {
+  const db = safeDb();
+  const [featuredPortfolio, latestPosts] = await Promise.all([
+    db
+      ?.select()
+      .from(portfolio)
+      .orderBy(asc(portfolio.order))
+      .limit(3)
+      .all()
+      .catch(() => []) ?? [],
+    db
+      ?.select()
+      .from(blogPosts)
+      .where(eq(blogPosts.status, "published"))
+      .orderBy(desc(blogPosts.publishedAt))
+      .limit(3)
+      .all()
+      .catch(() => []) ?? [],
+  ]);
+
   return (
     <>
       <WebSiteJsonLd name={BRAND.name} url={BRAND.url} />
@@ -63,9 +88,11 @@ export default async function HomePage() {
       <Hero />
       <Services3D />
       <WhyMlhk />
+      <FeaturedWork items={featuredPortfolio} />
       <VenturesGrid />
       <AboutTimeline />
       <StatsCounter stats={STATS} />
+      <LatestPosts posts={latestPosts} />
       <Faq />
       <ContactCTA />
     </>

@@ -29,11 +29,19 @@ export function VenturesGrid() {
 
         <ul className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
           {VENTURES.map((v, i) => (
-            <li key={v.name} className="group relative bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10]">
-              <span className="font-display text-xs text-zinc-600 tabular-nums">0{i + 1}</span>
-              <h3 className="mt-6 font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">{v.name}</h3>
-              <p className="mt-2 text-xs uppercase tracking-[0.16em] text-zinc-500">{v.sector}</p>
-              <span aria-hidden className="absolute right-6 top-6 size-1.5 rounded-full bg-[#ff9f1c] opacity-0 shadow-[0_0_12px_#ff9f1c] transition-opacity duration-500 group-hover:opacity-100" />
+            <li key={v.name}>
+              <Link
+                href="/subsidiaries"
+                className="group relative flex h-full flex-col bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-display text-xs text-zinc-600 tabular-nums">0{i + 1}</span>
+                  <ArrowUpRight className="size-4 text-zinc-600 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h3 className="mt-6 font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">{v.name}</h3>
+                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-zinc-500">{v.sector}</p>
+                <span aria-hidden className="absolute right-6 top-6 size-1.5 rounded-full bg-[#ff9f1c] opacity-0 shadow-[0_0_12px_#ff9f1c] transition-opacity duration-500 group-hover:opacity-100" />
+              </Link>
             </li>
           ))}
         </ul>

@@ -101,12 +101,12 @@ export function MagneticButton({
       >
         <div
           aria-hidden
-          className="absolute inset-0 translate-y-[110%] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 opacity-0 blur-sm transition-all duration-300 group-hover/button:translate-y-[60%] group-hover/button:opacity-60"
+          className="absolute inset-0 translate-y-[110%] bg-gradient-to-r from-[#ff9f1c] via-[#ffb84d] to-[#ff9f1c] opacity-0 blur-sm transition-all duration-300 group-hover/button:translate-y-[60%] group-hover/button:opacity-60"
         />
         {content}
         <span
           className={cn(
-            "absolute bottom-0 left-1/2 h-[1.5px] w-0 -translate-x-1/2 bg-gradient-to-r from-blue-400 to-cyan-300 transition-all duration-500 ease-out group-hover/button:w-full",
+            "absolute bottom-0 left-1/2 h-[1.5px] w-0 -translate-x-1/2 bg-gradient-to-r from-[#ff9f1c] to-[#ffb84d] transition-all duration-500 ease-out group-hover/button:w-full",
             size === "lg" && "h-0.5",
           )}
           aria-hidden
@@ -130,12 +130,12 @@ export function MagneticButton({
     >
       <div
         aria-hidden
-        className="absolute inset-0 translate-y-[110%] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 opacity-0 blur-sm transition-all duration-300 group-hover/button:translate-y-[60%] group-hover/button:opacity-60"
+        className="absolute inset-0 translate-y-[110%] bg-gradient-to-r from-[#ff9f1c] via-[#ffb84d] to-[#ff9f1c] opacity-0 blur-sm transition-all duration-300 group-hover/button:translate-y-[60%] group-hover/button:opacity-60"
       />
       {content}
       <span
         className={cn(
-          "absolute bottom-0 left-1/2 h-[1.5px] w-0 -translate-x-1/2 bg-gradient-to-r from-blue-400 to-cyan-300 transition-all duration-500 ease-out group-hover/button:w-full",
+          "absolute bottom-0 left-1/2 h-[1.5px] w-0 -translate-x-1/2 bg-gradient-to-r from-[#ff9f1c] to-[#ffb84d] transition-all duration-500 ease-out group-hover/button:w-full",
           size === "lg" && "h-0.5",
         )}
         aria-hidden

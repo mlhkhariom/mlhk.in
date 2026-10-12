@@ -62,7 +62,7 @@ export function Services3D() {
 
   const tiles = [
     ...SERVICE_LINES.map((s) => ({ ...s, span: SPAN[s.id], icon: ICONS[s.id as IconId] ?? Code2 })),
-    ...CAPABILITIES.map((c) => ({ id: c.id, title: c.title, description: c.description, points: [] as readonly string[], span: SPAN[c.id], icon: ICONS[c.id as IconId] ?? Code2 })),
+    ...CAPABILITIES.map((c) => ({ id: c.id, slug: c.slug, title: c.title, description: c.description, points: [] as readonly string[], span: SPAN[c.id], icon: ICONS[c.id as IconId] ?? Code2 })),
   ];
 
   return (
@@ -93,6 +93,7 @@ export function Services3D() {
 
 type Tile = {
   id: string;
+  slug: string;
   title: string;
   description: string;
   points: readonly string[];
@@ -104,7 +105,7 @@ function ServiceTile({ tile, span, reduced }: { tile: Tile; span: string; reduce
   const [spot, setSpot] = useState({ x: 50, y: 50 });
   const Icon = tile.icon;
 
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+  const onMove = (e: MouseEvent<HTMLAnchorElement>) => {
     if (reduced) return;
     const r = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width;
@@ -118,7 +119,12 @@ function ServiceTile({ tile, span, reduced }: { tile: Tile; span: string; reduce
   const onLeave = () => setStyle({ transform: "perspective(900px) rotateX(0deg) rotateY(0deg)" });
 
   return (
-    <div className={`svc-card ${span}`} onMouseMove={onMove} onMouseLeave={onLeave}>
+    <Link
+      href={`/services/${tile.slug}`}
+      className={`svc-card block ${span}`}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+    >
       <div
         className="group relative h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-px transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-[0_30px_80px_-30px_rgba(255,159,28,0.45)]"
         style={style}
@@ -148,7 +154,7 @@ function ServiceTile({ tile, span, reduced }: { tile: Tile; span: string; reduce
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
