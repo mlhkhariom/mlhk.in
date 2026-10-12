@@ -1,27 +1,46 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LayoutDashboard, FolderKanban, Receipt, Ticket } from "lucide-react";
 
 const links = [
-  { label: "Dashboard", href: "/portal/dashboard" },
-  { label: "Projects", href: "/portal/projects" },
-  { label: "Invoices", href: "/portal/invoices" },
-  { label: "Tickets", href: "/portal/tickets" },
+  { label: "Dashboard", href: "/portal/dashboard", icon: LayoutDashboard },
+  { label: "Projects", href: "/portal/projects", icon: FolderKanban },
+  { label: "Invoices", href: "/portal/invoices", icon: Receipt },
+  { label: "Tickets", href: "/portal/tickets", icon: Ticket },
 ];
 
 export default function PortalNav() {
   const path = usePathname();
+
   return (
-    <nav className="flex gap-4 text-sm">
-      {links.map((l) => (
-        <Link
-          key={l.href}
-          href={l.href}
-          className={path === l.href ? "text-blue-600 font-medium" : "text-gray-500 hover:text-gray-900"}
-        >
-          {l.label}
-        </Link>
-      ))}
+    <nav className="hidden lg:flex items-center gap-1.5" aria-label="Portal Navigation">
+      {links.map((l) => {
+        const Icon = l.icon;
+        const active = path === l.href;
+
+        return (
+          <Link
+            key={l.href}
+            href={l.href}
+            prefetch={true}
+            className={`group inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
+              active
+                ? "bg-[#ff9f1c]/10 text-[#ffb84d] font-semibold shadow-[inset_0_0_0_1px_rgba(255,159,28,0.25)]"
+                : "text-zinc-400 hover:bg-white/[0.04] hover:text-white"
+            }`}
+          >
+            <Icon
+              className={`size-3.5 transition-colors ${
+                active ? "text-[#ff9f1c]" : "text-zinc-500 group-hover:text-zinc-300"
+              }`}
+              strokeWidth={1.75}
+            />
+            <span>{l.label}</span>
+          </Link>
+        );
+      })}
     </nav>
   );
 }

@@ -8,3 +8,4 @@ export const dynamic = "force-static";
 export async function GET() {
   redirect("/.well-known/security.txt");
 }
+
