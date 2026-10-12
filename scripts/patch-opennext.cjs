@@ -52,3 +52,4 @@ if (fs.existsSync(targetFile)) {
 } else {
   console.log("Target load-manifest.js not found in node_modules, skipping patch.");
 }
+
