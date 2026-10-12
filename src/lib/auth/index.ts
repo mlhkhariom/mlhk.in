@@ -7,6 +7,7 @@ export function createAuth(env: CloudflareEnv) {
   const db = getDb(env.DB);
   return betterAuth({
     database: drizzleAdapter(db, { provider: "sqlite", schema }),
+    secret: env.BETTER_AUTH_SECRET || process.env.BETTER_AUTH_SECRET,
     emailAndPassword: { enabled: true },
     session: {
       cookieCache: { enabled: true, maxAge: 60 * 60 * 24 * 7 },
