@@ -48,10 +48,18 @@ export function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-20 md:grid-cols-12 md:gap-6 md:px-6">
         <div className="md:col-span-7">
-          <p className="hero-kicker inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
-            <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_10px_#ff9f1c]" />
-            Enterprise IT and digital solutions
-          </p>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <p className="hero-kicker inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+              <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_10px_#ff9f1c]" />
+              Enterprise IT &amp; Digital Solutions
+            </p>
+            <span className="hero-kicker inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-zinc-300 backdrop-blur-sm">
+              <span className="text-xs">🇮🇳</span>
+              <span>Built in Bharat</span>
+              <span className="text-zinc-600">•</span>
+              <span className="text-[#ffb84d]">Deployed Globally</span>
+            </span>
+          </div>
 
           <h1 id="hero-heading" className="mt-6 font-display text-[2.6rem] font-bold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-[4.6rem]">
             <span className="block overflow-hidden pb-1">

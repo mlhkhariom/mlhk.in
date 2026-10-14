@@ -39,6 +39,7 @@ Full Extended Specification: ${BRAND.url}/llms-full.txt
 - Google Maps Location: ${BRAND.mapsUrl}
 - GitHub Organization: ${BRAND.githubUrl}
 - Instagram: ${BRAND.instagramUrl}
+- National Mission & Alignment: Built with Pride in Bharat 🇮🇳 • Supporting Digital India & Make in India Initiatives
 
 ---
 

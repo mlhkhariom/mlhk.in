@@ -70,6 +70,51 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* National Mission & Pride in Bharat */}
+        <div className="mx-auto mt-6 max-w-6xl">
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-br from-white/[0.05] via-[#08090b] to-[#050607] p-8 md:p-10">
+            {/* Subtle Tricolor Top Accent Line */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#FF9933] via-white to-[#138808] opacity-80"
+            />
+
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1 text-xs font-medium text-zinc-300">
+                  <span className="text-sm">🇮🇳</span>
+                  <span>Digital India &bull; Make in India Spirit</span>
+                </div>
+                <h3 className="mt-4 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+                  Indigenous Technology Crafted in Bharat, Deployed Globally.
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+                  MLHK Infotech was founded in Shajapur, Madhya Pradesh with a clear conviction: world-class software engineering and enterprise automation don&apos;t have to be confined to Tier-1 metros. By building robust, sovereign digital infrastructure from Bharat, we actively champion the vision of <strong>Digital India</strong> and <strong>Atmanirbhar Bharat</strong>—empowering homegrown enterprises to compete on the global stage without exorbitant foreign vendor lock-in.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 shrink-0 sm:grid-cols-2 lg:w-80">
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-center">
+                  <p className="font-display text-2xl font-bold text-[#ffb84d]">100%</p>
+                  <p className="mt-1 text-xs text-zinc-400">In-house Engineering</p>
+                </div>
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-center">
+                  <p className="font-display text-2xl font-bold text-white">Tier-2/3</p>
+                  <p className="mt-1 text-xs text-zinc-400">Grassroots Innovation</p>
+                </div>
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-center">
+                  <p className="font-display text-2xl font-bold text-emerald-400">Global</p>
+                  <p className="mt-1 text-xs text-zinc-400">Edge Deployment</p>
+                </div>
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-center">
+                  <p className="font-display text-2xl font-bold text-[#ff9f1c]">Atmanirbhar</p>
+                  <p className="mt-1 text-xs text-zinc-400">Zero Vendor Lock-in</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mx-auto mt-20 max-w-6xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Our journey</p>
           <ol className="mt-8 grid gap-px overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">

@@ -46,6 +46,7 @@ SECTION 1: ORGANIZATIONAL IDENTITY & LEADERSHIP
   - Maps Location: ${BRAND.mapsUrl}
   - Code Repositories: ${BRAND.githubUrl}
   - Social Community: ${BRAND.instagramUrl}
+- National Pride & Strategic Alignment: Built with Pride in Bharat 🇮🇳. Actively supporting the national vision of Digital India, Make in India, and Atmanirbhar Bharat by delivering indigenous high-performance digital systems and creating high-value tech innovation outside metro confines.
 
 Founding Background:
 MLHK Infotech was founded in April 2020 in Barnawad (Shajapur district, Madhya Pradesh) by Hariom Vishwkarma. Built on the philosophy of "Innovate. Integrate. Elevate.", the company delivers tier-1 software engineering, enterprise modernization, and generative automation, bridging the gap between local enterprise needs and global architectural standards.

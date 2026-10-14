@@ -124,6 +124,14 @@ export default async function Footer() {
               </p>
             </div>
 
+            {/* Pride in Bharat & National Mission Badge */}
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-zinc-300 shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+              <span className="text-sm">🇮🇳</span>
+              <span className="font-medium text-zinc-200">Built with Pride in Bharat</span>
+              <span className="text-zinc-600">•</span>
+              <span className="text-[#ffb84d]">Deployed Globally</span>
+            </div>
+
             {/* Comprehensive Social Links (Mobile + Desktop) */}
             <div className="mt-7">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500 mb-3">
@@ -353,12 +361,16 @@ export default async function Footer() {
             <span className="text-zinc-500">Shajapur &amp; Indore, MP</span>
           </div>
 
-          <div className="flex items-center gap-3 text-zinc-400">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 text-zinc-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-zinc-300">
+              <span className="text-xs">🇮🇳</span>
+              <span>Digital India</span>
+            </span>
             <span className="inline-flex items-center gap-1.5 text-[11px] text-zinc-500">
               <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
               Edge Global Network
             </span>
-            <span className="text-zinc-700">•</span>
+            <span className="hidden sm:inline text-zinc-700">•</span>
             <a
               href={instagram}
               target="_blank"
