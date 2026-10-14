@@ -317,16 +317,26 @@ export default async function Footer() {
 
             {/* Legal Links */}
             <div className="mt-6 pt-4 border-t border-white/5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 mb-2">Legal</p>
-              <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-400">
-                <Link href="/privacy-policy" prefetch={true} className="transition-colors hover:text-[#ffb84d]">
-                  Privacy Policy
-                </Link>
-                <span>•</span>
-                <Link href="/terms-of-service" prefetch={true} className="transition-colors hover:text-[#ffb84d]">
-                  Terms of Service
-                </Link>
-              </div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 mb-2.5">
+                Legal &amp; Policies
+              </p>
+              <ul className="space-y-2 text-xs text-zinc-400">
+                <li>
+                  <Link href="/terms-and-conditions" prefetch={true} className="transition-colors hover:text-[#ffb84d]">
+                    Terms &amp; Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy-policy" prefetch={true} className="transition-colors hover:text-[#ffb84d]">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/cancellation-refund-policy" prefetch={true} className="transition-colors hover:text-[#ffb84d]">
+                    Cancellation &amp; Refund Policy
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

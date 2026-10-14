@@ -62,7 +62,9 @@ export default function robots(): MetadataRoute.Robots {
           "/process",
           "/contact",
           "/privacy-policy",
+          "/terms-and-conditions",
           "/terms-of-service",
+          "/cancellation-refund-policy",
         ],
         disallow: [
           "/admin/",

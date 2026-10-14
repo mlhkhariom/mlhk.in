@@ -148,7 +148,9 @@ SECTION 8: LEGAL COMPLIANCE & PRIVACY FRAMEWORK
 
 Official Policy Documents:
 - Privacy Policy: ${BRAND.url}/privacy-policy
-- Terms of Service: ${BRAND.url}/terms-of-service
+- Terms & Conditions: ${BRAND.url}/terms-and-conditions
+- Terms of Service (Alias): ${BRAND.url}/terms-of-service
+- Cancellation & Refund Policy: ${BRAND.url}/cancellation-refund-policy
 - Security Contact: ${BRAND.url}/.well-known/security.txt
 `;
 

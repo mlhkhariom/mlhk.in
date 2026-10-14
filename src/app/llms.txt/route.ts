@@ -108,8 +108,9 @@ ${FAQS.map(
 - [Project Enquiries & Contact](${BRAND.url}/contact): Direct consultation booking and discovery forms.
 - [XML Sitemap](${BRAND.url}/sitemap.xml): Machine-indexable URL sitemap.
 - [RSS Feed](${BRAND.url}/feed.xml): Real-time syndicated publication feed.
-- [Privacy Policy](${BRAND.url}/privacy-policy): Compliant with DPDP Act, 2023 & DPDP Rules, 2025.
-- [Terms of Service](${BRAND.url}/terms-of-service): Commercial and software governance terms under Indian law.
+- [Privacy Policy](${BRAND.url}/privacy-policy): Compliant with DPDP Act, 2023 & DPDP Rules, 2025 and PCI-DSS payment gateway standards.
+- [Terms & Conditions](${BRAND.url}/terms-and-conditions): Commercial, milestone delivery, and software governance terms under Indian law.
+- [Cancellation & Refund Policy](${BRAND.url}/cancellation-refund-policy): Transparent project cancellation rules, advance terms, and 5-7 business day refund timeline.
 - [Extended LLM Dump](${BRAND.url}/llms-full.txt): Comprehensive deep context for language models.
 `;
 
