@@ -23,6 +23,13 @@ import { PageHero } from "@/components/public/PageHero";
 import { SERVICE_DETAILS, BRAND } from "@/lib/brand";
 import { EXTENDED_SERVICE_DATA } from "@/lib/service-details-extended";
 import { BrandingShowcase } from "@/components/services/BrandingShowcase";
+import { WebDevShowcase } from "@/components/services/WebDevShowcase";
+import { MobileAppShowcase } from "@/components/services/MobileAppShowcase";
+import { MarketingShowcase } from "@/components/services/MarketingShowcase";
+import { EnterpriseShowcase } from "@/components/services/EnterpriseShowcase";
+import { AiAutomationShowcase } from "@/components/services/AiAutomationShowcase";
+import { CybersecurityShowcase } from "@/components/services/CybersecurityShowcase";
+import { SupportShowcase } from "@/components/services/SupportShowcase";
 
 export function generateStaticParams() {
   return SERVICE_DETAILS.map((s) => ({ slug: s.slug }));
@@ -187,15 +194,20 @@ export default async function ServiceDetailPage({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          3. BESPOKE INTERACTIVE SHOWCASE (FOR GRAPHICS & BRANDING)
+          3. BESPOKE DOMAIN-SPECIFIC INTERACTIVE SHOWCASE
           ───────────────────────────────────────────────────────────── */}
-      {service.slug === "graphics-and-branding" && (
-        <section className="bg-[#050607] px-4 py-16 md:px-6">
-          <div className="mx-auto max-w-6xl">
-            <BrandingShowcase />
-          </div>
-        </section>
-      )}
+      <section className="bg-[#050607] px-4 py-16 md:px-6">
+        <div className="mx-auto max-w-6xl">
+          {service.slug === "graphics-and-branding" && <BrandingShowcase />}
+          {service.slug === "web-development" && <WebDevShowcase />}
+          {service.slug === "mobile-app-development" && <MobileAppShowcase />}
+          {service.slug === "digital-marketing" && <MarketingShowcase />}
+          {service.slug === "enterprise-systems" && <EnterpriseShowcase />}
+          {service.slug === "ai-automation" && <AiAutomationShowcase />}
+          {service.slug === "cybersecurity" && <CybersecurityShowcase />}
+          {service.slug === "support-and-maintenance" && <SupportShowcase />}
+        </div>
+      </section>
 
       {/* ─────────────────────────────────────────────────────────────
           4. PHILOSOPHY & ANTI-SLOP DISCIPLINE

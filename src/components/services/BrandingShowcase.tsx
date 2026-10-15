@@ -672,3 +672,4 @@ export function BrandingShowcase() {
     </div>
   );
 }
+
