@@ -153,6 +153,17 @@ export default async function ServiceDetailPage({
               },
             })),
           },
+          knowsAbout:
+            service.slug === "web-development"
+              ? [
+                  "https://www.wikidata.org/wiki/Q109315512", // Next.js
+                  "https://www.wikidata.org/wiki/Q25164871", // React
+                  "https://www.wikidata.org/wiki/Q978185", // TypeScript
+                  "https://www.wikidata.org/wiki/Q756100", // Node.js
+                  "https://www.wikidata.org/wiki/Q192490", // PostgreSQL
+                  "https://www.wikidata.org/wiki/Q19879782", // Cloudflare
+                ]
+              : undefined,
         }}
       />
       <FaqJsonLd faqs={combinedFaqs} />
@@ -683,7 +694,7 @@ export default async function ServiceDetailPage({
               {extended.tools.map((tl) => (
                 <div
                   key={tl.name}
-                  className="rounded-xl border border-white/10 bg-white/[0.02] p-4 flex items-start gap-3"
+                  className="group rounded-xl border border-white/10 bg-white/[0.02] p-4 flex items-start gap-3 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04]"
                 >
                   <div
                     className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]"
@@ -691,14 +702,39 @@ export default async function ServiceDetailPage({
                   >
                     <Terminal className="size-4" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-display text-sm font-bold text-white">{tl.name}</h3>
-                      <span className="text-[10px] font-mono text-zinc-500">[{tl.category}]</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-display text-sm font-bold text-white group-hover:text-white">{tl.name}</h3>
+                        <span className="text-[10px] font-mono text-zinc-500">[{tl.category}]</span>
+                      </div>
+                      {tl.url && (
+                        <a
+                          href={tl.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-zinc-500 hover:text-white transition-colors"
+                          title={`Official ${tl.name} Documentation`}
+                        >
+                          <ExternalLink className="size-3.5" />
+                        </a>
+                      )}
                     </div>
                     <p className="mt-1 text-xs text-zinc-400 leading-relaxed">
                       {tl.description}
                     </p>
+                    {tl.url && (
+                      <a
+                        href={tl.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-mono hover:underline"
+                        style={{ color: theme.accentLight }}
+                      >
+                        <span>Official Documentation</span>
+                        <ExternalLink className="size-2.5" />
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}

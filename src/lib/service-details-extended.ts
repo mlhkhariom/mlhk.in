@@ -86,7 +86,7 @@ export type ExtendedServiceData = {
   timelineSubtitle: string;
   timeline: ServiceTimelineStep[];
   toolsTitle: string;
-  tools: { name: string; category: string; description: string }[];
+  tools: { name: string; category: string; description: string; url?: string }[];
   extendedFaqs: ServiceFaq[];
 };
 
@@ -403,13 +403,13 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   "web-development": {
     slug: "web-development",
     theme: {
-      accent: "#00f2fe",
-      accentLight: "#38bdf8",
-      accentGlow: "0, 242, 254",
-      bgGradient: "from-cyan-500/15 via-transparent to-blue-500/5",
-      borderHover: "hover:border-cyan-500/40",
-      badgeClass: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
-      tag: "Next.js 16 Edge Platform",
+      accent: "#ff9f1c",
+      accentLight: "#ffb84d",
+      accentGlow: "255, 159, 28",
+      bgGradient: "from-amber-500/15 via-transparent to-amber-500/5",
+      borderHover: "hover:border-amber-500/40",
+      badgeClass: "text-[#ffb84d] border-[#ff9f1c]/30 bg-[#ff9f1c]/10",
+      tag: "Full-Stack Web Engineering • Multi-Framework & Edge Runtimes",
     },
     seoKeywords: [
       "nextjs edge development company india",
@@ -533,13 +533,23 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       { phase: "Sprint 03", timeline: "Week 4", title: "API Integration, CMS & Testing", description: "Connecting databases, authentication, contact forms, and automated validation tests.", outputs: ["Working CMS Admin", "Automated Test Suite"] },
       { phase: "Sprint 04", timeline: "Week 5", title: "SEO Audit, Hardening & Go-Live", description: "Lighthouse optimization, structured JSON-LD verification, and zero-downtime DNS cutover.", outputs: ["Production Deployment", "100/100 Lighthouse Audit"] },
     ],
-    toolsTitle: "Web Engineering Stack",
+    toolsTitle: "Supported Web Frameworks & Engineering Stack",
     tools: [
-      { name: "Next.js 16 (App Router)", category: "Framework", description: "Server Components, dynamic streaming, and ISR edge caching." },
-      { name: "Cloudflare Workers", category: "Edge Cloud", description: "Global compute running across 330+ locations without origin servers." },
-      { name: "TypeScript 5", category: "Language", description: "Type-safe interfaces eliminating runtime undefined errors." },
-      { name: "Drizzle ORM", category: "Database Layer", description: "Lightweight, zero-overhead SQL schema and query builder." },
-      { name: "Tailwind CSS v4", category: "Styling", description: "Modern zero-runtime utility styling with custom design tokens." },
+      { name: "Next.js 16 (App Router)", category: "Full-Stack React", description: "React Server Components, Turbopack, dynamic streaming, and ISR edge caching.", url: "https://nextjs.org" },
+      { name: "React 19", category: "UI Architecture", description: "Concurrent rendering, server actions, hooks, and scalable component architecture.", url: "https://react.dev" },
+      { name: "Vue.js & Nuxt 3", category: "Reactive Framework", description: "Progressive composition API, high-speed SSR, and clean enterprise reactivity.", url: "https://vuejs.org" },
+      { name: "Svelte & SvelteKit", category: "Compiled UI", description: "Zero-virtual-DOM compiled UI with tiny JavaScript payloads and instantaneous hydration.", url: "https://svelte.dev" },
+      { name: "Astro", category: "Island Architecture", description: "Content-driven sites with zero client-side JavaScript by default for 100/100 CWV.", url: "https://astro.build" },
+      { name: "Angular", category: "Enterprise SPA", description: "Strict architectural patterns, signals, and enterprise-grade modular components.", url: "https://angular.dev" },
+      { name: "Tailwind CSS v4", category: "Styling & Tokens", description: "Modern atomic CSS engine compiled without runtime overhead.", url: "https://tailwindcss.com" },
+      { name: "TypeScript 5", category: "Type-Safe Rigor", description: "Compile-time validation eliminating runtime undefined and null errors.", url: "https://www.typescriptlang.org" },
+      { name: "Node.js & Bun", category: "JavaScript Runtimes", description: "Event-driven asynchronous I/O and high-speed execution runtimes.", url: "https://nodejs.org" },
+      { name: "Python (FastAPI & Django)", category: "API & Data Services", description: "High-performance REST & GraphQL APIs with native async support and AI integrations.", url: "https://fastapi.tiangolo.com" },
+      { name: "Go (Golang)", category: "High-Concurrency", description: "Sub-millisecond execution times and compiled concurrency for financial microservices.", url: "https://go.dev" },
+      { name: "PostgreSQL & SQLite", category: "Relational Storage", description: "ACID compliance, relational integrity, connection pooling, and edge replication.", url: "https://www.postgresql.org" },
+      { name: "Drizzle ORM", category: "Type-Safe SQL", description: "Zero-overhead SQL schema and query builder without memory bloat or cold starts.", url: "https://orm.drizzle.team" },
+      { name: "Cloudflare Workers", category: "Global Edge Network", description: "Serverless edge compute running across 330+ locations with sub-20ms global TTFB.", url: "https://workers.cloudflare.com" },
+      { name: "Docker & Containers", category: "DevOps & Cloud", description: "Standardized containerization guaranteeing reproducible staging and production builds.", url: "https://www.docker.com" },
     ],
     extendedFaqs: [
       { question: "Can we edit our own website content after launch?", answer: "Yes. We equip your website with a bespoke, intuitive administrative CMS panel where you can update portfolio projects, publish blog articles, manage services, and view client leads without touching code." },
