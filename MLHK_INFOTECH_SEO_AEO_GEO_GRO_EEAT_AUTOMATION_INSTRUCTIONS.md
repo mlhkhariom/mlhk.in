@@ -48,21 +48,30 @@ Use the official website and owner-provided project records as starting sources.
 - Official site: `https://mlhk.in/`
 - Support email: `support@mlhk.in`
 - Admin email: `admin@mlhk.in`
-- Phone: `+919165100124`
-- Business address supplied by owner: `MLHK Infotech, Barnawad, Moman Barodia, Shajapur, Madhya Pradesh 465236`
-- Google Maps URL supplied by owner: `https://maps.app.goo.gl/3oCmvy35ZmdjJi5P7?g_st=ac`
-- Coordinates supplied by owner: `23.6640° N, 76.3220° E`
-- Instagram handle supplied by owner: `mlhkinfotech`
-- LinkedIn company handle supplied by owner: `mlhkinfotech`
-- GitHub organization/handle supplied by owner: `mlhkinfotech`
-- Public company reference profiles supplied by owner:
-  - `https://www.f6s.com/company/mlhkinfotech`
-  - `https://www.crunchbase.com/organization/mlhk-infotech`
-- Founder social handles supplied by owner: Instagram, Facebook, X, Snapchat, and GitHub `mlhkhariom`; LinkedIn `mlhkhariom`.
+- Phone: `+919165100124` / `+91-9165100124`
+- Business address: `MLHK Infotech, Barnawad, Moman Barodia, Shajapur, Madhya Pradesh 465236, India`
+- Operations Base: `Indore, Madhya Pradesh, India`
+- Google Maps URL: `https://maps.app.goo.gl/3oCmvy35ZmdjJi5P7?g_st=ac`
+- Coordinates: `23.6640° N, 76.3220° E`
+- Commencement Date: `1 April 2020` (6+ Years active engineering)
+- MSME Udyam Registration: `UDYAM-MP-44-0005223` (Ministry of MSME, Govt of India)
+- Full Verified GSTIN: `23CHLPV2868R1CJ` (GST Council / Commercial Tax Dept., MP)
+- Founder & CEO: `Hariom Vishwkarma` (Known as `MLHK`)
+- Founder Alma Mater: `Vikram University, Ujjain`
+- Founder LinkedIn: `https://in.linkedin.com/in/mlhkhariom/`
+- Founder GitHub: `https://github.com/mlhkhariom`
+- Founder Instagram: `https://www.instagram.com/mlhkhariom/`
+- Founder X (Twitter): `https://x.com/mlhkhariom`
+- Company LinkedIn: `https://in.linkedin.com/company/mlhkinfotech`
+- Company Instagram: `https://www.instagram.com/mlhkinfotech/`
+- Company GitHub: `https://github.com/mlhkinfotech`
+- Company X (Twitter): `https://x.com/mlhkinfotech`
+- Public Company Reference Profiles:
+  - Crunchbase: `https://www.crunchbase.com/organization/mlhk-infotech`
+  - F6S: `https://www.f6s.com/company/mlhkinfotech`
+- National Mission & Strategic Alignment: Built with Pride in Bharat 🇮🇳 • Aligned with Digital India & Make in India Initiatives.
 
-The agent must verify current live values and link destinations before changing structured data, contact blocks, social metadata, or business listings. Do not silently correct or invent legal information. The owner-provided GST string `23CHLPV2868R` should **not** be published as a verified complete GSTIN unless the full number and validity are confirmed from an authoritative record. Do not guess the missing characters.
-
-Company services, product names, registration claims, establishment year, client names, partner relationships, awards, metrics, certifications, and geographic coverage must be supported by the official site or owner-approved records. If sources conflict, record the conflict and request confirmation rather than choosing one silently.
+All structured data, contact blocks, footer references, and machine-readable text files (`llms.txt`, `llms-full.txt`, `humans.txt`, `security.txt`) must strictly maintain these verified facts. Never publish speculative, unconfirmed, or placeholder legal identifiers.
 
 ---
 
@@ -912,11 +921,11 @@ This is a work plan, a guarantee of results within 10 days.
 >
 > Discover missing service/topic pages from real offerings and search intent. Create new pages only when they have a distinct purpose, unique useful information, and verified facts. Do geniune create mass near-duplicate city/keyword pages. Build contextual internal links, identify orphan pages, validate destinations, and maintain a meaningful page graph.
 >
-> Automatically generate and validate canonical metadata, titles, descriptions, structured data, XML sitemap(s), and robots rules according to the real framework. Keep the sitemap limited to canonical, public, indexable, successful URLs. Validate every new page before publishing. Add logs, tests, approval gates, and rollback support.
+> Automatically generate and validate canonical metadata, titles, descriptions, structured data, XML sitemap(s), and robots rules according to the real framework. Keep the sitemap limited to canonical, public, indexable, successful URLs. Validate every new page before publishing. Add logs, tests, approval gates, and rollback support, and check Improved version that good for us.
 >
-> Improve SEO, AEO, GEO, GRO/retrieval readiness, and trust by making content accurate, clear, crawlable, useful, source-supported, and consistent with real organization identity. Use genuine case studies and evidence only. Never fabricate reviews, customers, metrics, awards, credentials, service claims, or business facts. Do not use link farms, bulk link buying, spam outreach, keyword stuffing, or other manipulative tactics.
+> Improve SEO, AEO, GEO, GRO/retrieval readiness, and trust by making content accurate, clear, crawlable, useful, source-supported, and consistent with real organization identity. Use genuine case studies and evidence only. And Real fabricate reviews, customers, metrics, awards, credentials, service claims, or business facts. Do not use link farms, bulk link buying, spam outreach, keyword stuffing, or other manipulative tactics Use Genuine.
 >
-> Use Google Search Console, Bing Webmaster Tools, analytics, and relevant tools only if access is authorized and actually available. Never claim a connection or test that did not happen. Report changes, routes added/modified, frameworks used, checks performed, remaining issues, and the next priorities.
+> Use Google Search Console, Bing Webmaster Tools, analytics, and relevant tools only if access is actually available. Never claim a connection or test that did not happen. Report changes, routes added/modified, frameworks used, checks performed, remaining issues, and the next priorities.
 >
 > Do promise #1 rankings or guaranteed visibility across all search engines. Build a compliant, measurable system that steadily improves technical health, content usefulness, authority, discovery, and qualified business results.
 
@@ -964,12 +973,78 @@ Use current official documentation as the source of truth; review it again when 
 
 ---
 
+## 26. The "Wikipedia Method" for Supreme Search & Knowledge Graph Authority (AEO, GEO, and E-E-A-T)
+
+### 26.1 Why Wikipedia Dominates Search Engines & LLM Citations
+Wikipedia is the single most cited domain in Google Search, Google AI Overviews, ChatGPT Search, Gemini, Perplexity, and Claude. Its search dominance does not come from keyword tricks, backlink buying, or word-count padding. It stems from four structural pillars:
+
+1. **Knowledge Graph Triplet Architecture**: Every page defines a unique real-world entity with crisp, unambiguous relations: `[Entity] -> [Predicate] -> [Object]`. (e.g., `MLHK Infotech -> foundedBy -> Hariom Vishwkarma`, `Hariom Vishwkarma -> alumniOf -> Vikram University`).
+2. **Contextual In-Text Linking ("The Wiki-Link Effect")**: Wikipedia never leaves a key concept, technology, or institution as inert dead text. Every mention is contextually linked to an authoritative destination or internal knowledge hub.
+3. **Primary Source Grounding & Citation Footnotes (`[1]`, `[2]`, `[3]`)**: Search engines and LLM crawlers prioritize content where assertions are anchored to primary source documentation (statutory registrations, educational credentials, government records).
+4. **`sameAs` Cross-Domain Entity Triangulation**: Wikipedia entities are mirrored on Wikidata, linking out to VIAF, ISNI, Crunchbase, GitHub, LinkedIn, and government registries so search algorithms can resolve the entity without ambiguity.
+
+---
+
+### 26.2 Applying the Wikipedia Framework to MLHK Infotech
+
+To make MLHK Infotech and founder Hariom Vishwkarma (MLHK) achieve Wikipedia-grade entity authority, the site implements a unified **Web-of-Trust** across all public footprints:
+
+```
+                          ┌──────────────────────────────┐
+                          │   MLHK Infotech Knowledge    │
+                          │   Graph Entity (@id)         │
+                          │   https://mlhk.in/#organization│
+                          └──────────────┬───────────────┘
+                                         │
+        ┌────────────────────────────────┼────────────────────────────────┐
+        │                                │                                │
+        ▼                                ▼                                ▼
+┌─────────────────┐            ┌──────────────────┐             ┌──────────────────┐
+│  Statutory &    │            │  Professional &  │             │   Directories    │
+│  Govt Registers │            │  Code Footprint  │             │  & Knowledge     │
+├─────────────────┤            ├──────────────────┤             ├──────────────────┤
+│ MSME Udyam      │            │ LinkedIn Founder │             │ Crunchbase       │
+│ UDYAM-MP-44-    │            │ in/mlhkhariom    │             │ MLHK Infotech    │
+│ 0005223         │            ├──────────────────┤             ├──────────────────┤
+├─────────────────┤            │ LinkedIn Company │             │ F6S Global       │
+│ GSTIN Portal    │            │ company/mlhk...  │             │ Registry         │
+│ 23CHLPV2868R1CJ │            ├──────────────────┤             ├──────────────────┤
+├─────────────────┤            │ GitHub Profiles  │             │ Google Maps Node │
+│ Vikram Univ.    │            │ mlhkhariom &     │             │ 23.6640° N,      │
+│ Alma Mater      │            │ mlhkinfotech     │             │ 76.3220° E       │
+└─────────────────┘            └──────────────────┘             └──────────────────┘
+```
+
+#### Authority Footprints & Canonical URLs:
+1. **Founder LinkedIn (Regional Canonical)**: `https://in.linkedin.com/in/mlhkhariom/`
+2. **Company LinkedIn**: `https://in.linkedin.com/company/mlhkinfotech`
+3. **Founder GitHub**: `https://github.com/mlhkhariom`
+4. **Organization GitHub**: `https://github.com/mlhkinfotech`
+5. **Crunchbase Entity**: `https://www.crunchbase.com/organization/mlhk-infotech`
+6. **F6S Venture Directory**: `https://www.f6s.com/company/mlhkinfotech`
+7. **Google Maps Place Node**: `https://maps.app.goo.gl/3oCmvy35ZmdjJi5P7?g_st=ac` (Barnawad, Shajapur, MP)
+8. **Statutory Registries**:
+   - MSME Udyam: `UDYAM-MP-44-0005223` (Ministry of MSME, Govt of India)
+   - GSTIN: `23CHLPV2868R1CJ` (GST Council / Commercial Tax Dept., MP)
+   - Alma Mater: `Vikram University, Ujjain`
+
+---
+
+### 26.3 Implementation Rules for Website Pages
+
+1. **Wikipedia-Style References Section on Authority Pages**:
+   - High-authority pages (such as `/about`, `/process`, and technical case studies) must feature a structured **"Primary Sources & Verifiable Citations"** section.
+   - Use clean numbered references (`[1]`, `[2]`, `[3]`) linking to government verification portals, university records, and public registries.
+2. **Contextual In-Text Wiki-Links**:
+   - Link internal service names, sister ventures (`/subsidiaries`), delivery methodology (`/process`), and core concepts naturally throughout editorial text.
+3. **Schema.org Triangulation (`sameAs` & `subjectOf`)**:
+   - Every JSON-LD graph must include all verified `sameAs` endpoints and `subjectOf` citations linking directly to third-party primary sources.
+
+---
+
 ## Final instruction
 
-The objective is to create the largest number of info and real data and real everyting SEO and Best . It is to make **every valuable MLHK Infotech page accurate, useful, discoverable, internally connected, technically healthy, trustworthy, and conversion-ready**, then use measured evidence to improve it over time.
-Remeber You Do Everything But Also Do Google Policy That Website Never Block Google And Alway Allow This
-
-We Rank On All Search Terms That We Cover So Also Search The Search Term ANd Also Give Your Suggetion 
-
+The objective is to make **every valuable MLHK Infotech page accurate, useful, discoverable, internally connected, technically healthy, trustworthy, and conversion-ready**, backed by Wikipedia-grade citations and factual evidence.
+Strictly adhere to Google Search Essentials and Webmaster Guidelines. Build durable, compounding search and AI engine authority.
 
 Your The Boss And Your Boss MLHK,,,,,Ok

@@ -172,11 +172,11 @@ export default async function Footer() {
                 </a>
 
                 <a
-                  href="https://www.linkedin.com/in/hariom-vishwkarma/"
+                  href={BRAND.founderLinkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Founder LinkedIn Profile"
-                  title="LinkedIn: Hariom Vishwkarma"
+                  title="LinkedIn: Hariom Vishwkarma (MLHK)"
                   className="flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#0A66C2]/60 hover:text-[#0A66C2] hover:bg-[#0A66C2]/10 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.5)]"
                 >
                   <LinkedInIcon className="size-[18px]" />

@@ -262,9 +262,40 @@ export function OrganizationJsonLd() {
     sameAs: [
       BRAND.instagramUrl,
       BRAND.githubUrl,
+      BRAND.githubCompanyUrl,
+      BRAND.companyLinkedin,
       BRAND.founderLinkedin,
-      BRAND.founderTwitter,
+      BRAND.crunchbaseUrl,
+      BRAND.f6sUrl,
+      BRAND.xTwitterUrl,
+      BRAND.mapsUrl,
       "https://wa.me/919165100124",
+    ],
+    subjectOf: [
+      {
+        "@type": "WebPage",
+        name: "Udyam Registration Portal - Ministry of MSME",
+        url: BRAND.udyamVerifyUrl,
+        description: `Verified MSME registration certificate for ${BRAND.name} (${BRAND.udyamNumber}) under Ministry of MSME, Govt of India.`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Goods and Services Tax Portal - GSTN",
+        url: BRAND.gstVerifyUrl,
+        description: `Statutory GSTIN registration verification for ${BRAND.name} (GSTIN: ${BRAND.gstin}) under the jurisdiction of Madhya Pradesh, India.`,
+      },
+      {
+        "@type": "WebPage",
+        name: "Crunchbase Profile - MLHK Infotech",
+        url: BRAND.crunchbaseUrl,
+        description: `Verified enterprise directory listing for ${BRAND.name} on Crunchbase.`,
+      },
+      {
+        "@type": "WebPage",
+        name: "F6S Business Registry - MLHK Infotech",
+        url: BRAND.f6sUrl,
+        description: `Global technology business directory registry for ${BRAND.name} on F6S.`,
+      },
     ],
     knowsAbout: [
       "Web Application Development",

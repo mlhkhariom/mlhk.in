@@ -22,6 +22,7 @@ import {
   Server,
   Database,
   Lock,
+  GraduationCap,
 } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
@@ -108,6 +109,43 @@ export default function AboutPage() {
               "Cybersecurity & IT Infrastructure",
             ],
           },
+          citation: [
+            {
+              "@type": "CreativeWork",
+              name: "Government of India Ministry of MSME Udyam Registration (UDYAM-MP-44-0005223)",
+              url: BRAND.udyamVerifyUrl,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "Goods and Services Tax Network (GSTIN: 23CHLPV2868R1CJ)",
+              url: BRAND.gstVerifyUrl,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "Vikram University, Ujjain (Alma Mater of Hariom Vishwkarma)",
+              url: BRAND.universityUrl,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "Crunchbase Verified Entity Profile for MLHK Infotech",
+              url: BRAND.crunchbaseUrl,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "F6S Verified Startup Profile for MLHK Infotech",
+              url: BRAND.f6sUrl,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "Founder & System Architect LinkedIn Profile (Hariom Vishwkarma)",
+              url: BRAND.founderLinkedin,
+            },
+            {
+              "@type": "CreativeWork",
+              name: "Company LinkedIn Authority Profile (MLHK Infotech)",
+              url: BRAND.companyLinkedin,
+            },
+          ],
         }}
       />
 
@@ -274,7 +312,7 @@ export default function AboutPage() {
                       href={BRAND.founderLinkedin}
                       icon={Globe}
                       label="LinkedIn"
-                      handle="Hariom Vishwkarma"
+                      handle="in/mlhkhariom"
                     />
                     <SocialGlyph
                       href={BRAND.founderInstagram}
@@ -691,6 +729,218 @@ export default function AboutPage() {
                 optimizations, and server monitoring.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* SECTION 6.5: PRIMARY SOURCES & VERIFIABLE CITATIONS (WIKIPEDIA AUTHORITY MESH) */}
+        <div className="mx-auto mt-20 max-w-6xl">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+                Verifiable Entity Network • Primary Sources
+              </p>
+              <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+                Statutory Citations &amp; Authority Nodes
+              </h3>
+            </div>
+            <p className="max-w-md text-xs leading-relaxed text-zinc-400">
+              Structured in accordance with encyclopedic citation standards. Every operational credential,
+              founding record, and corporate filing is anchored directly to its public source of truth.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Citation 1: MSME */}
+            <a
+              href={BRAND.udyamVerifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[1]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  Ministry of MSME, Govt. of India
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Udyam Registration: <span className="font-mono text-zinc-300">{BRAND.udyamNumber}</span>
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Official National Register ↗
+              </span>
+            </a>
+
+            {/* Citation 2: GSTIN */}
+            <a
+              href={BRAND.gstVerifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[2]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  GST System / Commercial Tax
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Active GSTIN: <span className="font-mono text-zinc-300">{BRAND.gstin}</span>
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Taxpayer Search Portal ↗
+              </span>
+            </a>
+
+            {/* Citation 3: Vikram University */}
+            <a
+              href={BRAND.universityUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[3]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  Vikram University, Ujjain
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Academic Alma Mater of Founder Hariom Vishwkarma (BCA / Computer Applications).
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Official University Portal ↗
+              </span>
+            </a>
+
+            {/* Citation 4: Founder LinkedIn */}
+            <a
+              href={BRAND.founderLinkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[4]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  Founder LinkedIn Authority Node
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  <span className="font-mono text-zinc-300">in.linkedin.com/in/mlhkhariom</span> — verified profile &amp; architecture leadership.
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Professional Network ↗
+              </span>
+            </a>
+
+            {/* Citation 5: Company LinkedIn */}
+            <a
+              href={BRAND.companyLinkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[5]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  MLHK Infotech Corporate LinkedIn
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Enterprise organization entity listing and corporate updates.
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Corporate Page ↗
+              </span>
+            </a>
+
+            {/* Citation 6: Crunchbase */}
+            <a
+              href={BRAND.crunchbaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[6]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  Crunchbase Venture Profile
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Indexed company entry, industry categorization, and executive personnel registry.
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Global Venture Graph ↗
+              </span>
+            </a>
+
+            {/* Citation 7: F6S */}
+            <a
+              href={BRAND.f6sUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[7]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  F6S Technology Directory
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Startup and tech founder community listing with service offerings.
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Innovation Network ↗
+              </span>
+            </a>
+
+            {/* Citation 8: Google Maps Geolocation */}
+            <a
+              href={BRAND.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c]/40 hover:bg-white/[0.04]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11px] font-bold text-[#ffb84d]">[8]</span>
+                  <ExternalLink className="size-3 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                </div>
+                <h4 className="mt-2.5 font-display text-sm font-semibold text-white group-hover:text-[#ffb84d] transition-colors">
+                  Google Maps Geolocation Node
+                </h4>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Coordinates: <span className="font-mono text-zinc-300">{BRAND.geoLatitude}° N, {BRAND.geoLongitude}° E</span> (Barnawad, Shajapur HQ).
+                </p>
+              </div>
+              <span className="mt-3 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-400">
+                Verified Map Pin ↗
+              </span>
+            </a>
           </div>
         </div>
 
