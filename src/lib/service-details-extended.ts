@@ -39,12 +39,37 @@ export type ServiceFaq = {
   answer: string;
 };
 
+export type ServiceTheme = {
+  accent: string;
+  accentLight: string;
+  accentGlow: string;
+  bgGradient: string;
+  borderHover: string;
+  badgeClass: string;
+  tag: string;
+};
+
+export type AeoAnswerCapsule = {
+  query: string;
+  answer: string;
+  keyTakeaway: string;
+};
+
+export type ServiceHowToStep = {
+  name: string;
+  text: string;
+};
+
 export type ExtendedServiceData = {
   slug: string;
   subheading: string;
   heroBadge: string;
   studioName?: string;
   studioBadge?: string;
+  theme: ServiceTheme;
+  seoKeywords: string[];
+  aeoCapsules: AeoAnswerCapsule[];
+  howToSteps: ServiceHowToStep[];
   stats: { value: string; label: string; detail: string }[];
   philosophyTitle: string;
   philosophyText: string[];
@@ -68,6 +93,62 @@ export type ExtendedServiceData = {
 export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   "graphics-and-branding": {
     slug: "graphics-and-branding",
+    theme: {
+      accent: "#f43f5e",
+      accentLight: "#fda4af",
+      accentGlow: "244, 63, 94",
+      bgGradient: "from-rose-500/15 via-transparent to-amber-500/5",
+      borderHover: "hover:border-rose-500/40",
+      badgeClass: "text-rose-400 border-rose-500/30 bg-rose-500/10",
+      tag: "Creative Identity & Design Tokens",
+    },
+    seoKeywords: [
+      "brand identity design agency india",
+      "tokenized design systems figma",
+      "cmyk pantone packaging design indore",
+      "vector logo engineering",
+      "red xerox studio branding",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is a Tokenized Brand Identity System?",
+        answer: "A tokenized brand identity system is a digital design architecture where colors, typography, spacing, and component radiuses are stored as programmatic variables (design tokens). Unlike static PDF style guides, tokenized systems sync directly into codebases, ensuring instant visual consistency across web applications, iOS, Android, and physical print collateral.",
+        keyTakeaway: "Tokens convert static visual guidelines into live, scalable code variables across all platforms.",
+      },
+      {
+        query: "How Does Red Xerox Studio Engineer Vector Brand Marks?",
+        answer: "Red Xerox Studio (the creative lab of MLHK Infotech) constructs logos using golden-ratio geometric grids, tangent anchor points, and optical weight compensation. We reject automated AI generators and stock templates, ensuring every curve is 100% mathematically balanced, legally copyrightable, and infinitely scalable from 16px favicons to 50ft outdoor billboards.",
+        keyTakeaway: "Golden-ratio bezier geometry guarantees statutory trademark viability and zero pixelation at any scale.",
+      },
+      {
+        query: "Why Are OKLCH Color Spaces Better Than Hex/RGB for Digital Brands?",
+        answer: "OKLCH is a modern perceptual color space that aligns with human visual perception and wide-gamut OLED displays. Unlike legacy sRGB, OKLCH provides uniform perceived lightness, predictable contrast ratios compliant with WCAG AAA accessibility, and vibrant saturation that prevents muddy color rendering in modern dark-mode software interfaces.",
+        keyTakeaway: "OKLCH delivers mathematically uniform contrast and wide-gamut OLED radiance without muddy clipping.",
+      },
+      {
+        query: "What Brand Deliverables Does MLHK Infotech Provide Upon Completion?",
+        answer: "Clients receive production-ready master vectors (.SVG, .AI, .EPS), a published Figma token library, a 40+ page comprehensive Brand Bible PDF, digital app icons (@1x, @2x, @3x), CMYK press-ready print files with spot-UV masks, and an executed statutory intellectual property deed transferring 100% trademark rights to the client.",
+        keyTakeaway: "100% statutory IP copyright transfer with production-ready vector, Figma, and print assets.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Audit & Core Brand Positioning",
+        text: "Analyze competitive landscape, audience psychology, and category positioning to define core brand narrative and visual tone.",
+      },
+      {
+        name: "Mathematical Vector Geometry & Sketching",
+        text: "Construct vector emblems and wordmarks using golden-ratio circles, bezier tangent anchors, and optical weight balancing.",
+      },
+      {
+        name: "Chromatic Tokenization & Figma System",
+        text: "Formulate OKLCH color palettes, typographic fluid clamp scales, and publish nested component variables inside Figma.",
+      },
+      {
+        name: "Asset Compilation & Statutory IP Transfer",
+        text: "Package production master files across .SVG, .AI, .EPS, and execute official statutory intellectual property assignment deed.",
+      },
+    ],
     heroBadge: "Red Xerox Studio • Visual Identity Lab",
     subheading:
       "We engineer sovereign visual identities, mathematical brand marks, and dark-luxury design systems that command authority across digital screens and physical packaging.",
@@ -321,6 +402,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "web-development": {
     slug: "web-development",
+    theme: {
+      accent: "#00f2fe",
+      accentLight: "#38bdf8",
+      accentGlow: "0, 242, 254",
+      bgGradient: "from-cyan-500/15 via-transparent to-blue-500/5",
+      borderHover: "hover:border-cyan-500/40",
+      badgeClass: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+      tag: "Next.js 16 Edge Platform",
+    },
+    seoKeywords: [
+      "nextjs edge development company india",
+      "cloudflare workers web agency",
+      "core web vitals 100 optimization",
+      "full stack web engineering indore",
+      "sub 50ms ttfb web applications",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is Edge-First Server-Side Rendering (Edge SSR)?",
+        answer: "Edge SSR executes server-side rendering logic at distributed points of presence within 50km of the user globally (such as Cloudflare Workers 330+ locations) rather than at a single centralized origin server. This eliminates round-trip latency, delivering sub-50ms Time to First Byte (TTFB) and instant page hydration worldwide.",
+        keyTakeaway: "Edge computing runs rendering logic milliseconds from the user, eliminating international network lag.",
+      },
+      {
+        query: "How Does MLHK Infotech Achieve 100/100 Core Web Vitals?",
+        answer: "We eliminate heavy third-party tracking scripts, compile modern React components into zero-runtime static HTML where possible, enforce modern AVIF/WebP image compression, leverage CSS content-visibility, and deploy on Cloudflare Workers edge nodes. This guarantees LCP under 0.8s, INP under 30ms, and zero Cumulative Layout Shift (CLS).",
+        keyTakeaway: "Sub-1s LCP, zero CLS, and sub-50ms INP driven by lean server rendering and edge caching.",
+      },
+      {
+        query: "Why Use Drizzle ORM and Edge SQLite Instead of Traditional Heavy ORMs?",
+        answer: "Drizzle ORM provides zero-overhead type-safe SQL queries with zero cold starts, consuming under 1MB of memory compared to heavyweight alternatives like Prisma or TypeORM. Combined with edge SQLite (Cloudflare D1 or Turso), database queries execute in under 5ms directly at the edge layer.",
+        keyTakeaway: "Zero cold-start memory footprints and sub-5ms query times powered by lightweight SQL compilation.",
+      },
+      {
+        query: "How Does Web Architecture Built in India Scale for Global Traffic?",
+        answer: "MLHK Infotech architects websites with distributed edge infrastructure. Static assets are cached globally across 330+ cities, serverless APIs auto-scale dynamically to absorb traffic spikes of 100k+ requests per second, and database reads are replicated across continents with zero manual server provisioning.",
+        keyTakeaway: "Globally distributed edge execution ensures seamless elasticity from 100 to 1,000,000 concurrent visitors.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Architect Edge Infrastructure & Schema",
+        text: "Configure Next.js 16 project structure, Drizzle ORM database schemas, and Cloudflare Workers runtime bindings.",
+      },
+      {
+        name: "Develop High-Performance UI Components",
+        text: "Build semantic, accessible React components with Tailwind CSS and CSS container queries, enforcing zero-layout-shift.",
+      },
+      {
+        name: "Integrate APIs & Edge Caching Layers",
+        text: "Implement type-safe REST/tRPC routes, edge cache-control headers, and distributed database replication.",
+      },
+      {
+        name: "Audit Core Web Vitals & Deploy to Production",
+        text: "Run automated Lighthouse audits, verify 100/100 CWV performance, and execute atomic zero-downtime edge deployment.",
+      },
+    ],
     heroBadge: "Next.js 16 • Cloudflare Global Edge",
     subheading:
       "We architect high-concurrency web platforms, sovereign SaaS products, and lightning-fast marketing engines with sub-50ms global response times.",
@@ -411,6 +548,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "mobile-app-development": {
     slug: "mobile-app-development",
+    theme: {
+      accent: "#10b981",
+      accentLight: "#34d399",
+      accentGlow: "16, 185, 129",
+      bgGradient: "from-emerald-500/15 via-transparent to-teal-500/5",
+      borderHover: "hover:border-emerald-500/40",
+      badgeClass: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+      tag: "Native Android & Hardware Studio",
+    },
+    seoKeywords: [
+      "native android app development india",
+      "offline first sqlite mobile app",
+      "kotlin android developer madhya pradesh",
+      "camerax barcode scanner app",
+      "play store app agency",
+    ],
+    aeoCapsules: [
+      {
+        query: "Why Choose Native Kotlin/Java Over Hybrid Cross-Platform Frameworks?",
+        answer: "Native Android development communicates directly with hardware drivers (CameraX, Bluetooth, BiometricPrompt, GPU), executing at a continuous 60fps with less than 40MB RAM usage. Hybrid or WebView wrappers introduce memory bloat (150MB+), frame drops, and battery drain that frustrate commercial enterprise users.",
+        keyTakeaway: "Native compilation delivers 60fps fluid rendering, low battery consumption, and direct hardware API access.",
+      },
+      {
+        query: "What Is Offline-First Room SQLite Architecture?",
+        answer: "Offline-first architecture ensures mobile applications remain fully functional in zero-connectivity environments (such as rural warehouses, underground transit, or flights). User transactions are committed immediately to local Room SQLite databases and automatically synchronized with cloud backends using conflict-free timestamp resolution when connectivity resumes.",
+        keyTakeaway: "Zero data loss and instantaneous UI responses even when completely disconnected from the internet.",
+      },
+      {
+        query: "How Does CameraX Hardware Integration Improve Scanning Speed?",
+        answer: "Google CameraX API interfaces directly with the Android camera HAL (Hardware Abstraction Layer), bypassing WebView translation delays. Utilizing Google ML Kit on-device neural processing, barcodes and QR codes decode in under 12ms even in low-light environments, essential for retail POS and logistics tracking.",
+        keyTakeaway: "On-device ML Kit image stream analysis decodes barcodes in under 12ms with zero cloud roundtrips.",
+      },
+      {
+        query: "What Is the Google Play Store Approval and Publication Protocol?",
+        answer: "We configure Android App Bundles (.AAB), target the latest Android SDK API levels, implement cryptographic Play App Signing, write comprehensive privacy policies, and execute 14-day closed testing cohorts to ensure 100% compliant, zero-rejection Play Store launches.",
+        keyTakeaway: "Comprehensive compliance management from target SDK compliance to closed testing verification.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "UI/UX Prototyping & Flow Mapping",
+        text: "Design mobile wireframes, touch ergonomics, and state transitions according to Google Material Design 3 guidelines.",
+      },
+      {
+        name: "Native Engine & Database Construction",
+        text: "Write native Kotlin/Java models, configure Room SQLite persistence, and establish encrypted shared preferences.",
+      },
+      {
+        name: "Hardware Integration & Sensor Binding",
+        text: "Connect CameraX, BiometricPrompt, GPS geolocation, and Push Notification services with background worker queues.",
+      },
+      {
+        name: "Play Store Release & CI/CD Pipeline",
+        text: "Generate signed release AAB bundles, execute automated unit tests, and submit for Google Play Store production approval.",
+      },
+    ],
     heroBadge: "Native Android • Java & Jetpack",
     subheading: "Robust native Android applications engineered for high performance, offline synchronization, and seamless device hardware integration.",
     stats: [
@@ -470,6 +663,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "digital-marketing": {
     slug: "digital-marketing",
+    theme: {
+      accent: "#a855f7",
+      accentLight: "#c084fc",
+      accentGlow: "168, 85, 247",
+      bgGradient: "from-purple-500/15 via-transparent to-pink-500/5",
+      borderHover: "hover:border-purple-500/40",
+      badgeClass: "text-purple-400 border-purple-500/30 bg-purple-500/10",
+      tag: "AEO/GEO & Knowledge Graph Growth",
+    },
+    seoKeywords: [
+      "generative engine optimization geo agency india",
+      "aeo answer engine ranking services",
+      "ai search citation optimization",
+      "technical seo company indore",
+      "schema knowledge graph builder",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is Generative Engine Optimization (GEO) in 2026?",
+        answer: "Generative Engine Optimization (GEO) is the technical process of structuring website data, entity relationships, and authoritative facts so AI engines (ChatGPT, Google Gemini, Perplexity) parse, verify, and cite your brand as the primary source in conversational AI search results.",
+        keyTakeaway: "Structuring factual data to ensure AI answer engines cite your brand as the definitive source.",
+      },
+      {
+        query: "How Does Schema.org Entity Triangulation Establish Brand Authority?",
+        answer: "Entity triangulation connects your company digital footprint across Wikidata, Google Knowledge Graph, Ministry of MSME records, GSTIN registries, and official social handles. By linking these canonical URIs in Schema.org JSON-LD, search engines establish 100% factual certainty regarding your business.",
+        keyTakeaway: "Cross-referencing verified government registrations and Wikidata IDs creates unambiguous entity identity.",
+      },
+      {
+        query: "What Is the Difference Between Traditional SEO and AEO?",
+        answer: "Traditional SEO focuses on keyword rankings and blue-link clicks. Answer Engine Optimization (AEO) engineers concise 40-60 word Answer Capsules and structured steps that capture zero-click answers, Google Featured Snippets, and voice-assisted queries without requiring the user to navigate off the search result.",
+        keyTakeaway: "AEO targets direct extraction for featured snippets, voice search, and conversational AI answers.",
+      },
+      {
+        query: "How Does MLHK Infotech Prevent Wasted Advertising Spend (Ad Waste)?",
+        answer: "We implement negative keyword gating, strict geo-radius targeting, conversion API server-side tracking, and high-intent long-tail keyword bidding. Every advertising rupee is mapped to qualified inbound leads rather than vanity impressions or bot clicks.",
+        keyTakeaway: "Server-side conversion tracking and negative keyword exclusion maximize real customer ROAS.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Technical & Entity Authority Audit",
+        text: "Inspect crawlability, canonical structures, Core Web Vitals, and existing Knowledge Graph entity triangulation.",
+      },
+      {
+        name: "Content Restructuring & AEO Capsules",
+        text: "Rewrite H2/H3 headings into question syntax and insert 40-60 word Answer Capsules for featured snippet extraction.",
+      },
+      {
+        name: "Schema.org Master Graph Implementation",
+        text: "Inject nested Organization, Service, FAQPage, and HowTo JSON-LD schemas linking verified business registrations.",
+      },
+      {
+        name: "Performance Tracking & Growth Iteration",
+        text: "Monitor Google Search Console query impressions, AI search citation occurrences, and inbound lead conversion rates.",
+      },
+    ],
     heroBadge: "AEO • GEO • Technical Search",
     subheading: "Data-driven search visibility, Answer Engine Optimization (AEO), and high-intent campaign funnels engineered for measurable ROI.",
     stats: [
@@ -523,6 +772,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "enterprise-systems": {
     slug: "enterprise-systems",
+    theme: {
+      accent: "#3b82f6",
+      accentLight: "#60a5fa",
+      accentGlow: "59, 130, 246",
+      bgGradient: "from-blue-500/15 via-transparent to-indigo-500/5",
+      borderHover: "hover:border-blue-500/40",
+      badgeClass: "text-blue-400 border-blue-500/30 bg-blue-500/10",
+      tag: "Custom ERP/CRM & Indian GST Billing",
+    },
+    seoKeywords: [
+      "custom erp development company india",
+      "gst billing software developer madhya pradesh",
+      "multi tenant crm software",
+      "inventory management software indore",
+      "enterprise business automation",
+    ],
+    aeoCapsules: [
+      {
+        query: "Why Build Custom ERP Instead of Paying Monthly SaaS Subscriptions?",
+        answer: "Commercial off-the-shelf SaaS charges per-user monthly fees that scale into millions as your company grows, while forcing rigid workflows that do not match your operational reality. Custom ERP engineered by MLHK Infotech gives you 100% data sovereignty, custom business logic, and zero recurring seat license fees.",
+        keyTakeaway: "Zero per-seat recurring license costs and total sovereign control over your enterprise data.",
+      },
+      {
+        query: "How Does MLHK Infotech Handle Indian GST and Tax Compliance in ERPs?",
+        answer: "Our enterprise engines natively calculate Intra-State (CGST 9% + SGST 9%) and Inter-State (IGST 18%) taxes, validate 15-character GSTINs using checksum algorithms, assign HSN/SAC codes, generate compliant tax invoices with embedded B2B payment QRs, and prepare JSON payloads for E-way bill generation.",
+        keyTakeaway: "Automated GSTIN validation, HSN/SAC code mapping, and compliant tax calculations out of the box.",
+      },
+      {
+        query: "What Is Role-Based Access Control (RBAC) in Enterprise Systems?",
+        answer: "RBAC is a security architecture that restricts data access based on an employee verified organizational role. Superadmins manage financial reports and audit logs, branch managers manage inventory and staff, and billing operators can only generate invoices, preventing internal data theft and unauthorized modifications.",
+        keyTakeaway: "Granular permission boundaries prevent unauthorized data access and protect sensitive financial data.",
+      },
+      {
+        query: "How Does Enterprise Software Guarantee Data Integrity During High-Concurrency Peak Sales?",
+        answer: "We implement ACID-compliant PostgreSQL relational databases with database-level row locking, transactional isolation, and read-replica offloading. When hundreds of branch operators create invoices simultaneously, inventory quantities update atomically with zero race conditions or phantom reads.",
+        keyTakeaway: "ACID transactions with row-level locks prevent stock overselling during simultaneous multi-branch operations.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Business Process Mapping & Architecture",
+        text: "Analyze existing manual workflows, warehouse hierarchies, and accounting rules to formulate relational data schemas.",
+      },
+      {
+        name: "Database Engineering & RBAC Security",
+        text: "Deploy PostgreSQL relational tables with foreign keys, constraints, and granular role-based access control policies.",
+      },
+      {
+        name: "GST Engine & Front-End UI Development",
+        text: "Build high-speed desktop/tablet interfaces for instant barcode invoicing, automated tax math, and inventory deductions.",
+      },
+      {
+        name: "Data Migration & Production Deployment",
+        text: "Migrate legacy Excel/Tally records, train branch personnel, and deploy on high-availability private cloud instances.",
+      },
+    ],
     heroBadge: "Custom ERP & CRM • Sovereign Architecture",
     subheading: "Replace spreadsheet chaos with custom enterprise software: CRM pipelines, automated GST billing, inventory, and role-based permissions tailored to your exact workflows.",
     stats: [
@@ -578,6 +883,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "ai-automation": {
     slug: "ai-automation",
+    theme: {
+      accent: "#06d6a0",
+      accentLight: "#2dd4bf",
+      accentGlow: "6, 214, 160",
+      bgGradient: "from-teal-500/15 via-transparent to-emerald-500/5",
+      borderHover: "hover:border-teal-500/40",
+      badgeClass: "text-teal-400 border-teal-500/30 bg-teal-500/10",
+      tag: "Autonomous Agents & n8n Workflows",
+    },
+    seoKeywords: [
+      "ai automation agency india",
+      "n8n workflow automation company",
+      "whatsapp business api bot developer",
+      "autonomous ai agents for business",
+      "document processing llm automation",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is Autonomous Workflow Automation with n8n and AI Agents?",
+        answer: "Autonomous workflow automation connects disparate business software (CRMs, databases, email, WhatsApp, ERPs) through event-driven DAG (Directed Acyclic Graph) pipelines. AI agents parse unstructured emails and PDF invoices, extract critical parameters, update internal databases, and dispatch responses without human intervention.",
+        keyTakeaway: "Event-driven DAG pipelines execute repetitive manual tasks autonomously across multiple business tools.",
+      },
+      {
+        query: "How Does WhatsApp Business Cloud API Integrate with AI Customer Support?",
+        answer: "Incoming WhatsApp customer inquiries trigger webhooks to an orchestration engine. Large Language Models (LLMs) with retrieval-augmented generation (RAG) query your verified product catalog or inventory database, generating context-aware answers, order updates, and appointment bookings in milliseconds.",
+        keyTakeaway: "Instant, 24/7 conversational customer service directly inside WhatsApp backed by real database data.",
+      },
+      {
+        query: "How Does MLHK Infotech Prevent AI Hallucinations in Commercial Systems?",
+        answer: "We enforce strict JSON Schema outputs, function calling, and deterministic guardrails. LLMs are restricted to querying private relational databases via parameterized APIs; they cannot invent prices, fabricated policy terms, or imaginary stock counts.",
+        keyTakeaway: "Strict schema validation and deterministic database lookups eliminate AI hallucinations in business logic.",
+      },
+      {
+        query: "What Is the ROI Timeline for Business Process Automation?",
+        answer: "Most businesses achieve positive ROI within 60 to 90 days by eliminating 20+ hours of weekly manual data entry, cutting lead response times from hours to under 30 seconds, and preventing human transcription errors across customer orders and billing.",
+        keyTakeaway: "Lead response times drop to under 30 seconds, saving 20+ hours of weekly manual data entry.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Workflow Identification & Friction Audit",
+        text: "Identify repetitive manual data transfers, customer message bottlenecks, and document processing friction.",
+      },
+      {
+        name: "Pipeline Construction & Webhook Setup",
+        text: "Configure n8n or Python orchestration workflows, connecting cloud APIs, databases, and message queues.",
+      },
+      {
+        name: "LLM Agent Prompting & Guardrail Testing",
+        text: "Implement RAG document indexing, define strict JSON output schemas, and test edge-case error recovery.",
+      },
+      {
+        name: "Live Production Deployment & Monitoring",
+        text: "Deploy automated workflows to dedicated Docker nodes, configure dead-letter retry queues, and enable audit logging.",
+      },
+    ],
     heroBadge: "n8n Pipelines • WhatsApp Cloud API",
     subheading: "Autonomous workflow automation, intelligent document extraction, and WhatsApp Business bots that execute manual repetitive tasks 24/7 without human fatigue.",
     stats: [
@@ -631,6 +992,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "cybersecurity": {
     slug: "cybersecurity",
+    theme: {
+      accent: "#ef4444",
+      accentLight: "#f87171",
+      accentGlow: "239, 68, 68",
+      bgGradient: "from-red-500/15 via-transparent to-amber-500/5",
+      borderHover: "hover:border-red-500/40",
+      badgeClass: "text-red-400 border-red-500/30 bg-red-500/10",
+      tag: "Zero-Trust Edge & Hardened Linux Infra",
+    },
+    seoKeywords: [
+      "cloud cybersecurity services india",
+      "zero trust architecture consultant",
+      "vulnerability assessment penetration testing mp",
+      "cloudflare tunnel security setup",
+      "server hardening services",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is Zero-Trust Network Architecture and Cloudflare Tunnels?",
+        answer: "Zero-Trust architecture operates on the principle of never trust, always verify. By deploying Cloudflare Tunnels (cloudflared), your origin servers expose zero public IPv4/IPv6 ports to the internet. Traffic reaches your server exclusively through authenticated, encrypted outbound tunnels, neutralizing port scans and direct IP DDoS attacks.",
+        keyTakeaway: "Zero exposed public inbound ports eliminates direct-to-server hacking and automated scanning bots.",
+      },
+      {
+        query: "How Does Linux Server Hardening Protect Production Applications?",
+        answer: "Linux hardening involves disabling password authentication in favor of ED25519 cryptographic keys, configuring UFW/iptables firewalls, running web applications in unprivileged systemd sandboxes with isolated namespaces, applying automated kernel security patches, and enforcing fail2ban brute-force jailing.",
+        keyTakeaway: "Cryptographic SSH keys, isolated systemd sandboxes, and automated firewall rules prevent unauthorized access.",
+      },
+      {
+        query: "What Is TLS 1.3 and Why Is A+ SSL Labs Configuration Mandatory?",
+        answer: "TLS 1.3 is the most secure cryptographic transport protocol, reducing handshake latency to a single round-trip while eliminating vulnerable legacy cipher suites. An A+ SSL Labs rating verifies strict HSTS enforcement, perfect forward secrecy (PFS), and resistance to man-in-the-middle interception.",
+        keyTakeaway: "TLS 1.3 with strict HSTS guarantees encrypted data transit that cannot be decrypted even if private keys leak.",
+      },
+      {
+        query: "What Is Included in an MLHK Infotech Vulnerability Audit?",
+        answer: "We execute authenticated and unauthenticated penetration tests covering OWASP Top 10 vulnerabilities (SQL injection, XSS, CSRF, broken access control, insecure deserialization), open port audits, dependency CVE scans, and cloud IAM permission reviews.",
+        keyTakeaway: "Exhaustive OWASP Top 10 vulnerability scanning, cloud IAM audits, and actionable remediation runbooks.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Perimeter & Network Vulnerability Scan",
+        text: "Conduct automated port scans, TLS cipher evaluations, and dependency vulnerability audits across existing infrastructure.",
+      },
+      {
+        name: "Zero-Trust Tunnel & Firewall Lockdown",
+        text: "Configure Cloudflare Tunnels, close all public inbound ports, and enforce strict UFW firewall policies.",
+      },
+      {
+        name: "Cryptographic Auth & Kernel Hardening",
+        text: "Enforce ED25519 SSH keys, configure systemd execution jails, and set up automated security package patching.",
+      },
+      {
+        name: "Penetration Retest & Security Signoff",
+        text: "Re-run penetration tests, verify A+ SSL Labs configuration, and deliver executive vulnerability remediation report.",
+      },
+    ],
     heroBadge: "Hardened Infrastructure • Linux Defense",
     subheading: "Comprehensive security reviews, Linux VPS hardening, firewall configuration, and Cloudflare Zero Trust architecture to protect your corporate assets from unauthorized access.",
     stats: [
@@ -683,6 +1100,62 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   },
   "support-and-maintenance": {
     slug: "support-and-maintenance",
+    theme: {
+      accent: "#00e5ff",
+      accentLight: "#38bdf8",
+      accentGlow: "0, 229, 255",
+      bgGradient: "from-cyan-500/15 via-transparent to-emerald-500/5",
+      borderHover: "hover:border-cyan-500/40",
+      badgeClass: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+      tag: "24/7 Global Telemetry & DevOps SLA",
+    },
+    seoKeywords: [
+      "24 7 server maintenance services india",
+      "devops managed support agency",
+      "cloud backup disaster recovery company",
+      "sla uptime monitoring services",
+      "application maintenance retainer",
+    ],
+    aeoCapsules: [
+      {
+        query: "What Is a 24/7 Multi-Region Telemetry Uptime Probe?",
+        answer: "A multi-region telemetry probe automatically pings your website and backend APIs every 60 seconds from distributed geographic locations (e.g., Mumbai, Singapore, Frankfurt, London, US East). If latency spikes or an HTTP 5xx error occurs, on-call senior engineers are alerted immediately before customers experience widespread outages.",
+        keyTakeaway: "Automated 60-second multi-region synthetic health checks alert senior engineers instantly on any failure.",
+      },
+      {
+        query: "What Is the Difference Between RTO and RPO in Disaster Recovery?",
+        answer: "Recovery Time Objective (RTO) is the maximum acceptable duration to restore service after a catastrophic failure (MLHK guarantees RTO < 15 minutes). Recovery Point Objective (RPO) is the maximum acceptable age of data lost (MLHK guarantees RPO < 1 hour via automated incremental database snapshots).",
+        keyTakeaway: "Sub-15 minute RTO and sub-1 hour RPO minimize downtime and prevent critical database loss.",
+      },
+      {
+        query: "Why Is Proactive Dependency Patching Essential for Live Web Applications?",
+        answer: "Open-source software libraries (npm packages, Python modules, Linux packages) regularly disclose zero-day security vulnerabilities. Proactive maintenance applies validated security patches inside staging environments before zero-downtime production deployment, keeping malicious exploits at bay.",
+        keyTakeaway: "Weekly vulnerability scans and staging-tested security patches prevent zero-day production exploits.",
+      },
+      {
+        query: "Can MLHK Infotech Maintain and Scale Codebases Built by Other Agencies?",
+        answer: "Yes. We initiate engagements with an architectural health audit to inspect code quality, document dependencies, review database indexes, and verify deployment pipelines before assuming formal SLA operational maintenance.",
+        keyTakeaway: "Full preliminary code audits ensure seamless, low-risk onboarding of existing legacy applications.",
+      },
+    ],
+    howToSteps: [
+      {
+        name: "Codebase & Infrastructure Onboarding Audit",
+        text: "Inventory existing servers, repositories, environment credentials, database schemas, and known technical debt.",
+      },
+      {
+        name: "Telemetry Probes & Health Monitoring Setup",
+        text: "Install multi-region uptime monitors, application error trackers, and real-time developer notification channels.",
+      },
+      {
+        name: "Automated Offsite Backup & Failover Config",
+        text: "Configure encrypted daily database snapshots to secondary cloud regions with automated restoration testing.",
+      },
+      {
+        name: "Continuous Stewardship & Monthly Reviews",
+        text: "Execute regular dependency upgrades, performance tuning, and deliver itemized monthly stewardship reports.",
+      },
+    ],
     heroBadge: "SLA Guarantees • Proactive Monitoring",
     subheading: "Continuous uptime monitoring, security patching, database optimization, and guaranteed response SLAs to keep your digital systems operating at peak performance.",
     stats: [
