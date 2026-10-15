@@ -29,19 +29,32 @@ export default async function BlogPage() {
       <JsonLd
         data={{
           "@type": "Blog",
-          name: "MLHK Infotech Blog",
-          description: "Notes on building web, mobile, enterprise and AI systems.",
+          "@id": "https://mlhk.in/blog#blog",
+          name: "MLHK Infotech Engineering Journal",
+          description: "Technical articles on web platforms, mobile engineering, enterprise systems, and AI automation.",
           url: "https://mlhk.in/blog",
-          publisher: { "@type": "Organization", name: "MLHK Infotech" },
+          publisher: {
+            "@type": "Organization",
+            "@id": "https://mlhk.in/#organization",
+            name: "MLHK Infotech",
+            url: "https://mlhk.in",
+          },
           blogPost: posts.slice(0, 10).map((p) => ({
             "@type": "BlogPosting",
             headline: p.title,
+            description: p.excerpt ?? undefined,
             url: `https://mlhk.in/blog/${p.slug}`,
             datePublished: p.publishedAt ?? undefined,
+            author: {
+              "@type": "Person",
+              "@id": "https://mlhk.in/about#hariom-vishwkarma",
+              name: "Hariom Vishwkarma",
+              url: "https://mlhk.in/about",
+            },
           })),
         }}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }]} />
 
       <PageHero
         eyebrow="Journal"

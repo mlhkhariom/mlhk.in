@@ -8,7 +8,7 @@ import { StatsCounter, type StatItem } from "@/components/home/StatsCounter";
 import { Faq, ContactCTA } from "@/components/home/ContactCTA";
 import { FeaturedWork } from "@/components/home/FeaturedWork";
 import { LatestPosts } from "@/components/home/LatestPosts";
-import { BRAND, FAQS, SERVICE_LINES, VENTURES } from "@/lib/brand";
+import { BRAND, FAQS, SERVICE_LINES, CAPABILITIES, VENTURES } from "@/lib/brand";
 import { safeDb } from "@/lib/db/safe";
 import { portfolio, blogPosts } from "@/lib/db/schema";
 import { eq, desc, asc } from "drizzle-orm";
@@ -57,29 +57,73 @@ export default async function HomePage() {
       <JsonLd
         data={{
           "@type": "ProfessionalService",
+          "@id": `${BRAND.url}/#organization`,
           name: BRAND.name,
           url: BRAND.url,
-          description: "Web, mobile, enterprise and AI systems from Shajapur, MP, India.",
+          logo: `${BRAND.url}/brand/logo-full.png`,
+          image: `${BRAND.url}/brand/logo-full.png`,
+          description:
+            "Enterprise software engineering, scalable web platforms, high-performance Android applications, CRM/ERP infrastructure, and AI automation.",
           slogan: BRAND.tagline,
-          foundingDate: BRAND.foundedMonthIso,
-          founder: { "@type": "Person", name: BRAND.founder, jobTitle: BRAND.founderRole },
+          foundingDate: "2020-04-01",
+          taxID: BRAND.gstin,
+          identifier: [
+            { "@type": "PropertyValue", name: "MSME Udyam", value: BRAND.udyamNumber },
+            { "@type": "PropertyValue", name: "GSTIN", value: BRAND.gstin },
+          ],
+          founder: {
+            "@type": "Person",
+            "@id": `${BRAND.url}/about#hariom-vishwkarma`,
+            name: BRAND.founder,
+            jobTitle: BRAND.founderRole,
+            url: `${BRAND.url}/about`,
+          },
           email: BRAND.email,
           telephone: BRAND.phoneE164,
           address: {
             "@type": "PostalAddress",
+            streetAddress: BRAND.addressLine,
             addressLocality: BRAND.city,
             addressRegion: "Madhya Pradesh",
+            postalCode: BRAND.postalCode,
             addressCountry: "IN",
           },
-          areaServed: "IN",
-          sameAs: [BRAND.instagramUrl, BRAND.githubUrl],
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: 23.664,
+            longitude: 76.322,
+          },
+          areaServed: ["IN", "Worldwide"],
+          sameAs: [
+            BRAND.instagramUrl,
+            BRAND.githubUrl,
+            BRAND.founderLinkedin,
+            BRAND.founderTwitter,
+            "https://wa.me/919165100124",
+          ],
           hasOfferCatalog: {
             "@type": "OfferCatalog",
-            name: "MLHK Infotech services",
-            itemListElement: SERVICE_LINES.map((s) => ({
-              "@type": "Offer",
-              itemOffered: { "@type": "Service", name: s.title, description: s.description },
-            })),
+            name: "MLHK Infotech Engineering Services",
+            itemListElement: [
+              ...SERVICE_LINES.map((s) => ({
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: s.title,
+                  description: s.description,
+                  url: `${BRAND.url}/services/${s.slug}`,
+                },
+              })),
+              ...CAPABILITIES.map((c) => ({
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: c.title,
+                  description: c.description,
+                  url: `${BRAND.url}/services/${c.slug}`,
+                },
+              })),
+            ],
           },
         }}
       />

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
-import JsonLd from "@/components/seo/JsonLd";
+import { HowToJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { BRAND } from "@/lib/brand";
@@ -42,15 +42,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function ProcessPage() {
   return (
     <>
-      <JsonLd
-        data={{
-          "@type": "HowTo",
-          name: `How ${BRAND.name} delivers a project`,
-          description: "Five stages from discovery to ongoing support.",
-          step: STEPS.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.step, text: s.text })),
-        }}
+      <HowToJsonLd
+        name={`How ${BRAND.name} Delivers Enterprise Projects`}
+        description="Our five-stage engineering and delivery process: Discover, Design, Build, Launch, and Support."
+        steps={STEPS.map((s) => ({ name: s.step, text: s.text }))}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "How we work" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "How we work", href: "/process" }]} />
 
       <PageHero
         eyebrow="Process"

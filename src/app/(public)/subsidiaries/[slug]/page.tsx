@@ -44,14 +44,28 @@ export default async function SubsidiaryPage({ params }: { params: Promise<{ slu
     <>
       <JsonLd
         data={{
+          "@context": "https://schema.org",
           "@type": "Organization",
+          "@id": `https://mlhk.in/subsidiaries/${brand.slug}#organization`,
           name: brand.name,
           description: brand.tagline ?? "",
           url: brand.url ?? `https://mlhk.in/subsidiaries/${brand.slug}`,
-          parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
+          ...(brand.logo ? { logo: brand.logo } : {}),
+          parentOrganization: {
+            "@type": "Organization",
+            "@id": "https://mlhk.in/#organization",
+            name: "MLHK Infotech",
+            url: "https://mlhk.in",
+          },
         }}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands", href: "/subsidiaries" }, { label: brand.name }]} />
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Our Brands", href: "/subsidiaries" },
+          { label: brand.name, href: `/subsidiaries/${brand.slug}` },
+        ]}
+      />
 
       <section className="relative isolate overflow-hidden bg-[#050607] px-4 pb-20 pt-10 md:px-6 md:pt-16">
         <div aria-hidden className="pointer-events-none absolute left-1/2 top-[-30%] h-[400px] w-[80vw] max-w-3xl -translate-x-1/2 rounded-full bg-[#ff9f1c]/15 blur-[120px]" />

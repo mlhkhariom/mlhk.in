@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
+import { PolicyPageJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { BRAND, SERVICE_LINES } from "@/lib/brand";
@@ -182,10 +183,15 @@ const SECTIONS = [
 export default function TermsAndConditionsPage() {
   return (
     <>
+      <PolicyPageJsonLd
+        name="Terms and Conditions"
+        description="Commercial terms, scope of services, pricing, payment milestones, delivery timelines, intellectual property, and dispute resolution governing MLHK Infotech engagements."
+        path="/terms-and-conditions"
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: "Terms & Conditions" },
+          { label: "Terms & Conditions", href: "/terms-and-conditions" },
         ]}
       />
 

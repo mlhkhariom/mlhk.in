@@ -14,6 +14,23 @@ export const metadata: Metadata = {
     "MLHK Infotech builds web platforms, mobile apps, CRM and ERP systems, and AI automation. Innovate. Integrate. Elevate. Based in Shajapur, MP, India.",
   metadataBase: new URL("https://mlhk.in"),
   applicationName: "MLHK Infotech",
+  authors: [{ name: "Hariom Vishwkarma (MLHK)", url: "https://mlhk.in/about" }],
+  creator: "Hariom Vishwkarma",
+  publisher: "MLHK Infotech",
+  keywords: [
+    "MLHK Infotech",
+    "MLHK",
+    "Hariom Vishwkarma",
+    "Web Development",
+    "Android App Development",
+    "Enterprise ERP Systems",
+    "CRM Solutions",
+    "AI Automation",
+    "Software Development India",
+    "Shajapur IT Company",
+    "Indore Software Company",
+  ],
+  category: "technology",
   icons: {
     icon: [{ url: "/brand/mark.png", type: "image/png" }],
     apple: [{ url: "/brand/mark.png" }],
@@ -25,12 +42,22 @@ export const metadata: Metadata = {
     url: "https://mlhk.in",
     images: [{ url: "/brand/logo-full.png", width: 1536, height: 1024, alt: "MLHK Infotech" }],
   },
-  twitter: { card: "summary_large_image", site: "@mlhkinfotech" },
+  twitter: { card: "summary_large_image", site: "@mlhkinfotech", creator: "@mlhkhariom" },
   alternates: {
     canonical: "https://mlhk.in",
     types: { "application/rss+xml": "https://mlhk.in/feed.xml" },
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   verification: {},
 };
 

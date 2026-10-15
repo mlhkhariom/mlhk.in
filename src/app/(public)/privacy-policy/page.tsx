@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
+import { PolicyPageJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { BRAND } from "@/lib/brand";
@@ -169,10 +170,15 @@ const SECTIONS = [
 export default function PrivacyPolicyPage() {
   return (
     <>
+      <PolicyPageJsonLd
+        name="Privacy Policy"
+        description="Comprehensive privacy policy detailing how client personal information, contact records, project information, and payment gateway transaction references are collected, processed, and safeguarded by MLHK Infotech."
+        path="/privacy-policy"
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: "Privacy Policy" },
+          { label: "Privacy Policy", href: "/privacy-policy" },
         ]}
       />
 

@@ -2,6 +2,7 @@ import { safeDb } from "@/lib/db/safe";
 import { pages } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import type { Metadata } from "next";
 
@@ -32,7 +33,25 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: page.title }]} />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": `https://mlhk.in/p/${page.slug}#page`,
+          url: `https://mlhk.in/p/${page.slug}`,
+          name: page.title,
+          description: page.metaDesc ?? page.title,
+          publisher: {
+            "@id": "https://mlhk.in/#organization",
+          },
+        }}
+      />
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: page.title, href: `/p/${page.slug}` },
+        ]}
+      />
       <div className="mx-auto max-w-3xl bg-[#050607] px-4 py-16">
         <h1 className="mb-10 font-display text-4xl font-bold tracking-tight text-white md:text-5xl">{page.title}</h1>
         <div

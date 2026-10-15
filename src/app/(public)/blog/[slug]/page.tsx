@@ -3,7 +3,7 @@ import { blogPosts } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { buildSeo } from "@/lib/seo";
-import JsonLd from "@/components/seo/JsonLd";
+import { ArticleJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -53,27 +53,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]} />
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Blog", href: "/blog" },
+          { label: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
       <article className="mx-auto max-w-3xl bg-[#050607] px-4 pb-16 pt-12">
-        <JsonLd
-          data={{
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.excerpt ?? "",
-            image: post.coverImage ?? undefined,
-            datePublished: post.publishedAt ?? undefined,
-            dateModified: post.publishedAt ?? undefined,
-            author: { "@type": "Organization", name: "MLHK Infotech" },
-            publisher: {
-              "@type": "Organization",
-              name: "MLHK Infotech",
-              url: "https://mlhk.in",
-              logo: { "@type": "ImageObject", url: "https://mlhk.in/brand/logo-full.png" },
-            },
-            mainEntityOfPage: { "@type": "WebPage", "@id": `https://mlhk.in/blog/${post.slug}` },
-            wordCount: post.content ? Math.round(post.content.length / 5) : 0,
-            inLanguage: "en-IN",
-          }}
+        <ArticleJsonLd
+          title={post.title}
+          excerpt={post.excerpt ?? undefined}
+          slug={post.slug}
+          image={post.coverImage ?? undefined}
+          publishedAt={post.publishedAt ?? undefined}
+          wordCount={post.content ? Math.round(post.content.length / 5) : 0}
         />
         {post.coverImage && (
           <img src={post.coverImage} alt={post.title} className="mb-10 h-72 w-full rounded-[1.75rem] object-cover" />

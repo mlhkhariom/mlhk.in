@@ -38,12 +38,32 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <JsonLd
         data={{
           "@type": "Service",
+          "@id": `${BRAND.url}/services/${service.slug}#service`,
           name: service.name,
           description: service.summary,
           url: `${BRAND.url}/services/${service.slug}`,
-          provider: { "@type": "Organization", name: BRAND.name, url: BRAND.url },
-          areaServed: { "@type": "Country", name: "India" },
           serviceType: service.name,
+          provider: {
+            "@type": "Organization",
+            "@id": `${BRAND.url}/#organization`,
+            name: BRAND.name,
+            url: BRAND.url,
+          },
+          areaServed: [
+            { "@type": "Country", name: "India" },
+            { "@type": "AdministrativeArea", name: "Madhya Pradesh" },
+          ],
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: `${service.name} Capabilities & Deliverables`,
+            itemListElement: service.deliverables.map((d) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: d,
+              },
+            })),
+          },
         }}
       />
       <FaqJsonLd faqs={service.faqs.map((f) => ({ question: f.question, answer: f.answer }))} />
@@ -51,7 +71,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         items={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
-          { label: service.name },
+          { label: service.name, href: `/services/${service.slug}` },
         ]}
       />
 

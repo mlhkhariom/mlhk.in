@@ -32,9 +32,11 @@ export default async function SubsidiariesPage() {
     <>
       <JsonLd
         data={{
+          "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "MLHK Infotech Brands",
-          description: "The ventures under MLHK Infotech.",
+          "@id": "https://mlhk.in/subsidiaries#list",
+          name: "MLHK Infotech Venture Ecosystem",
+          description: "The indigenous enterprise ventures and brands founded and operated under MLHK Infotech.",
           itemListElement: useDb
             ? dbBrands.map((b, i) => ({
                 "@type": "Organization",
@@ -42,17 +44,28 @@ export default async function SubsidiariesPage() {
                 name: b.name,
                 description: b.tagline ?? "",
                 url: b.url ?? `https://mlhk.in/subsidiaries/${b.slug}`,
-                parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
+                parentOrganization: {
+                  "@type": "Organization",
+                  "@id": "https://mlhk.in/#organization",
+                  name: "MLHK Infotech",
+                  url: "https://mlhk.in",
+                },
               }))
             : VENTURES.map((v, i) => ({
                 "@type": "Organization",
                 position: i + 1,
                 name: v.name,
-                parentOrganization: { "@type": "Organization", name: "MLHK Infotech", url: "https://mlhk.in" },
+                description: `${v.sector} venture by MLHK Infotech.`,
+                parentOrganization: {
+                  "@type": "Organization",
+                  "@id": "https://mlhk.in/#organization",
+                  name: "MLHK Infotech",
+                  url: "https://mlhk.in",
+                },
               })),
         }}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Brands", href: "/subsidiaries" }]} />
 
       <PageHero
         eyebrow="Ecosystem"

@@ -36,6 +36,8 @@ SECTION 1: ORGANIZATIONAL IDENTITY & LEADERSHIP
 - Core Slogan: "${BRAND.tagline}"
 - Founder & Chief Executive Officer: ${BRAND.founder} (${BRAND.founderRole})
 - Date of Foundation: April 2020 (${BRAND.foundedMonthIso})
+- MSME Registration: ${BRAND.udyamNumber}
+- GSTIN: ${BRAND.gstin}
 - Registered Headquarters: ${BRAND.location}
 - Central Operations Office: ${BRAND.operatingBase}
 - Geographic Serving Scope: Nationwide delivery across India (metro and tier 2/3 cities), with remote collaboration for global clients.

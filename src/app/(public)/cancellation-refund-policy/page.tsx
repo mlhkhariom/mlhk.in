@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
+import { PolicyPageJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { BRAND } from "@/lib/brand";
@@ -140,10 +141,15 @@ const SECTIONS = [
 export default function CancellationRefundPolicyPage() {
   return (
     <>
+      <PolicyPageJsonLd
+        name="Cancellation and Refund Policy"
+        description="Comprehensive policy governing project cancellations, milestone payments, work in progress, completed service deliverables, and refund processing timelines at MLHK Infotech."
+        path="/cancellation-refund-policy"
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: "Cancellation & Refund Policy" },
+          { label: "Cancellation & Refund Policy", href: "/cancellation-refund-policy" },
         ]}
       />
 

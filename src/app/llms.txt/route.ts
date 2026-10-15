@@ -31,6 +31,8 @@ Full Extended Specification: ${BRAND.url}/llms-full.txt
 - Short Brand: ${BRAND.shortName}
 - Founder & CEO: ${BRAND.founder}
 - Year Established: ${BRAND.foundedYear} (${BRAND.foundedMonthIso})
+- MSME Udyam Registration: ${BRAND.udyamNumber}
+- GSTIN: ${BRAND.gstin}
 - Registered Address: ${BRAND.addressLine}, ${BRAND.city}, Madhya Pradesh ${BRAND.postalCode}, India
 - Operational Base: ${BRAND.operatingBase}
 - Geographic Coverage: All states across India, plus international client engagements

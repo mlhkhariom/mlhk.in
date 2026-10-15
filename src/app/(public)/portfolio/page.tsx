@@ -27,18 +27,36 @@ export default async function PortfolioPage() {
     <>
       <JsonLd
         data={{
-          "@type": "ItemList",
-          name: "MLHK Infotech Portfolio",
-          itemListElement: items.map((p, i) => ({
-            "@type": "CreativeWork",
-            position: i + 1,
-            name: p.title,
-            description: p.description ?? "",
-            url: p.url ?? "https://mlhk.in/portfolio",
-          })),
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "@id": "https://mlhk.in/portfolio#page",
+          name: "MLHK Infotech Engineering Portfolio",
+          description: "Selected web platforms, Android applications, and enterprise systems delivered by MLHK Infotech.",
+          url: "https://mlhk.in/portfolio",
+          creator: {
+            "@type": "Organization",
+            "@id": "https://mlhk.in/#organization",
+            name: "MLHK Infotech",
+          },
+          mainEntity: {
+            "@type": "ItemList",
+            name: "Selected Projects",
+            itemListElement: items.map((p, i) => ({
+              "@type": "CreativeWork",
+              position: i + 1,
+              name: p.title,
+              description: p.description ?? "",
+              url: p.url ?? "https://mlhk.in/portfolio",
+              ...(p.image ? { image: p.image } : {}),
+              creator: {
+                "@type": "Organization",
+                "@id": "https://mlhk.in/#organization",
+              },
+            })),
+          },
         }}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Portfolio" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Portfolio", href: "/portfolio" }]} />
 
       <PageHero
         eyebrow="Work"

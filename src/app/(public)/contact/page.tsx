@@ -48,20 +48,19 @@ export default function ContactPage() {
     <>
       <JsonLd
         data={{
+          "@context": "https://schema.org",
           "@type": "ContactPage",
-          name: `Contact ${BRAND.name}`,
-          description: "Get in touch with MLHK Infotech for project inquiries.",
+          "@id": `${BRAND.url}/contact#page`,
+          url: `${BRAND.url}/contact`,
+          name: `Contact ${BRAND.name} Engineering Desk`,
+          description:
+            "Connect with MLHK Infotech for web platforms, mobile apps, enterprise systems, and AI automation inquiries.",
           mainEntity: {
-            "@type": "Organization",
-            name: BRAND.name,
-            email: BRAND.email,
-            telephone: BRAND.phoneE164,
-            address: { "@type": "PostalAddress", streetAddress: BRAND.addressLine, addressLocality: BRAND.city, addressRegion: "Madhya Pradesh", postalCode: BRAND.postalCode, addressCountry: "IN" },
-            contactPoint: { "@type": "ContactPoint", contactType: "sales", email: BRAND.email, telephone: BRAND.phoneE164, availableLanguage: ["en", "hi"] },
+            "@id": `${BRAND.url}/#organization`,
           },
         }}
       />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact", href: "/contact" }]} />
 
       <PageHero
         eyebrow="Contact"

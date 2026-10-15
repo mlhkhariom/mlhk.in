@@ -35,7 +35,7 @@ export const BRAND = {
   instagramUrl: "https://www.instagram.com/mlhkinfotech/",
   founderInstagram: "https://www.instagram.com/mlhkhariom/",
   founderGithub: "https://github.com/mlhkhariom",
-  founderLinkedin: "https://www.linkedin.com/in/hariom-vishwkarma/",
+  founderLinkedin: "https://www.linkedin.com/in/mlhkhariom/",
   founderTwitter: "https://twitter.com/mlhkhariom",
   url: "https://mlhk.in",
   githubUrl: "https://github.com/mlhkhariom",

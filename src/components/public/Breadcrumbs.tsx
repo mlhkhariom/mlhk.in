@@ -15,7 +15,7 @@ export default function Breadcrumbs({
 }) {
   const schemaItems = items.map((c) => ({
     name: c.label,
-    url: c.href ? `${BASE}${c.href}` : BASE,
+    url: c.href ? `${BASE}${c.href}` : undefined,
   }));
 
   return (

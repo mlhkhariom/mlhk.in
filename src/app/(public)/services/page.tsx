@@ -8,7 +8,7 @@ import { buildSeo } from "@/lib/seo";
 import { ServiceJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
-import { SERVICE_LINES, CAPABILITIES, FAQS, SERVICE_DETAILS } from "@/lib/brand";
+import { BRAND, SERVICE_LINES, CAPABILITIES, FAQS, SERVICE_DETAILS } from "@/lib/brand";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -36,12 +36,20 @@ export default async function ServicesPage() {
     <>
       <ServiceJsonLd
         services={[
-          ...lines.map((l) => ({ name: l.title, description: l.description })),
-          ...dbServices.map((s) => ({ name: s.title, description: s.description ?? "" })),
+          ...lines.map((l) => ({
+            name: l.title,
+            description: l.description,
+            url: `${BRAND.url}/services/${l.slug}`,
+          })),
+          ...dbServices.map((s) => ({
+            name: s.title,
+            description: s.description ?? "",
+            url: `${BRAND.url}/services`,
+          })),
         ]}
       />
       <FaqJsonLd faqs={FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }]} />
 
       <PageHero
         eyebrow="Services"

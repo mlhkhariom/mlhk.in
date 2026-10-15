@@ -69,44 +69,49 @@ export default function AboutPage() {
     <>
       <JsonLd
         data={{
+          "@context": "https://schema.org",
           "@type": "AboutPage",
+          "@id": `${BRAND.url}/about#page`,
+          url: `${BRAND.url}/about`,
           name: `About ${BRAND.name} & Founder ${BRAND.founder}`,
           description:
-            "MLHK Infotech is an indigenous enterprise technology and software engineering company founded on 1 April 2020 by Hariom Vishwkarma (MLHK).",
+            "MLHK Infotech is an indigenous enterprise technology and software engineering company founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ).",
           mainEntity: {
-            "@type": "Organization",
-            name: BRAND.name,
-            alternateName: [BRAND.shortName, "MLHK"],
-            foundingDate: "2020-04-01",
-            founder: {
-              "@type": "Person",
-              name: BRAND.founder,
-              alternateName: BRAND.founderAlias,
-              jobTitle: BRAND.founderRole,
-              alumniOf: BRAND.university,
-              sameAs: [
-                BRAND.founderGithub,
-                BRAND.founderLinkedin,
-                BRAND.founderInstagram,
-                BRAND.founderTwitter,
-              ],
+            "@id": `${BRAND.url}/#organization`,
+          },
+          about: {
+            "@type": "Person",
+            "@id": `${BRAND.url}/about#hariom-vishwkarma`,
+            name: BRAND.founder,
+            alternateName: BRAND.founderAlias,
+            jobTitle: BRAND.founderRole,
+            description: BRAND.founderBio,
+            url: `${BRAND.url}/about`,
+            image: `${BRAND.url}/brand/mark.png`,
+            alumniOf: {
+              "@type": "EducationalOrganization",
+              name: BRAND.university,
             },
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: BRAND.addressLine,
-              addressLocality: BRAND.city,
-              addressRegion: "Madhya Pradesh",
-              postalCode: BRAND.postalCode,
-              addressCountry: "IN",
-            },
-            taxID: BRAND.gstin,
-            areaServed: "IN",
-            sameAs: [BRAND.instagramUrl, BRAND.githubUrl],
+            sameAs: [
+              BRAND.founderGithub,
+              BRAND.founderLinkedin,
+              BRAND.founderInstagram,
+              BRAND.founderTwitter,
+            ],
+            knowsAbout: [
+              "Full-Stack Web Engineering",
+              "Android App Architecture",
+              "Enterprise Resource Planning (ERP)",
+              "Customer Relationship Management (CRM)",
+              "Artificial Intelligence & LLM Workflows",
+              "Cloudflare Serverless Architecture",
+              "Cybersecurity & IT Infrastructure",
+            ],
           },
         }}
       />
 
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }]} />
 
       <PageHero
         eyebrow="Company Dossier • Established 2020"

@@ -29,15 +29,7 @@ export default function FaqPage() {
   return (
     <>
       <FaqJsonLd faqs={ALL_FAQS} />
-      <JsonLd
-        data={{
-          "@type": "Organization",
-          name: BRAND.name,
-          url: BRAND.url,
-          contactPoint: { "@type": "ContactPoint", email: BRAND.email, telephone: BRAND.phoneE164, contactType: "customer support", areaServed: "IN" },
-        }}
-      />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "FAQ" }]} />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "FAQ", href: "/faq" }]} />
 
       <PageHero
         eyebrow="FAQ"
