@@ -94,13 +94,13 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   "graphics-and-branding": {
     slug: "graphics-and-branding",
     theme: {
-      accent: "#f43f5e",
-      accentLight: "#fda4af",
-      accentGlow: "244, 63, 94",
-      bgGradient: "from-rose-500/15 via-transparent to-amber-500/5",
-      borderHover: "hover:border-rose-500/40",
-      badgeClass: "text-rose-400 border-rose-500/30 bg-rose-500/10",
-      tag: "Creative Identity & Design Tokens",
+      accent: "#ff9f1c",
+      accentLight: "#ffb84d",
+      accentGlow: "255, 159, 28",
+      bgGradient: "from-amber-500/15 via-transparent to-amber-500/5",
+      borderHover: "hover:border-amber-500/40",
+      badgeClass: "text-[#ffb84d] border-[#ff9f1c]/30 bg-[#ff9f1c]/10",
+      tag: "Red Xerox Studio • Brand Systems & Tokens",
     },
     seoKeywords: [
       "brand identity design agency india",
