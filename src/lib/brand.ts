@@ -7,10 +7,19 @@ export const BRAND = {
   name: "MLHK Infotech",
   shortName: "MLHK",
   tagline: "Innovate. Integrate. Elevate.",
+  alternateTagline: "We Build Digital Power.",
+  motto: "Ideas | Solutions | Growth",
   founder: "Hariom Vishwkarma",
+  founderAlias: "MLHK",
   founderRole: "Founder & CEO",
+  founderBio:
+    "Enterprise System Architect, AI Automation Engineer, UI/UX Designer, and Independent Music Artist. Combining business strategy, rigorous software engineering, and bespoke visual design.",
   foundedYear: 2020,
   foundedMonthIso: "2020-04",
+  foundedDate: "1 April 2020",
+  udyamNumber: "UDYAM-MP-44-0005223",
+  gstin: "23CHLPV2868R1CJ",
+  university: "Vikram University, Ujjain",
   location: "Barnawad, Moman Barodia, Shajapur, Madhya Pradesh 465236, India",
   operatingBase: "Indore, Madhya Pradesh, India",
   serviceArea: "India and international enquiries",
@@ -24,6 +33,10 @@ export const BRAND = {
   phoneE164: "+919165100124",
   instagramHandle: "mlhkinfotech",
   instagramUrl: "https://www.instagram.com/mlhkinfotech/",
+  founderInstagram: "https://www.instagram.com/mlhkhariom/",
+  founderGithub: "https://github.com/mlhkhariom",
+  founderLinkedin: "https://www.linkedin.com/in/hariom-vishwkarma/",
+  founderTwitter: "https://twitter.com/mlhkhariom",
   url: "https://mlhk.in",
   githubUrl: "https://github.com/mlhkhariom",
 } as const;
@@ -114,18 +127,143 @@ export const WHY_MLHK = [
   "A founder who understands business and delivery",
 ];
 
-/** Company ventures, as recorded in the existing about page. */
+export interface TimelineMilestone {
+  year: string;
+  tag: string;
+  title: string;
+  event: string;
+  highlights: readonly string[];
+}
+
+/** Company ventures, as recorded in verified company facts and ecosystem structure. */
 export const VENTURES = [
-  { name: "IKSC India", sector: "E-commerce" },
-  { name: "Red Xerox Studio", sector: "Creative" },
-  { name: "Erotix Green Energy", sector: "Solar energy" },
-  { name: "RX Media", sector: "Media" },
-  { name: "TET News", sector: "Journalism" },
+  {
+    name: "IKSC India",
+    domain: "iksc.in",
+    sector: "E-commerce & Retail Infrastructure",
+    description:
+      "India Ka Shopping Centre — indigenous digital retail infrastructure, dynamic product catalogs, and vendor order workflows.",
+    badge: "E-Commerce",
+  },
+  {
+    name: "Red Xerox Studio",
+    domain: "Creative Wing",
+    sector: "Creative Branding & Visual Media",
+    description:
+      "High-impact creative identity studio delivering corporate brand marks, packaging guidelines, print media, and custom UI/UX design systems.",
+    badge: "Creative Lab",
+  },
+  {
+    name: "Erotix Green Energy",
+    domain: "Clean-Tech",
+    sector: "Solar EPC & Renewable Tech",
+    description:
+      "Technology and operational digital tracking for solar EPC installations, piling, module mounting structures, and electrical commissioning.",
+    badge: "Clean Energy",
+  },
+  {
+    name: "RX Media",
+    domain: "rxmedia / FreeCinema",
+    sector: "Digital Media & Streaming Tech",
+    description:
+      "Next-generation media tech lab exploring high-efficiency video playback architectures, HLS/DASH media streaming, and content workflows.",
+    badge: "Media Lab",
+  },
+  {
+    name: "TET News",
+    domain: "TETnews.com",
+    sector: "Employment & Educational Journalism",
+    description:
+      "Digital career portal and news platform delivering government vacancy alerts, examination updates, and youth educational resources.",
+    badge: "Information",
+  },
 ] as const;
 
-export const TIMELINE = [
-  { year: "2020", event: "MLHK Infotech established in Shajapur, Madhya Pradesh (year as shown on our website)." },
-  { year: "Today", event: "Web, mobile, enterprise, AI automation, cybersecurity and digital marketing services, with an operating base in Indore." },
+export const TIMELINE: readonly TimelineMilestone[] = [
+  {
+    year: "2020",
+    tag: "Genesis & Foundation",
+    title: "Established in Barnawad, Shajapur",
+    event:
+      "MLHK Infotech was founded on 1 April 2020 by Hariom Vishwkarma while studying Computer Applications at Vikram University, Ujjain. Established to deliver bespoke software, website engineering, and digital consulting to businesses across Madhya Pradesh.",
+    highlights: [
+      "Grassroots IT consulting for Tier-2/3 Indian businesses",
+      "Custom web platforms built on PHP, Java, and MySQL",
+      "Laying the foundations of 100% in-house software execution",
+    ],
+  },
+  {
+    year: "2021",
+    tag: "Mobile & Core Systems",
+    title: "Android Architecture & Custom Databases",
+    event:
+      "Expanded engineering capabilities into native Android applications (Java) and modular API backends. Began crafting administrative dashboards, inventory trackers, and bespoke digital branding for regional enterprises.",
+    highlights: [
+      "Native Android app releases with role-based admin panels",
+      "API-first backend development with token authentication",
+      "Creative studio workflows under Red Xerox Studio",
+    ],
+  },
+  {
+    year: "2022",
+    tag: "MSME Formalization",
+    title: "Udyam Registration & Brand Ecosystem",
+    event:
+      "Formally registered with the Ministry of MSME, Government of India (UDYAM-MP-44-0005223) under software publishing and computer consultancy. Launched multi-sector venture projects including IKSC India e-commerce and TET News publishing.",
+    highlights: [
+      "Official Government of India MSME Udyam Certification",
+      "IKSC India (iksc.in) e-commerce infrastructure deployment",
+      "TET News (TETnews.com) job & education alert portal",
+    ],
+  },
+  {
+    year: "2023",
+    tag: "Enterprise Engineering",
+    title: "CRM/ERP Systems & Clean-Tech Operations",
+    event:
+      "Engineered full enterprise suites: custom CRM pipelines, GST billing, and inventory tracking. Partnered on digital project management for renewable energy infrastructure with Erotix Green Energy, and prototyped high-efficiency streaming players (RX Media).",
+    highlights: [
+      "Custom ERP & billing workflows eliminating foreign vendor software",
+      "Solar EPC field operations tracking with Erotix Green Energy",
+      "Cloudflare Workers & streaming video player prototyping",
+    ],
+  },
+  {
+    year: "2024",
+    tag: "Statewide Expansion",
+    title: "GST Formalization & Indore Operations Hub",
+    event:
+      "Received official GSTIN certification (23CHLPV2868R1CJ) as an Electronic Commerce Operator and IT consultancy. Established an active commercial operations office in Indore, MP to oversee pan-India delivery, server hardening, and cybersecurity implementations.",
+    highlights: [
+      "Official GSTIN tax compliance & commercial entity setup",
+      "Active operations established in Indore commercial hub",
+      "Server hardening, Ubuntu VPS infrastructure, and Linux administration",
+    ],
+  },
+  {
+    year: "2025",
+    tag: "AI & Cloud Automation",
+    title: "Autonomous Agents & WhatsApp Ecosystem",
+    event:
+      "Pioneered operational AI automation combining n8n pipelines, PostgreSQL state machines, and the WhatsApp Business Cloud API. Published the @mlhkinfotech/types TypeScript ecosystem contracts for enterprise automation.",
+    highlights: [
+      "Production WhatsApp Cloud API conversational bots",
+      "Autonomous n8n workflows connecting forms, CRM, and databases",
+      "@mlhkinfotech/types TypeScript shared contract library",
+    ],
+  },
+  {
+    year: "2026",
+    tag: "Sovereign Cloud Platform",
+    title: "Global Edge Infrastructure & National Pride",
+    event:
+      "Architected and deployed the unified MLHK Cloud Platform (mlhk.in) on Cloudflare's 330+ city Global Edge network. Proudly championing Make in India and Atmanirbhar Bharat by delivering zero-vendor-lockin software from Bharat to the world.",
+    highlights: [
+      "Full-stack Next.js 16 + Cloudflare Workers with 100% ISR caching",
+      "Unified CMS, CRM pipeline, Invoicing/ERP, and Client Portal",
+      "Built with Pride in Bharat 🇮🇳 • Deployed Globally",
+    ],
+  },
 ] as const;
 
 export const FAQS = [
