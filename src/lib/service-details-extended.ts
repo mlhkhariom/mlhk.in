@@ -754,13 +754,13 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   "digital-marketing": {
     slug: "digital-marketing",
     theme: {
-      accent: "#a855f7",
+      accent: "#8b5cf6",
       accentLight: "#c084fc",
-      accentGlow: "168, 85, 247",
-      bgGradient: "from-purple-500/15 via-transparent to-pink-500/5",
+      accentGlow: "139, 92, 246",
+      bgGradient: "from-purple-600/15 via-transparent to-pink-500/5",
       borderHover: "hover:border-purple-500/40",
-      badgeClass: "text-purple-400 border-purple-500/30 bg-purple-500/10",
-      tag: "AEO/GEO & Knowledge Graph Growth",
+      badgeClass: "text-purple-300 border-purple-500/30 bg-purple-500/10",
+      tag: "AEO • GEO • Knowledge Graph Growth",
     },
     seoKeywords: [
       "generative engine optimization geo agency india",
@@ -768,6 +768,11 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       "ai search citation optimization",
       "technical seo company indore",
       "schema knowledge graph builder",
+      "llms txt implementation services",
+      "zero ad waste marketing agency",
+      "google ai overview optimization",
+      "enterprise search authority madhya pradesh",
+      "entity triangulation seo specialist",
     ],
     aeoCapsules: [
       {
@@ -826,38 +831,260 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
     pillarsTitle: "The Modern Search & Visibility Framework",
     pillarsSubtitle: "Positioning your brand as the definitive authority.",
     pillars: [
-      { id: "technical-aeo", title: "Answer Engine & Knowledge Graph Engineering", tagline: "Be the Source AI Cites", description: "We author structured Schema.org triplets, llms.txt citation files, and entity triangulation so AI search assistants recommend your business.", specs: ["Nested Organization, Service, and Person JSON-LD", "llms.txt and llms-full.txt machine-readable documentation", "Entity disambiguation with sameAs directory citations", "Factual question-and-answer architecture"], badge: "AEO & GEO" },
-      { id: "core-web-vitals", title: "Technical Core Web Vitals & On-Page SEO", tagline: "Google Algorithm Compliance", description: "Eliminating crawl errors, accelerating page load speeds, and organizing semantic HTML heading hierarchies for maximum organic ranking.", specs: ["Sub-0.5s Largest Contentful Paint (LCP)", "Zero Cumulative Layout Shift (CLS)", "Dynamic XML sitemaps with daily automated pinging", "Optimized OpenGraph and Twitter card social snippets"], badge: "Technical SEO" },
-      { id: "funnel-conversion", title: "High-Intent Landing Pages & Conversion Rate Optimization", tagline: "Turning Clicks into Cashflow", description: "Traffic is worthless if visitors bounce. We craft dark-luxury, trust-first landing pages with clear value propositions and frictionless WhatsApp/form CTAs.", specs: ["Direct-response copy written around buyer pain points", "Frictionless 3-field inquiry forms and one-tap WhatsApp chat", "A/B testing of headlines, CTAs, and layout hierarchies", "Heatmap tracking and drop-off analysis"], badge: "Conversion CRO" },
+      {
+        id: "technical-aeo",
+        title: "Answer Engine & Knowledge Graph Engineering",
+        tagline: "Be the Source AI Cites",
+        description:
+          "We author structured Schema.org triplets, llms.txt citation files, and entity triangulation so AI search assistants recommend your business.",
+        specs: [
+          "Nested Organization, Service, and Person JSON-LD",
+          "llms.txt and llms-full.txt machine-readable documentation",
+          "Entity disambiguation with sameAs directory citations",
+          "Factual question-and-answer architecture",
+        ],
+        badge: "AEO & GEO",
+      },
+      {
+        id: "core-web-vitals",
+        title: "Technical Core Web Vitals & On-Page SEO",
+        tagline: "Google Algorithm Compliance",
+        description:
+          "Eliminating crawl errors, accelerating page load speeds, and organizing semantic HTML heading hierarchies for maximum organic ranking.",
+        specs: [
+          "Sub-0.5s Largest Contentful Paint (LCP)",
+          "Zero Cumulative Layout Shift (CLS)",
+          "Dynamic XML sitemaps with daily automated pinging",
+          "Optimized OpenGraph and Twitter card social snippets",
+        ],
+        badge: "Technical SEO",
+      },
+      {
+        id: "funnel-conversion",
+        title: "High-Intent Landing Pages & Conversion Rate Optimization",
+        tagline: "Turning Clicks into Cashflow",
+        description:
+          "Traffic is worthless if visitors bounce. We craft dark-luxury, trust-first landing pages with clear value propositions and frictionless WhatsApp/form CTAs.",
+        specs: [
+          "Direct-response copy written around buyer pain points",
+          "Frictionless 3-field inquiry forms and one-tap WhatsApp chat",
+          "A/B testing of headlines, CTAs, and layout hierarchies",
+          "Heatmap tracking and drop-off analysis",
+        ],
+        badge: "Conversion CRO",
+      },
+      {
+        id: "zero-ad-waste",
+        title: "Zero-Ad-Waste Paid Search & Meta Ads Architecture",
+        tagline: "Eliminating Bot Clicks & Irrelevant Queries",
+        description:
+          "Targeted paid search and social campaigns engineered with exhaustive negative keyword lists and server-side Conversions API (CAPI) tracking.",
+        specs: [
+          "Granular negative keyword lists blocking job seekers and DIY queries",
+          "Meta Conversions API (CAPI) & Google Server-Side Tagging",
+          "High-intent long-tail search keyword bidding matrices",
+          "Continuous A/B testing of ad creatives and value proposition copy",
+        ],
+        badge: "Paid Search",
+      },
     ],
     deliverablesTitle: "Marketing Deliverables & Analytics",
     deliverablesSubtitle: "Clear, transparent reporting with zero obfuscation.",
     deliverables: [
-      { format: "Monthly PDF", title: "Executive Performance Dossier", description: "Clear monthly report detailing organic impressions, ranking keywords, inquiries generated, and acquisition cost.", badge: "Reporting" },
-      { format: "JSON-LD", title: "Full Structured Data Architecture", description: "Custom schema markup validated against Google's Rich Results and Schema.org validators.", badge: "Schema" },
-      { format: "llms.txt", title: "AI Assistant Documentation Endpoints", description: "Public markdown feeds formatted specifically for LLM web crawlers (Perplexity, GPT, Gemini).", badge: "AI Feeds" },
+      {
+        format: "Monthly PDF",
+        title: "Executive Performance Dossier",
+        description: "Clear monthly report detailing organic impressions, ranking keywords, inquiries generated, and acquisition cost.",
+        badge: "Reporting",
+      },
+      {
+        format: "JSON-LD",
+        title: "Full Structured Data Architecture",
+        description: "Custom schema markup validated against Google's Rich Results and Schema.org validators.",
+        badge: "Schema",
+      },
+      {
+        format: "llms.txt",
+        title: "AI Assistant Documentation Endpoints",
+        description: "Public markdown feeds formatted specifically for LLM web crawlers (Perplexity, GPT, Gemini).",
+        badge: "AI Feeds",
+      },
+      {
+        format: "Meta CAPI",
+        title: "Server-Side Conversion Tracking",
+        description: "Direct server-to-server event telemetry bypassing browser ad-blockers and iOS privacy restrictions.",
+        badge: "Tracking",
+      },
     ],
     comparisonTitle: "Old-School SEO Agencies vs MLHK Modern AEO/GEO",
     comparisonSubtitle: "Why traditional keyword stuffing fails in 2026.",
     comparison: [
-      { aspect: "AI Search Readiness", genericApproach: "Ignores ChatGPT, Perplexity, and Google AI Overviews. Only tracks 10 blue links.", mlhkApproach: "Full Answer Engine Optimization (AEO) and llms.txt feeds to secure AI citations." },
-      { aspect: "Reporting Metrics", genericApproach: "Sends 50-page reports filled with meaningless vanity impressions and click charts.", mlhkApproach: "Direct reporting on verified commercial inquiries, phone calls, and cost per lead." },
+      {
+        aspect: "AI Search Readiness",
+        genericApproach: "Ignores ChatGPT, Perplexity, and Google AI Overviews. Only tracks 10 blue links.",
+        mlhkApproach: "Full Answer Engine Optimization (AEO) and llms.txt feeds to secure AI citations.",
+      },
+      {
+        aspect: "Reporting Metrics",
+        genericApproach: "Sends 50-page reports filled with meaningless vanity impressions and click charts.",
+        mlhkApproach: "Direct reporting on verified commercial inquiries, phone calls, and cost per lead.",
+      },
+      {
+        aspect: "Ad Spend Efficiency",
+        genericApproach: "Runs broad-match campaigns that waste 40–50% of your budget on bot clicks and job hunters.",
+        mlhkApproach: "Strict negative-keyword gating and Server-Side CAPI tracking ensuring 0% ad waste.",
+      },
+      {
+        aspect: "Page Speed & CWV",
+        genericApproach: "Slow, plugin-heavy WordPress sites taking 4 to 8 seconds with broken mobile UX.",
+        mlhkApproach: "Sub-0.5s LCP on Cloudflare edge network with 100/100 Core Web Vitals compliance.",
+      },
     ],
     timelineTitle: "Visibility Growth Stages",
     timelineSubtitle: "Strategic timeline for compounding organic search traffic.",
     timeline: [
-      { phase: "Month 01", timeline: "Weeks 1–4", title: "Technical Foundation & Entity Triangulation", description: "Full website audit, schema JSON-LD implementation, and llms.txt integration.", outputs: ["Audit Scorecard", "Structured Data Mesh"] },
-      { phase: "Month 02", timeline: "Weeks 5–8", title: "Authority Content & Landing Page CRO", description: "Authoring comprehensive, high-value technical service dossiers and optimizing inquiry funnels.", outputs: ["Optimized Landing Pages"] },
-      { phase: "Month 03+", timeline: "Ongoing", title: "Authority Building & AI Citation Expansion", description: "Monitoring Knowledge Graph presence, refining queries, and monthly performance reviews.", outputs: ["Monthly Performance Dossier"] },
+      {
+        phase: "Month 01",
+        timeline: "Weeks 1–4",
+        title: "Technical Foundation & Entity Triangulation",
+        description: "Full website audit, schema JSON-LD implementation, and llms.txt integration.",
+        outputs: ["Audit Scorecard", "Structured Data Mesh"],
+      },
+      {
+        phase: "Month 02",
+        timeline: "Weeks 5–8",
+        title: "Authority Content & Landing Page CRO",
+        description: "Authoring comprehensive, high-value technical service dossiers and optimizing inquiry funnels.",
+        outputs: ["Optimized Landing Pages", "Syntactic AEO Capsules"],
+      },
+      {
+        phase: "Month 03",
+        timeline: "Weeks 9–12",
+        title: "Zero-Ad-Waste Paid Inbound Campaign Launch",
+        description: "Deploying negative-keyword gated Google Search and Meta campaigns with Server-Side CAPI tracking.",
+        outputs: ["CAPI Integration", "High-Intent Ad Campaigns"],
+      },
+      {
+        phase: "Month 04+",
+        timeline: "Ongoing",
+        title: "Authority Expansion & AI Citation Monitoring",
+        description: "Monitoring Knowledge Graph presence, refining queries, and monthly performance reviews.",
+        outputs: ["Monthly Performance Dossier", "AI Citation Tracking"],
+      },
     ],
-    toolsTitle: "Marketing & Analytics Stack",
+    toolsTitle: "Marketing, AEO & Analytics Stack",
     tools: [
-      { name: "Google Search Console", category: "Diagnostics", description: "Direct index coverage, crawl monitoring, and organic query tracking." },
-      { name: "Schema Validator", category: "Structured Data", description: "Rich results testing and Knowledge Graph node verification." },
-      { name: "Cloudflare Analytics", category: "Edge Privacy", description: "Privacy-compliant edge traffic analysis without tracking cookies." },
+      {
+        name: "Google Search Console",
+        category: "Search Diagnostics",
+        description: "Direct index coverage, crawl monitoring, and organic query impressions directly from Google.",
+        url: "https://search.google.com/search-console",
+      },
+      {
+        name: "Schema.org Validator",
+        category: "Structured Data",
+        description: "Official validator for validating JSON-LD entities, triplets, and rich snippets conformance.",
+        url: "https://validator.schema.org/",
+      },
+      {
+        name: "Google Rich Results Test",
+        category: "Rich Snippets",
+        description: "Official Google testing tool for verifying Organization, FAQ, and HowTo schema eligibility.",
+        url: "https://search.google.com/test/rich-results",
+      },
+      {
+        name: "Perplexity AI",
+        category: "AI Answer Engine",
+        description: "Leading conversational search engine used to audit domain citation frequency and source indexing.",
+        url: "https://www.perplexity.ai/",
+      },
+      {
+        name: "OpenAI SearchGPT",
+        category: "Generative Search",
+        description: "Real-time AI search platform parsing structured web pages for direct consumer answers.",
+        url: "https://chatgpt.com/",
+      },
+      {
+        name: "Google Gemini Advanced",
+        category: "Multimodal AI",
+        description: "Google's premier LLM powering AI Overviews and grounding responses in verified web facts.",
+        url: "https://gemini.google.com/",
+      },
+      {
+        name: "Cloudflare Web Analytics",
+        category: "Edge Analytics",
+        description: "Privacy-first, cookie-less edge traffic telemetry tracking real human visitors without slowing pages.",
+        url: "https://www.cloudflare.com/web-analytics/",
+      },
+      {
+        name: "PageSpeed Insights & CrUX",
+        category: "Core Web Vitals",
+        description: "Real-world Chrome User Experience (CrUX) data measuring LCP, INP, and CLS scores.",
+        url: "https://pagespeed.web.dev/",
+      },
+      {
+        name: "Meta Conversions API (CAPI)",
+        category: "Server Telemetry",
+        description: "Direct server-to-server event tracking preventing attribution loss caused by ad-blockers and iOS privacy.",
+        url: "https://developers.facebook.com/docs/marketing-api/conversions-api/",
+      },
+      {
+        name: "Screaming Frog SEO Spider",
+        category: "Technical Crawler",
+        description: "Industry-standard desktop crawler for diagnosing crawl depth, status codes, and canonical errors.",
+        url: "https://www.screamingfrog.co.uk/seo-spider/",
+      },
+      {
+        name: "Ahrefs Webmaster Tools",
+        category: "Backlink Telemetry",
+        description: "Comprehensive backlink monitoring, domain rating audits, and keyword position tracking.",
+        url: "https://ahrefs.com/webmaster-tools",
+      },
+      {
+        name: "Wikidata Query Service",
+        category: "Knowledge Graph",
+        description: "SPARQL-driven knowledge graph registry for grounding corporate entities and disambiguating brands.",
+        url: "https://query.wikidata.org/",
+      },
     ],
     extendedFaqs: [
-      { question: "What is AEO and GEO and why does our business need it?", answer: "Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) are practices that ensure AI engines like Perplexity, ChatGPT, and Google Gemini understand your company's credentials and recommend you when prospective customers ask conversational questions." },
+      {
+        question: "How does Generative Engine Optimization (GEO) differ from traditional SEO in 2026?",
+        answer:
+          "Traditional SEO focuses on keyword density, backlink quantity, and ranking among the 10 blue links. Generative Engine Optimization (GEO) structures content syntax, semantic facts, and linked Schema.org knowledge graph triplets so AI answer engines (ChatGPT, Google Gemini, Perplexity) parse, verify, and cite your brand as the primary source in conversational answers.",
+      },
+      {
+        question: "Why is Schema.org entity triangulation with Indian MSME and GSTIN registries so effective?",
+        answer:
+          "Search engines and AI models prioritize verifiable statutory facts over unverifiable marketing claims. By linking your official MSME Udyam registration (UDYAM-MP-44-0005223), GSTIN (23CHLPV2868R1CJ), and Wikidata Q-IDs inside JSON-LD schemas, search algorithms establish 100% factual certainty regarding your corporate identity and regional jurisdiction.",
+      },
+      {
+        question: "What are /llms.txt and /llms-full.txt and why do they increase AI citation rates?",
+        answer:
+          "/llms.txt is an emerging machine-readable documentation standard that provides lightweight markdown summaries of your business, services, and technical capabilities specifically formatted for LLM crawlers. By providing a clean text endpoint free of client-side scripts, AI models like Perplexity and GPTBot can ingest and cite your offerings in milliseconds.",
+      },
+      {
+        question: "How does MLHK Infotech eliminate up to 50% wasted advertising spend (ad waste)?",
+        answer:
+          "Most generic campaigns waste thousands on accidental clicks, job hunters, and irrelevant search terms. We implement exhaustive negative keyword gating (blocking queries like 'jobs', 'free', 'internship', 'tutorial'), set up server-side Meta Conversions API (CAPI), and bid exclusively on high-intent commercial keywords tied directly to qualified inquiries.",
+      },
+      {
+        question: "How do sub-0.5s Core Web Vitals and Cloudflare edge caching influence search ranking and AI scrapers?",
+        answer:
+          "Search engine crawlers and AI bots operate under strict crawl budgets and timeout windows. When a website loads in under 0.5s via Next.js ISR on Cloudflare's 330+ city edge network, crawlers index 5x more pages per visit with zero timeout errors. Google explicitly incorporates Core Web Vitals (LCP < 2.5s, INP < 200ms) into its page experience ranking signals.",
+      },
+    ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q180711", // Search engine optimization
+      "https://www.wikidata.org/wiki/Q52271", // Knowledge Graph
+      "https://www.wikidata.org/wiki/Q95", // Google Search
+      "https://www.wikidata.org/wiki/Q115788460", // ChatGPT
+      "https://www.wikidata.org/wiki/Q117768228", // Perplexity AI
+      "https://www.wikidata.org/wiki/Q116960481", // Large language model
+      "https://www.wikidata.org/wiki/Q105952", // JSON-LD
+      "https://www.wikidata.org/wiki/Q328", // Wikidata
+      "https://www.wikidata.org/wiki/Q167270", // Trademark
+      "https://www.wikidata.org/wiki/Q160565", // Ministry of Micro, Small and Medium Enterprises
     ],
   },
   "enterprise-systems": {
