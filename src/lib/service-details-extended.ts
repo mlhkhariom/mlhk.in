@@ -1093,9 +1093,9 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       accent: "#3b82f6",
       accentLight: "#60a5fa",
       accentGlow: "59, 130, 246",
-      bgGradient: "from-blue-500/15 via-transparent to-indigo-500/5",
+      bgGradient: "from-blue-600/15 via-transparent to-indigo-500/5",
       borderHover: "hover:border-blue-500/40",
-      badgeClass: "text-blue-400 border-blue-500/30 bg-blue-500/10",
+      badgeClass: "text-blue-300 border-blue-500/30 bg-blue-500/10",
       tag: "Custom ERP/CRM & Indian GST Billing",
     },
     seoKeywords: [
@@ -1104,6 +1104,11 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       "multi tenant crm software",
       "inventory management software indore",
       "enterprise business automation",
+      "postgresql acid inventory software",
+      "sovereign crm zero per seat licensing",
+      "b2b gst invoice generator software",
+      "multi branch warehouse erp shajapur",
+      "role based access control enterprise software",
     ],
     aeoCapsules: [
       {
@@ -1162,40 +1167,260 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
     pillarsTitle: "Enterprise Software Modules",
     pillarsSubtitle: "Modular software suites that scale with your corporate expansion.",
     pillars: [
-      { id: "crm-pipeline", title: "CRM & Opportunity Pipeline Manager", tagline: "Never Let a Lead Go Cold", description: "Track prospects from initial WhatsApp inquiry through technical consultation, quotation, and contract closure with automated follow-up reminders.", specs: ["Visual Kanban stage pipeline", "WhatsApp & email follow-up triggers", "Lead qualification scoring", "Sales representative activity logs"], badge: "CRM Core" },
-      { id: "erp-billing", title: "Automated GST Invoicing & Expense Ledger", tagline: "Tax-Compliant Invoicing", description: "Generate compliant GST tax invoices in seconds with automated CGST/SGST/IGST calculation, HSN/SAC lookups, and one-click PDF downloads.", specs: ["Automated 15-digit GSTIN tax breakdown", "Sequential invoice numbering and credit note handling", "Accounts receivable tracking and overdue alerts", "Direct payment link and UPI QR integration"], badge: "Billing & Finance" },
-      { id: "role-rbac", title: "Role-Based Access Control (RBAC) & Audit Logs", tagline: "Granular Enterprise Security", description: "Ensure employees only access what their clearance permits. Administrators maintain full oversight while junior staff access restricted operational views.", specs: ["Granular role assignments (Admin, Manager, Accountant, Staff)", "Tamper-resistant audit trails with timestamps and user IDs", "Two-factor authentication (2FA) support", "Automated daily encrypted database snapshots"], badge: "Security & RBAC" },
+      {
+        id: "crm-pipeline",
+        title: "CRM & Opportunity Pipeline Manager",
+        tagline: "Never Let a Lead Go Cold",
+        description:
+          "Track prospects from initial WhatsApp inquiry through technical consultation, quotation, and contract closure with automated follow-up reminders.",
+        specs: [
+          "Visual Kanban stage pipeline",
+          "WhatsApp & email follow-up triggers",
+          "Lead qualification scoring",
+          "Sales representative activity logs",
+        ],
+        badge: "CRM Core",
+      },
+      {
+        id: "erp-billing",
+        title: "Automated GST Invoicing & Expense Ledger",
+        tagline: "Tax-Compliant Invoicing",
+        description:
+          "Generate compliant GST tax invoices in seconds with automated CGST/SGST/IGST calculation, HSN/SAC lookups, and one-click PDF downloads.",
+        specs: [
+          "Automated 15-digit GSTIN tax breakdown",
+          "Sequential invoice numbering and credit note handling",
+          "Accounts receivable tracking and overdue alerts",
+          "Direct payment link and UPI QR integration",
+        ],
+        badge: "Billing & Finance",
+      },
+      {
+        id: "role-rbac",
+        title: "Role-Based Access Control (RBAC) & Audit Logs",
+        tagline: "Granular Enterprise Security",
+        description:
+          "Ensure employees only access what their clearance permits. Administrators maintain full oversight while junior staff access restricted operational views.",
+        specs: [
+          "Granular role assignments (Admin, Manager, Accountant, Staff)",
+          "Tamper-resistant audit trails with timestamps and user IDs",
+          "Two-factor authentication (2FA) support",
+          "Automated daily encrypted database snapshots",
+        ],
+        badge: "Security & RBAC",
+      },
+      {
+        id: "acid-postgres",
+        title: "PostgreSQL ACID Concurrency & Row-Locking",
+        tagline: "Zero Race Conditions Across Branches",
+        description:
+          "Database-level serializable isolation and row-level locks prevent inventory overselling and accounting mismatches during simultaneous peak checkout.",
+        specs: [
+          "SELECT ... FOR UPDATE row-level concurrency locking",
+          "Read-replica distribution for heavy financial reporting",
+          "ACID compliance preventing partial or corrupted transactions",
+          "Automated point-in-time recovery (PITR) snapshots",
+        ],
+        badge: "Data Rigor",
+      },
     ],
     deliverablesTitle: "Enterprise Deliverables",
     deliverablesSubtitle: "A complete turnkey operational ecosystem.",
     deliverables: [
-      { format: "Web Application", title: "Custom ERP/CRM Platform", description: "Deployed web application accessible securely from desktop, laptop, and tablet browsers.", badge: "Software" },
-      { format: "Database", title: "Encrypted Database Engine", description: "Dedicated PostgreSQL / SQLite database with scheduled automated backups.", badge: "Database" },
-      { format: "PDF & Video", title: "Staff Training Dossiers", description: "Step-by-step video walkthroughs and written operating manuals for your internal staff.", badge: "Training" },
+      {
+        format: "Web Application",
+        title: "Custom ERP/CRM Platform",
+        description: "Deployed web application accessible securely from desktop, laptop, and tablet browsers with full TypeScript source code.",
+        badge: "Software",
+      },
+      {
+        format: "Database",
+        title: "Encrypted Database Engine",
+        description: "Dedicated PostgreSQL / SQLite database with scheduled automated backups and row-level security.",
+        badge: "Database",
+      },
+      {
+        format: "PDF Generator",
+        title: "Automated GST Tax Invoicing Engine",
+        description: "Vector PDF generator creating compliant Indian B2B tax invoices with dynamic HSN/SAC breakdowns and UPI QR codes.",
+        badge: "Billing Engine",
+      },
+      {
+        format: "PDF & Video",
+        title: "Staff Training Dossiers",
+        description: "Step-by-step video walkthroughs and written operating manuals for your internal staff and accountants.",
+        badge: "Training",
+      },
     ],
     comparisonTitle: "Off-The-Shelf SaaS (Salesforce/Zoho) vs MLHK Sovereign ERP",
     comparisonSubtitle: "Why owning your software delivers exponential ROI.",
     comparison: [
-      { aspect: "Recurring Licensing", genericApproach: "₹3,000 to ₹10,000 per user per month. Costs explode as your workforce grows.", mlhkApproach: "Zero per-seat recurring fees. Unlimited users on your private infrastructure." },
-      { aspect: "Workflow Flexibility", genericApproach: "You must adapt your real-world business to their rigid, confusing menus.", mlhkApproach: "100% custom-built to match your exact company forms, approvals, and terminology." },
-      { aspect: "Data Sovereignty", genericApproach: "Your sensitive financial and client data sits on shared third-party servers.", mlhkApproach: "Complete data ownership. Host on your private servers or secure dedicated cloud." },
+      {
+        aspect: "Recurring Licensing",
+        genericApproach: "₹3,000 to ₹10,000 per user per month. Costs explode into lakhs every year as your workforce grows.",
+        mlhkApproach: "Zero per-seat recurring fees. Unlimited internal users on your private infrastructure.",
+      },
+      {
+        aspect: "Workflow Flexibility",
+        genericApproach: "You must adapt your real-world business to their rigid, confusing menus and restricted fields.",
+        mlhkApproach: "100% custom-built to match your exact company forms, approval chains, and nomenclature.",
+      },
+      {
+        aspect: "Data Sovereignty",
+        genericApproach: "Your sensitive financial and client records sit on shared multi-tenant third-party servers.",
+        mlhkApproach: "Complete data ownership. Host on your private servers or secure dedicated cloud with zero third-party snooping.",
+      },
+      {
+        aspect: "Indian GST & Tax Compliance",
+        genericApproach: "Clunky third-party add-ons that break frequently during GST portal updates.",
+        mlhkApproach: "Native statutory calculations (CGST/SGST/IGST), checksum GSTIN validation, and instant E-way bill JSON payloads.",
+      },
     ],
     timelineTitle: "ERP Deployment Roadmap",
     timelineSubtitle: "Phased rollout to guarantee zero disruption to daily business.",
     timeline: [
-      { phase: "Phase 01", timeline: "Weeks 1–2", title: "Workflow Audit & Data Modeling", description: "Interviews with leadership and department heads to document existing spreadsheets and processes.", outputs: ["System Blueprint", "Database Architecture"] },
-      { phase: "Phase 02", timeline: "Weeks 3–5", title: "Core CRM & Database Build", description: "Developing user authentication, client directory, and opportunity pipeline.", outputs: ["CRM Staging Environment"] },
-      { phase: "Phase 03", timeline: "Weeks 6–8", title: "GST Invoicing & Ledger Modules", description: "Integrating financial calculations, tax invoices, and reporting dashboards.", outputs: ["Billing Engine Complete"] },
-      { phase: "Phase 04", timeline: "Weeks 9–10", title: "Data Migration & Staff Handover", description: "Migrating existing spreadsheet records, conducting staff training, and live system cutover.", outputs: ["Production Go-Live"] },
+      {
+        phase: "Phase 01",
+        timeline: "Weeks 1–2",
+        title: "Workflow Audit & Data Modeling",
+        description: "Interviews with leadership and department heads to document existing spreadsheets and processes.",
+        outputs: ["System Blueprint", "Database Architecture ERD"],
+      },
+      {
+        phase: "Phase 02",
+        timeline: "Weeks 3–5",
+        title: "Core CRM & Database Build",
+        description: "Developing user authentication, client directory, and opportunity pipeline with role-based access control.",
+        outputs: ["CRM Staging Environment", "RBAC Policy Suite"],
+      },
+      {
+        phase: "Phase 03",
+        timeline: "Weeks 6–8",
+        title: "GST Invoicing & Ledger Modules",
+        description: "Integrating financial calculations, tax invoices, inventory deductions, and reporting dashboards.",
+        outputs: ["Billing Engine Complete", "Vector PDF Generator"],
+      },
+      {
+        phase: "Phase 04",
+        timeline: "Weeks 9–10",
+        title: "Data Migration & Staff Handover",
+        description: "Migrating existing spreadsheet records, conducting staff training, and executing production cutover.",
+        outputs: ["Production Go-Live", "Tally/Excel Data Migration"],
+      },
     ],
     toolsTitle: "Enterprise Engineering Stack",
     tools: [
-      { name: "Next.js & React", category: "Frontend", description: "Ultra-responsive desktop UI with instant page transitions and keyboard shortcuts." },
-      { name: "PostgreSQL / D1", category: "Database", description: "ACID-compliant relational database engine with foreign key integrity." },
-      { name: "PDFKit / Puppeteer", category: "Document Generation", description: "Pixel-perfect vector GST invoice and receipt PDF generation." },
+      {
+        name: "PostgreSQL 16",
+        category: "Relational Database",
+        description: "ACID-compliant relational database engine with advanced row-level security and JSONB indexing.",
+        url: "https://www.postgresql.org/",
+      },
+      {
+        name: "Drizzle ORM",
+        category: "Type-Safe ORM",
+        description: "High-performance TypeScript ORM providing compile-time SQL verification and zero runtime overhead.",
+        url: "https://orm.drizzle.team/",
+      },
+      {
+        name: "Next.js 16 (App Router)",
+        category: "Full-Stack Frontend",
+        description: "Ultra-responsive desktop UI with instant page transitions, server actions, and keyboard navigation.",
+        url: "https://nextjs.org/",
+      },
+      {
+        name: "TypeScript 5+",
+        category: "Core Language",
+        description: "End-to-end static typing eliminating runtime regressions across financial ledgers and billing calculations.",
+        url: "https://www.typescriptlang.org/",
+      },
+      {
+        name: "Better-Auth",
+        category: "Enterprise Security",
+        description: "Hardened session engine with HTTP-only cookies, multi-factor authentication, and RBAC middleware.",
+        url: "https://www.better-auth.com/",
+      },
+      {
+        name: "PDFKit & Puppeteer",
+        category: "Document Generation",
+        description: "Pixel-perfect vector GST tax invoice, delivery challan, and quotation PDF generation engine.",
+        url: "https://pdfkit.org/",
+      },
+      {
+        name: "Zod Schema Validation",
+        category: "Data Integrity",
+        description: "Strict runtime input validation for GSTIN checksums, HSN/SAC codes, and numerical ledger values.",
+        url: "https://zod.dev/",
+      },
+      {
+        name: "Tailwind CSS v4",
+        category: "Design System",
+        description: "Custom dark luxury corporate interface tokens optimized for dense desktop data grids.",
+        url: "https://tailwindcss.com/",
+      },
+      {
+        name: "Redis Cache",
+        category: "In-Memory Caching",
+        description: "High-speed key-value cache accelerating dashboard aggregations and user session lookups.",
+        url: "https://redis.io/",
+      },
+      {
+        name: "Docker Containers",
+        category: "Infrastructure",
+        description: "Containerized deployment ensuring identical execution across local dev and production private servers.",
+        url: "https://www.docker.com/",
+      },
+      {
+        name: "GST e-Invoice Portal",
+        category: "Statutory Systems",
+        description: "Official National Informatics Centre (NIC) portal for B2B e-invoice generation and IRN registration.",
+        url: "https://einvoice1.gst.gov.in/",
+      },
+      {
+        name: "NIC E-Way Bill System",
+        category: "Statutory Systems",
+        description: "Government of India electronic way bill portal for tracking inter-state and intra-state goods transit.",
+        url: "https://ewaybillgst.gov.in/",
+      },
     ],
     extendedFaqs: [
-      { question: "Can you migrate our old data from Excel spreadsheets?", answer: "Yes. During Phase 4, our engineers clean, normalize, and import your existing client, product, and historical invoice spreadsheets into the new database so you lose zero operational history." },
+      {
+        question: "Can you migrate our legacy data from Excel spreadsheets and Tally?",
+        answer:
+          "Yes. During Phase 4, our systems engineers clean, normalize, and import your existing client databases, inventory catalogs, and historical invoices from Microsoft Excel, CSV files, or Tally XML exports directly into your new PostgreSQL database with zero loss of operational history.",
+      },
+      {
+        question: "How does the custom ERP handle multi-branch inventory across different cities without stock conflict?",
+        answer:
+          "We implement PostgreSQL serializable transactions with database-level row locking (SELECT ... FOR UPDATE). When branch operators in Indore, Bhopal, and Shajapur sell items simultaneously, stock deductions execute atomically in sequence. If inventory reaches zero, subsequent transactions abort with an instant out-of-stock notification, preventing overselling.",
+      },
+      {
+        question: "How does MLHK Infotech ensure 100% Indian GST compliance (CGST, SGST, IGST, E-way bill)?",
+        answer:
+          "Our software automatically evaluates the supplier GSTIN (23 for Madhya Pradesh) and the buyer GSTIN prefix to calculate CGST (9%) + SGST (9%) for intra-state supply, or IGST (18%) for inter-state transactions. We validate 15-character GSTIN checksums, assign mandatory 6-digit SAC codes, generate UPI B2B payment QR codes, and format JSON payloads ready for government E-way bill generation.",
+      },
+      {
+        question: "How much money does a company actually save by eliminating per-seat SaaS licensing?",
+        answer:
+          "A mid-sized company with 50 operational employees paying ₹4,000/user/month for foreign SaaS tools spends ₹24,00,000 every single year in licensing fees alone. A sovereign custom ERP built by MLHK Infotech requires a one-time engineering investment and minimal cloud hosting costs (₹2,000–₹5,000/month), resulting in multi-lakh cumulative savings within year two.",
+      },
+      {
+        question: "What security safeguards protect financial ledgers from internal employee tampering?",
+        answer:
+          "We enforce Role-Based Access Control (RBAC) paired with immutable database audit triggers. Every update or deletion writes the operator's user ID, IP address, previous value, new value, and microsecond timestamp to an encrypted audit log table that cannot be edited or erased, even by branch managers.",
+      },
+    ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q131201", // Enterprise resource planning
+      "https://www.wikidata.org/wiki/Q622694", // Customer relationship management
+      "https://www.wikidata.org/wiki/Q1071", // PostgreSQL
+      "https://www.wikidata.org/wiki/Q82871", // Relational database
+      "https://www.wikidata.org/wiki/Q276063", // Goods and Services Tax (India)
+      "https://www.wikidata.org/wiki/Q7374026", // Role-based access control
+      "https://www.wikidata.org/wiki/Q670", // ACID transactions
+      "https://www.wikidata.org/wiki/Q18349", // Invoice
+      "https://www.wikidata.org/wiki/Q80415", // Software as a service
+      "https://www.wikidata.org/wiki/Q160565", // Ministry of Micro, Small and Medium Enterprises
     ],
   },
   "ai-automation": {
