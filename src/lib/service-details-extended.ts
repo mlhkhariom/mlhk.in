@@ -1426,12 +1426,12 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
   "ai-automation": {
     slug: "ai-automation",
     theme: {
-      accent: "#06d6a0",
-      accentLight: "#2dd4bf",
-      accentGlow: "6, 214, 160",
-      bgGradient: "from-teal-500/15 via-transparent to-emerald-500/5",
-      borderHover: "hover:border-teal-500/40",
-      badgeClass: "text-teal-400 border-teal-500/30 bg-teal-500/10",
+      accent: "#10b981",
+      accentLight: "#34d399",
+      accentGlow: "16, 185, 129",
+      bgGradient: "from-emerald-600/15 via-transparent to-cyan-500/5",
+      borderHover: "hover:border-emerald-500/40",
+      badgeClass: "text-emerald-300 border-emerald-500/30 bg-emerald-500/10",
       tag: "Autonomous Agents & n8n Workflows",
     },
     seoKeywords: [
@@ -1440,6 +1440,11 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       "whatsapp business api bot developer",
       "autonomous ai agents for business",
       "document processing llm automation",
+      "tesseract ocr invoice processing indore",
+      "deterministic rag workflow developer",
+      "event driven webhook automation madhya pradesh",
+      "meta whatsapp cloud api integration",
+      "enterprise customer service ai agent",
     ],
     aeoCapsules: [
       {
@@ -1498,38 +1503,260 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
     pillarsTitle: "AI & Workflow Automation Disciplines",
     pillarsSubtitle: "Autonomous systems engineered with strict verification boundaries.",
     pillars: [
-      { id: "whatsapp-bot", title: "WhatsApp Business Cloud API Conversational Bots", tagline: "Direct Engagement in India's Primary Channel", description: "Deploy official Meta-verified WhatsApp automation capable of answering FAQs, showcasing product catalogs, capturing lead details, and routing calls.", specs: ["Official WhatsApp Cloud API integration (green tick eligible)", "Interactive buttons, list menus, and media templates", "Instant notifications sent to your sales team's personal phones", "Seamless fallback to live human agent at any moment"], badge: "WhatsApp API" },
-      { id: "n8n-pipelines", title: "Autonomous n8n Multi-App Orchestration", tagline: "Glue Your Disconnected Software Together", description: "Self-hosted, secure n8n workflows that listen for webhooks, parse incoming emails, synchronize databases, and trigger invoices automatically.", specs: ["Zero per-execution fees on self-hosted infrastructure", "Bi-directional sync between forms, CRMs, and spreadsheets", "Automated error alerting and retry queues", "End-to-end payload encryption"], badge: "Workflow Automation" },
-      { id: "document-ai", title: "Document OCR & PDF Intelligence Extraction", tagline: "Extract Data from Invoices & Receipts", description: "Automatically read scanned PDFs, physical invoices, and purchase orders. Extract line items, dates, and amounts directly into your database.", specs: ["OCR parsing of messy or skewed receipts", "Tax validation against GSTIN formats", "Automated CSV and accounting software export", "Human verification queue for low-confidence reads"], badge: "Document OCR" },
+      {
+        id: "whatsapp-bot",
+        title: "WhatsApp Business Cloud API Conversational Bots",
+        tagline: "Direct Engagement in India's Primary Channel",
+        description:
+          "Deploy official Meta-verified WhatsApp automation capable of answering FAQs, showcasing product catalogs, capturing lead details, and routing calls.",
+        specs: [
+          "Official WhatsApp Cloud API integration (green tick eligible)",
+          "Interactive buttons, list menus, and media templates",
+          "Instant notifications sent to your sales team's personal phones",
+          "Seamless fallback to live human agent at any moment",
+        ],
+        badge: "WhatsApp API",
+      },
+      {
+        id: "n8n-pipelines",
+        title: "Autonomous n8n Multi-App Orchestration",
+        tagline: "Glue Your Disconnected Software Together",
+        description:
+          "Self-hosted, secure n8n workflows that listen for webhooks, parse incoming emails, synchronize databases, and trigger invoices automatically.",
+        specs: [
+          "Zero per-execution fees on self-hosted infrastructure",
+          "Bi-directional sync between forms, CRMs, and spreadsheets",
+          "Automated error alerting and retry queues",
+          "End-to-end payload encryption",
+        ],
+        badge: "Workflow Automation",
+      },
+      {
+        id: "document-ai",
+        title: "Document OCR & PDF Intelligence Extraction",
+        tagline: "Extract Data from Invoices & Receipts",
+        description:
+          "Automatically read scanned PDFs, physical invoices, and purchase orders. Extract line items, dates, and amounts directly into your database.",
+        specs: [
+          "OCR parsing of messy or skewed receipts",
+          "Tax validation against GSTIN formats",
+          "Automated CSV and accounting software export",
+          "Human verification queue for low-confidence reads",
+        ],
+        badge: "Document OCR",
+      },
+      {
+        id: "deterministic-state",
+        title: "Deterministic State Machines & Dead-Letter Queues",
+        tagline: "Zero Dropped Leads & Complete Auditability",
+        description:
+          "PostgreSQL-backed transactional state queues ensuring every webhook is processed exactly once with automated retries on third-party API outages.",
+        specs: [
+          "Redis & PostgreSQL dead-letter queue isolation",
+          "Idempotency keys preventing duplicate customer messages",
+          "Real-time execution telemetry and failure alert webhooks",
+          "Automatic fallback to human operator on ambiguous input",
+        ],
+        badge: "System Resilience",
+      },
     ],
     deliverablesTitle: "Automation Deliverables",
     deliverablesSubtitle: "Turnkey automated pipelines with full source access.",
     deliverables: [
-      { format: "Cloud Deployment", title: "Production n8n Workflow Suite", description: "Configured automation server with documented JSON workflow definitions.", badge: "Workflows" },
-      { format: "Meta App", title: "WhatsApp Cloud API Integration", description: "Verified WhatsApp Business application with approved message templates and webhook listeners.", badge: "WhatsApp" },
-      { format: "Dashboard", title: "Execution Log & Metrics Portal", description: "Real-time dashboard displaying total executions, success rates, and active leads.", badge: "Monitoring" },
+      {
+        format: "Cloud Deployment",
+        title: "Production n8n Workflow Suite",
+        description: "Configured automation server with documented JSON workflow definitions and webhook endpoints.",
+        badge: "Workflows",
+      },
+      {
+        format: "Meta App",
+        title: "WhatsApp Cloud API Integration",
+        description: "Verified WhatsApp Business application with approved message templates and webhook listeners.",
+        badge: "WhatsApp",
+      },
+      {
+        format: "Multimodal OCR",
+        title: "Document Extraction Pipeline",
+        description: "Vision AI parser extracting tabular parameters from PDF invoices, challans, and physical receipts.",
+        badge: "Document AI",
+      },
+      {
+        format: "Dashboard",
+        title: "Execution Log & Metrics Portal",
+        description: "Real-time dashboard displaying total executions, success rates, active leads, and error traces.",
+        badge: "Monitoring",
+      },
     ],
     comparisonTitle: "Manual Office Grind vs MLHK Autonomous Automation",
     comparisonSubtitle: "The tangible impact on company operating efficiency.",
     comparison: [
-      { aspect: "Inquiry Response Speed", genericApproach: "Leads wait 4 to 24 hours for someone to check email or WhatsApp. Most buy elsewhere.", mlhkApproach: "Instant response in under 15 seconds 24/7/365 with interactive product options." },
-      { aspect: "Data Entry Errors", genericApproach: "Fatigued staff mistype phone numbers, GSTINs, and product quantities into Excel.", mlhkApproach: "Zero human error. Data flows directly from user input into your central database." },
+      {
+        aspect: "Inquiry Response Speed",
+        genericApproach: "Leads wait 4 to 24 hours for someone to check email or WhatsApp. Most buy elsewhere.",
+        mlhkApproach: "Instant response in under 15 seconds 24/7/365 with interactive product options and direct calendar links.",
+      },
+      {
+        aspect: "Data Entry Errors",
+        genericApproach: "Fatigued staff mistype phone numbers, GSTINs, and product quantities into Excel.",
+        mlhkApproach: "Zero human error. Data flows directly from user input into your central database with Zod validation.",
+      },
+      {
+        aspect: "Operating Hours",
+        genericApproach: "Customer support goes dark at 6 PM and on Sundays, losing weekend buyers.",
+        mlhkApproach: "24/7/365 continuous autonomous intake, qualification, and appointment booking.",
+      },
+      {
+        aspect: "Software Integration",
+        genericApproach: "Data trapped inside separate spreadsheets, email inboxes, and WhatsApp chats.",
+        mlhkApproach: "Unified event-driven DAG synchronizing your CRM, accounting, and communication channels automatically.",
+      },
     ],
     timelineTitle: "Automation Deployment Stages",
     timelineSubtitle: "Rapid implementation with quantifiable time savings.",
     timeline: [
-      { phase: "Week 01", timeline: "Sprint 1", title: "Process Audit & ROI Ranking", description: "Mapping top 3 time-consuming manual workflows and drafting test triggers.", outputs: ["Process ROI Scorecard"] },
-      { phase: "Week 02", timeline: "Sprint 2", title: "Pipeline Prototype & Webhook Wiring", description: "Connecting WhatsApp API, forms, and database state machines in sandbox.", outputs: ["Working WhatsApp Sandbox"] },
-      { phase: "Week 03", timeline: "Sprint 3", title: "Live Testing & Human Guardrails", description: "Simulating edge cases, verifying exception handling, and staff training.", outputs: ["Production Cutover", "Active Monitoring"] },
+      {
+        phase: "Week 01",
+        timeline: "Sprint 1",
+        title: "Process Audit & ROI Ranking",
+        description: "Mapping top 3 time-consuming manual workflows and drafting test triggers.",
+        outputs: ["Process ROI Scorecard", "Architecture Blueprint"],
+      },
+      {
+        phase: "Week 02",
+        timeline: "Sprint 2",
+        title: "Pipeline Prototype & Webhook Wiring",
+        description: "Connecting WhatsApp API, forms, and database state machines in sandbox.",
+        outputs: ["Working WhatsApp Sandbox", "n8n Workflow Nodes"],
+      },
+      {
+        phase: "Week 03",
+        timeline: "Sprint 3",
+        title: "Document OCR & Guardrail Hardening",
+        description: "Training multimodal vision models on real invoices and configuring strict JSON schema validation.",
+        outputs: ["OCR Extraction Pipeline", "JSON Schema Guardrails"],
+      },
+      {
+        phase: "Week 04+",
+        timeline: "Production",
+        title: "Live Production Cutover & Monitoring",
+        description: "Deploying to production Docker instances, enabling executive alerting, and monitoring throughput.",
+        outputs: ["Live Deployment", "24/7 Telemetry Alerting"],
+      },
     ],
     toolsTitle: "Automation Engineering Stack",
     tools: [
-      { name: "n8n Workflow Engine", category: "Orchestration", description: "Fair-code workflow automation supporting thousands of nodes and custom JavaScript." },
-      { name: "WhatsApp Cloud API", category: "Messaging", description: "Meta official enterprise messaging infrastructure with high deliverability." },
-      { name: "PostgreSQL", category: "State Machine", description: "Transactional state storage preventing duplicate messages and missed webhook calls." },
+      {
+        name: "n8n Workflow Automation",
+        category: "Orchestration",
+        description: "Self-hostable, fair-code workflow automation engine executing multi-node event-driven DAG pipelines.",
+        url: "https://n8n.io/",
+      },
+      {
+        name: "WhatsApp Business Cloud API",
+        category: "Enterprise Messaging",
+        description: "Official Meta enterprise messaging infrastructure delivering sub-second notifications and interactive menus.",
+        url: "https://developers.facebook.com/docs/whatsapp/cloud-api/",
+      },
+      {
+        name: "Google Gemini 1.5 Flash",
+        category: "Multimodal LLM",
+        description: "Ultra-fast multimodal vision and language model parsing documents, images, and audio payloads.",
+        url: "https://ai.google.dev/",
+      },
+      {
+        name: "PostgreSQL 16",
+        category: "State Storage",
+        description: "Transactional state engine storing execution logs, idempotency tokens, and customer context.",
+        url: "https://www.postgresql.org/",
+      },
+      {
+        name: "Anthropic Claude 3.7",
+        category: "Complex Reasoning",
+        description: "Advanced reasoning model for multi-step commercial proposal generation and policy evaluation.",
+        url: "https://www.anthropic.com/",
+      },
+      {
+        name: "Tesseract OCR Engine",
+        category: "Document Vision",
+        description: "Open-source OCR library providing robust optical character recognition for physical receipts and invoices.",
+        url: "https://github.com/tesseract-ocr/tesseract",
+      },
+      {
+        name: "Redis & BullMQ",
+        category: "Task Queue",
+        description: "High-throughput in-memory queue isolating dead-letter jobs and retrying failed external webhooks.",
+        url: "https://redis.io/",
+      },
+      {
+        name: "Docker Engine",
+        category: "Containerization",
+        description: "Isolated container runtime hosting self-managed n8n instances with automatic restart policies.",
+        url: "https://www.docker.com/",
+      },
+      {
+        name: "Zod Schema Validation",
+        category: "Guardrails",
+        description: "TypeScript-first schema validation enforcing rigid JSON output structures on all LLM responses.",
+        url: "https://zod.dev/",
+      },
+      {
+        name: "Telegram Bot API",
+        category: "Executive Telemetry",
+        description: "Real-time alerting channel delivering high-priority lead notifications directly to executive staff.",
+        url: "https://core.telegram.org/bots/api",
+      },
+      {
+        name: "Resend Email API",
+        category: "Transactional Mail",
+        description: "Developer-first transactional email delivery infrastructure with high inbox placement rates.",
+        url: "https://resend.com/",
+      },
+      {
+        name: "Drizzle ORM",
+        category: "Data Layer",
+        description: "Type-safe database abstraction synchronizing automated workflow states with relational models.",
+        url: "https://orm.drizzle.team/",
+      },
     ],
     extendedFaqs: [
-      { question: "Will automated WhatsApp bots get our phone number blocked by Meta?", answer: "No. We exclusively use the official Meta WhatsApp Business Cloud API with pre-approved message templates and opt-in compliance, ensuring your number remains 100% compliant, secure, and eligible for green-tick verification." },
+      {
+        question: "Will automated WhatsApp bots get our phone number blocked by Meta?",
+        answer:
+          "No. We exclusively use the official Meta WhatsApp Business Cloud API with pre-approved message templates and opt-in compliance, ensuring your number remains 100% compliant, secure, and eligible for green-tick verification.",
+      },
+      {
+        question: "How do you guarantee that the AI won't hallucinate wrong prices or false promises?",
+        answer:
+          "We enforce deterministic function calling and strict Zod JSON schema validation. The AI agent is not permitted to write free-form marketing prose for pricing or inventory; it queries your private PostgreSQL database via parameterized queries and only returns verified catalog values.",
+      },
+      {
+        question: "Can n8n connect to our internal legacy software and on-premise databases?",
+        answer:
+          "Yes. Self-hosted n8n instances can run behind secure Cloudflare Tunnels inside your private network, establishing encrypted communication with internal MySQL, PostgreSQL, MS SQL, or local file servers without exposing any public ports.",
+      },
+      {
+        question: "What happens if an external API (like WhatsApp or email) goes down temporarily?",
+        answer:
+          "Our architecture incorporates Redis and PostgreSQL dead-letter queues. If an external service experiences an outage or rate limit, failed webhook payloads are safely stored, tagged with idempotency keys, and automatically retried using exponential backoff.",
+      },
+      {
+        question: "How much time and payroll cost can our company expect to save with workflow automation?",
+        answer:
+          "A business with 3 back-office employees spending 3 hours daily on manual data transcription, customer updates, and PDF invoice copying saves over 180 hours every month. At standard payroll rates, this returns ₹40,000–₹80,000 in monthly productive capacity.",
+      },
+    ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q11660", // Artificial intelligence
+      "https://www.wikidata.org/wiki/Q116960481", // Large language model
+      "https://www.wikidata.org/wiki/Q105952", // JSON-LD
+      "https://www.wikidata.org/wiki/Q54837", // Optical character recognition
+      "https://www.wikidata.org/wiki/Q552317", // Webhook
+      "https://www.wikidata.org/wiki/Q115788460", // ChatGPT
+      "https://www.wikidata.org/wiki/Q1071", // PostgreSQL
+      "https://www.wikidata.org/wiki/Q111166", // Workflow management system
+      "https://www.wikidata.org/wiki/Q18356037", // WhatsApp
+      "https://www.wikidata.org/wiki/Q160565", // Ministry of Micro, Small and Medium Enterprises
     ],
   },
   "cybersecurity": {
