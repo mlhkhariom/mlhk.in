@@ -50,6 +50,21 @@ export async function GET() {
             type: "text/plain",
           },
           {
+            href: `${BRAND.url}/auth.md`,
+            type: "text/markdown",
+            title: `${BRAND.name} Agent Authentication Specification`,
+          },
+          {
+            href: `${BRAND.url}/.well-known/oauth-protected-resource`,
+            type: "application/json",
+            title: `${BRAND.name} OAuth Protected Resource Metadata`,
+          },
+          {
+            href: `${BRAND.url}/.well-known/oauth-authorization-server`,
+            type: "application/json",
+            title: `${BRAND.name} OAuth Authorization Server Metadata`,
+          },
+          {
             href: `${BRAND.url}/robots.txt`,
             type: "text/plain",
           },

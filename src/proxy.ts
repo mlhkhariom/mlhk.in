@@ -28,8 +28,15 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const acceptHeader = req.headers.get("accept") || "";
 
-  // 1. Content Negotiation for AI Agents (Accept: text/markdown)
-  if (acceptHeader.includes("text/markdown")) {
+  // 1. Content Negotiation for AI Agents (Accept: text/markdown on HTML web pages)
+  const isDirectFileOrApi =
+    pathname.endsWith(".txt") ||
+    pathname.endsWith(".md") ||
+    pathname.endsWith(".json") ||
+    pathname.startsWith("/.well-known") ||
+    pathname.startsWith("/api");
+
+  if (acceptHeader.includes("text/markdown") && !isDirectFileOrApi) {
     const markdown = generatePageMarkdown(pathname, req.nextUrl.origin);
     const tokenCount = Math.ceil(markdown.length / 4);
 

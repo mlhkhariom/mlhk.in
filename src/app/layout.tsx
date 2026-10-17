@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json" />
         <link rel="describedby" href="/llms.txt" type="text/plain" />
+        <link rel="describedby" href="/auth.md" type="text/markdown" />
         <link rel="service-doc" href="/llms-full.txt" type="text/plain" />
       </head>
       <body className="font-sans bg-[#050607] text-zinc-100 antialiased">

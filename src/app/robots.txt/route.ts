@@ -36,6 +36,9 @@ Allow: /llms-full.txt
 Allow: /humans.txt
 Allow: /.well-known/security.txt
 Allow: /.well-known/api-catalog
+Allow: /.well-known/oauth-protected-resource
+Allow: /.well-known/oauth-authorization-server
+Allow: /auth.md
 Allow: /security.txt
 Allow: /feed.xml
 Allow: /sitemap.xml
