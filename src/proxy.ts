@@ -9,7 +9,10 @@ import { generatePageMarkdown } from "@/lib/markdown-generator";
  *    markdown representation of the requested page with proper Content-Type, Vary,
  *    and x-markdown-tokens headers per IETF and Cloudflare standards.
  *
- * 2. Auth Pre-Filter:
+ * 2. RFC 8288 & RFC 9727 Link Headers for Agent Discovery:
+ *    Attaches Link headers advertising machine-readable API catalog and specifications.
+ *
+ * 3. Auth Pre-Filter:
  *    better-auth session checks for `/admin/*` and `/portal/*`.
  */
 
@@ -17,6 +20,9 @@ const SESSION_COOKIES = [
   "better-auth.session_token",
   "__Secure-better-auth.session_token",
 ];
+
+const LINK_HEADER_VALUE =
+  '</.well-known/api-catalog>; rel="api-catalog", </llms.txt>; rel="describedby"; type="text/plain", </llms-full.txt>; rel="service-doc"; type="text/plain"';
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -32,6 +38,7 @@ export async function proxy(req: NextRequest) {
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
         "Vary": "Accept",
+        "Link": LINK_HEADER_VALUE,
         "X-Markdown-Tokens": String(tokenCount),
         "Content-Signal": "ai-train=no, search=yes, ai-input=yes",
         "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
@@ -49,6 +56,7 @@ export async function proxy(req: NextRequest) {
     }
   }
 
+  // 3. Regular HTML response (Link headers and security headers are attached via next.config.ts)
   return NextResponse.next();
 }
 

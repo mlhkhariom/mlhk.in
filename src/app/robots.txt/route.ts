@@ -35,6 +35,7 @@ Allow: /llms.txt
 Allow: /llms-full.txt
 Allow: /humans.txt
 Allow: /.well-known/security.txt
+Allow: /.well-known/api-catalog
 Allow: /security.txt
 Allow: /feed.xml
 Allow: /sitemap.xml

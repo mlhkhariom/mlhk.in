@@ -70,6 +70,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" className={`dark ${geist.variable} ${unbounded.variable}`}>
+      <head>
+        <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json" />
+        <link rel="describedby" href="/llms.txt" type="text/plain" />
+        <link rel="service-doc" href="/llms-full.txt" type="text/plain" />
+      </head>
       <body className="font-sans bg-[#050607] text-zinc-100 antialiased">
         <Suspense fallback={null}>
           <NavigationProgressBar />
