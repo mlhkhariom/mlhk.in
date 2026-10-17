@@ -35,7 +35,14 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate={false}>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-5"
+      noValidate={false}
+      toolname="submit_contact_inquiry"
+      tooldescription="Submit a consultation or software development inquiry to MLHK Infotech"
+      toolautosubmit="true"
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="contact-name" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
@@ -44,6 +51,7 @@ export default function ContactForm() {
           <input
             id="contact-name"
             name="name"
+            toolparamdescription="Your full name or organization contact person"
             required
             type="text"
             placeholder="e.g. Rahul Sharma"
@@ -60,6 +68,7 @@ export default function ContactForm() {
           <input
             id="contact-email"
             name="email"
+            toolparamdescription="Corporate or personal email address for replies"
             required
             type="email"
             placeholder="e.g. rahul@company.com"
@@ -76,6 +85,7 @@ export default function ContactForm() {
           <input
             id="contact-phone"
             name="phone"
+            toolparamdescription="Contact phone or WhatsApp number with country code"
             type="tel"
             placeholder="+91 98765 43210"
             value={form.phone}
@@ -91,6 +101,7 @@ export default function ContactForm() {
           <input
             id="contact-company"
             name="company"
+            toolparamdescription="Organization or startup name"
             type="text"
             placeholder="Your organization"
             value={form.company}
@@ -107,6 +118,7 @@ export default function ContactForm() {
         <textarea
           id="contact-message"
           name="message"
+          toolparamdescription="Detailed project requirements, goals, budget, or timelines"
           required
           rows={5}
           placeholder="Describe your requirements, goals, timeline, and any specific technologies..."

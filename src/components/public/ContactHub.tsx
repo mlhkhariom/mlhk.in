@@ -427,7 +427,14 @@ ${form.message || "No custom message provided. Requested discovery review based 
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate={false}>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+            noValidate={false}
+            toolname="submit_project_inquiry"
+            tooldescription="Submit a comprehensive software engineering, mobile app, or AI project inquiry to MLHK Infotech"
+            toolautosubmit="true"
+          >
             {/* Active Scope Summary Banner */}
             <div className="flex items-center justify-between rounded-xl border border-[#ff9f1c]/30 bg-[#ff9f1c]/5 px-4 py-3 text-xs">
               <div className="flex items-center gap-2">
@@ -453,6 +460,7 @@ ${form.message || "No custom message provided. Requested discovery review based 
                 <input
                   id="contact-name"
                   name="name"
+                  toolparamdescription="Your full name or representative contact person"
                   required
                   type="text"
                   placeholder="e.g. Rahul Sharma"
@@ -472,6 +480,7 @@ ${form.message || "No custom message provided. Requested discovery review based 
                 <input
                   id="contact-email"
                   name="email"
+                  toolparamdescription="Corporate or personal email address for proposals and deliverables"
                   required
                   type="email"
                   placeholder="e.g. rahul@company.com"
@@ -491,6 +500,7 @@ ${form.message || "No custom message provided. Requested discovery review based 
                 <input
                   id="contact-phone"
                   name="phone"
+                  toolparamdescription="Direct phone or WhatsApp number with country code"
                   type="tel"
                   placeholder="+91 98765 43210"
                   value={form.phone}
@@ -509,6 +519,7 @@ ${form.message || "No custom message provided. Requested discovery review based 
                 <input
                   id="contact-company"
                   name="company"
+                  toolparamdescription="Company or organization name"
                   type="text"
                   placeholder="e.g. Acme Technologies Pvt Ltd"
                   value={form.company}
@@ -528,6 +539,7 @@ ${form.message || "No custom message provided. Requested discovery review based 
               <textarea
                 id="contact-message"
                 name="message"
+                toolparamdescription="Project objectives, target scope, timeline constraints, and tech stack preferences"
                 rows={5}
                 placeholder="Share your goals, current bottlenecks, target audience, preferred tech stack, or integrations needed..."
                 value={form.message}
