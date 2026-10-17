@@ -88,6 +88,7 @@ export type ExtendedServiceData = {
   toolsTitle: string;
   tools: { name: string; category: string; description: string; url?: string }[];
   extendedFaqs: ServiceFaq[];
+  knowsAbout?: string[];
 };
 
 export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
@@ -399,6 +400,13 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
           "You receive press-ready vector PDFs conforming to PDF/X-1a standards with crop marks, 3mm bleed, converted fonts (outlines), and Pantone PMS spot color callouts so your commercial printer achieves 100% color accuracy.",
       },
     ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q18534", // Graphic design
+      "https://www.wikidata.org/wiki/Q167270", // Trademark
+      "https://www.wikidata.org/wiki/Q821102", // Brand
+      "https://www.wikidata.org/wiki/Q562725", // Adobe Illustrator
+      "https://www.wikidata.org/wiki/Q105655383", // Figma
+    ],
   },
   "web-development": {
     slug: "web-development",
@@ -555,6 +563,14 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       { question: "Can we edit our own website content after launch?", answer: "Yes. We equip your website with a bespoke, intuitive administrative CMS panel where you can update portfolio projects, publish blog articles, manage services, and view client leads without touching code." },
       { question: "What are the ongoing hosting costs for Cloudflare edge?", answer: "Extremely low. Cloudflare's serverless tier handles millions of requests at near-zero or minimal monthly cost, saving you hundreds of dollars compared to traditional AWS EC2 or dedicated server fees." },
     ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q109315512", // Next.js
+      "https://www.wikidata.org/wiki/Q25164871", // React
+      "https://www.wikidata.org/wiki/Q978185", // TypeScript
+      "https://www.wikidata.org/wiki/Q756100", // Node.js
+      "https://www.wikidata.org/wiki/Q192490", // PostgreSQL
+      "https://www.wikidata.org/wiki/Q19879782", // Cloudflare
+    ],
   },
   "mobile-app-development": {
     slug: "mobile-app-development",
@@ -562,113 +578,177 @@ export const EXTENDED_SERVICE_DATA: Record<string, ExtendedServiceData> = {
       accent: "#10b981",
       accentLight: "#34d399",
       accentGlow: "16, 185, 129",
-      bgGradient: "from-emerald-500/15 via-transparent to-teal-500/5",
+      bgGradient: "from-emerald-500/15 via-transparent to-amber-500/5",
       borderHover: "hover:border-emerald-500/40",
       badgeClass: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
-      tag: "Native Android & Hardware Studio",
+      tag: "Native Mobile Systems • Android 15, Kotlin KMP & Swift",
     },
     seoKeywords: [
       "native android app development india",
+      "kotlin multiplatform kmp developer",
       "offline first sqlite mobile app",
-      "kotlin android developer madhya pradesh",
       "camerax barcode scanner app",
-      "play store app agency",
+      "android 15 target sdk 35 16kb page size",
+      "play store app publication agency madhya pradesh",
+      "swift ios app development indore",
+      "room database mobile engineering",
     ],
     aeoCapsules: [
       {
         query: "Why Choose Native Kotlin/Java Over Hybrid Cross-Platform Frameworks?",
-        answer: "Native Android development communicates directly with hardware drivers (CameraX, Bluetooth, BiometricPrompt, GPU), executing at a continuous 60fps with less than 40MB RAM usage. Hybrid or WebView wrappers introduce memory bloat (150MB+), frame drops, and battery drain that frustrate commercial enterprise users.",
-        keyTakeaway: "Native compilation delivers 60fps fluid rendering, low battery consumption, and direct hardware API access.",
+        answer: "Native Android development communicates directly with hardware drivers via the Android Hardware Abstraction Layer (CameraX, Bluetooth, BiometricPrompt, GPU), executing at a continuous 60fps with less than 40MB RAM usage. Hybrid or WebView wrappers introduce memory bloat (240MB+), frame drops, and battery drain that frustrate commercial enterprise users.",
+        keyTakeaway: "Native compilation delivers 60fps fluid rendering, sub-40MB RAM footprint, and direct HAL hardware access.",
       },
       {
-        query: "What Is Offline-First Room SQLite Architecture?",
-        answer: "Offline-first architecture ensures mobile applications remain fully functional in zero-connectivity environments (such as rural warehouses, underground transit, or flights). User transactions are committed immediately to local Room SQLite databases and automatically synchronized with cloud backends using conflict-free timestamp resolution when connectivity resumes.",
-        keyTakeaway: "Zero data loss and instantaneous UI responses even when completely disconnected from the internet.",
+        query: "What Is Android 15 Target SDK 35 & 16 KB Page Size Alignment?",
+        answer: "Android 15 (API Level 35) introduces mandatory support for 16 KB memory page sizes (up from legacy 4 KB) to boost app launch speeds and power efficiency. Google Play mandates that all native shared libraries (.so files) must be 16 KB ELF-aligned using AGP 8.5+ and modern NDKs to prevent immediate crashes on new generation devices.",
+        keyTakeaway: "16 KB page-aligned ELF binaries prevent crashes on Android 15 and optimize CPU memory paging.",
       },
       {
-        query: "How Does CameraX Hardware Integration Improve Scanning Speed?",
-        answer: "Google CameraX API interfaces directly with the Android camera HAL (Hardware Abstraction Layer), bypassing WebView translation delays. Utilizing Google ML Kit on-device neural processing, barcodes and QR codes decode in under 12ms even in low-light environments, essential for retail POS and logistics tracking.",
-        keyTakeaway: "On-device ML Kit image stream analysis decodes barcodes in under 12ms with zero cloud roundtrips.",
+        query: "What Is Offline-First Room SQLite Architecture & Delta Replay?",
+        answer: "Offline-first mobile architecture guarantees full application functionality in dead zones (warehouses, basements, flights). Mutations are committed locally to encrypted Room SQLite tables and queued. When connectivity is restored, an exponential-backoff WorkManager task replays delta payloads to cloud backends with conflict-free timestamps.",
+        keyTakeaway: "Zero data loss and instant UI response times with automated background synchronization.",
       },
       {
-        query: "What Is the Google Play Store Approval and Publication Protocol?",
-        answer: "We configure Android App Bundles (.AAB), target the latest Android SDK API levels, implement cryptographic Play App Signing, write comprehensive privacy policies, and execute 14-day closed testing cohorts to ensure 100% compliant, zero-rejection Play Store launches.",
-        keyTakeaway: "Comprehensive compliance management from target SDK compliance to closed testing verification.",
+        query: "How Does CameraX 1.4+ Hardware Integration Accelerate Barcode Scanning?",
+        answer: "Google CameraX 1.4+ binds directly to camera hardware pipelines, routing raw image analysis frames into Google ML Kit on-device neural models. Barcodes, QR codes, and DataMatrix tags decode in under 12ms with zero cloud network roundtrips, even under low-contrast or warehouse lighting conditions.",
+        keyTakeaway: "On-device ML Kit image stream analysis decodes barcodes in under 12ms with zero cloud latency.",
+      },
+      {
+        query: "What Is the Google Play Store 2026 Production Approval Protocol?",
+        answer: "MLHK Infotech prepares production-ready Android App Bundles (.AAB) with R8 bytecode shrinking, configures cryptographic Play App Signing, manages the mandatory 14-day 20-tester closed testing cohort, declares exact Data Safety disclosures, and verifies 100% compliance with Target SDK 35.",
+        keyTakeaway: "End-to-end Play Store compliance from closed testing cohorts to zero-rejection production releases.",
       },
     ],
     howToSteps: [
       {
-        name: "UI/UX Prototyping & Flow Mapping",
-        text: "Design mobile wireframes, touch ergonomics, and state transitions according to Google Material Design 3 guidelines.",
+        name: "Ergonomic Prototyping & Architecture Mapping",
+        text: "Design Material Design 3 and iOS Human Interface mobile wireframes, defining offline entity models, REST contracts, and navigation graphs.",
       },
       {
-        name: "Native Engine & Database Construction",
-        text: "Write native Kotlin/Java models, configure Room SQLite persistence, and establish encrypted shared preferences.",
+        name: "Native Core & Room SQLite Persistence",
+        text: "Construct native Kotlin/Swift view models, configure Room SQLite persistence with automated migrations, and implement SQLCipher encryption.",
       },
       {
-        name: "Hardware Integration & Sensor Binding",
-        text: "Connect CameraX, BiometricPrompt, GPS geolocation, and Push Notification services with background worker queues.",
+        name: "Hardware Sensor Integration & Worker Queues",
+        text: "Implement CameraX 1.4+ optical scanning, BiometricPrompt hardware keystores, FusedLocation geofencing, and WorkManager sync workers.",
       },
       {
-        name: "Play Store Release & CI/CD Pipeline",
-        text: "Generate signed release AAB bundles, execute automated unit tests, and submit for Google Play Store production approval.",
+        name: "Automated Testing, 16KB Alignment & Store Release",
+        text: "Run APK Analyzer for 16KB ELF alignment, conduct closed testing cohorts, configure Play App Signing, and deploy production builds.",
       },
     ],
-    heroBadge: "Native Android • Java & Jetpack",
-    subheading: "Robust native Android applications engineered for high performance, offline synchronization, and seamless device hardware integration.",
+    heroBadge: "Native Mobile • Android 15 & iOS Swift",
+    subheading: "High-performance native Android and cross-platform Kotlin Multiplatform (KMP) applications engineered for offline resilience, 60 FPS fluidity, and deep hardware sensor integration.",
     stats: [
-      { value: "60 FPS", label: "Fluid Renders", detail: "Smooth native Android UI components with zero lag" },
-      { value: "Offline", label: "Sync Engine", detail: "Local SQLite database with automatic background syncing" },
-      { value: "API-First", label: "Token Security", detail: "OAuth2/JWT token authentication with biometric support" },
-      { value: "Play Store", label: "Ready", detail: "Full Google Play compliance, target SDK 35+ and privacy safety" },
+      { value: "60 FPS", label: "Fluid Renders", detail: "Direct GPU hardware acceleration with zero frame drops" },
+      { value: "<40 MB", label: "RAM Footprint", detail: "Lean native memory versus 240MB+ bloated webviews" },
+      { value: "16 KB", label: "Android 15 Ready", detail: "16KB memory page size ELF aligned native shared libraries" },
+      { value: "100%", label: "Offline Engine", detail: "Local Room SQLite database with automatic background sync" },
     ],
-    philosophyTitle: "Native Muscle for the Real World.",
+    philosophyTitle: "Native Performance for the Real World.",
     philosophyText: [
       "Hybrid mobile apps wrapped in web views frequently stutter on mid-range Indian Android smartphones, fail when network signals drop in transit, and drain user battery life.",
-      "MLHK Infotech engineers native Android applications built on robust Java and modern Jetpack libraries. We design for the realities of Indian users: intermittent connectivity, diverse screen sizes, and battery optimization.",
+      "MLHK Infotech engineers native Android applications built on robust Kotlin/Java and modern Jetpack libraries, alongside iOS Swift and Kotlin Multiplatform (KMP) shared business logic. We design for the realities of Indian users: intermittent connectivity, diverse screen sizes, and battery optimization.",
       "Every mobile app connects to secure, token-authenticated REST backends and ships with an integrated admin management dashboard.",
     ],
-    pillarsTitle: "Native Android Architecture Pillars",
-    pillarsSubtitle: "Enterprise durability on every device.",
+    pillarsTitle: "Mobile Architecture & Engineering Pillars",
+    pillarsSubtitle: "Industrial reliability, hardware acceleration, and seamless app store compliance.",
     pillars: [
-      { id: "native-core", title: "Native Java & Jetpack Architecture", tagline: "True Hardware Performance", description: "Clean MVVM / Clean Architecture ensuring high frame rates, responsive touch feedback, and optimal memory management.", specs: ["Jetpack Lifecycle & ViewModel", "Retrofit2 HTTP networking with interceptors", "Room SQLite local persistence", "Target Android 14/15 SDK 35+"], badge: "Native Core" },
-      { id: "offline-sync", title: "Offline-First Synchronization", tagline: "Works Without Signal", description: "Field staff and users can create records, capture signatures, and view data offline. Data automatically syncs when connectivity restores.", specs: ["WorkManager scheduled background jobs", "Conflict resolution data state machines", "Local encrypted SQLite storage", "Delta sync minimizing cellular data use"], badge: "Offline Sync" },
-      { id: "hardware-integration", title: "Device Hardware & Sensor Integration", tagline: "Cameras, GPS, Printers & Bluetooth", description: "Seamless control of device hardware for barcode scanning, GPS geofencing, Bluetooth thermal printing, and biometric authentication.", specs: ["CameraX barcode & QR scanning", "FusedLocationProvider geofence tracking", "BiometricPrompt fingerprint & face unlock", "Push notifications via Firebase Cloud Messaging"], badge: "Hardware" },
-      { id: "admin-backend", title: "Integrated Web Admin & Reporting Console", tagline: "Full Fleet Management", description: "Manage mobile users, push real-time broadcasts, approve field reports, and inspect usage analytics from your central desktop portal.", specs: ["Web-based user management panel", "Real-time push notification dispatcher", "Geo-location tracking map views", "Role-based permission hierarchy"], badge: "Admin Suite" },
+      {
+        id: "native-core",
+        title: "Native Kotlin, Java & Swift Architecture",
+        tagline: "True Hardware Performance",
+        description: "Clean MVVM and MVI architectures ensuring high frame rates, responsive touch feedback, and optimal memory management.",
+        specs: ["Jetpack Lifecycle, ViewModel & Compose", "Retrofit2 & Ktor HTTP networking with interceptors", "Room SQLite local persistence with Coroutines Flow", "Target Android 15 SDK 35 & 16KB page size compliance"],
+        badge: "Native Core",
+      },
+      {
+        id: "offline-sync",
+        title: "Offline-First Synchronization & SQLite",
+        tagline: "Works Without Signal",
+        description: "Field staff and users can create records, capture signatures, and view data offline. Data automatically syncs when connectivity restores.",
+        specs: ["WorkManager scheduled background jobs with exponential backoff", "Conflict-free timestamp resolution state machines", "Local SQLCipher 256-bit AES encrypted SQLite storage", "Delta sync minimizing cellular bandwidth usage"],
+        badge: "Offline Sync",
+      },
+      {
+        id: "hardware-integration",
+        title: "Device Hardware & Sensor HAL Integration",
+        tagline: "Cameras, GPS, Printers & Biometrics",
+        description: "Seamless control of device hardware for barcode scanning, GPS geofencing, Bluetooth thermal printing, and biometric authentication.",
+        specs: ["CameraX 1.4+ barcode & QR scanning with Google ML Kit", "FusedLocationProvider geofence tracking with Doze mode optimization", "BiometricPrompt fingerprint & FaceID backed by Android KeyStore", "Push notifications via Firebase Cloud Messaging (FCM)"],
+        badge: "Hardware HAL",
+      },
+      {
+        id: "kmp-admin",
+        title: "Kotlin Multiplatform (KMP) & Admin Fleet Console",
+        tagline: "Single Core Logic • Dual Native UIs",
+        description: "Share 70% of business logic across Android and iOS while retaining 100% native UI performance, managed by a central web admin panel.",
+        specs: ["Shared Kotlin Multiplatform data & domain modules", "Native Jetpack Compose (Android) & SwiftUI (iOS)", "Web-based fleet and field agent management portal", "Real-time push notification dispatcher and live audit logs"],
+        badge: "KMP & Fleet",
+      },
     ],
-    deliverablesTitle: "Mobile Deliverables",
-    deliverablesSubtitle: "Everything needed for enterprise rollout and Google Play Store publication.",
+    deliverablesTitle: "Mobile Deliverables & Production Assets",
+    deliverablesSubtitle: "Everything needed for enterprise rollout, fleet deployment, and Google Play & Apple App Store publication.",
     deliverables: [
-      { format: ".AAB / .APK", title: "Production Android Bundles", description: "Signed Android App Bundles (AAB) optimized with ProGuard / R8 code shrinking.", badge: "App Binary" },
-      { format: "Android Studio", title: "Clean Native Source Code", description: "Modular native Android project with organized packages, Gradle scripts, and tests.", badge: "Source Code" },
-      { format: "REST API", title: "Backend API & Database", description: "Production API endpoints handling authentication, data storage, and push notifications.", badge: "Backend API" },
-      { format: "Play Console", title: "Store Submission Package", description: "App icon suite, feature graphics, screenshot showcases, and privacy policy texts.", badge: "Play Store" },
+      { format: ".AAB / .IPA", title: "Production App Bundles", description: "Signed Android App Bundles (AAB) with R8 obfuscation and 16KB alignment, plus signed iOS IPA packages.", badge: "App Binaries" },
+      { format: "Git Repository", title: "Clean Native Source Code", description: "Modular native Android Studio and Xcode projects with Gradle KTS, Swift packages, and CI/CD scripts.", badge: "Source Code" },
+      { format: "Edge REST API", title: "Backend API & Database", description: "Production API endpoints handling authentication, data storage, delta synchronization, and push notifications.", badge: "Backend API" },
+      { format: "Store Packages", title: "Store Submission Package", description: "App icon suite, feature graphics, screenshot showcases, Apple Privacy Manifests, and privacy policies.", badge: "Store Compliance" },
     ],
-    comparisonTitle: "Generic Web-Wrapped Hybrid Apps vs MLHK Native Android",
-    comparisonSubtitle: "Why native engineering wins in enterprise reliability and user retention.",
+    comparisonTitle: "Generic Web-Wrapped Hybrid Apps vs MLHK Native Mobile Engineering",
+    comparisonSubtitle: "Why native engineering wins in enterprise reliability, battery life, and user retention.",
     comparison: [
       { aspect: "Performance & FPS", genericApproach: "Sluggish webview scrolling, noticeable frame drops on budget smartphones.", mlhkApproach: "Silky 60fps native UI widgets with direct GPU hardware acceleration." },
       { aspect: "Offline Capability", genericApproach: "Shows white error screen or broken image placeholders when offline.", mlhkApproach: "Local Room SQLite database allows full operation and queues changes for sync." },
-      { aspect: "Battery & Memory", genericApproach: "Heavy Chromium runtime drains phone battery and hogs RAM.", mlhkApproach: "Lean native memory footprint with efficient background WorkManager scheduling." },
+      { aspect: "Battery & Memory", genericApproach: "Heavy Chromium runtime drains phone battery and consumes 240MB+ RAM.", mlhkApproach: "Lean native memory footprint (<40MB) with efficient background WorkManager scheduling." },
+      { aspect: "Hardware Sensor Access", genericApproach: "Laggy bridge plugins that break across Android version updates.", mlhkApproach: "Direct Android HAL and CameraX 1.4+ integration with sub-12ms optical decoding." },
+      { aspect: "OS Version Longevity", genericApproach: "Often crashes or fails security audits on new Android/iOS updates.", mlhkApproach: "Target SDK 35 compliance, 16KB ELF alignment, and strict Apple Privacy Manifest declarations." },
+      { aspect: "Security & Encryption", genericApproach: "Plaintext localStorage or vulnerable browser cookies stored on disk.", mlhkApproach: "Hardware-backed Android KeyStore / Secure Enclave with SQLCipher 256-bit encryption." },
     ],
     timelineTitle: "Mobile App Development Stages",
-    timelineSubtitle: "From wireframing to Google Play publication.",
+    timelineSubtitle: "Agile sprints from prototype to Google Play Store & Apple App Store publication.",
     timeline: [
-      { phase: "Stage 01", timeline: "Sprint 1", title: "UX Wireframes & API Contracts", description: "Clickable mobile prototypes and defined REST API endpoints.", outputs: ["Figma Mobile UI", "OpenAPI Spec"] },
-      { phase: "Stage 02", timeline: "Sprint 2–3", title: "Native UI & Local Database", description: "Building Android activities, fragments, and offline Room database.", outputs: ["Alpha Test APK"] },
-      { phase: "Stage 03", timeline: "Sprint 4", title: "API Wiring & Push Notifications", description: "Connecting backend APIs, FCM notifications, and hardware sensors.", outputs: ["Beta Build on Firebase"] },
-      { phase: "Stage 04", timeline: "Sprint 5", title: "Play Store Submission & Admin Go-Live", description: "Security review, Play Store compliance, and desktop admin release.", outputs: ["Live Play Store Listing", "Admin Console"] },
+      { phase: "Stage 01", timeline: "Sprint 1", title: "UX Wireframes & API Contracts", description: "Clickable mobile prototypes in Material 3 and defined OpenAPI REST contracts.", outputs: ["Figma Mobile UI", "OpenAPI Spec", "Data Flow Diagram"] },
+      { phase: "Stage 02", timeline: "Sprint 2–3", title: "Native UI & Local Database Engine", description: "Building Android activities, Compose widgets, and offline Room SQLite database.", outputs: ["Alpha Test APK", "Room Migration Suite"] },
+      { phase: "Stage 03", timeline: "Sprint 4", title: "Sensor HAL Wiring & Push Notifications", description: "Connecting CameraX scanning, BiometricPrompt, FCM push, and background delta sync.", outputs: ["Beta Build on Firebase App Distribution"] },
+      { phase: "Stage 04", timeline: "Sprint 5", title: "14-Day Testing, Store Submission & Go-Live", description: "Managing 20-tester closed testing, Target SDK 35 compliance review, and store go-live.", outputs: ["Live Google Play Store Listing", "Live App Store Listing", "Admin Console"] },
     ],
-    toolsTitle: "Mobile Development Tools",
+    toolsTitle: "Mobile Engineering Stack & Verified Frameworks",
     tools: [
-      { name: "Android Studio", category: "IDE", description: "Official Google IDE with native profilers, memory leak detectors, and emulators." },
-      { name: "Java & Android SDK", category: "Core", description: "High-stability native languages with backwards compatibility across Android 8 to 15." },
-      { name: "Retrofit & OkHttp", category: "Networking", description: "Type-safe HTTP client with automated JSON serialization and caching." },
-      { name: "Firebase (FCM)", category: "Cloud Messaging", description: "Real-time push notifications, analytics, and crash reporting." },
+      { name: "Android Jetpack", category: "Core Framework", description: "Modern Android architecture components including Lifecycle, ViewModel, Navigation, and Compose.", url: "https://developer.android.com/jetpack" },
+      { name: "Kotlin & KMP", category: "Core Language", description: "Concise, type-safe multiplatform language for sharing business logic across Android, iOS, and backends.", url: "https://kotlinlang.org" },
+      { name: "Swift & SwiftUI", category: "iOS Architecture", description: "Declarative UI and high-performance native compiled runtime for iOS, iPadOS, and watchOS.", url: "https://developer.apple.com/xcode/swiftui/" },
+      { name: "Room Database", category: "Local Persistence", description: "Abstraction layer over SQLite providing compile-time SQL verification and Coroutine Flow streaming.", url: "https://developer.android.com/training/data-storage/room" },
+      { name: "CameraX 1.4+", category: "Camera & Vision", description: "Consistent camera API binding with ML Kit for hardware-accelerated barcode and document scanning.", url: "https://developer.android.com/training/camerax" },
+      { name: "WorkManager", category: "Background Jobs", description: "Battery-conscious background processing with automatic constraints, retries, and Doze mode handling.", url: "https://developer.android.com/topic/libraries/architecture/workmanager" },
+      { name: "Android Studio", category: "Official IDE", description: "Google's integrated development environment with native profilers, memory leak detectors, and emulators.", url: "https://developer.android.com/studio" },
+      { name: "Apple Xcode", category: "iOS Toolchain", description: "Apple's native IDE for Swift compilation, asset catalogs, and App Store submission workflows.", url: "https://developer.apple.com/xcode/" },
+      { name: "Firebase Cloud Messaging", category: "Push & Telemetry", description: "Low-latency cross-platform push notifications, crash analytics, and remote feature configuration.", url: "https://firebase.google.com/docs/cloud-messaging" },
+      { name: "Flutter", category: "Cross-Platform", description: "Google's UI toolkit for compiling natively from a single Dart codebase for multi-screen targets.", url: "https://flutter.dev" },
+      { name: "React Native", category: "Cross-Platform", description: "Meta's framework compiling React code into native mobile interface primitives.", url: "https://reactnative.dev" },
+      { name: "SQLCipher", category: "Mobile Encryption", description: "Full database 256-bit AES encryption for SQLite databases protecting on-device client records.", url: "https://www.zetetic.net/sqlcipher/" },
+      { name: "Ktor Client", category: "Networking", description: "Multiplatform asynchronous HTTP client for Kotlin applications with serialization plugins.", url: "https://ktor.io" },
+      { name: "Google Play Console", category: "Distribution", description: "Official store management for AAB distribution, 14-day tester cohorts, and release analytics.", url: "https://play.google.com/console/about/" },
     ],
     extendedFaqs: [
-      { question: "Will the app work on older Android phones in rural or Tier-3 areas?", answer: "Yes. We configure our minimum SDK to support Android 8.0+ (Oreo) and above, ensuring over 98% device coverage across India without compromising security." },
-      { question: "Do you assist with Google Play Store account setup and publishing?", answer: "Yes. We guide you through creating your Google Play Developer account, prepare all required policy declarations, generate feature graphics, and handle the app bundle submission until it is approved." },
+      { question: "Will the app work on older Android phones in rural or Tier-3 areas?", answer: "Yes. We configure our minimum SDK to support Android 8.0+ (API 26) and above, ensuring over 98% device coverage across India while compiling with Target SDK 35 and 16KB page alignment for the latest devices." },
+      { question: "How does the app handle data synchronization when there is no internet?", answer: "Every user interaction (inspections, orders, signatures) is committed instantly to a local encrypted Room SQLite database. Android's WorkManager monitors network status in the background and silently transmits queued delta batches once an active connection is detected." },
+      { question: "Do you assist with Google Play Store account setup, 14-day tester cohorts, and publishing?", answer: "Yes. For new Google Play Developer accounts, Google mandates a 14-day closed testing cohort with 20 opted-in testers. MLHK Infotech manages this entire protocol, validates privacy policy declarations, and submits the release bundle until approved." },
+      { question: "Can we share code between Android and iOS without sacrificing native speed?", answer: "Yes, using Kotlin Multiplatform (KMP). We write the data models, API networking, and business rules once in Kotlin, while building 100% native UI in Jetpack Compose for Android and SwiftUI for iOS. This avoids clumsy WebView wrappers and keeps frame rates locked at 60 FPS." },
+      { question: "Are local records encrypted against phone theft or root access?", answer: "Yes. We integrate SQLCipher 256-bit AES encryption for the local SQLite database and store master decryption keys inside the hardware-backed Android KeyStore or Apple Secure Enclave." },
+    ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q94", // Android
+      "https://www.wikidata.org/wiki/Q3816548", // Kotlin
+      "https://www.wikidata.org/wiki/Q251", // Java
+      "https://www.wikidata.org/wiki/Q16930412", // Swift
+      "https://www.wikidata.org/wiki/Q48493", // iOS
+      "https://www.wikidata.org/wiki/Q380775", // SQLite
+      "https://www.wikidata.org/wiki/Q63842603", // Flutter
+      "https://www.wikidata.org/wiki/Q23019842", // React Native
+      "https://www.wikidata.org/wiki/Q18356037", // Firebase
+      "https://www.wikidata.org/wiki/Q79564", // Google Play
     ],
   },
   "digital-marketing": {

@@ -154,7 +154,8 @@ export default async function ServiceDetailPage({
             })),
           },
           knowsAbout:
-            service.slug === "web-development"
+            extended?.knowsAbout ??
+            (service.slug === "web-development"
               ? [
                   "https://www.wikidata.org/wiki/Q109315512", // Next.js
                   "https://www.wikidata.org/wiki/Q25164871", // React
@@ -163,7 +164,7 @@ export default async function ServiceDetailPage({
                   "https://www.wikidata.org/wiki/Q192490", // PostgreSQL
                   "https://www.wikidata.org/wiki/Q19879782", // Cloudflare
                 ]
-              : undefined,
+              : undefined),
         }}
       />
       <FaqJsonLd faqs={combinedFaqs} />
