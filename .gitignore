@@ -10,3 +10,5 @@ dist
 .git-check.txt
 *.tsbuildinfo
 .kilo/
+*-*.json
+*.key.json
