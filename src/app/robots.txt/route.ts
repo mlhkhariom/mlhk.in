@@ -31,6 +31,7 @@ export async function GET() {
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
+Allow: /c8d35f963b2149b1a5e128b941de51ab.txt
 Allow: /llms.txt
 Allow: /llms-full.txt
 Allow: /humans.txt
@@ -50,6 +51,28 @@ Disallow: /api/auth/
 Disallow: /api/admin/
 Disallow: /_next/
 Disallow: /private/
+
+User-agent: Googlebot
+Allow: /
+Allow: /sitemap.xml
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/auth/
+Disallow: /api/admin/
+Disallow: /_next/
+Disallow: /private/
+
+User-agent: Bingbot
+Allow: /
+Allow: /c8d35f963b2149b1a5e128b941de51ab.txt
+Allow: /sitemap.xml
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/auth/
+Disallow: /api/admin/
+Disallow: /_next/
+Disallow: /private/
+
 
 ${AI_AGENTS.map(
   (agent) => `User-agent: ${agent}

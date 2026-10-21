@@ -7,28 +7,30 @@ import { SERVICE_DETAILS } from "@/lib/brand";
 
 const BASE = "https://mlhk.in";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // 24 hours ISR cache
+
+const STATIC_LASTMOD = new Date("2026-10-21T00:00:00.000Z");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/portfolio`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: "daily", priority: 0.7 },
-    { url: `${BASE}/contact`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.6 },
-    { url: `${BASE}/subsidiaries`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/process`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/ai-automation`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/terms-and-conditions`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/terms-of-service`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/cancellation-refund-policy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
+    { url: BASE, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${BASE}/about`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/services`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE}/portfolio`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE}/blog`, lastModified: STATIC_LASTMOD, changeFrequency: "daily", priority: 0.8 },
+    { url: `${BASE}/contact`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/subsidiaries`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/process`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/faq`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/ai-automation`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${BASE}/privacy-policy`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/terms-and-conditions`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/terms-of-service`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/cancellation-refund-policy`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
     ...SERVICE_DETAILS.map((s) => ({
       url: `${BASE}/services/${s.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
+      lastModified: STATIC_LASTMOD,
+      changeFrequency: "weekly" as const,
       priority: 0.85,
     })),
   ];
@@ -45,21 +47,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const postPages: MetadataRoute.Sitemap = publishedPosts.map((p) => ({
       url: `${BASE}/blog/${p.slug}`,
-      lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
+      lastModified: p.publishedAt ? new Date(p.publishedAt) : STATIC_LASTMOD,
       changeFrequency: "weekly" as const,
       priority: 0.6,
     }));
 
     const cmsPages: MetadataRoute.Sitemap = publishedPages.map((p) => ({
       url: `${BASE}/p/${p.slug}`,
-      lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
+      lastModified: p.updatedAt ? new Date(p.updatedAt) : STATIC_LASTMOD,
       changeFrequency: "monthly" as const,
       priority: 0.5,
     }));
 
     const brandPages: MetadataRoute.Sitemap = activeBrands.map((b) => ({
       url: `${BASE}/subsidiaries/${b.slug}`,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     }));
