@@ -78,9 +78,14 @@ export function WhyMlhk() {
           </div>
           <ul className="md:col-span-7 md:pt-4">
             {WHY_MLHK.map((point, i) => (
-              <li key={point} className="group flex items-center gap-5 border-b border-white/10 py-6 first:pt-0">
-                <span className="font-display text-sm text-[#ff9f1c]/70 tabular-nums">0{i + 1}</span>
-                <span className="text-lg font-medium text-zinc-200 transition-colors duration-500 group-hover:text-white md:text-xl">{point}</span>
+              <li key={point.title} className="group border-b border-white/10 py-6 first:pt-0">
+                <div className="flex items-start gap-5">
+                  <span className="font-display text-sm text-[#ff9f1c]/70 tabular-nums mt-1">0{i + 1}</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-zinc-200 transition-colors duration-500 group-hover:text-white md:text-xl">{point.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-400">{point.detail}</p>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>

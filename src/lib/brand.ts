@@ -131,11 +131,31 @@ export const TECH_STACK: { group: string; items: string[] }[] = [
 ];
 
 export const WHY_MLHK = [
-  "Not language-dependent",
-  "Not design-limited",
-  "Enterprise-level execution",
-  "AI and automation ready",
-  "A founder who understands business and delivery",
+  {
+    title: "We pick the right tool, not our favourite tool",
+    detail:
+      "Some shops only know React, so every problem becomes a React problem. We have shipped production work in PHP, Java, Python, Node, and plain HTML. The tech decision comes after we understand the project, not before.",
+  },
+  {
+    title: "Design is part of the build, not a separate invoice",
+    detail:
+      "You will not get a generic Bootstrap template from us. Every interface we ship is drawn around the actual data and real user flows — because a billing dashboard and a food delivery app need completely different thinking.",
+  },
+  {
+    title: "You talk to the person who writes the code",
+    detail:
+      "There is no account manager sitting between you and the engineer. Hariom leads every project directly. When you call or WhatsApp, the person picking up is the same person pushing the deploy.",
+  },
+  {
+    title: "We have done this from a small town, and that matters",
+    detail:
+      "Operating from Shajapur taught us how to do more with less. We do not charge metro-city overhead. Our clients in Indore, Bhopal, and across MP get enterprise-grade work at budgets that actually make sense for Indian businesses.",
+  },
+  {
+    title: "The system keeps working after the project ends",
+    detail:
+      "We have seen too many agencies deliver a website and vanish. Every system we build comes with monitoring, a documented handover, and our number on speed dial for when something breaks at midnight.",
+  },
 ];
 
 export interface TimelineMilestone {
@@ -279,24 +299,64 @@ export const TIMELINE: readonly TimelineMilestone[] = [
 
 export const FAQS = [
   {
-    question: "What does MLHK Infotech build?",
+    question: "What does MLHK Infotech actually build?",
     answer:
-      "We build web platforms, Android apps, SaaS products, CRM and ERP systems, and AI-driven automation. We also handle design, digital marketing and ongoing support.",
+      "Websites, web apps, Android apps, admin dashboards, CRM and ERP systems, billing tools, and AI-based automation. If your business runs on software or needs software to run better, that is what we do. We have built everything from a single-page portfolio site for a local studio to a full invoicing and client management platform.",
   },
   {
     question: "How long does a typical project take?",
     answer:
-      "A focused website or internal tool can launch in a few weeks. Larger CRM, ERP or mobile projects are scoped in phases, so you see working software early and at a predictable cost.",
+      "A straightforward business website usually takes 2 to 4 weeks. An Android app with a backend and admin panel is more like 6 to 10 weeks. Large systems like CRM or ERP are scoped in phases — you get working software early and we keep building on top of it. We will give you a realistic timeline upfront, not a sales pitch.",
   },
   {
-    question: "Do you work with businesses outside Shajapur?",
+    question: "I am based in another city. Can you still work with me?",
     answer:
-      "Yes. We work with clients across India. Most of our delivery happens remotely with regular reviews, so location is not a constraint.",
+      "Yes, most of our clients are not in Shajapur. We work with businesses across Indore, Bhopal, Ujjain, Ahmedabad, and beyond. Everything happens over WhatsApp, Google Meet, and screen shares. You get regular updates, and you do not need to visit an office for anything.",
   },
   {
-    question: "Do you provide support after launch?",
+    question: "What happens after the project is delivered?",
     answer:
-      "Yes. Our Support & Maintenance service covers monitoring, security updates, bug fixes and technical support after your system goes live.",
+      "We do not disappear after launch. Every project includes a handover document, and we offer ongoing support and maintenance — server monitoring, security patches, bug fixes, and feature updates. If something breaks at 11 PM, you can call us directly.",
+  },
+  {
+    question: "How much does a website or app cost?",
+    answer:
+      "It depends on what you need. A business website starts around ₹15,000-25,000. A web app with user login, dashboard, and database is in the ₹40,000-80,000 range. Enterprise systems are priced based on scope. We never charge by the hour or pad estimates — you get a fixed quote based on exactly what we are building.",
+  },
+  {
+    question: "Do you use templates or build from scratch?",
+    answer:
+      "From scratch, always. We do not reskin WordPress themes or drag-and-drop builders. Your website is coded line by line, which means it loads faster, ranks better on Google, and does not look like five other businesses in your industry.",
+  },
+  {
+    question: "Will I own the code and the design?",
+    answer:
+      "100 percent. Once the project is paid for, the source code, design files, database, and every asset belongs to you. There is no vendor lock-in and no monthly hostage fee. You can take it to another developer tomorrow if you want — though we would rather you stayed.",
+  },
+  {
+    question: "Can you help with Google ranking and SEO?",
+    answer:
+      "Every website we build is already optimised for search engines — fast load times, clean HTML, proper meta tags, structured data, and mobile-first design. If you need ongoing SEO work like keyword targeting, content strategy, or Google Ads, we offer that as part of our digital marketing service.",
+  },
+  {
+    question: "I already have a website but it is slow or outdated. Can you fix it?",
+    answer:
+      "Yes. We regularly take over existing websites and rebuild or optimise them. Sometimes it is a full redesign, sometimes it is fixing the slow database queries or moving to better hosting. We will look at what you have and tell you honestly whether it needs a fix or a fresh start.",
+  },
+  {
+    question: "What technologies do you use?",
+    answer:
+      "It depends on the project. For websites we often use Next.js, React, or plain HTML/CSS depending on what the project needs. Backend can be Node.js, Laravel (PHP), Flask (Python), or Java. Mobile is native Android. Databases include MySQL, PostgreSQL, SQLite, and MongoDB. We pick what fits your problem, not what is trending on Twitter.",
+  },
+  {
+    question: "Is MLHK Infotech a registered company?",
+    answer:
+      "Yes. We are registered with the Ministry of MSME, Government of India under Udyam number UDYAM-MP-44-0005223. We also have an active GST registration (23CHLPV2868R1CJ). You can verify both on the official government portals — the links are on our About page.",
+  },
+  {
+    question: "How do I get started?",
+    answer:
+      "Just message us on WhatsApp at +91-9165100124 or send a mail to admin@mlhk.in. Tell us roughly what you need — a website, an app, a dashboard, whatever it is. We will have a quick call, understand your requirements, and send you a clear proposal with timeline and cost. No pressure, no spam follow-ups.",
   },
 ] as const;
 

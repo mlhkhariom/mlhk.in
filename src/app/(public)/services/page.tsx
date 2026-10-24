@@ -86,6 +86,66 @@ export default async function ServicesPage() {
         </ul>
       </section>
 
+      {/* Deep-dive: How we help clients choose the right technology */}
+      <section className="border-t border-white/10 bg-[#070809] px-4 py-24 md:px-6">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Engineering Philosophy</p>
+          <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-white md:text-4xl">
+            How we help you pick the right technology without wasting money.
+          </h2>
+          <div className="mt-8 space-y-6 text-sm leading-relaxed text-zinc-300 md:text-base">
+            <p>
+              The most common mistake business owners make when hiring an agency is asking for a specific technology instead of describing their business problem. A client might say &ldquo;we need an Android app built on Flutter&rdquo; when a lightweight mobile-responsive web platform would cost half as much, launch three weeks sooner, and not require customers to download a 40 MB app.
+            </p>
+            <p>
+              At MLHK Infotech, we start by looking at how your customers and staff will actually use the software. If your sales team visits rural dealers where mobile network cuts out frequently, we architect an offline-first SQLite database that syncs automatically when connection returns. If your business handles high-volume GST billing and order tracking, we build clean database schemas on PostgreSQL or D1 SQLite that generate PDF receipts in 200 milliseconds.
+            </p>
+            <p>
+              We don&apos;t push trendy frameworks or sell you bloated annual software subscriptions. We engineer bespoke tools that your staff can learn in an afternoon, and we back every system with our direct founder phone number for ongoing support.
+            </p>
+          </div>
+
+          {/* Agency Comparison Matrix */}
+          <div className="mt-14 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02]">
+            <div className="p-6 md:p-8 border-b border-white/10">
+              <h3 className="font-display text-xl font-bold text-white">How Working With MLHK Infotech Compares</h3>
+              <p className="mt-2 text-xs text-zinc-400">An honest breakdown of your options when hiring a software partner in India.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 text-xs leading-relaxed">
+              {/* Option 1: Cheap Freelancers */}
+              <div className="p-6 space-y-3">
+                <span className="font-mono text-zinc-500 uppercase tracking-wider block">Freelancer Marketplaces</span>
+                <h4 className="font-display font-bold text-base text-zinc-200">Solo Freelancers</h4>
+                <p className="text-zinc-400">
+                  Often cheap initially, but high risk. Freelancers frequently vanish when bugs happen, use pirated WordPress themes with hidden security backdoors, rarely provide GST invoices, and leave zero code documentation when you need updates.
+                </p>
+                <div className="pt-2 text-zinc-500 font-mono text-[11px]">Risk: High abandonment rate</div>
+              </div>
+
+              {/* Option 2: Big Metro Agencies */}
+              <div className="p-6 space-y-3">
+                <span className="font-mono text-zinc-500 uppercase tracking-wider block">Metro Agencies (Delhi/Bangalore)</span>
+                <h4 className="font-display font-bold text-base text-zinc-200">Large Digital Agencies</h4>
+                <p className="text-zinc-400">
+                  Charge ₹3 to ₹10 lakh minimums to cover expensive office rent and corporate salaries. Your project is usually handed off to inexperienced junior trainees while an account manager acts as a middleman, causing 2-week delays for simple fixes.
+                </p>
+                <div className="pt-2 text-zinc-500 font-mono text-[11px]">Risk: Expensive overhead &amp; slow iterations</div>
+              </div>
+
+              {/* Option 3: MLHK Infotech */}
+              <div className="p-6 space-y-3 bg-[#ff9f1c]/[0.03]">
+                <span className="font-mono text-[#ffb84d] uppercase tracking-wider block font-semibold">The MLHK Standard</span>
+                <h4 className="font-display font-bold text-base text-[#ffb84d]">MLHK Infotech</h4>
+                <p className="text-zinc-300">
+                  Direct founder accountability from Hariom Vishwkarma. 100% in-house engineered code, complete IP ownership handover, official MSME Udyam and GST-compliant invoicing, and direct WhatsApp support with realistic Indian pricing.
+                </p>
+                <div className="pt-2 text-emerald-400 font-mono text-[11px] font-semibold">Advantage: Direct architect accountability</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="border-t border-white/10 bg-[#070809] px-4 py-24 md:px-6" aria-labelledby="faq-services">
         <div className="mx-auto max-w-3xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Questions</p>
