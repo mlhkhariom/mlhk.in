@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .catch(() => []);
   if (!brand) return {};
   return buildSeo({
-    title: `${brand.name} | MLHK Infotech Ecosystem`,
+    title: `${brand.name} — Venture Ecosystem`,
     description: brand.tagline ?? `${brand.name} by MLHK Infotech`,
     path: `/subsidiaries/${brand.slug}`,
     image: brand.logo ?? undefined,

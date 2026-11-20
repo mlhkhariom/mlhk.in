@@ -2,13 +2,11 @@ import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 /**
- * Security headers.
+ * Security & Discovery headers.
  *
  * Note on CSP: Next.js hydration requires inline scripts, so `script-src` keeps
- * `'unsafe-inline'`. That weakens CSP as an XSS control — the primary defences
- * are the auth requirement on admin APIs and `src/lib/sanitize.ts`. When
- * Cloudflare Web Analytics is added (Phase 2), allow `static.cloudflareinsights.com`
- * in `script-src` and `connect-src`.
+ * `'unsafe-inline'`. Primary XSS defences are admin auth, `src/lib/sanitize.ts`,
+ * and sandboxed SVG delivery on `/api/media/*`.
  */
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -19,7 +17,7 @@ const securityHeaders = [
   {
     key: "Link",
     value:
-      '</.well-known/api-catalog>; rel="api-catalog", </llms.txt>; rel="describedby"; type="text/plain", </llms-full.txt>; rel="service-doc"; type="text/plain"',
+      '</.well-known/api-catalog>; rel="api-catalog", </llms.txt>; rel="describedby"; type="text/plain", </llms-full.txt>; rel="service-doc"; type="text/plain", </sitemap.xml>; rel="sitemap"; type="application/xml"',
   },
   { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
   {
@@ -39,9 +37,41 @@ const securityHeaders = [
   },
 ];
 
+const noIndexHeaders = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
+
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+        pathname: "/**",
+      },
+    ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/terms-of-service",
+        destination: "/terms-and-conditions",
+        permanent: true,
+      },
+      {
+        source: "/ai-automation",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/admin/:path*", headers: noIndexHeaders },
+      { source: "/portal/:path*", headers: noIndexHeaders },
+      { source: "/login", headers: noIndexHeaders },
+      { source: "/register", headers: noIndexHeaders },
+      { source: "/api/:path*", headers: noIndexHeaders },
+    ];
   },
 };
 

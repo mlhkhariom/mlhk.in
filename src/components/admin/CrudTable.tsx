@@ -38,8 +38,10 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
   const [form, setForm] = useState<Row>({});
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<unknown | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<unknown | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [tableError, setTableError] = useState<string | null>(null);
 
   function openNew() {
     setForm({});
@@ -94,17 +96,22 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
   }
 
   async function del(row: Row) {
-    const identifier = String(row.title ?? row.name ?? row.id ?? "this item");
-    if (!confirm(`Are you sure you want to permanently delete "${identifier}"?`)) return;
-
     setDeletingId(row.id);
+    setTableError(null);
     try {
-      await fetch(apiPath, {
+      const res = await fetch(apiPath, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: row.id }),
       });
+      if (!res.ok) {
+        const errData = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errData.error || "Failed to delete record");
+      }
+      setConfirmDeleteId(null);
       onRefresh();
+    } catch (err) {
+      setTableError(err instanceof Error ? err.message : "Failed to delete record");
     } finally {
       setDeletingId(null);
     }
@@ -159,6 +166,18 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
           <Plus size={15} strokeWidth={2.5} /> Add {title}
         </button>
       </div>
+
+      {tableError && (
+        <div role="alert" className="flex items-center justify-between gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-xs text-red-300">
+          <span className="flex items-center gap-2">
+            <AlertCircle className="size-4 shrink-0" />
+            {tableError}
+          </span>
+          <button type="button" onClick={() => setTableError(null)} className="text-red-200 hover:text-white" aria-label="Dismiss error">
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       {/* Main Table Card */}
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c0d11]/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md">
@@ -217,25 +236,45 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
                     })}
                     <td className="px-5 py-3.5 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => openEdit(row)}
-                          title="Edit"
-                          className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-[#ffb84d]"
-                        >
-                          <Pencil size={13} />
-                        </button>
-                        <button
-                          onClick={() => del(row)}
-                          disabled={deletingId === row.id}
-                          title="Delete"
-                          className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
-                        >
-                          {deletingId === row.id ? (
-                            <Loader2 size={13} className="animate-spin" />
-                          ) : (
-                            <Trash2 size={13} />
-                          )}
-                        </button>
+                        {confirmDeleteId === row.id ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => del(row)}
+                              disabled={deletingId === row.id}
+                              className="inline-flex h-7 items-center gap-1 rounded-lg border border-red-500/40 bg-red-500/20 px-2.5 text-[11px] font-semibold text-red-200 hover:bg-red-500/30 disabled:opacity-50"
+                            >
+                              {deletingId === row.id ? <Loader2 size={12} className="animate-spin" /> : "Confirm"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setConfirmDeleteId(null)}
+                              className="inline-flex h-7 items-center rounded-lg border border-white/10 bg-white/[0.03] px-2 text-[11px] text-zinc-400 hover:text-white"
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => openEdit(row)}
+                              title="Edit"
+                              className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-[#ffb84d]"
+                            >
+                              <Pencil size={13} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setConfirmDeleteId(row.id)}
+                              disabled={deletingId === row.id}
+                              title="Delete"
+                              className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

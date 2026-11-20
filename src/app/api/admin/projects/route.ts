@@ -4,7 +4,9 @@ import { projects, clients } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
+import { pickAllowedFields } from "@/lib/seo-utils";
 
+const PROJECT_FIELDS = ["clientId", "title", "description", "status", "startDate", "endDate", "budget"] as const;
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);
@@ -42,18 +44,31 @@ export async function PATCH(req: NextRequest) {
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id, ...rest } = await req.json() as { id: string } & Record<string, unknown>;
-  await db.update(projects).set(rest as any).where(eq(projects.id, id));
+  const body = await req.json() as { id?: string } & Record<string, unknown>;
+  if (!body.id) {
+    return NextResponse.json({ error: "Project id is required" }, { status: 400 });
+  }
+  const update = pickAllowedFields(body, PROJECT_FIELDS);
+  if ("budget" in update) {
+    update.budget = update.budget == null || update.budget === "" ? null : Number(update.budget);
+  }
+  if (Object.keys(update).length === 0) {
+    return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+  }
+  await db.update(projects).set(update as any).where(eq(projects.id, body.id));
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireAdmin(req, ["super_admin", "admin", "manager"]);
   if (denied) return denied;
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id } = await req.json() as { id: string };
+  const { id } = await req.json() as { id?: string };
+  if (!id) {
+    return NextResponse.json({ error: "Project id is required" }, { status: 400 });
+  }
   await db.delete(projects).where(eq(projects.id, id));
   return NextResponse.json({ success: true });
 }

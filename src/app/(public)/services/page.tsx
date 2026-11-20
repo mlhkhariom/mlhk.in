@@ -1,5 +1,4 @@
 import { safeDb } from "@/lib/db/safe";
-import { getDb } from "@/lib/db";
 import { services } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { buildSeo } from "@/lib/seo";
 import { ServiceJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
-import { BRAND, SERVICE_LINES, CAPABILITIES, FAQS, SERVICE_DETAILS } from "@/lib/brand";
+import { BRAND, SERVICE_LINES, CAPABILITIES, SERVICE_DETAILS, FAQS } from "@/lib/brand";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -48,7 +47,7 @@ export default async function ServicesPage() {
           })),
         ]}
       />
-      <FaqJsonLd faqs={FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
+      <FaqJsonLd faqs={FAQS} />
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }]} />
 
       <PageHero

@@ -42,7 +42,7 @@
     "BETTER_AUTH_URL": "https://mlhk.in",
     "NEXT_PUBLIC_APP_URL": "https://mlhk.in"
   },
-  "workers_dev": true,
+  "workers_dev": false,
   "observability": { "enabled": true },
   "upload_source_maps": true,
   "routes": [

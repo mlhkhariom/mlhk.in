@@ -70,6 +70,16 @@ export async function POST(req: NextRequest) {
     const key = `media/${Date.now()}-${safeName}`;
 
     const buffer = await file.arrayBuffer();
+    if (mime === "image/svg+xml" || safeName.endsWith(".svg")) {
+      const svgText = new TextDecoder("utf-8", { fatal: false }).decode(buffer);
+      if (/<script\b|<foreignObject\b|javascript:|on[a-z]+\s*=/i.test(svgText)) {
+        return NextResponse.json(
+          { error: "Unsafe SVG content rejected (scripts and inline event handlers are not allowed)." },
+          { status: 400 }
+        );
+      }
+    }
+
     const r2 = (env as unknown as { R2?: R2Bucket }).R2;
     if (!r2) {
       return NextResponse.json(
@@ -91,7 +101,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireAdmin(req, ["super_admin", "admin", "manager"]);
   if (denied) return denied;
 
   const { env } = getCloudflareContext();

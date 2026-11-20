@@ -1,8 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { BRAND, SERVICE_LINES, VENTURES } from "@/lib/brand";
-import { EXTENDED_SERVICE_DATA } from "@/lib/service-details-extended";
+import { BRAND, CAPABILITIES, SERVICE_DETAILS, SERVICE_LINES, VENTURES } from "@/lib/brand";
+
+const ALL_SERVICES = [
+  ...SERVICE_LINES.map((s) => ({
+    title: s.title,
+    slug: s.slug,
+    description: s.description,
+    points: s.points,
+  })),
+  ...CAPABILITIES.map((c) => ({
+    title: c.title,
+    slug: c.slug,
+    description: c.description,
+    points: [] as readonly string[],
+  })),
+];
 
 export function WebMcpProvider() {
   useEffect(() => {
@@ -48,20 +62,20 @@ export function WebMcpProvider() {
       {
         name: "search_services",
         description:
-          "Search and explore MLHK Infotech software engineering services, web development, mobile apps, CRM/ERP systems, and AI automation.",
+          "Search and explore MLHK Infotech software engineering services, web development, mobile apps, SEO, digital marketing, branding, cybersecurity, CRM/ERP systems, and AI automation.",
         inputSchema: {
           type: "object",
           properties: {
             query: {
               type: "string",
-              description: "Search keyword or requirement (e.g. 'Next.js', 'mobile apps', 'cloud security', 'CRM')",
+              description: "Search keyword or requirement (e.g. 'Next.js', 'mobile apps', 'SEO', 'CRM')",
             },
           },
           required: ["query"],
         },
         execute: async ({ query }: { query: string }) => {
           const q = (query || "").toLowerCase();
-          const matches = SERVICE_LINES.filter(
+          const matches = ALL_SERVICES.filter(
             (s) =>
               s.title.toLowerCase().includes(q) ||
               s.description.toLowerCase().includes(q) ||
@@ -88,30 +102,32 @@ export function WebMcpProvider() {
       {
         name: "get_service_details",
         description:
-          "Retrieve comprehensive technical specifications, tech stack, architecture, and deliverables for a specific MLHK service slug.",
+          "Retrieve technical specifications, deliverables, and outcomes for a specific MLHK Infotech service slug.",
         inputSchema: {
           type: "object",
           properties: {
             slug: {
               type: "string",
               description:
-                "Service slug: web-development, mobile-app-development, ui-ux-design-systems, devops-cloud-infrastructure, cybersecurity-server-hardening, custom-crm-erp-development, ai-automation-workflow, digital-marketing-growth",
+                "Service slug: web-development, mobile-app-development, digital-marketing, graphics-and-branding, support-and-maintenance, cybersecurity, enterprise-systems, ai-automation",
             },
           },
           required: ["slug"],
         },
         execute: async ({ slug }: { slug: string }) => {
-          const service = EXTENDED_SERVICE_DATA[slug];
-          if (!service) {
-            return { error: "service_not_found", valid_slugs: Object.keys(EXTENDED_SERVICE_DATA) };
+          const meta = ALL_SERVICES.find((s) => s.slug === slug);
+          const detail = SERVICE_DETAILS.find((d) => d.slug === slug);
+          if (!meta || !detail) {
+            return { error: "service_not_found", valid_slugs: ALL_SERVICES.map((s) => s.slug) };
           }
           return {
             slug,
-            subheading: service.subheading,
-            heroBadge: service.heroBadge,
-            stats: service.stats,
-            pillars: service.pillars,
-            deliverables: service.deliverables,
+            title: meta.title,
+            description: meta.description,
+            audience: detail.audience,
+            intro: detail.intro,
+            deliverables: detail.deliverables,
+            process: detail.process,
             url: `${BRAND.url}/services/${slug}`,
           };
         },

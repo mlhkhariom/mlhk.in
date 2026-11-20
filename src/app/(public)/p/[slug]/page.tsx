@@ -2,6 +2,7 @@ import { safeDb } from "@/lib/db/safe";
 import { pages } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import type { Metadata } from "next";
@@ -17,7 +18,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .where(eq(pages.slug, slug))
     .limit(1)
     .catch(() => []);
-  return { title: page?.metaTitle ?? page?.title, description: page?.metaDesc ?? undefined };
+  if (!page || page.status !== "published") {
+    return buildSeo({ title: "Page Not Found", path: `/p/${slug}`, noIndex: true });
+  }
+  return buildSeo({
+    title: page.metaTitle ?? page.title,
+    description: page.metaDesc ?? undefined,
+    path: `/p/${page.slug}`,
+  });
 }
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {

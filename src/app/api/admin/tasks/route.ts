@@ -4,7 +4,9 @@ import { tasks } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
+import { pickAllowedFields } from "@/lib/seo-utils";
 
+const TASK_FIELDS = ["projectId", "title", "description", "status", "priority", "assignedTo", "dueDate"] as const;
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);
@@ -47,18 +49,28 @@ export async function PATCH(req: NextRequest) {
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id, ...rest } = await req.json() as { id: string } & Record<string, unknown>;
-  await db.update(tasks).set(rest as any).where(eq(tasks.id, id));
+  const body = await req.json() as { id?: string } & Record<string, unknown>;
+  if (!body.id) {
+    return NextResponse.json({ error: "Task id is required" }, { status: 400 });
+  }
+  const update = pickAllowedFields(body, TASK_FIELDS);
+  if (Object.keys(update).length === 0) {
+    return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+  }
+  await db.update(tasks).set(update as any).where(eq(tasks.id, body.id));
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireAdmin(req, ["super_admin", "admin", "manager"]);
   if (denied) return denied;
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id } = await req.json() as { id: string };
+  const { id } = await req.json() as { id?: string };
+  if (!id) {
+    return NextResponse.json({ error: "Task id is required" }, { status: 400 });
+  }
   await db.delete(tasks).where(eq(tasks.id, id));
   return NextResponse.json({ success: true });
 }

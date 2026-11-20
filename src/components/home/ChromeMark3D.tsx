@@ -124,10 +124,18 @@ function Scene({ pointer }: { pointer: React.MutableRefObject<{ x: number; y: nu
 }
 
 export function ChromeMark3D() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const pointer = useRef({ x: 0, y: 0 });
   const [active, setActive] = useState(true);
+  const [visible, setVisible] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onMqChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", onMqChange);
+
     const onMove = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
@@ -135,18 +143,43 @@ export function ChromeMark3D() {
     const onVisibility = () => setActive(!document.hidden);
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
+
+    let observer: IntersectionObserver | null = null;
+    if (containerRef.current && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry) setVisible(entry.isIntersecting);
+        },
+        { rootMargin: "120px" },
+      );
+      observer.observe(containerRef.current);
+    }
+
     return () => {
+      mq.removeEventListener("change", onMqChange);
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("visibilitychange", onVisibility);
+      observer?.disconnect();
     };
   }, []);
 
+  if (reducedMotion) {
+    return (
+      <div ref={containerRef} className="absolute inset-0 flex items-center justify-center" aria-hidden>
+        <div className="flex size-48 items-center justify-center rounded-full border border-[#ff9f1c]/25 bg-gradient-to-br from-[#ff9f1c]/15 via-white/[0.03] to-[#3b82f6]/10 shadow-[0_0_80px_-20px_rgba(255,159,28,0.45)]">
+          <span className="font-display text-6xl font-bold tracking-tight text-chrome">M</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="absolute inset-0" aria-hidden>
+    <div ref={containerRef} className="absolute inset-0" aria-hidden>
       {active && (
         <Canvas
           dpr={[1, 1.5]}
-          frameloop="always"
+          frameloop={visible ? "always" : "never"}
           camera={{ position: [0, 0, 9], fov: 38 }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         >

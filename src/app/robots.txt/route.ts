@@ -31,6 +31,8 @@ export async function GET() {
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Allow: /c8d35f963b2149b1a5e128b941de51ab.txt
 Allow: /llms.txt
 Allow: /llms-full.txt
@@ -47,30 +49,37 @@ Allow: /api/media/
 Allow: /api/contact
 Disallow: /admin/
 Disallow: /portal/
+Disallow: /login
+Disallow: /register
 Disallow: /api/auth/
 Disallow: /api/admin/
-Disallow: /_next/
 Disallow: /private/
 
 User-agent: Googlebot
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Allow: /sitemap.xml
 Disallow: /admin/
 Disallow: /portal/
+Disallow: /login
+Disallow: /register
 Disallow: /api/auth/
 Disallow: /api/admin/
-Disallow: /_next/
 Disallow: /private/
 
 User-agent: Bingbot
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Allow: /c8d35f963b2149b1a5e128b941de51ab.txt
 Allow: /sitemap.xml
 Disallow: /admin/
 Disallow: /portal/
+Disallow: /login
+Disallow: /register
 Disallow: /api/auth/
 Disallow: /api/admin/
-Disallow: /_next/
 Disallow: /private/
 
 
@@ -91,10 +100,11 @@ Allow: /process
 Allow: /contact
 Allow: /privacy-policy
 Allow: /terms-and-conditions
-Allow: /terms-of-service
 Allow: /cancellation-refund-policy
 Disallow: /admin/
 Disallow: /portal/
+Disallow: /login
+Disallow: /register
 Disallow: /api/auth/
 Disallow: /api/admin/`
 ).join("\n\n")}

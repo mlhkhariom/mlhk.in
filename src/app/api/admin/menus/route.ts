@@ -3,6 +3,7 @@ import { getDb } from "@/lib/db";
 import { menus } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/session";
 
 
@@ -31,5 +32,6 @@ export async function POST(req: NextRequest) {
   } else {
     await db.insert(menus).values({ id: crypto.randomUUID(), location: body.location, items: JSON.stringify(body.items) });
   }
+  revalidatePath("/", "layout");
   return NextResponse.json({ success: true });
 }

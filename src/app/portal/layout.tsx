@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromHeaders } from "@/lib/auth/session";
@@ -6,6 +7,10 @@ import PortalNav from "./PortalNav";
 import SignOutButton from "./SignOutButton";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { ExternalLink } from "lucide-react";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await getSessionFromHeaders(await headers());

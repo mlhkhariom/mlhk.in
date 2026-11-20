@@ -31,6 +31,8 @@ export default function MediaPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,16 +55,17 @@ export default function MediaPage() {
   async function handleFileUpload(file: File) {
     if (!file) return;
     setUploading(true);
+    setErrorMessage(null);
     try {
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch("/api/admin/media", { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        alert((err as { error?: string })?.error || "Upload failed");
+        setErrorMessage((err as { error?: string })?.error || "Upload failed");
       }
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Upload error");
+      setErrorMessage(e instanceof Error ? e.message : "Upload error");
     } finally {
       setUploading(false);
       load();
@@ -77,15 +80,23 @@ export default function MediaPage() {
   }
 
   async function del(item: MediaItem) {
-    if (!confirm(`Are you sure you want to delete "${item.name}"?`)) return;
     setDeletingId(item.id);
+    setErrorMessage(null);
     try {
-      await fetch("/api/admin/media", {
+      const res = await fetch("/api/admin/media", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: item.id, url: item.url }),
       });
-      load();
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setErrorMessage((err as { error?: string })?.error || "Failed to delete asset");
+      } else {
+        setConfirmDeleteId(null);
+        load();
+      }
+    } catch (e) {
+      setErrorMessage(e instanceof Error ? e.message : "Delete error");
     } finally {
       setDeletingId(null);
     }
@@ -154,6 +165,15 @@ export default function MediaPage() {
           />
         </div>
       </div>
+
+      {errorMessage && (
+        <div role="alert" className="flex items-center justify-between gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs text-red-300">
+          <span>{errorMessage}</span>
+          <button type="button" onClick={() => setErrorMessage(null)} className="text-red-200 hover:text-white">
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {/* Drag & Drop Upload Zone */}
       <div
@@ -259,41 +279,67 @@ export default function MediaPage() {
                   )}
 
                   {/* Hover Quick Actions */}
-                  <div className="absolute inset-0 flex items-center justify-center gap-1.5 bg-black/60 opacity-0 backdrop-blur-xs transition-opacity group-hover:opacity-100">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copy(item.url);
-                      }}
-                      title="Copy Public URL"
-                      className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white transition-all hover:bg-[#ff9f1c] hover:text-black"
-                    >
-                      {isCopied ? <Check size={14} /> : <Copy size={14} />}
-                    </button>
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Open full size"
-                      className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white transition-all hover:bg-white/20"
-                    >
-                      <ExternalLink size={14} />
-                    </a>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        del(item);
-                      }}
-                      disabled={deletingId === item.id}
-                      title="Delete asset"
-                      className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-red-400 transition-all hover:bg-red-500 hover:text-white disabled:opacity-50"
-                    >
-                      {deletingId === item.id ? (
-                        <Loader2 size={14} className="animate-spin" />
-                      ) : (
-                        <Trash2 size={14} />
-                      )}
-                    </button>
+                  <div className={`absolute inset-0 flex items-center justify-center gap-1.5 bg-black/70 backdrop-blur-xs transition-opacity ${confirmDeleteId === item.id ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+                    {confirmDeleteId === item.id ? (
+                      <div className="flex items-center gap-1.5 px-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            del(item);
+                          }}
+                          disabled={deletingId === item.id}
+                          className="rounded-lg bg-red-500 px-2.5 py-1.5 text-[11px] font-semibold text-white hover:bg-red-600 disabled:opacity-50"
+                        >
+                          {deletingId === item.id ? "Deleting..." : "Confirm"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setConfirmDeleteId(null);
+                          }}
+                          className="rounded-lg border border-white/20 bg-white/10 px-2 py-1.5 text-[11px] text-zinc-200 hover:bg-white/20"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copy(item.url);
+                          }}
+                          title="Copy Public URL"
+                          className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white transition-all hover:bg-[#ff9f1c] hover:text-black"
+                        >
+                          {isCopied ? <Check size={14} /> : <Copy size={14} />}
+                        </button>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Open full size"
+                          className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white transition-all hover:bg-white/20"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setConfirmDeleteId(item.id);
+                          }}
+                          disabled={deletingId === item.id}
+                          title="Delete asset"
+                          className="flex size-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-red-400 transition-all hover:bg-red-500 hover:text-white disabled:opacity-50"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </>
+                    )}
                   </div>
 
                   {/* Copied Pill Overlay */}

@@ -2,11 +2,27 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
-import { ChromeMark3D } from "@/components/home/ChromeMark3D";
 import { useReducedMotion } from "@/components/home/utils";
-import { BRAND, VENTURES } from "@/lib/brand";
+import { BRAND, CAPABILITIES, SERVICE_LINES, VENTURES } from "@/lib/brand";
+
+const ChromeMark3D = dynamic(
+  () => import("@/components/home/ChromeMark3D").then((m) => m.ChromeMark3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex size-full items-center justify-center" aria-hidden>
+        <div className="flex size-48 items-center justify-center rounded-full border border-[#ff9f1c]/25 bg-gradient-to-br from-[#ff9f1c]/15 via-white/[0.03] to-[#3b82f6]/10 shadow-[0_0_80px_-20px_rgba(255,159,28,0.45)]">
+          <span className="font-display text-6xl font-bold tracking-tight text-chrome">M</span>
+        </div>
+      </div>
+    ),
+  },
+);
+
+const TOTAL_SERVICE_LINES = SERVICE_LINES.length + CAPABILITIES.length;
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -17,17 +33,11 @@ export function Hero() {
     if (!root || reduced) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-      tl.fromTo(".hero-kicker", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 })
-        .fromTo(
-          ".hero-line",
-          { yPercent: 110, rotate: 2 },
-          { yPercent: 0, rotate: 0, duration: 1.1, stagger: 0.12 },
-          "<0.1",
-        )
-        .fromTo(".hero-copy", { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, "<0.25")
-        .fromTo(".hero-cta", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.08 }, "<0.1")
-        .fromTo(".hero-mark", { scale: 0.86, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6, ease: "expo.out" }, 0);
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(".hero-line", { y: 18 }, { y: 0, duration: 0.75, stagger: 0.08 })
+        .fromTo(".hero-copy", { y: 12 }, { y: 0, duration: 0.65 }, "<0.1")
+        .fromTo(".hero-cta", { y: 10 }, { y: 0, duration: 0.6, stagger: 0.06 }, "<0.08")
+        .fromTo(".hero-mark", { scale: 0.94 }, { scale: 1, duration: 1.1, ease: "expo.out" }, 0);
     }, root);
 
     return () => ctx.revert();
@@ -56,7 +66,7 @@ export function Hero() {
             <span className="hero-kicker inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-zinc-300 backdrop-blur-sm">
               <span className="text-xs">🇮🇳</span>
               <span>Built in Bharat</span>
-              <span className="text-zinc-600">•</span>
+              <span className="text-zinc-500">•</span>
               <span className="text-[#ffb84d]">Deployed Globally</span>
             </span>
           </div>
@@ -87,15 +97,15 @@ export function Hero() {
 
           <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-6">
             <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Founded</dt>
+              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Founded</dt>
               <dd className="mt-1 font-display text-2xl font-bold text-white">{BRAND.foundedYear}</dd>
             </div>
             <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Service lines</dt>
-              <dd className="mt-1 font-display text-2xl font-bold text-white">5</dd>
+              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Service lines</dt>
+              <dd className="mt-1 font-display text-2xl font-bold text-white">{TOTAL_SERVICE_LINES}</dd>
             </div>
             <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Ventures</dt>
+              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Ventures</dt>
               <dd className="mt-1 font-display text-2xl font-bold text-white">{VENTURES.length}</dd>
             </div>
           </dl>

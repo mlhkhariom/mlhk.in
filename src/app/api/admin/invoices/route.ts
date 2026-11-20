@@ -75,11 +75,17 @@ export async function PATCH(req: NextRequest) {
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id, ...rest } = await req.json() as { id: string } & Record<string, unknown>;
+  const { id, ...rest } = await req.json() as { id?: string } & Record<string, unknown>;
+  if (!id) {
+    return NextResponse.json({ error: "Invoice id is required" }, { status: 400 });
+  }
 
   const update: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(rest)) if (ALLOWED_INVOICE_FIELDS.has(k)) update[k] = v;
   if (update.status === "paid") update.paidAt = new Date().toISOString();
+  if (Object.keys(update).length === 0) {
+    return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+  }
 
   await db.update(invoices).set(update as any).where(eq(invoices.id, id));
   return NextResponse.json({ success: true });

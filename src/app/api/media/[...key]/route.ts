@@ -35,6 +35,18 @@ export async function GET(
     headers.set("Cache-Control", "public, max-age=31536000, immutable");
     headers.set("X-Content-Type-Options", "nosniff");
 
+    const contentType = (headers.get("Content-Type") ?? "").toLowerCase();
+    const isActiveMarkup =
+      contentType.includes("svg") ||
+      contentType.includes("html") ||
+      contentType.includes("xml") ||
+      /\.(svg|html?|xhtml)$/i.test(objectKey);
+
+    if (isActiveMarkup) {
+      headers.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox");
+      headers.set("Content-Disposition", "attachment");
+    }
+
     return new NextResponse(object.body as unknown as BodyInit, {
       headers,
     });

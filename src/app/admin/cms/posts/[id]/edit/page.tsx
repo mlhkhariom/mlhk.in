@@ -22,6 +22,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -66,11 +67,18 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   }
 
   async function del() {
-    if (!confirm("Are you sure you want to permanently delete this article?")) return;
     setDeleting(true);
+    setError(null);
     try {
-      await fetch(`/api/admin/posts/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/posts/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error((d as { error?: string })?.error || "Failed to delete article");
+      }
       router.push("/admin/cms/posts");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete article");
+      setConfirmDelete(false);
     } finally {
       setDeleting(false);
     }
@@ -97,19 +105,34 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
               <ExternalLink size={13} /> View Live
             </a>
           )}
-          <button
-            type="button"
-            onClick={del}
-            disabled={deleting}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
-          >
-            {deleting ? (
-              <Loader2 size={13} className="animate-spin" />
-            ) : (
-              <Trash2 size={13} />
-            )}{" "}
-            Delete
-          </button>
+          {confirmDelete ? (
+            <div className="inline-flex items-center gap-2">
+              <button
+                type="button"
+                onClick={del}
+                disabled={deleting}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/40 bg-red-500/20 px-3 py-1.5 text-xs font-semibold text-red-200 transition-colors hover:bg-red-500/30 disabled:opacity-50"
+              >
+                {deleting ? <Loader2 size={13} className="animate-spin" /> : "Confirm Delete"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(false)}
+                className="inline-flex items-center rounded-xl border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-400 hover:text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(true)}
+              disabled={deleting}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+            >
+              <Trash2 size={13} /> Delete
+            </button>
+          )}
         </div>
       </div>
 

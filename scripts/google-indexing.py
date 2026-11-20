@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 """
 Google Indexing API Automated Bulk Submitter for mlhk.in
-Submits all live website URLs directly to Google's real-time indexing pipeline.
+Submits live canonical website URLs from https://mlhk.in/sitemap.xml.
+Note: Google officially scopes the Indexing API v3 primarily to JobPosting and
+BroadcastEvent pages; for general corporate/service pages, always keep your
+XML sitemap (https://mlhk.in/sitemap.xml) registered in Google Search Console
+and use IndexNow (/api/indexnow) for Bing, Yandex, and partner engines.
 Official API: https://developers.google.com/search/apis/indexing-api/v3/quickstart
+
+Usage:
+  GOOGLE_INDEXING_KEY_PATH=/path/to/service-account.json python3 scripts/google-indexing.py
+  # or
+  python3 scripts/google-indexing.py /path/to/service-account.json
 """
 
 import sys
@@ -14,8 +23,7 @@ import urllib.parse
 import urllib.error
 import xml.etree.ElementTree as ET
 
-# Default key location provided by user
-DEFAULT_KEY_PATH = "/home/mlhkhariom/Downloads/mathematics-alliance-eec1fec5c1a8.json"
+DEFAULT_KEY_PATH = os.environ.get("GOOGLE_INDEXING_KEY_PATH", "")
 HOST = "mlhk.in"
 SITEMAP_URL = f"https://{HOST}/sitemap.xml"
 
@@ -26,6 +34,11 @@ PUBLISH_ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
 METADATA_ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications/metadata"
 
 def load_service_account(key_path):
+    if not key_path:
+        print("Error: Missing Google service account JSON path.")
+        print("Usage: GOOGLE_INDEXING_KEY_PATH=/path/to/key.json python3 scripts/google-indexing.py")
+        print("   or: python3 scripts/google-indexing.py /path/to/key.json")
+        sys.exit(1)
     if not os.path.exists(key_path):
         print(f"Error: Service account file not found at: {key_path}")
         sys.exit(1)
@@ -100,7 +113,6 @@ def fetch_all_urls():
             f"https://{HOST}/subsidiaries",
             f"https://{HOST}/process",
             f"https://{HOST}/faq",
-            f"https://{HOST}/ai-automation",
             f"https://{HOST}/services/web-development",
             f"https://{HOST}/services/mobile-app-development",
             f"https://{HOST}/services/digital-marketing",
@@ -109,14 +121,8 @@ def fetch_all_urls():
             f"https://{HOST}/services/cybersecurity",
             f"https://{HOST}/services/enterprise-systems",
             f"https://{HOST}/services/ai-automation",
-            f"https://{HOST}/subsidiaries/iksc-india",
-            f"https://{HOST}/subsidiaries/red-xerox-studio",
-            f"https://{HOST}/subsidiaries/erotix-green-energy",
-            f"https://{HOST}/subsidiaries/rx-media",
-            f"https://{HOST}/subsidiaries/tet-news",
             f"https://{HOST}/privacy-policy",
             f"https://{HOST}/terms-and-conditions",
-            f"https://{HOST}/terms-of-service",
             f"https://{HOST}/cancellation-refund-policy",
         ]
 

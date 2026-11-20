@@ -28,22 +28,28 @@ export function VenturesGrid() {
         </div>
 
         <ul className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
-          {VENTURES.map((v, i) => (
-            <li key={v.name}>
-              <Link
-                href="/subsidiaries"
-                className="group relative flex h-full flex-col bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10]"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-xs text-zinc-600 tabular-nums">0{i + 1}</span>
-                  <ArrowUpRight className="size-4 text-zinc-600 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
-                </div>
-                <h3 className="mt-6 font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">{v.name}</h3>
-                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-zinc-500">{v.sector}</p>
-                <span aria-hidden className="absolute right-6 top-6 size-1.5 rounded-full bg-[#ff9f1c] opacity-0 shadow-[0_0_12px_#ff9f1c] transition-opacity duration-500 group-hover:opacity-100" />
-              </Link>
-            </li>
-          ))}
+          {VENTURES.map((v, i) => {
+            const isLast = i === VENTURES.length - 1;
+            const spanClass = isLast
+              ? `${VENTURES.length % 2 === 1 ? "sm:col-span-2" : ""} ${VENTURES.length % 3 === 2 ? "lg:col-span-2" : VENTURES.length % 3 === 1 ? "lg:col-span-3" : "lg:col-span-1"}`
+              : "";
+            return (
+              <li key={v.name} className={spanClass}>
+                <Link
+                  href="/subsidiaries"
+                  className="group relative flex h-full flex-col bg-[#050607] p-7 transition-colors duration-500 hover:bg-[#0c0d10]"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-xs text-zinc-400 tabular-nums">0{i + 1}</span>
+                    <ArrowUpRight className="size-4 text-zinc-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                  </div>
+                  <h3 className="mt-6 font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">{v.name}</h3>
+                  <p className="mt-2 text-xs uppercase tracking-[0.16em] text-zinc-400">{v.sector}</p>
+                  <span aria-hidden className="absolute right-6 top-6 size-1.5 rounded-full bg-[#ff9f1c] opacity-0 shadow-[0_0_12px_#ff9f1c] transition-opacity duration-500 group-hover:opacity-100" />
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
@@ -97,13 +103,13 @@ export function AboutTimeline() {
             </blockquote>
             <figcaption className="mt-5 flex items-center gap-3">
               <span className="font-display text-sm font-bold text-white">{BRAND.founder}</span>
-              <span className="text-xs text-zinc-500">{BRAND.founderRole}</span>
+              <span className="text-xs text-zinc-400">{BRAND.founderRole}</span>
             </figcaption>
           </figure>
         </div>
 
         <div className="md:col-span-6 md:col-start-7">
-          <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">Our journey</p>
+          <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-400">Our journey</p>
           <div className="tl-list relative">
             <div aria-hidden className="absolute bottom-2 left-[7px] top-2 w-px bg-white/10">
               <div className="tl-fill h-full origin-top bg-gradient-to-b from-amber-300 via-[#ff9f1c] to-orange-700" />

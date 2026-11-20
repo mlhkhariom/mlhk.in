@@ -45,6 +45,7 @@ export default function ProcessPage() {
       <HowToJsonLd
         name={`How ${BRAND.name} Delivers Enterprise Projects`}
         description="Our five-stage engineering and delivery process: Discover, Design, Build, Launch, and Support."
+        baseUrl="https://mlhk.in/process"
         steps={STEPS.map((s) => ({ name: s.step, text: s.text }))}
       />
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "How we work", href: "/process" }]} />
@@ -58,7 +59,11 @@ export default function ProcessPage() {
       <section className="bg-[#050607] px-4 pb-24 md:px-6">
         <ol className="mx-auto max-w-4xl">
           {STEPS.map((s, i) => (
-            <li key={s.step} className="grid grid-cols-[3rem_1fr] gap-6 border-t border-white/10 py-10 md:grid-cols-[4rem_1fr]">
+            <li
+              key={s.step}
+              id={`step-${i + 1}`}
+              className="grid scroll-mt-24 grid-cols-[3rem_1fr] gap-6 border-t border-white/10 py-10 md:grid-cols-[4rem_1fr]"
+            >
               <span className="font-display text-sm font-bold text-[#ff9f1c] tabular-nums">0{i + 1}</span>
               <div>
                 <h2 className="font-display text-2xl font-bold text-white">{s.step}</h2>

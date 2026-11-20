@@ -19,20 +19,51 @@ import {
   HelpCircle,
   Zap,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { buildSeo } from "@/lib/seo";
+import { buildPanIndiaAreaServed } from "@/lib/seo-utils";
 import JsonLd, { FaqJsonLd, HowToJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { SERVICE_DETAILS, BRAND } from "@/lib/brand";
 import { EXTENDED_SERVICE_DATA } from "@/lib/service-details-extended";
-import { BrandingShowcase } from "@/components/services/BrandingShowcase";
-import { WebDevShowcase } from "@/components/services/WebDevShowcase";
-import { MobileAppShowcase } from "@/components/services/MobileAppShowcase";
-import { MarketingShowcase } from "@/components/services/MarketingShowcase";
-import { EnterpriseShowcase } from "@/components/services/EnterpriseShowcase";
-import { AiAutomationShowcase } from "@/components/services/AiAutomationShowcase";
-import { CybersecurityShowcase } from "@/components/services/CybersecurityShowcase";
-import { SupportShowcase } from "@/components/services/SupportShowcase";
+
+const ShowcaseFallback = () => (
+  <div className="min-h-[360px] animate-pulse rounded-[2rem] border border-white/10 bg-white/[0.02]" />
+);
+
+const BrandingShowcase = dynamic(
+  () => import("@/components/services/BrandingShowcase").then((m) => m.BrandingShowcase),
+  { loading: ShowcaseFallback },
+);
+const WebDevShowcase = dynamic(
+  () => import("@/components/services/WebDevShowcase").then((m) => m.WebDevShowcase),
+  { loading: ShowcaseFallback },
+);
+const MobileAppShowcase = dynamic(
+  () => import("@/components/services/MobileAppShowcase").then((m) => m.MobileAppShowcase),
+  { loading: ShowcaseFallback },
+);
+const MarketingShowcase = dynamic(
+  () => import("@/components/services/MarketingShowcase").then((m) => m.MarketingShowcase),
+  { loading: ShowcaseFallback },
+);
+const EnterpriseShowcase = dynamic(
+  () => import("@/components/services/EnterpriseShowcase").then((m) => m.EnterpriseShowcase),
+  { loading: ShowcaseFallback },
+);
+const AiAutomationShowcase = dynamic(
+  () => import("@/components/services/AiAutomationShowcase").then((m) => m.AiAutomationShowcase),
+  { loading: ShowcaseFallback },
+);
+const CybersecurityShowcase = dynamic(
+  () => import("@/components/services/CybersecurityShowcase").then((m) => m.CybersecurityShowcase),
+  { loading: ShowcaseFallback },
+);
+const SupportShowcase = dynamic(
+  () => import("@/components/services/SupportShowcase").then((m) => m.SupportShowcase),
+  { loading: ShowcaseFallback },
+);
 
 export function generateStaticParams() {
   return SERVICE_DETAILS.map((s) => ({ slug: s.slug }));
@@ -56,8 +87,8 @@ export async function generateMetadata({
   const { service, extended } = await findService(params);
   const title =
     service.slug === "graphics-and-branding"
-      ? "Graphics & Branding Design System by Red Xerox Studio | MLHK Infotech"
-      : `${service.name} Engineering in India | MLHK Infotech`;
+      ? "Graphics & Branding Design System by Red Xerox Studio"
+      : `${service.name} Engineering in India`;
 
   const description = extended?.subheading ?? service.summary;
 
@@ -137,10 +168,7 @@ export default async function ServiceDetailPage({
                 }
               : undefined,
           },
-          areaServed: [
-            { "@type": "Country", name: "India" },
-            { "@type": "AdministrativeArea", name: "Madhya Pradesh" },
-          ],
+          areaServed: buildPanIndiaAreaServed(),
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: `${service.name} Deliverables & Architectural Specs`,
@@ -173,6 +201,7 @@ export default async function ServiceDetailPage({
           name={`${service.name} Engineering Protocol`}
           description={extended.subheading}
           steps={extended.howToSteps}
+          baseUrl={`${BRAND.url}/services/${service.slug}`}
         />
       )}
 
@@ -260,9 +289,9 @@ export default async function ServiceDetailPage({
               >
                 Target Enterprise Persona
               </p>
-              <h3 className="mt-1 font-display text-lg font-bold text-white">
+              <h2 className="mt-1 font-display text-lg font-bold text-white">
                 Who this service is engineered for:
-              </h3>
+              </h2>
             </div>
             <span className="w-fit rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs text-zinc-400">
               Direct Technical Oversight • Zero Subcontracting

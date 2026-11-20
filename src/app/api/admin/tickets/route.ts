@@ -4,7 +4,9 @@ import { tickets, clients } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/session";
+import { pickAllowedFields } from "@/lib/seo-utils";
 
+const TICKET_FIELDS = ["clientId", "title", "description", "status", "priority", "assignedTo"] as const;
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);
@@ -41,7 +43,14 @@ export async function PATCH(req: NextRequest) {
 
   const { env } = getCloudflareContext();
   const db = getDb(env.DB);
-  const { id, ...rest } = await req.json() as { id: string } & Record<string, unknown>;
-  await db.update(tickets).set(rest as any).where(eq(tickets.id, id));
+  const body = await req.json() as { id?: string } & Record<string, unknown>;
+  if (!body.id) {
+    return NextResponse.json({ error: "Ticket id is required" }, { status: 400 });
+  }
+  const update = pickAllowedFields(body, TICKET_FIELDS);
+  if (Object.keys(update).length === 0) {
+    return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+  }
+  await db.update(tickets).set(update as any).where(eq(tickets.id, body.id));
   return NextResponse.json({ success: true });
 }

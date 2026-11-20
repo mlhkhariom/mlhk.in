@@ -39,28 +39,28 @@ export default async function SubsidiariesPage() {
           description: "The indigenous enterprise ventures and brands founded and operated under MLHK Infotech.",
           itemListElement: useDb
             ? dbBrands.map((b, i) => ({
-                "@type": "Organization",
+                "@type": "ListItem",
                 position: i + 1,
-                name: b.name,
-                description: b.tagline ?? "",
-                url: b.url ?? `https://mlhk.in/subsidiaries/${b.slug}`,
-                parentOrganization: {
+                item: {
                   "@type": "Organization",
-                  "@id": "https://mlhk.in/#organization",
-                  name: "MLHK Infotech",
-                  url: "https://mlhk.in",
+                  name: b.name,
+                  description: b.tagline ?? "",
+                  url: b.url ?? `https://mlhk.in/subsidiaries/${b.slug}`,
+                  parentOrganization: {
+                    "@id": "https://mlhk.in/#organization",
+                  },
                 },
               }))
             : VENTURES.map((v, i) => ({
-                "@type": "Organization",
+                "@type": "ListItem",
                 position: i + 1,
-                name: v.name,
-                description: `${v.sector} venture by MLHK Infotech.`,
-                parentOrganization: {
+                item: {
                   "@type": "Organization",
-                  "@id": "https://mlhk.in/#organization",
-                  name: "MLHK Infotech",
-                  url: "https://mlhk.in",
+                  name: v.name,
+                  description: `${v.sector} venture by MLHK Infotech.`,
+                  parentOrganization: {
+                    "@id": "https://mlhk.in/#organization",
+                  },
                 },
               })),
         }}
@@ -83,7 +83,7 @@ export default async function SubsidiariesPage() {
                   {b.sector && <span className="text-xs uppercase tracking-[0.16em] text-zinc-500">{b.sector}</span>}
                   <h2 className="mt-2 font-display text-xl font-bold text-white">{b.name}</h2>
                   {b.tagline && <p className="mt-2 text-sm text-zinc-300">{b.tagline}</p>}
-                  {b.description && <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400" dangerouslySetInnerHTML={{ __html: b.description }} />}
+                  {b.description && <div className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400" dangerouslySetInnerHTML={{ __html: b.description }} />}
                   <div className="mt-6 flex items-center gap-5">
                     <Link href={`/subsidiaries/${b.slug}`} className="text-sm font-semibold text-[#ffb84d] hover:text-white">Details</Link>
                     {b.url && (

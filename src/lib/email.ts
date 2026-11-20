@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { escapeHtml } from "@/lib/seo-utils";
 
 const FROM = "MLHK Infotech <support@mlhk.in>";
 
@@ -31,12 +32,13 @@ export async function sendEmail(opts: {
 
 /** Lead auto-reply after contact form submission. */
 export async function sendLeadReply(name: string, email: string) {
+  const safeName = escapeHtml(name);
   return sendEmail({
     to: email,
     subject: "Thank you for reaching out — MLHK Infotech",
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-        <h2 style="color:#2563eb;">Hi ${name},</h2>
+        <h2 style="color:#d97706;">Hi ${safeName},</h2>
         <p>Thank you for contacting <strong>MLHK Infotech</strong>. We've received your inquiry and will reply shortly.</p>
         <p>In the meantime, feel free to explore our <a href="https://mlhk.in/portfolio">portfolio</a> or <a href="https://mlhk.in/services">services</a>.</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
@@ -48,16 +50,19 @@ export async function sendLeadReply(name: string, email: string) {
 
 /** Notify admin of new lead. */
 export async function sendLeadNotification(name: string, email: string, message: string) {
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message);
   return sendEmail({
     to: "admin@mlhk.in",
-    subject: `New Lead: ${name}`,
+    subject: `New Lead: ${name.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
     html: `
       <div style="font-family:sans-serif;">
-        <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <h3 style="color:#d97706;">New Contact Form Submission</h3>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
         <p><strong>Message:</strong></p>
-        <p style="white-space:pre-wrap;">${message}</p>
+        <p style="white-space:pre-wrap;">${safeMessage}</p>
       </div>
     `,
     replyTo: email,
@@ -66,18 +71,20 @@ export async function sendLeadNotification(name: string, email: string, message:
 
 /** Invoice send notification to client. */
 export async function sendInvoiceEmail(to: string, invoiceNumber: string, total: number, dueDate: string) {
+  const safeInvoice = escapeHtml(invoiceNumber);
+  const safeDue = escapeHtml(dueDate);
   return sendEmail({
     to,
-    subject: `Invoice ${invoiceNumber} — MLHK Infotech`,
+    subject: `Invoice ${invoiceNumber.replace(/[\r\n]+/g, " ")} — MLHK Infotech`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-        <h2 style="color:#2563eb;">Invoice ${invoiceNumber}</h2>
+        <h2 style="color:#d97706;">Invoice ${safeInvoice}</h2>
         <p>Dear Client,</p>
         <p>Please find your invoice details below:</p>
         <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Invoice #</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${invoiceNumber}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Invoice #</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${safeInvoice}</td></tr>
           <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Total Amount</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">₹${total.toLocaleString("en-IN")}</td></tr>
-          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Due Date</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${dueDate}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Due Date</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${safeDue}</td></tr>
         </table>
         <p>Please arrange payment at the earliest. For queries, reply to this email.</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
@@ -89,13 +96,15 @@ export async function sendInvoiceEmail(to: string, invoiceNumber: string, total:
 
 /** Ticket update notification. */
 export async function sendTicketUpdateEmail(to: string, ticketTitle: string, message: string) {
+  const safeTitle = escapeHtml(ticketTitle);
+  const safeMessage = escapeHtml(message);
   return sendEmail({
     to,
-    subject: `Ticket Update: ${ticketTitle}`,
+    subject: `Ticket Update: ${ticketTitle.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-        <h3 style="color:#2563eb;">Update on: ${ticketTitle}</h3>
-        <p>${message}</p>
+        <h3 style="color:#d97706;">Update on: ${safeTitle}</h3>
+        <p style="white-space:pre-wrap;">${safeMessage}</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
         <p style="font-size:12px;color:#6b7280;">MLHK Infotech Support · <a href="https://mlhk.in/portal/tickets">View in Portal</a></p>
       </div>

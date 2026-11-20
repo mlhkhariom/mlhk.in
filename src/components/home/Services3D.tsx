@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Code2, Smartphone, Megaphone, PenTool, LifeBuoy, Building2, Bot, ShieldCheck } from "lucide-react";
 import { gsap } from "gsap";
@@ -23,16 +23,21 @@ const ICONS = {
 
 type IconId = keyof typeof ICONS;
 
-/** Bento spans: the first tile is featured, the rest fill a 6-column grid on desktop. */
+/**
+ * Flush 6-column Bento layout matching DOM order (24 cells total = 6x4 rectangle, zero holes):
+ * Rows 1-2: web (4x2) + mobile (2x1) + marketing (2x1)
+ * Row 3:    branding (2) + support (2) + cybersecurity (2)
+ * Row 4:    enterprise (3) + ai (3)
+ */
 const SPAN: Record<string, string> = {
   web: "md:col-span-4 md:row-span-2",
   mobile: "md:col-span-2",
   marketing: "md:col-span-2",
   branding: "md:col-span-2",
   support: "md:col-span-2",
+  cybersecurity: "md:col-span-2",
   enterprise: "md:col-span-3",
   ai: "md:col-span-3",
-  cybersecurity: "md:col-span-3",
 };
 
 export function Services3D() {
@@ -45,15 +50,14 @@ export function Services3D() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".svc-card",
-        { y: 48, opacity: 0, filter: "blur(6px)" },
+        { y: 28, opacity: 0.01 },
         {
           y: 0,
           opacity: 1,
-          filter: "blur(0px)",
-          duration: 1,
-          stagger: 0.08,
+          duration: 0.75,
+          stagger: 0.06,
           ease: "power3.out",
-          scrollTrigger: { trigger: root, start: "top 78%", once: true },
+          scrollTrigger: { trigger: root, start: "top 86%", once: true },
         },
       );
     }, root);
@@ -61,8 +65,16 @@ export function Services3D() {
   }, [reduced]);
 
   const tiles = [
-    ...SERVICE_LINES.map((s) => ({ ...s, span: SPAN[s.id], icon: ICONS[s.id as IconId] ?? Code2 })),
-    ...CAPABILITIES.map((c) => ({ id: c.id, slug: c.slug, title: c.title, description: c.description, points: [] as readonly string[], span: SPAN[c.id], icon: ICONS[c.id as IconId] ?? Code2 })),
+    ...SERVICE_LINES.map((s) => ({ ...s, span: SPAN[s.id] ?? "md:col-span-2", icon: ICONS[s.id as IconId] ?? Code2 })),
+    ...CAPABILITIES.map((c) => ({
+      id: c.id,
+      slug: c.slug,
+      title: c.title,
+      description: c.description,
+      points: [] as readonly string[],
+      span: SPAN[c.id] ?? "md:col-span-3",
+      icon: ICONS[c.id as IconId] ?? Code2,
+    })),
   ];
 
   return (
@@ -72,7 +84,7 @@ export function Services3D() {
           <div className="md:col-span-7">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">What we deliver</p>
             <h2 id="services-heading" className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-5xl">
-              Five service lines.<br />
+              Eight service lines.<br />
               <span className="text-brand">One accountable team.</span>
             </h2>
           </div>
@@ -101,22 +113,38 @@ type Tile = {
 };
 
 function ServiceTile({ tile, span, reduced }: { tile: Tile; span: string; reduced: boolean }) {
-  const [style, setStyle] = useState<CSSProperties>({});
-  const [spot, setSpot] = useState({ x: 50, y: 50 });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
   const Icon = tile.icon;
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   const onMove = (e: MouseEvent<HTMLAnchorElement>) => {
     if (reduced) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width;
-    const py = (e.clientY - r.top) / r.height;
-    setSpot({ x: px * 100, y: py * 100 });
-    setStyle({
-      transform: `perspective(900px) rotateX(${((0.5 - py) * 7).toFixed(2)}deg) rotateY(${((px - 0.5) * 7).toFixed(2)}deg)`,
+    const target = cardRef.current;
+    if (!target) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      target.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+      target.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+      target.style.transform = `perspective(900px) rotateX(${((0.5 - py) * 6).toFixed(2)}deg) rotateY(${((px - 0.5) * 6).toFixed(2)}deg)`;
     });
   };
 
-  const onLeave = () => setStyle({ transform: "perspective(900px) rotateX(0deg) rotateY(0deg)" });
+  const onLeave = () => {
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    const target = cardRef.current;
+    if (!target) return;
+    target.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+  };
 
   return (
     <Link
@@ -126,20 +154,20 @@ function ServiceTile({ tile, span, reduced }: { tile: Tile; span: string; reduce
       onMouseLeave={onLeave}
     >
       <div
-        className="group relative h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-px transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-[0_30px_80px_-30px_rgba(255,159,28,0.45)]"
-        style={style}
+        ref={cardRef}
+        className="group relative h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.01] p-px transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform hover:shadow-[0_30px_80px_-30px_rgba(255,159,28,0.45)]"
       >
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: `radial-gradient(420px circle at ${spot.x}% ${spot.y}%, rgba(255,159,28,0.16), transparent 45%)` }}
+          style={{ background: "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,159,28,0.16), transparent 45%)" }}
         />
         <div className="relative flex h-full flex-col rounded-[calc(1.75rem-1px)] bg-[#0a0b0d]/90 p-6 md:p-7">
           <div className="flex items-start justify-between">
             <span className="flex size-12 items-center justify-center rounded-2xl border border-[#ff9f1c]/25 bg-[#ff9f1c]/10 text-[#ffb84d] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:scale-105">
               <Icon className="size-5" strokeWidth={1.5} />
             </span>
-            <ArrowUpRight className="size-5 text-zinc-600 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+            <ArrowUpRight className="size-5 text-zinc-400 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
           </div>
           <h3 className="mt-8 font-display text-xl font-bold text-white md:text-2xl">{tile.title}</h3>
           <p className="mt-3 text-sm leading-relaxed text-zinc-400">{tile.description}</p>

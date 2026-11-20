@@ -3,7 +3,7 @@ import Link from "next/link";
 import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import { BrandMark, BrandWordmark } from "@/components/brand/BrandMark";
 import { BRAND } from "@/lib/brand";
-import { Phone, Mail, MapPin, ExternalLink, ArrowUpRight } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -64,8 +64,9 @@ export default async function Footer() {
   const servicesLinks = [
     { label: "Web Development", href: "/services/web-development" },
     { label: "Mobile App Development", href: "/services/mobile-app-development" },
-    { label: "AI & Automation", href: "/ai-automation" },
+    { label: "AI & Automation", href: "/services/ai-automation" },
     { label: "Enterprise Systems (ERP)", href: "/services/enterprise-systems" },
+    { label: "Cybersecurity & Cloud", href: "/services/cybersecurity" },
     { label: "Graphics & UI/UX Branding", href: "/services/graphics-and-branding" },
     { label: "Digital Marketing & SEO", href: "/services/digital-marketing" },
     { label: "Support & Maintenance", href: "/services/support-and-maintenance" },
@@ -80,14 +81,14 @@ export default async function Footer() {
     { label: "Contact Executive Desk", href: "/contact" },
   ];
 
-  const portalLinks = [
-    { label: "Client Workspace Portal", href: "/portal/dashboard" },
-    { label: "Console Sign In", href: "/login" },
-    { label: "Register Account", href: "/register" },
+  const portalLinks: { label: string; href: string; raw?: boolean; noPrefetch?: boolean }[] = [
+    { label: "Client Workspace Portal", href: "/portal/dashboard", noPrefetch: true },
+    { label: "Console Sign In", href: "/login", noPrefetch: true },
+    { label: "Register Account", href: "/register", noPrefetch: true },
     { label: "Engineering Insights Blog", href: "/blog" },
-    { label: "XML Sitemap", href: "/sitemap.xml" },
-    { label: "RSS Feed", href: "/feed.xml" },
-    { label: "Security & Disclosure", href: "/security.txt" },
+    { label: "XML Sitemap", href: "/sitemap.xml", raw: true },
+    { label: "RSS Feed", href: "/feed.xml", raw: true },
+    { label: "Security & Disclosure", href: "/security.txt", raw: true },
   ];
 
   return (
@@ -255,13 +256,22 @@ export default async function Footer() {
             <ul className="space-y-2.5">
               {portalLinks.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    prefetch={true}
-                    className="text-xs sm:text-sm text-zinc-400 transition-colors hover:text-[#ffb84d]"
-                  >
-                    {l.label}
-                  </Link>
+                  {l.raw ? (
+                    <a
+                      href={l.href}
+                      className="text-xs text-zinc-400 transition-colors hover:text-[#ffb84d] sm:text-sm"
+                    >
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      prefetch={!l.noPrefetch}
+                      className="text-xs text-zinc-400 transition-colors hover:text-[#ffb84d] sm:text-sm"
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -366,7 +376,7 @@ export default async function Footer() {
               <span className="text-xs">🇮🇳</span>
               <span>Digital India</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-zinc-500">
+            <span className="inline-flex items-center gap-1.5 text-[11px] text-zinc-400">
               <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
               Edge Global Network
             </span>

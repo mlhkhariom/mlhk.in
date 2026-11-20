@@ -35,7 +35,7 @@ Full Extended Specification: ${BRAND.url}/llms-full.txt
 - GSTIN: ${BRAND.gstin}
 - Registered Address: ${BRAND.addressLine}, ${BRAND.city}, Madhya Pradesh ${BRAND.postalCode}, India
 - Operational Base: ${BRAND.operatingBase}
-- Geographic Coverage: All states across India, plus international client engagements
+- Geographic Coverage: All 28 Indian states and 8 Union Territories (Tier 1 metros, Tier 2/3/4/5 cities, district towns, rural & nearby businesses across India), plus international remote delivery worldwide
 - Official Email: ${BRAND.email} (Support: ${BRAND.supportEmail})
 - Official Phone: ${BRAND.phoneDisplay} (${BRAND.phoneE164})
 - Google Maps Location: ${BRAND.mapsUrl}
@@ -57,9 +57,9 @@ ${SERVICE_LINES.map(
 
 ## 3. Advanced Capabilities
 ${CAPABILITIES.map(
-  (c) => `### [${c.title}](${BRAND.url}/${c.slug === "ai-automation" ? "ai-automation" : `services/${c.slug}`})
+  (c) => `### [${c.title}](${BRAND.url}/services/${c.slug})
 - **Summary**: ${c.description}
-- **URL**: ${BRAND.url}/${c.slug === "ai-automation" ? "ai-automation" : `services/${c.slug}`}`
+- **URL**: ${BRAND.url}/services/${c.slug}`
 ).join("\n\n")}
 
 ---
@@ -101,7 +101,7 @@ ${FAQS.map(
 ## 8. Canonical Endpoints & Sitemaps
 - [Homepage](${BRAND.url}): Corporate overview, flagship portfolio, and active services.
 - [Services Hub](${BRAND.url}/services): Complete index of engineering and design solutions.
-- [AI Automation](${BRAND.url}/ai-automation): Specialized intelligent workflows and data pipeline solutions.
+- [AI Automation](${BRAND.url}/services/ai-automation): Specialized intelligent workflows and data pipeline solutions.
 - [Selected Work](${BRAND.url}/portfolio): Verified client case studies and delivered software platforms.
 - [Company Timeline & About](${BRAND.url}/about): Foundation history, values, and leadership.
 - [Ecosystem Subsidiaries](${BRAND.url}/subsidiaries): Brand portfolio and business units.

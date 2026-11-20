@@ -25,6 +25,18 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 md:px-6">
       <div
@@ -42,7 +54,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
           {items.map((l) => {
-            const active = pathname === l.href;
+            const active = isActive(l.href);
             return (
               <Link
                 key={l.href}
@@ -68,7 +80,14 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/portal/dashboard"
+            prefetch={false}
+            className="hidden rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-white/20 hover:text-white lg:inline-flex"
+          >
+            Client Portal
+          </Link>
           <Link
             href="/contact"
             prefetch={true}
@@ -85,6 +104,7 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-nav-drawer"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -92,25 +112,30 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
       </div>
 
       <div
+        id="mobile-nav-drawer"
+        aria-hidden={!open}
+        inert={!open}
         className={cn(
-          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-black/95 backdrop-blur-2xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]",
-          open ? "max-h-[85vh] opacity-100 p-3" : "pointer-events-none max-h-0 opacity-0 p-0",
+          "mx-auto mt-2 max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-black/95 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden",
+          open ? "max-h-[85vh] p-3 opacity-100" : "pointer-events-none max-h-0 p-0 opacity-0",
         )}
       >
         <nav className="flex flex-col gap-1" aria-label="Mobile">
           {items.map((l, i) => {
-            const active = pathname === l.href;
+            const active = isActive(l.href);
             return (
               <Link
                 key={l.href}
                 href={l.href}
                 prefetch={true}
                 target={l.target}
+                tabIndex={open ? 0 : -1}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors",
                   active
-                    ? "bg-[#ff9f1c]/15 text-[#ffb84d] font-semibold"
-                    : "text-zinc-200 hover:bg-white/5 hover:text-white"
+                    ? "bg-[#ff9f1c]/15 font-semibold text-[#ffb84d]"
+                    : "text-zinc-200 hover:bg-white/5 hover:text-white",
                 )}
                 style={{ transitionDelay: open ? `${i * 30}ms` : "0ms" }}
               >
@@ -121,10 +146,11 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
               </Link>
             );
           })}
-          <div className="mt-2 pt-2 border-t border-white/10 flex flex-col gap-2">
+          <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-2">
             <Link
               href="/contact"
               prefetch={true}
+              tabIndex={open ? 0 : -1}
               className="flex items-center justify-center gap-2 rounded-xl bg-[#ff9f1c] px-4 py-3 text-center text-sm font-semibold text-black transition-transform active:scale-[0.98]"
             >
               <span>Start a project</span>
@@ -132,7 +158,8 @@ export default function NavbarClient({ items, siteName }: { items: MenuItem[]; s
             </Link>
             <Link
               href="/portal/dashboard"
-              prefetch={true}
+              prefetch={false}
+              tabIndex={open ? 0 : -1}
               className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-center text-xs font-medium text-zinc-300 transition-colors hover:text-white"
             >
               <span>Client Portal</span>

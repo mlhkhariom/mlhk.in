@@ -1,11 +1,24 @@
-import AdminSidebar from "@/components/admin/Sidebar";
+import type { Metadata } from "next";
+import AdminSidebar, { AdminMobileNav } from "@/components/admin/Sidebar";
 import AdminSearch from "@/components/admin/AdminSearch";
 import AdminUserMenu from "@/components/admin/AdminUserMenu";
 import Link from "next/link";
-import { ExternalLink, Activity } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromHeaders, ADMIN_ROLES } from "@/lib/auth/session";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   // Authoritative guard for the whole admin panel.
@@ -20,29 +33,24 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="flex h-screen bg-[#07080a] text-zinc-100 overflow-hidden antialiased selection:bg-[#ff9f1c]/30 selection:text-white">
-      {/* Sidebar */}
+    <div className="flex h-screen overflow-hidden bg-[#07080a] text-zinc-100 antialiased selection:bg-[#ff9f1c]/30 selection:text-white">
+      {/* Desktop Sidebar */}
       <AdminSidebar />
 
       {/* Main Workspace */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#07080a]/80 px-6 backdrop-blur-md z-30">
-          <div className="flex items-center gap-4">
+        <header className="z-30 flex h-16 shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-[#07080a]/80 px-4 backdrop-blur-md md:px-6">
+          <div className="flex items-center gap-3">
+            <AdminMobileNav />
             <AdminSearch />
           </div>
 
-          <div className="flex items-center gap-3.5">
-            {/* Telemetry pill */}
-            <div className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-zinc-400">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Cloudflare D1 • Active</span>
-            </div>
-
+          <div className="flex items-center gap-3">
             <Link
               href="/"
               target="_blank"
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-white/20 hover:text-white"
+              className="hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-white/20 hover:text-white sm:inline-flex"
             >
               <ExternalLink className="size-3 text-[#ff9f1c]" />
               <span>View Site</span>
@@ -54,7 +62,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </header>
 
         {/* Content Viewport */}
-        <main className="flex-1 overflow-y-auto bg-[#07080a] px-6 py-8 md:px-10">
+        <main className="flex-1 overflow-y-auto bg-[#07080a] px-4 py-6 md:px-10 md:py-8">
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>

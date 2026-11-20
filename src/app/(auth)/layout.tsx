@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
+import { ShieldCheck, ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

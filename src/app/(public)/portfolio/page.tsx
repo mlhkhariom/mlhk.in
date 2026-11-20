@@ -1,5 +1,4 @@
 import { safeDb } from "@/lib/db/safe";
-import { getDb } from "@/lib/db";
 import { portfolio } from "@/lib/db/schema";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
@@ -10,6 +9,39 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+const VERIFIED_PORTFOLIO_SCHEMA_ITEMS = [
+  {
+    title: "IKSC India (iksc.in)",
+    description: "Resilient digital storefront tailored for Tier-2/3 Indian retail customers with WhatsApp instant checkout dispatch and Razorpay integration.",
+    url: "https://iksc.in",
+  },
+  {
+    title: "Erotix Green Energy",
+    description: "Solar EPC field operations and contractor portal with offline mobile reporting for ground-mounted solar installations.",
+    url: "https://mlhk.in/subsidiaries",
+  },
+  {
+    title: "Red Xerox Studio",
+    description: "Identity systems, vector brand marks, packaging guidelines, and custom dark-luxury UI interfaces.",
+    url: "https://mlhk.in/services/graphics-and-branding",
+  },
+  {
+    title: "TET News (TETnews.com)",
+    description: "High-concurrency digital publishing system for government examination and career updates with edge caching.",
+    url: "https://mlhk.in/subsidiaries",
+  },
+  {
+    title: "AI Laptop Wala (ailaptopwala.com)",
+    description: "Retail inventory catalog, serial number tracking, warranty verification, and repair booking portal.",
+    url: "https://ailaptopwala.com",
+  },
+  {
+    title: "Gud Amrit (gudamrit.in)",
+    description: "Organic jaggery D2C storefront with batch test certifications and wholesale B2B WhatsApp inquiry flow.",
+    url: "https://gudamrit.in",
+  },
+];
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({
@@ -22,6 +54,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PortfolioPage() {
   const db = safeDb();
   const items = await db.select().from(portfolio).all().catch(() => []);
+  const schemaEntries =
+    items.length > 0
+      ? items.map((p) => ({
+          title: p.title,
+          description: p.description ?? "",
+          url: p.url ?? "https://mlhk.in/portfolio",
+          image: p.image ?? undefined,
+        }))
+      : VERIFIED_PORTFOLIO_SCHEMA_ITEMS.map((p) => ({ ...p, image: undefined }));
 
   return (
     <>
@@ -41,16 +82,20 @@ export default async function PortfolioPage() {
           mainEntity: {
             "@type": "ItemList",
             name: "Selected Projects",
-            itemListElement: items.map((p, i) => ({
-              "@type": "CreativeWork",
+            numberOfItems: schemaEntries.length,
+            itemListElement: schemaEntries.map((p, i) => ({
+              "@type": "ListItem",
               position: i + 1,
-              name: p.title,
-              description: p.description ?? "",
-              url: p.url ?? "https://mlhk.in/portfolio",
-              ...(p.image ? { image: p.image } : {}),
-              creator: {
-                "@type": "Organization",
-                "@id": "https://mlhk.in/#organization",
+              item: {
+                "@type": "CreativeWork",
+                name: p.title,
+                description: p.description,
+                url: p.url,
+                ...(p.image ? { image: p.image } : {}),
+                creator: {
+                  "@type": "Organization",
+                  "@id": "https://mlhk.in/#organization",
+                },
               },
             })),
           },

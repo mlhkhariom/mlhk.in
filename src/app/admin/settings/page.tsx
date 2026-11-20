@@ -7,6 +7,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fields = [
     { key: "company_name", label: "Company Legal Name" },
@@ -39,19 +40,30 @@ export default function SettingsPage() {
   async function handleSave() {
     setSaving(true);
     setSaved(false);
-    const entries = Object.entries(settings).filter(([, v]) => v !== "");
-    await Promise.all(
-      entries.map(([key, value]) =>
-        fetch("/api/admin/site-settings", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ key, value }),
-        })
-      )
-    );
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    setError(null);
+    try {
+      const payload: Record<string, string> = {};
+      for (const { key } of fields) {
+        if (typeof settings[key] === "string") {
+          payload[key] = settings[key].trim();
+        }
+      }
+      const res = await fetch("/api/admin/site-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errData = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errData.error || "Failed to save settings");
+      }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save settings");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -60,7 +72,7 @@ export default function SettingsPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-            System & Enterprise Settings
+            System &amp; Enterprise Settings
           </h1>
           <p className="mt-1 text-xs text-zinc-400">
             Configure system variables, tax IDs, and global legal references.
@@ -87,6 +99,12 @@ export default function SettingsPage() {
           )}
         </button>
       </div>
+
+      {error && (
+        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs text-red-300">
+          {error}
+        </div>
+      )}
 
       <div className="rounded-2xl border border-white/10 bg-[#0c0d11]/80 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-8">
         <div className="flex items-center gap-2 border-b border-white/10 pb-4">

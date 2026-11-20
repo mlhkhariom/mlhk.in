@@ -175,39 +175,7 @@ export default function ContactPage() {
           description:
             "Connect directly with Hariom Vishwkarma and the MLHK Infotech software engineering team for web platforms, mobile apps, ERP systems, and AI automation.",
           mainEntity: {
-            "@type": "ProfessionalService",
             "@id": `${BRAND.url}/#organization`,
-            name: BRAND.name,
-            alternateName: [BRAND.shortName, "Red Xerox Studio"],
-            url: BRAND.url,
-            telephone: BRAND.phoneE164,
-            email: BRAND.email,
-            founder: {
-              "@type": "Person",
-              name: BRAND.founder,
-              jobTitle: "Founder & Chief Systems Architect",
-              sameAs: [
-                BRAND.founderLinkedin,
-                BRAND.founderGithub,
-                BRAND.founderInstagram,
-              ],
-            },
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: BRAND.addressLine,
-              addressLocality: BRAND.city,
-              addressRegion: "Madhya Pradesh",
-              postalCode: BRAND.postalCode,
-              addressCountry: "IN",
-            },
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: BRAND.phoneE164,
-              contactType: "customer service",
-              email: BRAND.email,
-              availableLanguage: ["English", "Hindi"],
-              areaServed: ["IN", "Worldwide"],
-            },
           },
         }}
       />
@@ -376,9 +344,9 @@ export default function ContactPage() {
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl font-bold text-white md:text-3xl">
+                <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
                   Hariom Vishwkarma (MLHK)
-                </h3>
+                </h2>
                 <p className="text-xs font-mono uppercase tracking-wider text-[#ffb84d]">
                   Founder &amp; Chief Technology Officer • MLHK Infotech &amp; Red Xerox Studio
                 </p>
@@ -499,9 +467,9 @@ export default function ContactPage() {
               <Building2 className="size-3.5" />
               Physical Operating Footprint
             </span>
-            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Our Registered Headquarters &amp; Tech Hubs
-            </h3>
+            </h2>
             <p className="mt-1 text-xs text-zinc-400 max-w-xl">
               Rooted in Madhya Pradesh, engineering digital power for clients across India and globally.
               Visit our offices for in-person sprint kickoffs or legal verification.
@@ -522,9 +490,9 @@ export default function ContactPage() {
                   </span>
                 </div>
 
-                <h4 className="font-display text-xl font-bold text-white">
+                <h3 className="font-display text-xl font-bold text-white">
                   Shajapur Headquarters
-                </h4>
+                </h3>
                 <p className="text-xs leading-relaxed text-zinc-400">
                   {BRAND.location}
                 </p>
@@ -573,9 +541,9 @@ export default function ContactPage() {
                   </span>
                 </div>
 
-                <h4 className="font-display text-xl font-bold text-white">
+                <h3 className="font-display text-xl font-bold text-white">
                   Indore Tech Operations Hub
-                </h4>
+                </h3>
                 <p className="text-xs leading-relaxed text-zinc-400">
                   AB Road / Vijay Nagar Commercial Corridor, Indore, Madhya Pradesh 452010, India.
                 </p>
@@ -626,9 +594,9 @@ export default function ContactPage() {
               <ShieldCheck className="size-3.5" />
               Contractual Assurance
             </span>
-            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Four Non-Negotiable Engagement Guarantees
-            </h3>
+            </h2>
             <p className="mt-1 text-xs text-zinc-400 max-w-xl">
               Every partnership is protected by statutory Indian contract law and transparent delivery milestones.
             </p>
@@ -692,9 +660,9 @@ export default function ContactPage() {
               <MessageSquare className="size-3.5" />
               Frequently Asked Questions
             </span>
-            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Direct Answers to Client Onboarding Questions
-            </h3>
+            </h2>
             <p className="mt-1 text-xs text-zinc-400 max-w-xl">
               Transparent terms, legal protections, and onboarding protocols explained upfront.
             </p>

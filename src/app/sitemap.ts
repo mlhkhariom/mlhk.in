@@ -4,34 +4,32 @@ import { getDb } from "@/lib/db";
 import { blogPosts, pages, subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { SERVICE_DETAILS } from "@/lib/brand";
+import {
+  BASE_URL,
+  CORE_STATIC_PATHS,
+  DEFAULT_OG_IMAGE,
+  buildCanonicalUrl,
+} from "@/lib/seo-utils";
 
-const BASE = "https://mlhk.in";
-
-export const revalidate = 86400; // 24 hours ISR cache
-
-const STATIC_LASTMOD = new Date("2026-10-21T00:00:00.000Z");
+export const revalidate = 3600; // 1 hour ISR + instant revalidatePath() on CMS publish
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
+
   const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${BASE}/about`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/services`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/portfolio`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE}/blog`, lastModified: STATIC_LASTMOD, changeFrequency: "daily", priority: 0.8 },
-    { url: `${BASE}/contact`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/subsidiaries`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/process`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/faq`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/ai-automation`, lastModified: STATIC_LASTMOD, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE}/privacy-policy`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/terms-and-conditions`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/terms-of-service`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${BASE}/cancellation-refund-policy`, lastModified: STATIC_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
+    ...CORE_STATIC_PATHS.map((entry) => ({
+      url: buildCanonicalUrl(entry.path),
+      lastModified: now,
+      changeFrequency: entry.changeFrequency,
+      priority: entry.priority,
+      images: [DEFAULT_OG_IMAGE],
+    })),
     ...SERVICE_DETAILS.map((s) => ({
-      url: `${BASE}/services/${s.slug}`,
-      lastModified: STATIC_LASTMOD,
+      url: `${BASE_URL}/services/${s.slug}`,
+      lastModified: now,
       changeFrequency: "weekly" as const,
-      priority: 0.85,
+      priority: 0.9,
+      images: [DEFAULT_OG_IMAGE],
     })),
   ];
 
@@ -40,30 +38,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const db = getDb(env.DB);
 
     const [publishedPosts, publishedPages, activeBrands] = await Promise.all([
-      db.select({ slug: blogPosts.slug, publishedAt: blogPosts.publishedAt }).from(blogPosts).where(eq(blogPosts.status, "published")).all(),
-      db.select({ slug: pages.slug, updatedAt: pages.updatedAt }).from(pages).where(eq(pages.status, "published")).all(),
-      db.select({ slug: subsidiaries.slug }).from(subsidiaries).where(eq(subsidiaries.active, true)).all(),
+      db
+        .select({
+          slug: blogPosts.slug,
+          publishedAt: blogPosts.publishedAt,
+          coverImage: blogPosts.coverImage,
+        })
+        .from(blogPosts)
+        .where(eq(blogPosts.status, "published"))
+        .all(),
+      db
+        .select({ slug: pages.slug, updatedAt: pages.updatedAt })
+        .from(pages)
+        .where(eq(pages.status, "published"))
+        .all(),
+      db
+        .select({ slug: subsidiaries.slug, logo: subsidiaries.logo })
+        .from(subsidiaries)
+        .where(eq(subsidiaries.active, true))
+        .all(),
     ]);
 
     const postPages: MetadataRoute.Sitemap = publishedPosts.map((p) => ({
-      url: `${BASE}/blog/${p.slug}`,
-      lastModified: p.publishedAt ? new Date(p.publishedAt) : STATIC_LASTMOD,
+      url: `${BASE_URL}/blog/${p.slug}`,
+      lastModified: p.publishedAt ? new Date(p.publishedAt) : now,
       changeFrequency: "weekly" as const,
-      priority: 0.6,
+      priority: 0.75,
+      images: p.coverImage
+        ? [p.coverImage.startsWith("http") ? p.coverImage : `${BASE_URL}${p.coverImage}`]
+        : [DEFAULT_OG_IMAGE],
     }));
 
     const cmsPages: MetadataRoute.Sitemap = publishedPages.map((p) => ({
-      url: `${BASE}/p/${p.slug}`,
-      lastModified: p.updatedAt ? new Date(p.updatedAt) : STATIC_LASTMOD,
+      url: `${BASE_URL}/p/${p.slug}`,
+      lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
       changeFrequency: "monthly" as const,
-      priority: 0.5,
+      priority: 0.65,
     }));
 
     const brandPages: MetadataRoute.Sitemap = activeBrands.map((b) => ({
-      url: `${BASE}/subsidiaries/${b.slug}`,
-      lastModified: STATIC_LASTMOD,
+      url: `${BASE_URL}/subsidiaries/${b.slug}`,
+      lastModified: now,
       changeFrequency: "monthly" as const,
-      priority: 0.6,
+      priority: 0.65,
+      ...(b.logo
+        ? { images: [b.logo.startsWith("http") ? b.logo : `${BASE_URL}${b.logo}`] }
+        : {}),
     }));
 
     return [...staticPages, ...postPages, ...cmsPages, ...brandPages];

@@ -17,7 +17,7 @@ const PROCESS = [
 ];
 
 export function WhyMlhk() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -63,8 +63,8 @@ export function WhyMlhk() {
   const headline = "Built around how your business actually runs.";
 
   return (
-    <>
-      <section ref={ref} className="relative bg-[#050607] px-4 py-28 md:px-6 md:py-36" aria-labelledby="why-heading">
+    <div ref={ref}>
+      <section className="relative bg-[#050607] px-4 py-28 md:px-6 md:py-36" aria-labelledby="why-heading">
         <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">Why MLHK</p>
@@ -119,16 +119,16 @@ export function WhyMlhk() {
         </div>
       </section>
 
-      <section className="relative border-y border-white/10 bg-[#050607] py-12" aria-label="Technology stack">
+      <section className="relative border-y border-white/10 bg-[#050607] py-14" aria-label="Technology stack">
         <div className="mx-auto max-w-6xl px-4 md:px-6">
-          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">No boundaries on the stack</p>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {TECH_STACK.slice(0, 4).map((g) => (
+          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-400">No boundaries on the stack</p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {TECH_STACK.map((g) => (
               <div key={g.group}>
-                <p className="mb-3 text-xs font-semibold text-zinc-300">{g.group}</p>
+                <p className="mb-3 text-xs font-semibold text-zinc-200">{g.group}</p>
                 <ul className="flex flex-wrap gap-2">
                   {g.items.map((item) => (
-                    <li key={item} className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-400">
+                    <li key={item} className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-300">
                       {item}
                     </li>
                   ))}
@@ -138,6 +138,6 @@ export function WhyMlhk() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

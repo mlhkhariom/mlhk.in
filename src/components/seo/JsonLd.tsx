@@ -1,4 +1,5 @@
-import { BRAND } from "@/lib/brand";
+import { BRAND, SERVICE_LINES, CAPABILITIES } from "@/lib/brand";
+import { buildPanIndiaAreaServed } from "@/lib/seo-utils";
 
 type JsonLdProps = {
   data: Record<string, unknown> | Record<string, unknown>[];
@@ -53,7 +54,7 @@ export function BreadcrumbJsonLd({
 export function FaqJsonLd({
   faqs,
 }: {
-  faqs: { question: string; answer: string }[];
+  faqs: readonly { readonly question: string; readonly answer: string }[];
 }) {
   if (!faqs || faqs.length === 0) return null;
   const data = {
@@ -85,9 +86,9 @@ export function WebSiteJsonLd({
     "@id": `${url}/#website`,
     url,
     name,
-    alternateName: [BRAND.shortName, "MLHK Infotech Private", "MLHK"],
+    alternateName: [BRAND.shortName, "MLHK Infotech India", "MLHK"],
     description:
-      "Enterprise IT solutions, scalable web development, Android applications, CRM/ERP systems, and AI automation.",
+      "Enterprise IT solutions, custom website development & redesign, SEO, digital marketing, Android & mobile applications, CRM/ERP systems, and AI automation across India and worldwide.",
     publisher: {
       "@id": `${url}/#organization`,
     },
@@ -108,9 +109,11 @@ export function WebSiteJsonLd({
 
 /**
  * Master Organization / ProfessionalService / LocalBusiness Schema
+ * Single authoritative `#organization` node mounted globally via Footer.
  * Establishes company authority, regulatory credentials (MSME Udyam + GSTIN),
- * dual operating locations (Shajapur HQ + Indore Operations), founder E-E-A-T signals,
- * and service capabilities for AI engines (ChatGPT, Gemini, Perplexity, Claude).
+ * dual operating hubs (Shajapur HQ + Indore Operations), pan-India (all states,
+ * metro/tier 2-5 cities, rural/remote) + global coverage, founder E-E-A-T signals,
+ * and complete service OfferCatalog.
  */
 export function OrganizationJsonLd() {
   const orgData = {
@@ -118,7 +121,13 @@ export function OrganizationJsonLd() {
     "@type": ["Organization", "ProfessionalService", "LocalBusiness"],
     "@id": `${BRAND.url}/#organization`,
     name: BRAND.name,
-    alternateName: [BRAND.shortName, "MLHK", "MLHK Infotech Shajapur", "MLHK Infotech Indore"],
+    alternateName: [
+      BRAND.shortName,
+      "MLHK",
+      "MLHK Infotech Shajapur",
+      "MLHK Infotech Indore",
+      "MLHK Infotech India",
+    ],
     legalName: BRAND.name,
     url: BRAND.url,
     logo: {
@@ -132,7 +141,7 @@ export function OrganizationJsonLd() {
     },
     image: `${BRAND.url}/brand/logo-full.png`,
     description:
-      "MLHK Infotech is an indigenous Indian IT and software engineering enterprise founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ). Delivering enterprise web platforms, scalable Android applications, CRM/ERP systems, and AI automation.",
+      "MLHK Infotech is an indigenous Indian IT and software engineering enterprise founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ). Delivering custom websites, website redesign & editing, technical & local SEO, digital marketing, Android & mobile apps, CRM/ERP systems, cybersecurity, and AI automation across all Indian states, cities, towns, villages, and worldwide.",
     slogan: BRAND.tagline,
     foundingDate: "2020-04-01",
     taxID: BRAND.gstin,
@@ -170,7 +179,10 @@ export function OrganizationJsonLd() {
       ],
       knowsAbout: [
         "Full-Stack Web Engineering",
-        "Android App Architecture",
+        "Website Redesign, Editing & Optimization",
+        "Technical & Local SEO Engineering",
+        "Digital Marketing & Performance Growth",
+        "Android & Cross-Platform Mobile App Architecture",
         "Enterprise Resource Planning (ERP)",
         "Customer Relationship Management (CRM)",
         "Artificial Intelligence & LLM Workflows",
@@ -212,12 +224,19 @@ export function OrganizationJsonLd() {
       },
       {
         "@type": "Place",
-        name: "MLHK Infotech Operating Base",
+        name: "MLHK Infotech Operating Base (Indore)",
         address: {
           "@type": "PostalAddress",
+          streetAddress: "AB Road / Vijay Nagar Commercial Corridor",
           addressLocality: "Indore",
           addressRegion: "Madhya Pradesh",
+          postalCode: "452010",
           addressCountry: "IN",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: 22.7533,
+          longitude: 75.8937,
         },
       },
     ],
@@ -225,7 +244,8 @@ export function OrganizationJsonLd() {
     email: BRAND.email,
     priceRange: "₹₹ - ₹₹₹₹",
     currenciesAccepted: "INR, USD, EUR, AED",
-    paymentAccepted: "UPI, Net Banking, NEFT, RTGS, IMPS, Credit Card, Debit Card, International Wire Transfer",
+    paymentAccepted:
+      "UPI, Net Banking, NEFT, RTGS, IMPS, Credit Card, Debit Card, International Wire Transfer",
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -237,8 +257,8 @@ export function OrganizationJsonLd() {
           "Friday",
           "Saturday",
         ],
-        opens: "09:30",
-        closes: "19:00",
+        opens: "09:00",
+        closes: "20:00",
       },
     ],
     contactPoint: [
@@ -246,7 +266,7 @@ export function OrganizationJsonLd() {
         "@type": "ContactPoint",
         contactType: "sales",
         telephone: BRAND.phoneE164,
-        email: BRAND.email,
+        email: "contact@mlhk.in",
         availableLanguage: ["English", "Hindi"],
         areaServed: ["IN", "Worldwide"],
       },
@@ -255,6 +275,14 @@ export function OrganizationJsonLd() {
         contactType: "customer support",
         telephone: BRAND.phoneE164,
         email: BRAND.supportEmail,
+        availableLanguage: ["English", "Hindi"],
+        areaServed: ["IN", "Worldwide"],
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "administration",
+        telephone: BRAND.phoneE164,
+        email: BRAND.email,
         availableLanguage: ["English", "Hindi"],
         areaServed: ["IN", "Worldwide"],
       },
@@ -298,30 +326,48 @@ export function OrganizationJsonLd() {
       },
     ],
     knowsAbout: [
-      "Web Application Development",
-      "Android Mobile App Development",
-      "Enterprise ERP and CRM Solutions",
-      "Artificial Intelligence & Automation Workflows",
-      "Digital Marketing & SEO Engineering",
-      "UI/UX Design Systems & Branding",
-      "Cybersecurity and Cloud Systems",
+      "Custom Web Application Development",
+      "Website Redesign, Editing & Speed Optimization",
+      "Technical SEO, Local SEO & Google Search Ranking",
+      "Digital Marketing, Performance Ads & Social Media Growth",
+      "Android & Cross-Platform Mobile App Development",
+      "Progressive Web Apps (PWA) & E-Commerce Platforms",
+      "Enterprise ERP, CRM, HRMS & GST Billing Software",
+      "Artificial Intelligence, Chatbots & WhatsApp Business API Automation",
+      "UI/UX Design Systems, Graphic Design & Corporate Branding",
+      "Cybersecurity Hardening, Cloud Infrastructure & 24/7 IT Support",
     ],
-    areaServed: [
-      {
-        "@type": "Country",
-        name: "India",
-      },
-      {
-        "@type": "AdministrativeArea",
-        name: "Madhya Pradesh",
-      },
-    ],
+    areaServed: buildPanIndiaAreaServed(),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "MLHK Infotech Pan-India & Global Engineering Services",
+      itemListElement: [
+        ...SERVICE_LINES.map((s) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: s.title,
+            description: s.description,
+            url: `${BRAND.url}/services/${s.slug}`,
+          },
+        })),
+        ...CAPABILITIES.map((c) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: c.title,
+            description: c.description,
+            url: `${BRAND.url}/services/${c.slug}`,
+          },
+        })),
+      ],
+    },
   };
 
   return <JsonLd data={orgData} />;
 }
 
-/** Service / OfferCatalog structured data */
+/** Service / OfferCatalog structured data with valid ListItem wrappers */
 export function ServiceJsonLd({
   services,
 }: {
@@ -333,23 +379,24 @@ export function ServiceJsonLd({
         "@context": "https://schema.org",
         "@type": "ItemList",
         name: `${BRAND.name} Engineering & Digital Services`,
-        description: "Official service catalogue of MLHK Infotech.",
+        description: "Official service catalogue of MLHK Infotech across India and globally.",
+        numberOfItems: services.length,
         itemListElement: services.map((s, i) => ({
-          "@type": "Service",
+          "@type": "ListItem",
           position: i + 1,
-          name: s.name,
-          description: s.description,
-          url: s.url ?? `${BRAND.url}/services`,
-          serviceType: s.name,
-          provider: {
-            "@type": "Organization",
-            "@id": `${BRAND.url}/#organization`,
-            name: BRAND.name,
-            url: BRAND.url,
-          },
-          areaServed: {
-            "@type": "Country",
-            name: "India",
+          item: {
+            "@type": "Service",
+            name: s.name,
+            description: s.description,
+            url: s.url ?? `${BRAND.url}/services`,
+            serviceType: s.name,
+            provider: {
+              "@id": `${BRAND.url}/#organization`,
+            },
+            areaServed: [
+              { "@type": "Country", name: "India" },
+              { "@type": "Place", name: "Worldwide" },
+            ],
           },
         })),
       }}
@@ -380,26 +427,9 @@ export function SingleServiceJsonLd({
         url: `${BRAND.url}/services/${slug}`,
         serviceType: serviceType ?? name,
         provider: {
-          "@type": "Organization",
           "@id": `${BRAND.url}/#organization`,
-          name: BRAND.name,
-          url: BRAND.url,
         },
-        areaServed: [
-          {
-            "@type": "Country",
-            name: "India",
-          },
-          {
-            "@type": "GeoCircle",
-            geoMidpoint: {
-              "@type": "GeoCoordinates",
-              latitude: 23.664,
-              longitude: 76.322,
-            },
-            geoRadius: "1000000",
-          },
-        ],
+        areaServed: buildPanIndiaAreaServed(),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: `${name} Offerings`,
@@ -458,14 +488,7 @@ export function ArticleJsonLd({
           ],
         },
         publisher: {
-          "@type": "Organization",
           "@id": `${BRAND.url}/#organization`,
-          name: BRAND.name,
-          url: BRAND.url,
-          logo: {
-            "@type": "ImageObject",
-            url: `${BRAND.url}/brand/logo-full.png`,
-          },
         },
         inLanguage: "en-IN",
         ...(wordCount && wordCount > 0 ? { wordCount } : {}),
@@ -479,10 +502,12 @@ export function HowToJsonLd({
   name,
   description,
   steps,
+  baseUrl = `${BRAND.url}/process`,
 }: {
   name: string;
   description: string;
   steps: { name: string; text: string }[];
+  baseUrl?: string;
 }) {
   return (
     <JsonLd
@@ -496,7 +521,7 @@ export function HowToJsonLd({
           position: i + 1,
           name: s.name,
           text: s.text,
-          url: `${BRAND.url}/process#step-${i + 1}`,
+          url: `${baseUrl}#step-${i + 1}`,
         })),
       }}
     />

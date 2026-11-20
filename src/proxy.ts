@@ -1,16 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generatePageMarkdown } from "@/lib/markdown-generator";
+import {
+  BASE_URL,
+  isNoIndexPath,
+  shouldNoIndexHost,
+  shouldRedirectToApex,
+} from "@/lib/seo-utils";
 
 /**
- * Fast pre-filter and Content Negotiation Proxy.
+ * Fast pre-filter, Canonical Host Guard, and Content Negotiation Proxy.
  *
- * 1. Markdown for Agents Content Negotiation:
+ * 1. Canonical Domain Enforcement:
+ *    - 301-redirects `www.mlhk.in` -> `https://mlhk.in` preserving path & query.
+ *    - Attaches `X-Robots-Tag: noindex, nofollow` on non-canonical mirror hosts
+ *      (`*.workers.dev`, `*.pages.dev`) and private/auth routes.
+ *
+ * 2. Markdown for Agents Content Negotiation:
  *    When requests include `Accept: text/markdown`, returns a clean, machine-readable
  *    markdown representation of the requested page with proper Content-Type, Vary,
  *    and x-markdown-tokens headers per IETF and Cloudflare standards.
- *
- * 2. RFC 8288 & RFC 9727 Link Headers for Agent Discovery:
- *    Attaches Link headers advertising machine-readable API catalog and specifications.
  *
  * 3. Auth Pre-Filter:
  *    better-auth session checks for `/admin/*` and `/portal/*`.
@@ -22,17 +30,24 @@ const SESSION_COOKIES = [
 ];
 
 const LINK_HEADER_VALUE =
-  '</.well-known/api-catalog>; rel="api-catalog", </llms.txt>; rel="describedby"; type="text/plain", </llms-full.txt>; rel="service-doc"; type="text/plain"';
+  '</.well-known/api-catalog>; rel="api-catalog", </llms.txt>; rel="describedby"; type="text/plain", </llms-full.txt>; rel="service-doc"; type="text/plain", </sitemap.xml>; rel="sitemap"; type="application/xml"';
 
 export async function proxy(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const { pathname, search } = req.nextUrl;
+  const host = req.headers.get("host");
   const acceptHeader = req.headers.get("accept") || "";
+
+  // 0. Canonical Apex Domain Redirect (www.mlhk.in -> https://mlhk.in)
+  if (shouldRedirectToApex(host)) {
+    return NextResponse.redirect(`${BASE_URL}${pathname}${search}`, 301);
+  }
 
   // 1. Content Negotiation for AI Agents (Accept: text/markdown on HTML web pages)
   const isDirectFileOrApi =
     pathname.endsWith(".txt") ||
     pathname.endsWith(".md") ||
     pathname.endsWith(".json") ||
+    pathname.endsWith(".xml") ||
     pathname.startsWith("/.well-known") ||
     pathname.startsWith("/api");
 
@@ -44,11 +59,12 @@ export async function proxy(req: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
-        "Vary": "Accept",
-        "Link": LINK_HEADER_VALUE,
+        Vary: "Accept",
+        Link: LINK_HEADER_VALUE,
         "X-Markdown-Tokens": String(tokenCount),
         "Content-Signal": "ai-train=no, search=yes, ai-input=yes",
         "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
+        ...(shouldNoIndexHost(host) ? { "X-Robots-Tag": "noindex, nofollow" } : {}),
       },
     });
   }
@@ -59,12 +75,18 @@ export async function proxy(req: NextRequest) {
     if (!hasSessionCookie) {
       const url = new URL("/login", req.url);
       url.searchParams.set("next", pathname);
-      return NextResponse.redirect(url);
+      const redirectRes = NextResponse.redirect(url);
+      redirectRes.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return redirectRes;
     }
   }
 
-  // 3. Regular HTML response (Link headers and security headers are attached via next.config.ts)
-  return NextResponse.next();
+  // 3. Regular HTML response + X-Robots-Tag guard on preview hosts or private/auth paths
+  const res = NextResponse.next();
+  if (shouldNoIndexHost(host) || isNoIndexPath(pathname)) {
+    res.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  return res;
 }
 
 export const middleware = proxy;
