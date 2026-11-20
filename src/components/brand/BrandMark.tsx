@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function BrandMark({ className, priority = false }: { className?: string; priority?: boolean }) {
   return (
     <span className={cn("relative block size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-[#ff9f1c]/30", className)}>
-      <Image src="/brand/badge.png" alt="" fill sizes="40px" priority={priority} className="object-cover" />
+      <Image src="/brand/badge.png" alt="" fill sizes="40px" priority={priority} referrerPolicy="no-referrer" className="object-cover" />
     </span>
   );
 }

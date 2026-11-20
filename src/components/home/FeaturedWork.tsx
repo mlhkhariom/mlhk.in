@@ -2,11 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Layers, Quote } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/components/home/utils";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { VERIFIED_CASE_STUDIES } from "@/lib/case-studies";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -45,7 +45,7 @@ export function FeaturedWork({ items }: { items: PortfolioItem[] }) {
   }, [reduced]);
 
   const caseStudies = VERIFIED_CASE_STUDIES.slice(0, 3);
-  const hasCmsItems = items.length > 0;
+  const cmsHasRichImages = items.length > 0 && items.every((item) => Boolean(item.image?.trim()));
 
   return (
     <section
@@ -80,7 +80,7 @@ export function FeaturedWork({ items }: { items: PortfolioItem[] }) {
           </Link>
         </div>
 
-        {hasCmsItems ? (
+        {cmsHasRichImages ? (
           <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item, idx) => {
               const fallbackImg = caseStudies[idx % caseStudies.length]?.image ?? "/images/showcase/studio-hub.jpg";
@@ -90,15 +90,14 @@ export function FeaturedWork({ items }: { items: PortfolioItem[] }) {
                 <li key={item.id}>
                   <article className="fw-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0c0d10] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/40">
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#0a0b0e]">
-                      <Image
+                      <ShowcaseImage
                         src={item.image || fallbackImg}
+                        fallbackSrc={fallbackImg}
                         alt={item.title}
-                        fill
-                        referrerPolicy="no-referrer"
-                        className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                        className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
-                      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/25 to-transparent" />
+                      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/25 to-transparent" />
                     </div>
                     <div className="flex flex-1 flex-col p-6">
                       <h3 className="font-display text-lg font-bold text-white transition-colors group-hover:text-[#ffb84d]">
@@ -145,17 +144,15 @@ export function FeaturedWork({ items }: { items: PortfolioItem[] }) {
               <li key={cs.id}>
                 <article className="fw-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0c0d10] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/40 hover:shadow-[0_24px_60px_-24px_rgba(255,159,28,0.28)]">
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#090a0d]">
-                    <Image
+                    <ShowcaseImage
                       src={cs.image}
                       alt={cs.imageAlt}
-                      fill
-                      referrerPolicy="no-referrer"
-                      className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                      className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                       sizes="(max-width: 1024px) 100vw, 33vw"
                     />
                     <div
                       aria-hidden
-                      className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/30 to-transparent"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/30 to-transparent"
                     />
                     <p className="absolute bottom-3 left-5 right-5 flex items-center justify-between text-xs font-medium text-zinc-200">
                       <span className="text-[#ffb84d]">{cs.category}</span>

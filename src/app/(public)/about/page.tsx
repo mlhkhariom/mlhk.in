@@ -28,6 +28,7 @@ import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { BRAND, TIMELINE, VENTURES, TECH_STACK, WHY_MLHK } from "@/lib/brand";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -205,14 +206,13 @@ export default function AboutPage() {
           </div>
 
           <div className="flex flex-col col-span-2 sm:col-span-1">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+            <span className="text-[11px] font-medium text-zinc-400">
               Global Deployment
             </span>
-            <span className="mt-1 flex items-center gap-1.5 font-display text-sm font-bold text-[#ffb84d]">
-              <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+            <span className="mt-1 font-display text-sm font-bold text-[#ffb84d]">
               Cloudflare Edge
             </span>
-            <span className="text-[11px] text-zinc-500">330+ Global Data Centers</span>
+            <span className="text-[11px] text-zinc-400">330+ Global Data Centers</span>
           </div>
         </div>
       </section>
@@ -229,15 +229,13 @@ export default function AboutPage() {
             <div className="relative grid gap-10 lg:grid-cols-12 lg:gap-12">
               {/* Left Column: Founder Persona & Background */}
               <div className="lg:col-span-7">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
-                    <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_8px_#ff9f1c]" />
-                    Leadership &amp; Architecture
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-zinc-400">
-                    Est. 1 April 2020
-                  </span>
-                </div>
+                <p className="flex flex-wrap items-center gap-x-2 text-xs font-medium text-zinc-300">
+                  <span className="font-semibold text-[#ffb84d]">Leadership &amp; Architecture</span>
+                  <span aria-hidden className="text-zinc-600">·</span>
+                  <span>Est. 1 April 2020</span>
+                  <span aria-hidden className="text-zinc-600">·</span>
+                  <span>Shajapur &amp; Indore, MP</span>
+                </p>
 
                 <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
                   {BRAND.founder}{" "}
@@ -330,14 +328,30 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Right Column: Technical Specializations & Accolades */}
+              {/* Right Column: Studio Visual & Technical Specializations */}
               <div className="flex flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6 lg:col-span-5">
                 <div>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ffb84d]">
+                  <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/10 bg-[#08090c]">
+                    <ShowcaseImage
+                      src="/images/showcase/studio-hub.jpg"
+                      alt="MLHK Infotech in-house engineering studio workstation"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+                    />
+                    <p className="absolute bottom-2.5 left-3.5 right-3.5 text-[11px] font-medium text-zinc-200">
+                      100% In-House Engineering · Shajapur &amp; Indore
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3.5 text-xs">
+                    <span className="font-semibold text-[#ffb84d]">
                       Technical Specializations
                     </span>
-                    <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] text-zinc-400 font-mono">
+                    <span className="font-mono text-[11px] text-zinc-400">
                       Full-Stack Architect
                     </span>
                   </div>

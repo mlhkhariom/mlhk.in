@@ -5,9 +5,9 @@ import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { PortfolioClient } from "@/components/portfolio/PortfolioClient";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { VERIFIED_CASE_STUDIES } from "@/lib/case-studies";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -25,8 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PortfolioPage() {
   const db = safeDb();
   const items = await db.select().from(portfolio).all().catch(() => []);
+  const cmsHasRichItems = items.length > 0 && items.every((p) => Boolean(p.image?.trim()));
   const schemaEntries =
-    items.length > 0
+    cmsHasRichItems
       ? items.map((p) => ({
           title: p.title,
           description: p.description ?? "",
@@ -92,7 +93,7 @@ export default async function PortfolioPage() {
 
       <section className="bg-[#050607] px-4 pb-28 md:px-6">
         <div className="mx-auto max-w-6xl space-y-16">
-          {items.length === 0 ? (
+          {!cmsHasRichItems ? (
             <PortfolioClient />
           ) : (
             <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -106,12 +107,11 @@ export default async function PortfolioPage() {
                     className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0c0d10] transition-all duration-200 hover:-translate-y-1 hover:border-[#ff9f1c]/40"
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-black">
-                      <Image
+                      <ShowcaseImage
                         src={p.image || fallbackImg}
+                        fallbackSrc={fallbackImg}
                         alt={p.title}
-                        fill
-                        referrerPolicy="no-referrer"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     </div>

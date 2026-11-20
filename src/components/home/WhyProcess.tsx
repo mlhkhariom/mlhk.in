@@ -119,20 +119,18 @@ export function WhyMlhk() {
         </div>
       </section>
 
-      <section className="relative border-y border-white/10 bg-[#050607] py-14" aria-label="Technology stack">
+      <section className="relative border-y border-white/10 bg-[#050607] py-16" aria-label="Technology stack">
         <div className="mx-auto max-w-6xl px-4 md:px-6">
-          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-400">No boundaries on the stack</p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="mb-10 text-center text-xs font-semibold tracking-wide text-[#ffb84d]">
+            No boundaries on the stack
+          </p>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {TECH_STACK.map((g) => (
-              <div key={g.group}>
-                <p className="mb-3 text-xs font-semibold text-zinc-200">{g.group}</p>
-                <ul className="flex flex-wrap gap-2">
-                  {g.items.map((item) => (
-                    <li key={item} className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-300">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <div key={g.group} className="border-t border-white/10 pt-4">
+                <p className="font-display text-sm font-bold text-white">{g.group}</p>
+                <p className="mt-2.5 text-xs leading-relaxed text-zinc-300">
+                  {g.items.join(" · ")}
+                </p>
               </div>
             ))}
           </div>

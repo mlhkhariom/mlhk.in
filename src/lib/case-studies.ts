@@ -153,8 +153,8 @@ export const VERIFIED_CASE_STUDIES: readonly CaseStudy[] = [
     category: "Publishing & Media",
     period: "2022 – Active",
     location: "Madhya Pradesh & North India",
-    image: "/images/showcase/studio-hub.jpg",
-    imageAlt: "Dark software architecture studio workstation displaying high-concurrency web dashboards",
+    image: "/images/showcase/seo-growth.jpg",
+    imageAlt: "Organic search growth and high-concurrency publishing analytics command screen",
     url: "/subsidiaries",
     external: false,
     challenge:
@@ -186,8 +186,8 @@ export const VERIFIED_CASE_STUDIES: readonly CaseStudy[] = [
     category: "E-Commerce & Retail",
     period: "2024 – Active",
     location: "Malwa Region & National D2C",
-    image: "/images/showcase/case-iksc.jpg",
-    imageAlt: "Direct-to-consumer digital storefront engineered for Indian organic brands",
+    image: "/images/showcase/mobile-app.jpg",
+    imageAlt: "Mobile UPI checkout and D2C ordering interface built for Indian consumer brands",
     url: "https://gudamrit.in",
     external: true,
     challenge:
@@ -219,8 +219,8 @@ export const VERIFIED_CASE_STUDIES: readonly CaseStudy[] = [
     category: "Branding & UI",
     period: "2021 – Active",
     location: "Shajapur & Indore",
-    image: "/images/showcase/studio-hub.jpg",
-    imageAlt: "Editorial studio workspace showcasing dark-luxury brand design systems and interfaces",
+    image: "/images/showcase/erp-dashboard.jpg",
+    imageAlt: "Precision dark-luxury UI design system and enterprise workstation interface",
     url: "/services/graphics-and-branding",
     external: false,
     challenge:

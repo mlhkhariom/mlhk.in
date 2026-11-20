@@ -5,11 +5,39 @@ import { buildSeo } from "@/lib/seo";
 import { CollectionHubJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { BRAND } from "@/lib/brand";
 import { SOLUTION_PAGES } from "@/lib/seo-solutions";
 import { LOCATION_HUBS } from "@/lib/seo-locations";
 
 export const revalidate = 3600;
+
+const SOLUTION_VISUALS: Record<string, { image: string; alt: string }> = {
+  "website-development-cost-india": {
+    image: "/images/showcase/case-iksc.jpg",
+    alt: "Affordable custom business website engineered for Indian mobile networks",
+  },
+  "website-redesign-editing-and-speed-fix": {
+    image: "/images/showcase/studio-hub.jpg",
+    alt: "Website redesign, speed optimization, and clean code overhaul desk",
+  },
+  "seo-and-google-ranking-services-india": {
+    image: "/images/showcase/seo-growth.jpg",
+    alt: "Google SEO ranking trajectory and pan-India search growth dashboard",
+  },
+  "instagram-facebook-google-ads-marketing": {
+    image: "/images/showcase/seo-growth.jpg",
+    alt: "Instagram, Facebook, and Google Ads ROI performance analytics",
+  },
+  "mobile-app-development-india": {
+    image: "/images/showcase/mobile-app.jpg",
+    alt: "Native Android and Flutter mobile application with Indian UPI checkout",
+  },
+  "all-in-one-digital-it-partner-india": {
+    image: "/images/showcase/erp-dashboard.jpg",
+    alt: "All-in-one IT partner workspace for web, app, SEO, and custom GST ERP",
+  },
+};
 
 const SOLUTIONS_FAQS = [
   {
@@ -84,33 +112,66 @@ export default function SolutionsIndexPage() {
           </p>
 
           <div id="solutions-grid" className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {SOLUTION_PAGES.map((sol, idx) => (
-              <Link
-                key={sol.slug}
-                href={`/solutions/${sol.slug}`}
-                className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0a0b0d] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#ff9f1c]/50"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs text-zinc-400">
-                    <span className="tabular-nums">0{idx + 1}. {sol.category}</span>
-                    <ArrowUpRight className="size-4 text-zinc-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
-                  </div>
-                  <h2 className="mt-3 font-display text-2xl font-bold text-white transition-colors group-hover:text-[#ffb84d]">
-                    {sol.shortTitle}
-                  </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-300">{sol.heroSummary}</p>
-                </div>
+            {SOLUTION_PAGES.map((sol, idx) => {
+              const visual = SOLUTION_VISUALS[sol.slug] ?? {
+                image: "/images/showcase/studio-hub.jpg",
+                alt: sol.shortTitle,
+              };
+              return (
+                <Link
+                  key={sol.slug}
+                  href={`/solutions/${sol.slug}`}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0b0c10] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/50 hover:shadow-[0_24px_60px_-28px_rgba(255,159,28,0.3)]"
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:via-[#ff9f1c]/55"
+                  />
+                  <div>
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#08090c]">
+                      <ShowcaseImage
+                        src={visual.image}
+                        alt={visual.alt}
+                        priority={idx < 2}
+                        className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0c10] via-[#0b0c10]/35 to-transparent"
+                      />
+                      <div className="absolute bottom-3 left-6 right-6 flex items-center justify-between text-xs">
+                        <span className="font-mono font-semibold tabular-nums text-[#ffb84d]">
+                          Starting {sol.startingPriceInr}
+                        </span>
+                        <span className="font-mono tabular-nums text-zinc-300">
+                          0{idx + 1}. {sol.category}
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-xs">
-                  <span className="tabular-nums text-zinc-300">
-                    Starting <strong className="text-[#ffb84d]">{sol.startingPriceInr}</strong> · {sol.deliveryTime}
-                  </span>
-                  <span className="font-semibold text-white group-hover:text-[#ffb84d]">
-                    View pricing &amp; details →
-                  </span>
-                </div>
-              </Link>
-            ))}
+                    <div className="p-6 md:p-7">
+                      <div className="flex items-start justify-between gap-4">
+                        <h2 className="font-display text-2xl font-bold text-white transition-colors group-hover:text-[#ffb84d]">
+                          {sol.shortTitle}
+                        </h2>
+                        <ArrowUpRight className="mt-1 size-5 shrink-0 text-zinc-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#ffb84d]" />
+                      </div>
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-300">{sol.heroSummary}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-6 py-4 text-xs md:px-7">
+                    <span className="tabular-nums text-zinc-300">
+                      Delivery: <strong className="text-white">{sol.deliveryTime}</strong>
+                    </span>
+                    <span className="font-semibold text-[#ffb84d] group-hover:text-white">
+                      View pricing &amp; deliverables →
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

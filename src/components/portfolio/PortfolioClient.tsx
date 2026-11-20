@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Layers, Quote } from "lucide-react";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import {
   CASE_STUDY_CATEGORIES,
   filterCaseStudies,
@@ -18,23 +18,31 @@ export function PortfolioClient() {
   return (
     <div className="space-y-12">
       {/* Interactive Category Filter Bar */}
-      <div className="flex flex-col gap-5 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
-        <div>
+      <div className="flex flex-col gap-5 border-b border-white/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="min-w-0">
           <p className="text-xs font-semibold tracking-wide text-[#ffb84d]">
-            Verified Client Work &amp; Architecture Case Studies
+            Verified Client Work &amp; Case Studies
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-white md:text-3xl">
-            Filter by engineering domain ({visibleProjects.length} shipped systems)
+            Filter by domain ({visibleProjects.length} systems)
           </h2>
         </div>
 
         <div
           role="tablist"
           aria-label="Filter case studies by category"
-          className="inline-flex flex-wrap gap-1.5 rounded-2xl border border-white/10 bg-[#0c0d10] p-1.5"
+          className="inline-flex max-w-full shrink-0 items-center gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-[#0c0d10] p-1.5"
         >
           {CASE_STUDY_CATEGORIES.map((category) => {
             const active = selectedCategory === category;
+            const shortLabel =
+              category === "E-Commerce & Retail"
+                ? "E-Commerce"
+                : category === "Enterprise & Field Ops"
+                  ? "Enterprise Ops"
+                  : category === "Publishing & Media"
+                    ? "Publishing"
+                    : category;
             return (
               <button
                 key={category}
@@ -43,13 +51,13 @@ export function PortfolioClient() {
                 aria-selected={active}
                 onClick={() => setSelectedCategory(category)}
                 className={cn(
-                  "min-h-[40px] whitespace-nowrap rounded-xl px-3.5 py-2 text-xs font-semibold transition-all duration-200",
+                  "min-h-[40px] shrink-0 whitespace-nowrap rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-200",
                   active
                     ? "bg-[#ff9f1c] text-black shadow-sm"
                     : "text-zinc-300 hover:bg-white/[0.05] hover:text-white",
                 )}
               >
-                {category}
+                {shortLabel}
               </button>
             );
           })}
@@ -67,10 +75,14 @@ export function PortfolioClient() {
           <li key={cs.id}>
             <article
               className={cn(
-                "group flex h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0c0d10] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/40",
+                "group relative flex h-full overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0c0d10] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[#ff9f1c]/45 hover:shadow-[0_24px_60px_-28px_rgba(255,159,28,0.3)]",
                 visibleProjects.length === 1 ? "flex-col lg:grid lg:grid-cols-12" : "flex-col",
               )}
             >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:via-[#ff9f1c]/55"
+              />
               <div
                 className={cn(
                   "relative w-full overflow-hidden bg-[#08090c]",
@@ -79,18 +91,17 @@ export function PortfolioClient() {
                     : "aspect-[16/10]",
                 )}
               >
-                <Image
+                <ShowcaseImage
                   src={cs.image}
                   alt={cs.imageAlt}
-                  fill
+                  priority={idx === 0}
                   loading={idx === 0 ? "eager" : "lazy"}
-                  referrerPolicy="no-referrer"
-                  className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                  className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/35 to-transparent"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-black/35 to-transparent"
                 />
                 <div className="absolute bottom-4 left-6 right-6 flex flex-wrap items-center justify-between gap-2 text-xs">
                   <span className="font-semibold text-[#ffb84d]">{cs.category}</span>

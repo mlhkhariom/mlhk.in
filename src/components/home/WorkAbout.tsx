@@ -2,11 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink, ShieldCheck } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/components/home/utils";
+import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { VENTURES, TIMELINE, BRAND } from "@/lib/brand";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -66,7 +66,7 @@ export function VenturesGrid() {
   );
 }
 
-/** About + studio visual + founder + timeline, using verified brand facts. */
+/** About + studio visual + founder + verified trust credentials + timeline. */
 export function AboutTimeline() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
@@ -113,7 +113,7 @@ export function AboutTimeline() {
       />
       <div className="relative mx-auto grid max-w-6xl gap-14 md:grid-cols-12">
         <div className="md:col-span-5">
-          <p className="text-xs font-semibold tracking-wide text-[#ffb84d]">About MLHK</p>
+          <p className="text-xs font-semibold tracking-wide text-[#ffb84d]">Verified Studio &amp; Trust</p>
           <h2
             id="about-heading"
             className="mt-3 text-balance font-display text-3xl font-bold leading-[1.08] tracking-tight text-white md:text-5xl"
@@ -127,24 +127,60 @@ export function AboutTimeline() {
           </p>
 
           <div className="relative mt-8 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c0f]">
-            <Image
-              src="/images/showcase/studio-hub.jpg"
-              alt="MLHK Infotech software architecture and UI engineering desk"
-              fill
-              referrerPolicy="no-referrer"
-              className="object-cover"
+            <ShowcaseImage
+              src="/images/showcase/erp-dashboard.jpg"
+              fallbackSrc="/images/showcase/studio-hub.jpg"
+              alt="MLHK Infotech enterprise software architecture and GST ERP engineering desk"
               sizes="(max-width: 768px) 100vw, 42vw"
             />
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-[#050607]/85 via-transparent to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050607]/85 via-transparent to-transparent"
             />
             <p className="absolute bottom-3 left-4 right-4 text-xs text-zinc-200">
               In-house architecture &amp; product engineering · MSME {BRAND.udyamNumber}
             </p>
           </div>
 
-          <figure className="mt-6 rounded-2xl border border-white/10 bg-[#0c0d10] p-6">
+          {/* Verifiable Government & Registry Credentials */}
+          <div className="mt-5 grid grid-cols-2 gap-3 text-xs">
+            <a
+              href={BRAND.udyamVerifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group rounded-xl border border-white/10 bg-[#0c0d10] p-3.5 transition-colors hover:border-[#ff9f1c]/45"
+            >
+              <span className="flex items-center justify-between text-zinc-400">
+                <span className="inline-flex items-center gap-1 font-medium text-[#ffb84d]">
+                  <ShieldCheck className="size-3.5" />
+                  MSME Udyam
+                </span>
+                <ExternalLink className="size-3 text-zinc-500 group-hover:text-[#ffb84d]" />
+              </span>
+              <span className="mt-1.5 block truncate font-mono text-[11px] font-semibold tabular-nums text-white">
+                {BRAND.udyamNumber}
+              </span>
+            </a>
+            <a
+              href={BRAND.gstVerifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group rounded-xl border border-white/10 bg-[#0c0d10] p-3.5 transition-colors hover:border-[#ff9f1c]/45"
+            >
+              <span className="flex items-center justify-between text-zinc-400">
+                <span className="inline-flex items-center gap-1 font-medium text-emerald-400">
+                  <ShieldCheck className="size-3.5" />
+                  GST Verified
+                </span>
+                <ExternalLink className="size-3 text-zinc-500 group-hover:text-[#ffb84d]" />
+              </span>
+              <span className="mt-1.5 block truncate font-mono text-[11px] font-semibold tabular-nums text-white">
+                {BRAND.gstin}
+              </span>
+            </a>
+          </div>
+
+          <figure className="mt-5 rounded-2xl border border-white/10 bg-[#0c0d10] p-6">
             <blockquote className="text-sm leading-relaxed text-zinc-200">
               &ldquo;Technology entrepreneur and system architect. Experienced in the full product
               lifecycle: UI/UX, automation, SaaS and scaling.&rdquo;
