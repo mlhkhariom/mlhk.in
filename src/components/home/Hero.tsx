@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "@/components/home/utils";
-import { BRAND, CAPABILITIES, SERVICE_LINES, VENTURES } from "@/lib/brand";
+import { BRAND, CAPABILITIES, SERVICE_LINES } from "@/lib/brand";
 
 const ChromeMark3D = dynamic(
   () => import("@/components/home/ChromeMark3D").then((m) => m.ChromeMark3D),
@@ -34,10 +34,10 @@ export function Hero() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(".hero-line", { y: 18 }, { y: 0, duration: 0.75, stagger: 0.08 })
-        .fromTo(".hero-copy", { y: 12 }, { y: 0, duration: 0.65 }, "<0.1")
-        .fromTo(".hero-cta", { y: 10 }, { y: 0, duration: 0.6, stagger: 0.06 }, "<0.08")
-        .fromTo(".hero-mark", { scale: 0.94 }, { scale: 1, duration: 1.1, ease: "expo.out" }, 0);
+      tl.fromTo(".hero-line", { y: 18 }, { y: 0, duration: 0.7, stagger: 0.07 })
+        .fromTo(".hero-copy", { y: 12 }, { y: 0, duration: 0.6 }, "<0.1")
+        .fromTo(".hero-cta", { y: 10 }, { y: 0, duration: 0.55, stagger: 0.06 }, "<0.08")
+        .fromTo(".hero-mark", { scale: 0.94 }, { scale: 1, duration: 1.0, ease: "expo.out" }, 0);
     }, root);
 
     return () => ctx.revert();
@@ -46,77 +46,116 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative isolate min-h-[100dvh] overflow-hidden bg-[#050607] pt-28 md:pt-32"
+      className="relative isolate overflow-hidden bg-[#050607] pt-16 md:pt-20"
       aria-labelledby="hero-heading"
     >
-      {/* ambient light: amber from top, blue spark from below */}
+      {/* ambient light: warm amber from top, subtle steel-blue rim below */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[-18%] h-[70vh] w-[70vw] -translate-x-1/2 rounded-full bg-[#ff9f1c]/20 blur-[120px]" />
-        <div className="absolute bottom-[-20%] left-[15%] h-[50vh] w-[50vw] rounded-full bg-[#3b82f6]/15 blur-[120px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgb(255_255_255/3%)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/3%)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+        <div className="absolute left-1/2 top-[-18%] h-[65vh] w-[68vw] -translate-x-1/2 rounded-full bg-[#ff9f1c]/18 blur-[120px]" />
+        <div className="absolute bottom-[-22%] left-[12%] h-[46vh] w-[46vw] rounded-full bg-[#3b82f6]/12 blur-[120px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgb(255_255_255/3%)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/3%)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_28%,transparent_75%)]" />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-20 md:grid-cols-12 md:gap-6 md:px-6">
-        <div className="md:col-span-7">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <p className="hero-kicker inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
-              <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_10px_#ff9f1c]" />
-              Enterprise IT &amp; Digital Solutions
+      <div className="relative mx-auto max-w-6xl px-4 pb-12 md:px-6 md:pb-16">
+        <div className="grid items-center gap-8 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-7">
+            <p className="hero-kicker flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-medium text-zinc-300">
+              <span className="font-semibold text-[#ffb84d]">MSME Udyam &amp; GST Registered</span>
+              <span aria-hidden className="text-zinc-600">·</span>
+              <span>Shajapur &amp; Indore, MP</span>
+              <span aria-hidden className="text-zinc-600">·</span>
+              <span>Serving All India &amp; Global Clients</span>
             </p>
-            <span className="hero-kicker inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-zinc-300 backdrop-blur-sm">
-              <span className="text-xs">🇮🇳</span>
-              <span>Built in Bharat</span>
-              <span className="text-zinc-500">•</span>
-              <span className="text-[#ffb84d]">Deployed Globally</span>
-            </span>
+
+            <h1
+              id="hero-heading"
+              className="mt-4 text-balance font-display text-[2.45rem] font-bold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-[4rem]"
+            >
+              <span className="block overflow-hidden pb-1">
+                <span className="hero-line block">We build the</span>
+              </span>
+              <span className="block overflow-hidden pb-1">
+                <span className="hero-line block text-brand">systems that</span>
+              </span>
+              <span className="block overflow-hidden pb-1">
+                <span className="hero-line block text-chrome">run your business.</span>
+              </span>
+            </h1>
+
+            <p className="hero-copy mt-5 max-w-xl text-base leading-relaxed text-zinc-300 md:text-lg">
+              Custom websites, Android apps, SEO &amp; Meta/Google Ads, CRM/ERP systems, and AI
+              automation — built in-house from scratch at practical Indian budgets with 100% source
+              code ownership.
+            </p>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <MagneticCta href="/contact" primary>
+                Start your project
+              </MagneticCta>
+              <MagneticCta href="/solutions">View packages &amp; pricing</MagneticCta>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-xs text-zinc-400">
+              <Link href="/solutions/website-development-cost-india" className="whitespace-nowrap transition-colors hover:text-[#ffb84d]">
+                Websites ₹15k+
+              </Link>
+              <span aria-hidden className="text-zinc-600">/</span>
+              <Link href="/solutions/website-redesign-editing-and-speed-fix" className="whitespace-nowrap transition-colors hover:text-[#ffb84d]">
+                Site Fix ₹8k+
+              </Link>
+              <span aria-hidden className="text-zinc-600">/</span>
+              <Link href="/solutions/instagram-facebook-google-ads-marketing" className="whitespace-nowrap transition-colors hover:text-[#ffb84d]">
+                SEO, Insta &amp; Google Ads
+              </Link>
+              <span aria-hidden className="text-zinc-600">/</span>
+              <Link href="/locations" className="whitespace-nowrap transition-colors hover:text-[#ffb84d]">
+                All-India Hubs
+              </Link>
+            </div>
           </div>
 
-          <h1 id="hero-heading" className="mt-6 font-display text-[2.6rem] font-bold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-[4.6rem]">
-            <span className="block overflow-hidden pb-1">
-              <span className="hero-line block">We build the</span>
-            </span>
-            <span className="block overflow-hidden pb-1">
-              <span className="hero-line block text-brand">systems that</span>
-            </span>
-            <span className="block overflow-hidden pb-1">
-              <span className="hero-line block text-chrome">run your business.</span>
-            </span>
-          </h1>
-
-          <p className="hero-copy mt-7 max-w-xl text-base leading-relaxed text-zinc-400 md:text-lg">
-            Web platforms, Android apps, CRM and ERP systems, and AI automation, delivered by one team
-            from Shajapur. We design it, build it, launch it and keep it running.
-          </p>
-
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <MagneticCta href="/contact" primary>
-              Start your project
-            </MagneticCta>
-            <MagneticCta href="/services">Explore services</MagneticCta>
+          <div className="relative md:col-span-5">
+            <div className="hero-mark relative mx-auto aspect-square w-full max-w-[390px]">
+              <ChromeMark3D />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-6 rounded-full border border-[#ff9f1c]/15"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-12 rounded-full border border-white/[0.06]"
+              />
+            </div>
           </div>
-
-          <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-6">
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Founded</dt>
-              <dd className="mt-1 font-display text-2xl font-bold text-white">{BRAND.foundedYear}</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Service lines</dt>
-              <dd className="mt-1 font-display text-2xl font-bold text-white">{TOTAL_SERVICE_LINES}</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Ventures</dt>
-              <dd className="mt-1 font-display text-2xl font-bold text-white">{VENTURES.length}</dd>
-            </div>
-          </dl>
         </div>
 
-        <div className="relative md:col-span-5">
-          <div className="hero-mark relative mx-auto aspect-square w-full max-w-[460px]">
-            <ChromeMark3D />
-            <div aria-hidden className="pointer-events-none absolute inset-6 rounded-full border border-[#ff9f1c]/20" />
+        {/* Full-width 4-column proof strip cleanly visible above the fold */}
+        <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-7 sm:grid-cols-4 lg:mt-10">
+          <div>
+            <dt className="text-xs font-medium text-zinc-400">Established</dt>
+            <dd className="mt-1 font-display text-2xl font-bold tabular-nums text-white md:text-3xl">
+              {BRAND.foundedYear}
+            </dd>
           </div>
-        </div>
+          <div>
+            <dt className="text-xs font-medium text-zinc-400">Projects Shipped</dt>
+            <dd className="mt-1 font-display text-2xl font-bold tabular-nums text-white md:text-3xl">
+              20+
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs font-medium text-zinc-400">Core Service Lines</dt>
+            <dd className="mt-1 font-display text-2xl font-bold tabular-nums text-white md:text-3xl">
+              {TOTAL_SERVICE_LINES}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs font-medium text-zinc-400">Code Ownership</dt>
+            <dd className="mt-1 font-display text-2xl font-bold tabular-nums text-[#ffb84d] md:text-3xl">
+              100% Yours
+            </dd>
+          </div>
+        </dl>
       </div>
     </section>
   );
@@ -128,16 +167,16 @@ function MagneticCta({ href, children, primary = false }: { href: string; childr
       href={href}
       className={
         primary
-          ? "hero-cta group inline-flex items-center justify-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-6 pr-2 text-sm font-semibold text-black shadow-[0_0_40px_-8px_rgba(255,159,28,0.6)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]"
-          : "hero-cta group inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.03] py-3 pl-6 pr-2 text-sm font-semibold text-white backdrop-blur-md transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] hover:border-[#ff9f1c]/50 active:scale-[0.98]"
+          ? "hero-cta group inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-[#ff9f1c] py-3 pl-6 pr-2 text-sm font-semibold text-black shadow-[0_0_40px_-10px_rgba(255,159,28,0.55)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] hover:bg-[#ffb84d] active:scale-[0.98]"
+          : "hero-cta group inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.03] py-3 pl-6 pr-2 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] hover:border-[#ff9f1c]/50 hover:text-[#ffb84d] active:scale-[0.98]"
       }
     >
-      {children}
+      <span>{children}</span>
       <span
         className={
           primary
-            ? "flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105"
-            : "flex size-9 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105"
+            ? "flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px"
+            : "flex size-9 items-center justify-center rounded-full bg-white/10 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px"
         }
       >
         <ArrowUpRight className="size-4" />

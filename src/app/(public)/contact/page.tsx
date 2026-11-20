@@ -1,25 +1,22 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   MapPin,
   Phone,
   Mail,
-  Clock,
-  ShieldCheck,
   CheckCircle2,
   ExternalLink,
   ArrowUpRight,
-  Award,
-  Building2,
-  UserCheck,
   Lock,
   Scale,
   Zap,
-  Sparkles,
-  MessageSquare,
   FileCheck2,
   Globe2,
   Calendar,
+  MessageCircle,
+  Code2,
+  Camera,
+  Briefcase,
 } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
@@ -27,57 +24,14 @@ import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { ContactHub } from "@/components/public/ContactHub";
 import { BRAND } from "@/lib/brand";
 
-function InstagramGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden>
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function WhatsAppGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.486a.5.5 0 0 0 .613.635l5.799-1.525A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.867 9.867 0 0 1-5.031-1.376l-.36-.214-3.733.981.998-3.648-.235-.374A9.867 9.867 0 0 1 2.118 12C2.118 6.527 6.527 2.118 12 2.118S21.882 6.527 21.882 12 17.473 21.882 12 21.882z" />
-    </svg>
-  );
-}
-
-function LinkedInGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-    </svg>
-  );
-}
-
-function GitHubGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-      />
-    </svg>
-  );
-}
-
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({
-    title: "Contact MLHK Infotech | Direct Founder & Engineering Desk",
+    title: "Contact Direct Founder & Engineering Desk",
     description:
-      "Initiate your enterprise project with MLHK Infotech. Direct access to Hariom Vishwkarma, 120-minute response SLA, 100% mutual NDA, and verified Indian corporate governance.",
+      "Initiate your website, mobile app, SEO, or digital marketing project with MLHK Infotech. Direct access to Hariom Vishwkarma, 120-minute response SLA, mutual NDA, and verified UDYAM/GST corporate governance.",
     path: "/contact",
   });
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CONTACT AEO / FAQ DEFINITIONS
-// ─────────────────────────────────────────────────────────────────────────────
 
 interface ContactFaq {
   query: string;
@@ -101,14 +55,14 @@ const CONTACT_FAQS: ContactFaq[] = [
   {
     query: "How Are Engineering Milestones, Escrow Billing, and Payments Structured?",
     answer:
-      "We operate under fixed-fee milestone disbursements or transparent agile monthly retainers. Projects typically follow a 4-phase milestone structure: (1) Architecture, Wireframes & Database Schema (30%), (2) Core Functional Frontend & Backend Staging (30%), (3) Integration, Hardware Sensors, Polish & QA (30%), and (4) Production Go-Live & IP Handover (10%). Payments are settled against official GST tax invoices (GSTIN: 23CHLPV2868R1CJ).",
-    keyTakeaway: "Transparent 4-phase milestone escrow billing backed by official GST-compliant tax invoices.",
+      "We operate under fixed-fee milestone disbursements or transparent agile monthly retainers. Projects typically follow a 4-phase milestone structure: (1) Architecture, Wireframes & Database Schema (30%), (2) Core Functional Frontend & Backend Staging (30%), (3) Integration, Polish & QA (30%), and (4) Production Go-Live & IP Handover (10%). Payments are settled against official GST tax invoices (GSTIN: 23CHLPV2868R1CJ).",
+    keyTakeaway: "Transparent 4-phase milestone billing backed by official GST-compliant tax invoices.",
   },
   {
-    query: "Can International Clients Outside India Engage MLHK Infotech?",
+    query: "Can Clients Outside Madhya Pradesh or Outside India Work With MLHK Infotech?",
     answer:
-      "Yes. MLHK Infotech actively engineers software systems for clients across North America, Europe, the United Kingdom, the United Arab Emirates, and Southeast Asia. We support international wire transfers (SWIFT / IBAN), institutional escrow, and adjust sprint sync schedules to accommodate US, UK, and European time zones with native English communication.",
-    keyTakeaway: "Full global delivery capability with SWIFT wire settlement and time-zone aligned sprint syncs.",
+      "Yes. MLHK Infotech delivers websites, mobile apps, SEO, and custom software across all Indian states (Indore, Bhopal, Delhi NCR, Mumbai, Bengaluru, Pune, Ahmedabad, Jaipur, Tier-2/3 cities) as well as clients across the US, UK, UAE, and Europe with full GST/SWIFT invoicing.",
+    keyTakeaway: "Pan-India and global remote delivery with structured weekly demos and milestone sign-offs.",
   },
   {
     query: "Can We Schedule an In-Person Meeting at Your Shajapur H.Q. or Indore Hub?",
@@ -119,19 +73,19 @@ const CONTACT_FAQS: ContactFaq[] = [
   {
     query: "What Should We Prepare Before Our Initial Technical Discovery Call?",
     answer:
-      "To maximize the value of your 30-minute discovery call, having a brief list of target users, key functional requirements (e.g., must-have integrations, payment gateways, offline needs), preferred deadlines, and an estimated budget range is helpful. If you have existing Figma wireframes, API documentation, or reference applications, share them under NDA for a rapid turnaround.",
-    keyTakeaway: "User persona goals, must-have features, target timeline, and existing wireframes under NDA.",
+      "To maximize your 30-minute discovery call, having a brief list of target users, key requirements (payment gateways, SEO goals, existing website URL, or app features), preferred deadlines, and an estimated budget range is helpful. Even if you only have a rough idea, we help scope it clearly.",
+    keyTakeaway: "Your business goal, target customers, and rough timeline are enough to start.",
   },
 ];
 
 export default function ContactPage() {
   const quickContacts = [
     {
-      icon: WhatsAppGlyph,
+      icon: MessageCircle,
       label: "Direct WhatsApp",
       value: "+91 91651 00124",
       sub: "Instant chat in 10 seconds",
-      href: "https://wa.me/919165100124?text=Hello%20MLHK%20Infotech%2C%20I%20am%20looking%20to%20discuss%20an%20enterprise%20project.",
+      href: "https://wa.me/919165100124?text=Hello%20MLHK%20Infotech%2C%20I%20would%20like%20to%20discuss%20a%20project.",
       accent: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
     },
     {
@@ -162,18 +116,15 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* ─────────────────────────────────────────────────────────────
-          SCHEMA.ORG STRUCTURED DATA
-          ───────────────────────────────────────────────────────────── */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "ContactPage",
           "@id": `${BRAND.url}/contact#page`,
           url: `${BRAND.url}/contact`,
-          name: `Contact MLHK Infotech Engineering Desk`,
+          name: "Contact MLHK Infotech Engineering Desk",
           description:
-            "Connect directly with Hariom Vishwkarma and the MLHK Infotech software engineering team for web platforms, mobile apps, ERP systems, and AI automation.",
+            "Connect directly with Hariom Vishwkarma and the MLHK Infotech software engineering team for web platforms, mobile apps, SEO, digital marketing, and custom ERP systems.",
           mainEntity: {
             "@id": `${BRAND.url}/#organization`,
           },
@@ -196,84 +147,75 @@ export default function ContactPage() {
 
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact", href: "/contact" }]} />
 
-      {/* ─────────────────────────────────────────────────────────────
-          HERO SECTION (LUXURY GOLD & TITANIUM)
-          ───────────────────────────────────────────────────────────── */}
-      <section className="relative isolate overflow-hidden bg-[#050607] px-4 pb-12 pt-4 md:px-6 md:pb-20 md:pt-8">
-        {/* Ambient Atmospheric Mesh */}
+      {/* HERO SECTION */}
+      <section className="relative isolate overflow-hidden bg-[#050607] px-4 pb-12 pt-4 md:px-6 md:pb-16 md:pt-8">
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[-20%] h-[420px] w-[85vw] max-w-5xl -translate-x-1/2 rounded-full bg-[#ff9f1c]/15 blur-[120px]"
+          className="pointer-events-none absolute left-1/2 top-[-20%] h-[380px] w-[80vw] max-w-5xl -translate-x-1/2 rounded-full bg-[#ff9f1c]/12 blur-[120px]"
         />
 
         <div className="relative mx-auto max-w-6xl">
-          {/* Eyebrow Badges */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
-              <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_10px_#ff9f1c]" />
-              🇮🇳 Registered Indian Enterprise
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] font-mono text-zinc-300">
-              Direct Founder Access • No Middlemen
-            </span>
-            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-mono text-emerald-400">
-              120-Min Response SLA
-            </span>
-          </div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#ffb84d]">
+            Registered Indian Enterprise · Direct Founder Access · 120-Min Response SLA
+          </p>
 
-          <h1 className="mt-6 max-w-4xl font-display text-4xl font-bold leading-[1.06] tracking-tight text-white md:text-5xl lg:text-6xl">
-            Initiate Your Project With{" "}
+          <h1 className="mt-5 max-w-4xl font-display text-4xl font-bold leading-[1.06] tracking-tight text-white [text-wrap:balance] md:text-5xl lg:text-6xl">
+            Initiate your project with{" "}
             <span className="bg-gradient-to-r from-[#ff9f1c] via-[#ffb84d] to-amber-200 bg-clip-text text-transparent">
               MLHK Infotech.
             </span>
           </h1>
 
           <p className="mt-5 max-w-3xl text-sm leading-relaxed text-zinc-300 sm:text-base md:text-lg">
-            Direct access to Hariom Vishwkarma and senior software architects. No junior account manager
-            filters, no automated corporate runarounds — just transparent technical strategy,
-            enforceable mutual NDAs, and fixed-milestone execution.
+            Speak directly with Hariom Vishwkarma and our lead engineers. No middlemen or scripted sales pitches — just clear architecture, honest INR pricing, mutual NDAs, and fixed-milestone delivery.
           </p>
 
-          {/* Quick Metrics Bar */}
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-left">
-              <span className="text-[10px] font-mono uppercase text-zinc-500 block">Response SLA</span>
-              <span className="mt-1 font-display text-2xl font-bold text-white block">
-                &lt; 120 <span className="text-xs font-mono text-[#ffb84d]">MIN</span>
+          {/* Compact Proof Bar */}
+          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-white/10 pt-8 sm:grid-cols-4">
+            <div>
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+                Response SLA
               </span>
-              <span className="mt-0.5 text-[10px] text-zinc-400">Guaranteed IST review</span>
+              <span className="mt-1 block font-display text-2xl font-bold tabular-nums text-white">
+                &lt; 120 <span className="font-mono text-xs text-[#ffb84d]">MIN</span>
+              </span>
+              <span className="mt-0.5 block text-xs text-zinc-400">Guaranteed IST review</span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-left">
-              <span className="text-[10px] font-mono uppercase text-zinc-500 block">IP Protection</span>
-              <span className="mt-1 font-display text-2xl font-bold text-white block">
-                100% <span className="text-xs font-mono text-emerald-400">NDA</span>
+            <div>
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+                IP Protection
               </span>
-              <span className="mt-0.5 text-[10px] text-zinc-400">Statutory mutual deed</span>
+              <span className="mt-1 block font-display text-2xl font-bold tabular-nums text-white">
+                100% <span className="font-mono text-xs text-emerald-400">NDA</span>
+              </span>
+              <span className="mt-0.5 block text-xs text-zinc-400">Statutory mutual deed</span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-left">
-              <span className="text-[10px] font-mono uppercase text-zinc-500 block">Engineering Team</span>
-              <span className="mt-1 font-display text-2xl font-bold text-white block">
-                DIRECT <span className="text-xs font-mono text-cyan-400">SLACK</span>
+            <div>
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+                Communication
               </span>
-              <span className="mt-0.5 text-[10px] text-zinc-400">Dedicated WhatsApp/Slack</span>
+              <span className="mt-1 block font-display text-2xl font-bold text-white">
+                DIRECT <span className="font-mono text-xs text-cyan-400">DESK</span>
+              </span>
+              <span className="mt-0.5 block text-xs text-zinc-400">WhatsApp &amp; Slack channel</span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-left">
-              <span className="text-[10px] font-mono uppercase text-zinc-500 block">Gov Registrations</span>
-              <span className="mt-1 font-display text-2xl font-bold text-white block">
-                UDYAM <span className="text-xs font-mono text-[#ffb84d]">&amp; GST</span>
+            <div>
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+                Registrations
               </span>
-              <span className="mt-0.5 text-[10px] text-zinc-400">Statutory verified entity</span>
+              <span className="mt-1 block font-display text-2xl font-bold text-white">
+                UDYAM <span className="font-mono text-xs text-[#ffb84d]">&amp; GST</span>
+              </span>
+              <span className="mt-0.5 block text-xs text-zinc-400">Govt. verified entity</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          QUICK CONTACT METHOD HOTLINE CARDS
-          ───────────────────────────────────────────────────────────── */}
+      {/* QUICK CONTACT HOTLINES */}
       <section className="bg-[#050607] px-4 pb-14 md:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -285,25 +227,23 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#ff9f1c]/40 hover:shadow-[0_20px_50px_-20px_rgba(255,159,28,0.25)]"
+                  className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-[#08090c] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#ff9f1c]/45"
                 >
                   <div className="flex items-center justify-between">
-                    <span
-                      className={`flex size-11 items-center justify-center rounded-xl border ${c.accent}`}
-                    >
+                    <span className={`flex size-11 items-center justify-center rounded-xl border ${c.accent}`}>
                       <Icon className="size-5" />
                     </span>
-                    <ArrowUpRight className="size-4 text-zinc-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                    <ArrowUpRight className="size-4 text-zinc-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                   </div>
 
                   <div className="mt-5">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block">
+                    <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
                       {c.label}
                     </span>
-                    <span className="mt-1 font-display text-sm font-bold text-white group-hover:text-[#ffb84d] transition-colors block">
+                    <span className="mt-1 block font-display text-sm font-bold text-white transition-colors duration-200 group-hover:text-[#ffb84d]">
                       {c.value}
                     </span>
-                    <span className="mt-0.5 text-[11px] text-zinc-400 block">{c.sub}</span>
+                    <span className="mt-0.5 block text-xs text-zinc-400">{c.sub}</span>
                   </div>
                 </a>
               );
@@ -312,86 +252,76 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          INTERACTIVE SCOPING WIZARD & PRODUCTION FORM (CONTACT HUB)
-          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+      {/* INTERACTIVE SCOPING WIZARD & FORM */}
+      <section className="bg-[#050607] px-4 pb-20 md:px-6">
         <div className="mx-auto max-w-6xl">
-          <ContactHub />
+          <Suspense
+            fallback={
+              <div className="rounded-3xl border border-white/10 bg-[#08090c] p-10 text-sm text-zinc-400">
+                Loading interactive project scoping desk…
+              </div>
+            }
+          >
+            <ContactHub />
+          </Suspense>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          DIRECT FOUNDER DESK (HARIOM VISHWKARMA / MLHK)
-          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+      {/* DIRECT FOUNDER DESK */}
+      <section className="bg-[#050607] px-4 pb-20 md:px-6">
         <div className="mx-auto max-w-6xl">
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-[#0b0e14] via-[#08090d] to-[#040507] p-8 md:p-12 shadow-2xl">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-[#ff9f1c]/10 blur-[120px]"
-            />
-
-            <div className="grid gap-8 lg:grid-cols-12 items-center">
-              <div className="lg:col-span-8 space-y-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
-                    <UserCheck className="size-3 text-[#ff9f1c]" />
-                    Principal Architect Desk
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-mono text-zinc-400">
-                    BCA • Vikram University Ujjain
-                  </span>
-                </div>
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#08090c] p-8 md:p-12">
+            <div className="grid items-center gap-8 lg:grid-cols-12">
+              <div className="space-y-4 lg:col-span-8">
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#ffb84d]">
+                  Principal Architect Desk · BCA, Vikram University Ujjain
+                </p>
 
                 <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
                   Hariom Vishwkarma (MLHK)
                 </h2>
-                <p className="text-xs font-mono uppercase tracking-wider text-[#ffb84d]">
-                  Founder &amp; Chief Technology Officer • MLHK Infotech &amp; Red Xerox Studio
+                <p className="font-mono text-xs uppercase tracking-wider text-zinc-300">
+                  Founder &amp; Chief Technology Officer · MLHK Infotech &amp; Red Xerox Studio
                 </p>
 
                 <p className="text-sm leading-relaxed text-zinc-300">
                   &ldquo;We deliberately operate without account managers or non-technical intermediaries.
-                  When you initiate a project with MLHK Infotech, you collaborate directly with the software
-                  architects who design your database schemas, engineer your serverless edge routes, and
-                  commit the code. That direct accountability is why our systems load in milliseconds and
-                  never collapse under production spikes.&rdquo;
+                  When you start a project with MLHK Infotech, you collaborate directly with the engineers
+                  who design your database schemas, optimize your Google ranking, and write the production code.&rdquo;
                 </p>
 
-                {/* Verified Founder Social Footprint */}
                 <div className="flex flex-wrap items-center gap-2.5 pt-2">
                   <a
                     href={BRAND.founderLinkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold text-zinc-300 hover:border-[#ff9f1c]/50 hover:text-white transition-all"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-[#ff9f1c]/50 hover:text-white"
                   >
-                    <LinkedInGlyph className="size-3.5 text-[#0077b5]" />
-                    <span>LinkedIn Profile</span>
-                    <ExternalLink className="size-3 text-zinc-500" />
+                    <Briefcase className="size-3.5 text-sky-400" />
+                    <span>LinkedIn</span>
+                    <ExternalLink className="size-3 text-zinc-400" />
                   </a>
 
                   <a
                     href={BRAND.founderGithub}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold text-zinc-300 hover:border-[#ff9f1c]/50 hover:text-white transition-all"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-[#ff9f1c]/50 hover:text-white"
                   >
-                    <GitHubGlyph className="size-3.5 text-white" />
+                    <Code2 className="size-3.5 text-white" />
                     <span>GitHub (@mlhkhariom)</span>
-                    <ExternalLink className="size-3 text-zinc-500" />
+                    <ExternalLink className="size-3 text-zinc-400" />
                   </a>
 
                   <a
                     href={BRAND.founderInstagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-semibold text-zinc-300 hover:border-[#ff9f1c]/50 hover:text-white transition-all"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-[#ff9f1c]/50 hover:text-white"
                   >
-                    <InstagramGlyph className="size-3.5 text-pink-400" />
+                    <Camera className="size-3.5 text-pink-400" />
                     <span>Instagram (@mlhkhariom)</span>
-                    <ExternalLink className="size-3 text-zinc-500" />
+                    <ExternalLink className="size-3 text-zinc-400" />
                   </a>
 
                   <a
@@ -400,55 +330,54 @@ export default function ContactPage() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/20 transition-all"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-300 transition-colors duration-200 hover:bg-emerald-500/20"
                   >
-                    <WhatsAppGlyph className="size-3.5" />
-                    <span>Direct WhatsApp Chat</span>
+                    <MessageCircle className="size-3.5" />
+                    <span>Direct WhatsApp</span>
                   </a>
                 </div>
               </div>
 
-              {/* Verified Credentials Box */}
-              <div className="lg:col-span-4 rounded-2xl border border-white/10 bg-black/50 p-6 space-y-4">
-                <span className="text-[10px] font-mono uppercase text-zinc-500 block">
-                  Statutory Registrations:
+              <div className="space-y-4 rounded-2xl border border-white/10 bg-black/50 p-6 lg:col-span-4">
+                <span className="block font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+                  Statutory Registrations
                 </span>
 
                 <div className="space-y-3 text-xs">
-                  <div className="border-b border-white/5 pb-2.5">
-                    <span className="text-[10px] text-zinc-400 block font-mono">MSME UDYAM REG:</span>
+                  <div className="border-b border-white/10 pb-2.5">
+                    <span className="block font-mono text-[11px] text-zinc-400">MSME UDYAM REG:</span>
                     <a
                       href={BRAND.udyamVerifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-mono font-bold text-[#ffb84d] hover:underline inline-flex items-center gap-1 mt-0.5"
+                      className="mt-0.5 inline-flex items-center gap-1 font-mono font-bold text-[#ffb84d] hover:underline"
                     >
                       {BRAND.udyamNumber}
-                      <ExternalLink className="size-3 text-zinc-500" />
+                      <ExternalLink className="size-3 text-zinc-400" />
                     </a>
-                    <span className="text-[10px] text-zinc-500 block">Govt. of India Enterprise</span>
+                    <span className="block text-[11px] text-zinc-400">Govt. of India Enterprise</span>
                   </div>
 
-                  <div className="border-b border-white/5 pb-2.5">
-                    <span className="text-[10px] text-zinc-400 block font-mono">GST IDENTIFICATION:</span>
+                  <div className="border-b border-white/10 pb-2.5">
+                    <span className="block font-mono text-[11px] text-zinc-400">GST IDENTIFICATION:</span>
                     <a
                       href={BRAND.gstVerifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-mono font-bold text-emerald-400 hover:underline inline-flex items-center gap-1 mt-0.5"
+                      className="mt-0.5 inline-flex items-center gap-1 font-mono font-bold text-emerald-400 hover:underline"
                     >
                       {BRAND.gstin}
-                      <ExternalLink className="size-3 text-zinc-500" />
+                      <ExternalLink className="size-3 text-zinc-400" />
                     </a>
-                    <span className="text-[10px] text-zinc-500 block">Goods and Services Tax Portal</span>
+                    <span className="block text-[11px] text-zinc-400">Goods &amp; Services Tax Portal</span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-zinc-400 block font-mono">ESTABLISHED DATE:</span>
-                    <span className="font-mono font-bold text-white block mt-0.5">
+                    <span className="block font-mono text-[11px] text-zinc-400">ESTABLISHED DATE:</span>
+                    <span className="mt-0.5 block font-mono font-bold text-white">
                       {BRAND.foundedDate}
                     </span>
-                    <span className="text-[10px] text-zinc-500 block">Active Operating Tenure: 6+ Years</span>
+                    <span className="block text-[11px] text-zinc-400">Active Operating Tenure: 6+ Years</span>
                   </div>
                 </div>
               </div>
@@ -457,231 +386,196 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          DUAL OPERATING HUBS (SHAJAPUR HEADQUARTERS & INDORE HUB)
-          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+      {/* DUAL OPERATING HUBS */}
+      <section className="bg-[#050607] px-4 pb-20 md:px-6">
         <div className="mx-auto max-w-6xl space-y-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
-              <Building2 className="size-3.5" />
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#ffb84d]">
               Physical Operating Footprint
-            </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Our Registered Headquarters &amp; Tech Hubs
             </h2>
-            <p className="mt-1 text-xs text-zinc-400 max-w-xl">
-              Rooted in Madhya Pradesh, engineering digital power for clients across India and globally.
-              Visit our offices for in-person sprint kickoffs or legal verification.
+            <p className="mt-1.5 max-w-xl text-sm text-zinc-400">
+              Rooted in Madhya Pradesh, engineering websites, apps, and SEO growth systems for clients across India and globally.
             </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {/* 1. Shajapur HQ */}
-            <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-7 transition-all hover:border-[#ff9f1c]/40">
+            {/* Shajapur HQ */}
+            <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-[#08090c] p-7 transition-colors duration-200 hover:border-[#ff9f1c]/40">
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-[#ff9f1c]/15 px-3 py-1 text-[10px] font-mono font-semibold text-[#ffb84d] border border-[#ff9f1c]/30">
-                    Corporate Headquarters
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
-                    <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Registered Legal Base
-                  </span>
+                <div className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-wider">
+                  <span className="text-[#ffb84d]">Corporate Headquarters</span>
+                  <span className="text-emerald-400">Registered Legal Base</span>
                 </div>
 
-                <h3 className="font-display text-xl font-bold text-white">
-                  Shajapur Headquarters
-                </h3>
-                <p className="text-xs leading-relaxed text-zinc-400">
-                  {BRAND.location}
-                </p>
+                <h3 className="font-display text-xl font-bold text-white">Shajapur Headquarters</h3>
+                <p className="text-sm leading-relaxed text-zinc-300">{BRAND.location}</p>
 
-                <div className="rounded-xl border border-white/5 bg-black/40 p-3.5 space-y-1.5 text-xs">
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
+                <div className="space-y-1.5 rounded-xl border border-white/10 bg-black/50 p-4 text-xs">
+                  <div className="flex justify-between gap-3 text-zinc-400">
                     <span>Coordinates:</span>
                     <span className="font-mono text-zinc-200">23.6640° N, 76.3220° E</span>
                   </div>
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
+                  <div className="flex justify-between gap-3 text-zinc-400">
                     <span>Postal PIN Code:</span>
                     <span className="font-mono text-zinc-200">465236 (Shajapur Dist, MP)</span>
                   </div>
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
-                    <span>Legal Jurisdiction:</span>
-                    <span className="font-mono text-zinc-200">State of Madhya Pradesh, India</span>
+                  <div className="flex justify-between gap-3 text-zinc-400">
+                    <span>Jurisdiction:</span>
+                    <span className="font-mono text-zinc-200">Madhya Pradesh, India</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                 <a
                   href={BRAND.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#ffb84d] hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#ffb84d] transition-colors duration-200 hover:text-white"
                 >
                   <MapPin className="size-3.5" />
                   <span>Open in Google Maps</span>
-                  <ExternalLink className="size-3 text-zinc-500" />
+                  <ExternalLink className="size-3 text-zinc-400" />
                 </a>
-                <span className="text-[10px] font-mono text-zinc-500">Legal HQ</span>
+                <span className="font-mono text-[11px] text-zinc-400">Legal HQ</span>
               </div>
             </div>
 
-            {/* 2. Indore Tech Operations Hub */}
-            <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-7 transition-all hover:border-cyan-500/40">
+            {/* Indore Tech Hub */}
+            <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-[#08090c] p-7 transition-colors duration-200 hover:border-cyan-500/40">
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-cyan-500/15 px-3 py-1 text-[10px] font-mono font-semibold text-cyan-300 border border-cyan-500/30">
-                    Technology Delivery Hub
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[10px] font-mono text-cyan-400">
-                    <Globe2 className="size-3" />
+                <div className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-wider">
+                  <span className="text-cyan-300">Technology Delivery Hub</span>
+                  <span className="inline-flex items-center gap-1.5 text-cyan-400">
+                    <Globe2 className="size-3.5" />
                     Commercial Sprints
                   </span>
                 </div>
 
-                <h3 className="font-display text-xl font-bold text-white">
-                  Indore Tech Operations Hub
-                </h3>
-                <p className="text-xs leading-relaxed text-zinc-400">
+                <h3 className="font-display text-xl font-bold text-white">Indore Tech Operations Hub</h3>
+                <p className="text-sm leading-relaxed text-zinc-300">
                   AB Road / Vijay Nagar Commercial Corridor, Indore, Madhya Pradesh 452010, India.
                 </p>
 
-                <div className="rounded-xl border border-white/5 bg-black/40 p-3.5 space-y-1.5 text-xs">
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
+                <div className="space-y-1.5 rounded-xl border border-white/10 bg-black/50 p-4 text-xs">
+                  <div className="flex justify-between gap-3 text-zinc-400">
                     <span>Hub Role:</span>
                     <span className="font-mono text-zinc-200">Architecture Sprints &amp; Client Demos</span>
                   </div>
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
-                    <span>Client Meeting Access:</span>
+                  <div className="flex justify-between gap-3 text-zinc-400">
+                    <span>Meeting Access:</span>
                     <span className="font-mono text-zinc-200">By 48-hr appointment</span>
                   </div>
-                  <div className="flex justify-between text-zinc-400 text-[11px]">
+                  <div className="flex justify-between gap-3 text-zinc-400">
                     <span>Delivery Timezone:</span>
                     <span className="font-mono text-zinc-200">IST (UTC+05:30)</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                 <a
                   href={`https://wa.me/919165100124?text=${encodeURIComponent(
                     "Hello MLHK team, I want to schedule an in-person meeting in Indore."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 transition-colors duration-200 hover:text-white"
                 >
                   <Calendar className="size-3.5" />
                   <span>Request Indore Meeting</span>
-                  <ExternalLink className="size-3 text-zinc-500" />
+                  <ExternalLink className="size-3 text-zinc-400" />
                 </a>
-                <span className="text-[10px] font-mono text-zinc-500">Commercial Hub</span>
+                <span className="font-mono text-[11px] text-zinc-400">Commercial Hub</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          ENTERPRISE ENGAGEMENT & TRUST GUARANTEES
-          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#050607] px-4 pb-24 md:px-6">
+      {/* ENGAGEMENT GUARANTEES */}
+      <section className="bg-[#050607] px-4 pb-20 md:px-6">
         <div className="mx-auto max-w-6xl space-y-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-400">
-              <ShieldCheck className="size-3.5" />
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-emerald-400">
               Contractual Assurance
-            </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Four Non-Negotiable Engagement Guarantees
             </h2>
-            <p className="mt-1 text-xs text-zinc-400 max-w-xl">
-              Every partnership is protected by statutory Indian contract law and transparent delivery milestones.
-            </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-3">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-[#08090c] p-5">
+              <div className="flex size-10 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
                 <Lock className="size-5" />
               </div>
-              <h4 className="font-display text-sm font-bold text-white">Statutory Mutual NDA</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                We sign a legally binding bilateral non-disclosure agreement before reviewing your secret
-                algorithms, business plans, or client data.
+              <h3 className="font-display text-sm font-bold text-white">Statutory Mutual NDA</h3>
+              <p className="text-xs leading-relaxed text-zinc-400">
+                We sign a legally binding bilateral non-disclosure agreement before reviewing your business plans or proprietary systems.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-3">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-[#ff9f1c]/10 text-[#ffb84d] border border-[#ff9f1c]/30">
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-[#08090c] p-5">
+              <div className="flex size-10 items-center justify-center rounded-xl border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 text-[#ffb84d]">
                 <Scale className="size-5" />
               </div>
-              <h4 className="font-display text-sm font-bold text-white">Milestone Escrow Billing</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Zero surprise bills. Payments are phased across agreed deliverables and only disbursed once
-                you verify the functional staging build.
+              <h3 className="font-display text-sm font-bold text-white">Milestone Billing</h3>
+              <p className="text-xs leading-relaxed text-zinc-400">
+                Zero surprise bills. Payments are phased across agreed milestones and settled against official GST invoices.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-3">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-[#08090c] p-5">
+              <div className="flex size-10 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
                 <FileCheck2 className="size-5" />
               </div>
-              <h4 className="font-display text-sm font-bold text-white">100% Code Sovereignty</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Full intellectual property transfer deed. You own all Git repositories, Figma design tokens,
-                and production deployment keys.
+              <h3 className="font-display text-sm font-bold text-white">100% Code Ownership</h3>
+              <p className="text-xs leading-relaxed text-zinc-400">
+                Full intellectual property handover. You own your domain, source repositories, Figma assets, and cloud accounts.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-3">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/30">
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-[#08090c] p-5">
+              <div className="flex size-10 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-300">
                 <Zap className="size-5" />
               </div>
-              <h4 className="font-display text-sm font-bold text-white">Sub-120 Min Response SLA</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Direct engineer communication via a dedicated Slack or WhatsApp channel. No bureaucracy
-                or waiting days for ticket replies.
+              <h3 className="font-display text-sm font-bold text-white">Sub-120 Min Response SLA</h3>
+              <p className="text-xs leading-relaxed text-zinc-400">
+                Direct engineer communication via a dedicated WhatsApp or Slack channel — no waiting days for ticket replies.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          2026 AEO / GEO FAQ ANSWER CAPSULES
-          ───────────────────────────────────────────────────────────── */}
+      {/* ONBOARDING FAQ */}
       <section className="bg-[#050607] px-4 pb-28 md:px-6">
         <div className="mx-auto max-w-6xl space-y-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
-              <MessageSquare className="size-3.5" />
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#ffb84d]">
               Frequently Asked Questions
-            </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Direct Answers to Client Onboarding Questions
             </h2>
-            <p className="mt-1 text-xs text-zinc-400 max-w-xl">
-              Transparent terms, legal protections, and onboarding protocols explained upfront.
-            </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             {CONTACT_FAQS.map((faq) => (
               <div
                 key={faq.query}
-                className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-white/[0.01] p-6 space-y-3 transition-all hover:border-[#ff9f1c]/40"
+                className="space-y-3 rounded-2xl border border-white/10 bg-[#08090c] p-6 transition-colors duration-200 hover:border-[#ff9f1c]/40"
               >
-                <h4 className="font-display text-base font-bold text-white flex items-start gap-2">
-                  <span className="text-[#ff9f1c] font-mono text-sm">Q:</span>
+                <h3 className="flex items-start gap-2 font-display text-base font-bold text-white">
+                  <span className="font-mono text-sm text-[#ff9f1c]">Q:</span>
                   <span>{faq.query}</span>
-                </h4>
-                <p className="text-xs leading-relaxed text-zinc-300 pl-5">
-                  {faq.answer}
-                </p>
-                <div className="mt-3 pl-5 pt-3 border-t border-white/5 flex items-center gap-2 text-[11px] text-emerald-400 font-medium">
+                </h3>
+                <p className="pl-5 text-xs leading-relaxed text-zinc-300">{faq.answer}</p>
+                <div className="mt-3 flex items-center gap-2 border-t border-white/10 pl-5 pt-3 text-xs font-medium text-emerald-400">
                   <CheckCircle2 className="size-3.5 shrink-0" />
                   <span>{faq.keyTakeaway}</span>
                 </div>

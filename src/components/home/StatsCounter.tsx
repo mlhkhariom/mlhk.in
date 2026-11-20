@@ -48,15 +48,14 @@ export function StatsCounter({ stats }: { stats: StatItem[] }) {
         const render = () => {
           node.textContent = `${s.prefix ?? ""}${format(counter.v, grouping)}${s.suffix ?? ""}`;
         };
-        // Server HTML already holds the final value; counting starts only when the strip enters view.
         gsap.to(counter, {
           v: s.value,
-          duration: 2,
+          duration: 1.6,
           ease: "power3.out",
-          delay: i * 0.1,
+          delay: i * 0.08,
           onStart: render,
           onUpdate: render,
-          scrollTrigger: { trigger: root, start: "top 80%", once: true },
+          scrollTrigger: { trigger: root, start: "top 82%", once: true },
         });
       });
     }, root);
@@ -65,14 +64,18 @@ export function StatsCounter({ stats }: { stats: StatItem[] }) {
   }, [stats, reduced]);
 
   return (
-    <section ref={ref} className="relative border-y border-white/10 bg-[#050607] px-4 py-20 md:px-6" aria-label="MLHK at a glance">
-      <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-10 md:grid-cols-4">
+    <section
+      ref={ref}
+      className="relative border-y border-white/10 bg-[#050607] px-4 py-20 md:px-6"
+      aria-label="MLHK at a glance"
+    >
+      <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-8 md:grid-cols-4 md:gap-10">
         {stats.map((s) => (
-          <div key={s.label} className="border-l border-[#ff9f1c]/30 pl-6">
+          <div key={s.label} className="border-t border-white/10 pt-5">
             <dd className="stat-value font-display text-4xl font-bold tabular-nums text-white md:text-5xl">
               {`${s.prefix ?? ""}${format(s.value, s.grouping ?? true)}${s.suffix ?? ""}`}
             </dd>
-            <dt className="mt-3 text-xs uppercase tracking-[0.18em] text-zinc-500">{s.label}</dt>
+            <dt className="mt-2.5 text-xs font-medium tracking-wide text-zinc-400">{s.label}</dt>
           </div>
         ))}
       </dl>

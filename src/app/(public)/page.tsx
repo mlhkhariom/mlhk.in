@@ -2,12 +2,14 @@ import Link from "next/link";
 import { buildSeo } from "@/lib/seo";
 import { WebSiteJsonLd, FaqJsonLd } from "@/components/seo/JsonLd";
 import { Hero } from "@/components/home/Hero";
+import { InteractiveLab } from "@/components/home/InteractiveLab";
 import { Services3D } from "@/components/home/Services3D";
 import { WhyMlhk } from "@/components/home/WhyProcess";
 import { VenturesGrid, AboutTimeline } from "@/components/home/WorkAbout";
 import { StatsCounter, type StatItem } from "@/components/home/StatsCounter";
 import { Faq, ContactCTA } from "@/components/home/ContactCTA";
 import { FeaturedWork } from "@/components/home/FeaturedWork";
+import { SolutionsBridge } from "@/components/home/SolutionsBridge";
 import { LatestPosts } from "@/components/home/LatestPosts";
 import { BRAND, FAQS, SERVICE_LINES, CAPABILITIES, VENTURES } from "@/lib/brand";
 import { safeDb } from "@/lib/db/safe";
@@ -18,15 +20,15 @@ export const revalidate = 60;
 
 export async function generateMetadata() {
   return buildSeo({
-    title: "Web, Mobile, AI and Enterprise Software",
+    title: "Web, Mobile, SEO, AI & Enterprise Software India",
     description:
-      "MLHK Infotech builds web platforms, Android apps, CRM and ERP systems and AI automation. Innovate. Integrate. Elevate. Based in Shajapur, MP.",
+      "MLHK Infotech builds fast custom websites, Android apps, SEO, Meta/Google Ads, CRM/ERP systems, and AI automation for businesses across Indore, Madhya Pradesh, and all India. Innovate. Integrate. Elevate.",
     path: "/",
   });
 }
 
 const STATS: StatItem[] = [
-  { value: BRAND.foundedYear, label: "Founded", grouping: false },
+  { value: BRAND.foundedYear, label: "Founded in Shajapur, MP", grouping: false },
   { value: 20, label: "Projects delivered", suffix: "+" },
   { value: VENTURES.length, label: "Brands in ecosystem" },
   { value: SERVICE_LINES.length + CAPABILITIES.length, label: "Core service lines" },
@@ -58,12 +60,20 @@ export default async function HomePage() {
       <FaqJsonLd faqs={FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
 
       <Hero />
+      <InteractiveLab />
+      <Services3D />
+      <FeaturedWork items={featuredPortfolio} />
+      <SolutionsBridge />
+      <WhyMlhk />
 
-      {/* What We Actually Do — real crawlable content for Google */}
+      {/* What We Actually Do — real crawlable editorial story */}
       <section className="bg-[#050607] px-4 py-20 md:px-6 md:py-28" aria-labelledby="what-we-do-heading">
         <div className="mx-auto max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">What we actually do</p>
-          <h2 id="what-we-do-heading" className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
+          <p className="text-xs font-semibold tracking-wide text-[#ffb84d]">What we actually do</p>
+          <h2
+            id="what-we-do-heading"
+            className="mt-3 text-balance font-display text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl"
+          >
             Software that runs your business, not just a website that sits there.
           </h2>
           <div className="mt-8 space-y-5 text-base leading-relaxed text-zinc-300">
@@ -104,19 +114,22 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/services" className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-[#ff9f1c]/50 hover:text-[#ffb84d]">
+            <Link
+              href="/services"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-[#ff9f1c]/50 hover:text-[#ffb84d]"
+            >
               See all services we offer →
             </Link>
-            <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-5 py-2.5 text-sm font-medium text-[#ffb84d] transition-colors hover:bg-[#ff9f1c]/20">
-              Talk to us on WhatsApp →
+            <Link
+              href="/contact"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#ff9f1c]/35 bg-[#ff9f1c]/10 px-5 py-2.5 text-sm font-medium text-[#ffb84d] transition-colors hover:bg-[#ff9f1c]/20"
+            >
+              Start a conversation →
             </Link>
           </div>
         </div>
       </section>
 
-      <Services3D />
-      <WhyMlhk />
-      <FeaturedWork items={featuredPortfolio} />
       <VenturesGrid />
       <AboutTimeline />
       <StatsCounter stats={STATS} />

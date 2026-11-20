@@ -2,12 +2,14 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { NextRequest, NextResponse } from "next/server";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX = { name: 120, email: 200, phone: 40, company: 160, message: 5000 };
+import {
+  validateContactSubmission,
+  generateInquiryRef,
+  type ContactSubmissionInput,
+} from "@/lib/contact-utils";
 
 const RATE_WINDOW_MS = 10 * 60 * 1000;
-const RATE_MAX_REQUESTS = 5;
+const RATE_MAX_REQUESTS = 8;
 const ipHits = new Map<string, number[]>();
 
 function isRateLimited(ip: string): { limited: boolean; retryAfterSec: number } {
@@ -25,7 +27,6 @@ function isRateLimited(ip: string): { limited: boolean; retryAfterSec: number } 
   recent.push(now);
   ipHits.set(ip, recent);
 
-  // Prevent unbounded memory growth across warm isolates
   if (ipHits.size > 2000) {
     for (const [k, timestamps] of ipHits) {
       if (timestamps.every((ts) => ts <= windowStart)) ipHits.delete(k);
@@ -34,8 +35,19 @@ function isRateLimited(ip: string): { limited: boolean; retryAfterSec: number } 
   return { limited: false, retryAfterSec: 0 };
 }
 
-function clamp(value: unknown, max: number): string {
-  return typeof value === "string" ? value.trim().slice(0, max) : "";
+async function persistFallbackLead(record: Record<string, unknown>): Promise<boolean> {
+  try {
+    const fs = await import("node:fs/promises");
+    const path = await import("node:path");
+    const dir = path.join(process.cwd(), "data");
+    await fs.mkdir(dir, { recursive: true });
+    const filePath = path.join(dir, "leads-inbox.jsonl");
+    await fs.appendFile(filePath, `${JSON.stringify(record)}\n`, "utf8");
+    return true;
+  } catch (err) {
+    console.error("[CONTACT_FALLBACK_FS_ERROR]", err);
+    return false;
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -55,58 +67,66 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    company?: string;
-    message?: string;
-    website?: string;
-  };
+  let body: ContactSubmissionInput;
   try {
-    body = (await req.json()) as typeof body;
+    body = (await req.json()) as ContactSubmissionInput;
   } catch {
     return NextResponse.json({ error: "Invalid request payload" }, { status: 400 });
   }
 
-  // Honeypot: hidden field real users never fill. Bots do — accept silently, store nothing.
-  if (clamp(body.website, 200)) {
-    return NextResponse.json({ success: true });
+  const validated = validateContactSubmission(body);
+  if (!validated.ok) {
+    return NextResponse.json({ error: validated.error, field: validated.field }, { status: 400 });
   }
 
-  const name = clamp(body.name, MAX.name);
-  const email = clamp(body.email, MAX.email);
-  const phone = clamp(body.phone, MAX.phone);
-  const company = clamp(body.company, MAX.company);
-  const message = clamp(body.message, MAX.message);
+  if (validated.lead.isHoneypot) {
+    return NextResponse.json({ success: true, referenceId: generateInquiryRef() });
+  }
 
-  if (!name || !email) {
-    return NextResponse.json({ error: "Name and email required" }, { status: 400 });
-  }
-  if (!EMAIL_RE.test(email)) {
-    return NextResponse.json({ error: "Please enter a valid email address" }, { status: 400 });
-  }
+  const { name, email, phone, company, notes, service, timeline, budget, sourcePage } = validated.lead;
+  const id = crypto.randomUUID();
+  const referenceId = generateInquiryRef(new Date(), id.slice(0, 4));
+  let storage: "d1" | "local-inbox" = "d1";
 
   try {
     const { env } = getCloudflareContext();
+    if (!env?.DB) throw new Error("D1 binding unavailable");
     const db = getDb(env.DB);
 
     await db.insert(leads).values({
-      id: crypto.randomUUID(),
+      id,
       name,
       email,
-      phone: phone || null,
-      company: company || null,
-      notes: message || null,
+      phone,
+      company,
+      notes: `[REF: ${referenceId}] [PAGE: ${sourcePage}]\n${notes}`,
       source: "website",
       status: "new",
     });
   } catch (err) {
-    console.error("[CONTACT_DB_ERROR]", err);
-    return NextResponse.json(
-      { error: "Unable to record your inquiry right now. Please contact us on WhatsApp or email." },
-      { status: 503 },
-    );
+    console.warn("[CONTACT_D1_FALLBACK]", err instanceof Error ? err.message : "D1 unavailable");
+    const saved = await persistFallbackLead({
+      id,
+      referenceId,
+      name,
+      email,
+      phone,
+      company,
+      service,
+      timeline,
+      budget,
+      notes,
+      source: sourcePage || "website",
+      status: "new",
+      createdAt: new Date().toISOString(),
+    });
+    if (!saved) {
+      return NextResponse.json(
+        { error: "Unable to record your inquiry right now. Please contact us on WhatsApp (+91 91651 00124) or email." },
+        { status: 503 },
+      );
+    }
+    storage = "local-inbox";
   }
 
   // Send email notifications (non-blocking — don't fail the request if email fails)
@@ -114,11 +134,15 @@ export async function POST(req: NextRequest) {
     const { sendLeadReply, sendLeadNotification } = await import("@/lib/email");
     await Promise.allSettled([
       sendLeadReply(name, email),
-      sendLeadNotification(name, email, message),
+      sendLeadNotification(name, email, `[REF: ${referenceId}]\n${notes}`),
     ]);
   } catch {
-    // Email is best-effort; lead is already saved.
+    // Email is best-effort; lead is already durably stored.
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({
+    success: true,
+    referenceId,
+    storage,
+  });
 }
