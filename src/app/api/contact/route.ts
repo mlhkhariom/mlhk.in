@@ -83,15 +83,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, referenceId: generateInquiryRef() });
   }
 
-  const { name, email, phone, company, notes, service, timeline, budget, sourcePage } = validated.lead;
+  const { name, email, phone, company, city, notes, service, timeline, budget, sourcePage } = validated.lead;
   const id = crypto.randomUUID();
   const referenceId = generateInquiryRef(new Date(), id.slice(0, 4));
   let storage: "d1" | "local-inbox" = "d1";
 
   try {
-    const { env } = getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     if (!env?.DB) throw new Error("D1 binding unavailable");
     const db = getDb(env.DB);
+    const now = new Date().toISOString();
 
     await db.insert(leads).values({
       id,
@@ -102,6 +103,8 @@ export async function POST(req: NextRequest) {
       notes: `[REF: ${referenceId}] [PAGE: ${sourcePage}]\n${notes}`,
       source: "website",
       status: "new",
+      createdAt: now,
+      updatedAt: now,
     });
   } catch (err) {
     console.warn("[CONTACT_D1_FALLBACK]", err instanceof Error ? err.message : "D1 unavailable");
@@ -112,6 +115,7 @@ export async function POST(req: NextRequest) {
       email,
       phone,
       company,
+      city,
       service,
       timeline,
       budget,

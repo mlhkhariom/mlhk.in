@@ -618,6 +618,9 @@ export function LocationServiceJsonLd({
   lng,
   areasCovered,
   packages,
+  path,
+  pageTitle,
+  inLanguage,
 }: {
   slug: string;
   name: string;
@@ -628,8 +631,12 @@ export function LocationServiceJsonLd({
   lng: number;
   areasCovered: readonly string[];
   packages: readonly { name: string; price: string; summary: string }[];
+  path?: string;
+  pageTitle?: string;
+  inLanguage?: string | string[];
 }) {
-  const pageUrl = `${BRAND.url}/locations/${slug}`;
+  const pageUrl = `${BRAND.url}${path ?? `/locations/${slug}`}`;
+  const resolvedLang = inLanguage ?? ["en-IN", "hi-IN"];
   return (
     <JsonLd
       data={{
@@ -639,9 +646,11 @@ export function LocationServiceJsonLd({
             "@type": "WebPage",
             "@id": `${pageUrl}#webpage`,
             url: pageUrl,
-            name: `Best IT, Website, App & Digital Marketing Company in ${name} | ${BRAND.name}`,
+            name:
+              pageTitle ??
+              `Best IT, Website, App & Digital Marketing Company in ${name} | ${BRAND.name}`,
             description,
-            inLanguage: ["en-IN", "hi-IN"],
+            inLanguage: resolvedLang,
             isPartOf: { "@id": `${BRAND.url}/#website` },
             about: { "@id": `${pageUrl}#service` },
             speakable: {
@@ -762,17 +771,19 @@ export function SolutionServiceJsonLd({
   );
 }
 
-/** CollectionPage + valid ListItem-wrapped ItemList for /locations and /solutions hubs */
+/** CollectionPage + valid ListItem-wrapped ItemList for /locations, /hi/locations, and /solutions hubs */
 export function CollectionHubJsonLd({
   path,
   name,
   description,
   items,
+  inLanguage,
 }: {
   path: string;
   name: string;
   description: string;
   items: readonly { name: string; url: string; description: string }[];
+  inLanguage?: string | string[];
 }) {
   const pageUrl = `${BRAND.url}${path}`;
   return (
@@ -784,7 +795,7 @@ export function CollectionHubJsonLd({
         url: pageUrl,
         name,
         description,
-        inLanguage: ["en-IN", "hi-IN"],
+        inLanguage: inLanguage ?? ["en-IN", "hi-IN"],
         isPartOf: { "@id": `${BRAND.url}/#website` },
         speakable: {
           "@type": "SpeakableSpecification",
@@ -805,4 +816,5 @@ export function CollectionHubJsonLd({
     />
   );
 }
+
 

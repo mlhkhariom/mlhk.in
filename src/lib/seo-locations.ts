@@ -5,6 +5,8 @@
  * zero doorway-page duplication).
  */
 
+import { EXTRA_LOCATION_HUBS } from "./seo-locations-extra";
+
 export interface LocationHub {
   slug: string;
   name: string;
@@ -30,7 +32,7 @@ export interface LocationHub {
   keywords: readonly string[];
 }
 
-export const LOCATION_HUBS: readonly LocationHub[] = [
+const CORE_LOCATION_HUBS: readonly LocationHub[] = [
   {
     slug: "indore",
     name: "Indore",
@@ -877,6 +879,57 @@ export const LOCATION_HUBS: readonly LocationHub[] = [
   },
 ] as const;
 
+export const LOCATION_HUBS: readonly LocationHub[] = [
+  ...CORE_LOCATION_HUBS,
+  ...EXTRA_LOCATION_HUBS,
+];
+
+export type LocationTierBucket = "HQ & MP" | "Tier-1 Metro" | "Tier-2 Growth" | "Tier-3 Regional" | "Pan-India";
+
+const TIER3_SLUGS = new Set([
+  "shajapur",
+  "ujjain",
+  "dewas",
+  "gwalior",
+  "jabalpur",
+  "ratlam",
+  "sagar",
+  "rewa",
+  "kota",
+  "udaipur",
+  "varanasi",
+  "ranchi",
+  "dehradun",
+]);
+
+export function getLocationTierBucket(loc: LocationHub): LocationTierBucket {
+  if (loc.slug === "india") return "Pan-India";
+  if (loc.slug === "shajapur" || loc.slug === "indore" || loc.slug === "madhya-pradesh") return "HQ & MP";
+  if (loc.tier === "Metro Hub") return "Tier-1 Metro";
+  if (TIER3_SLUGS.has(loc.slug)) return "Tier-3 Regional";
+  return "Tier-2 Growth";
+}
+
+export function getLocationHeroVisual(loc: LocationHub): { src: string; caption: string } {
+  const slug = loc.slug;
+  if (["indore", "shajapur", "madhya-pradesh", "india", "delhi-ncr", "bengaluru"].includes(slug)) {
+    return { src: "/images/showcase/studio-hub.jpg", caption: `Custom Engineering & Web Systems for ${loc.name}` };
+  }
+  if (["surat", "jaipur", "varanasi", "ratlam", "kolkata", "mumbai", "guwahati"].includes(slug)) {
+    return { src: "/images/showcase/case-iksc.jpg", caption: `High-Speed E-Commerce & D2C Platforms in ${loc.name}` };
+  }
+  if (["dewas", "pune", "ahmedabad", "vadodara", "coimbatore", "raipur", "chennai", "nagpur", "visakhapatnam"].includes(slug)) {
+    return { src: "/images/showcase/erp-dashboard.jpg", caption: `Custom GST Billing, Inventory & Industrial ERP in ${loc.name}` };
+  }
+  if (["kota", "patna", "ranchi", "sagar", "gwalior", "hyderabad"].includes(slug)) {
+    return { src: "/images/showcase/mobile-app.jpg", caption: `Native Android Apps & EdTech/Business Portals in ${loc.name}` };
+  }
+  if (["rewa", "bhopal", "jabalpur"].includes(slug)) {
+    return { src: "/images/showcase/case-erotix.jpg", caption: `Enterprise Web & Field Operations Systems in ${loc.name}` };
+  }
+  return { src: "/images/showcase/seo-growth.jpg", caption: `Local Google SEO, Maps & Performance Ads in ${loc.name}` };
+}
+
 export function getLocationHub(slug: string): LocationHub | undefined {
   return LOCATION_HUBS.find((loc) => loc.slug === slug);
 }
@@ -890,20 +943,20 @@ export const INDIA_ZONE_DIRECTORY = [
     zone: "Central India (HQ Zone)",
     states: [
       { name: "Madhya Pradesh", hubs: "Indore, Shajapur (HQ), Bhopal, Ujjain, Dewas, Gwalior, Jabalpur, Ratlam, Sagar, Rewa, Satna, Agar Malwa & all 55 districts/villages", linkSlug: "madhya-pradesh" },
-      { name: "Chhattisgarh", hubs: "Raipur, Bilaspur, Durg-Bhilai, Korba, Jagdalpur, Ambikapur & district towns", linkSlug: "india" },
+      { name: "Chhattisgarh", hubs: "Raipur, Bilaspur, Durg-Bhilai, Korba, Jagdalpur, Ambikapur & district towns", linkSlug: "raipur" },
     ],
   },
   {
     zone: "North India & NCR",
     states: [
       { name: "Delhi (NCT)", hubs: "New Delhi, South/West/North/East Delhi, Dwarka, Rohini, Okhla & NCR corridor", linkSlug: "delhi-ncr" },
-      { name: "Uttar Pradesh", hubs: "Lucknow, Noida, Ghaziabad, Kanpur, Varanasi, Agra, Prayagraj, Meerut, Gorakhpur, Bareilly & all 75 districts", linkSlug: "lucknow" },
+      { name: "Uttar Pradesh", hubs: "Lucknow, Varanasi, Noida, Ghaziabad, Kanpur, Agra, Prayagraj, Meerut, Gorakhpur, Bareilly & all 75 districts", linkSlug: "lucknow" },
       { name: "Rajasthan", hubs: "Jaipur, Kota, Udaipur, Jodhpur, Ajmer, Bhilwara, Bikaner, Alwar & tehsil towns", linkSlug: "jaipur" },
       { name: "Haryana", hubs: "Gurugram, Faridabad, Panipat, Ambala, Hisar, Karnal, Rohtak & Sonipat", linkSlug: "delhi-ncr" },
-      { name: "Punjab", hubs: "Ludhiana, Amritsar, Jalandhar, Patiala, Mohali, Bathinda & district towns", linkSlug: "india" },
-      { name: "Uttarakhand", hubs: "Dehradun, Haridwar, Roorkee, Haldwani, Rishikesh & Nainital", linkSlug: "india" },
-      { name: "Himachal Pradesh", hubs: "Shimla, Solan, Baddi, Dharamshala, Mandi & Kullu", linkSlug: "india" },
-      { name: "Chandigarh (UT)", hubs: "Chandigarh Tri-City (Chandigarh, Mohali, Panchkula)", linkSlug: "india" },
+      { name: "Punjab", hubs: "Ludhiana, Amritsar, Jalandhar, Patiala, Mohali, Bathinda & district towns", linkSlug: "chandigarh" },
+      { name: "Uttarakhand", hubs: "Dehradun, Haridwar, Roorkee, Haldwani, Rishikesh & Nainital", linkSlug: "dehradun" },
+      { name: "Himachal Pradesh", hubs: "Shimla, Solan, Baddi, Dharamshala, Mandi & Kullu", linkSlug: "chandigarh" },
+      { name: "Chandigarh (UT)", hubs: "Chandigarh Tri-City (Chandigarh, Mohali, Panchkula)", linkSlug: "chandigarh" },
       { name: "Jammu and Kashmir (UT)", hubs: "Srinagar, Jammu, Anantnag, Udhampur & Kathua", linkSlug: "india" },
       { name: "Ladakh (UT)", hubs: "Leh, Kargil & remote hospitality/business portals", linkSlug: "india" },
     ],
@@ -913,8 +966,8 @@ export const INDIA_ZONE_DIRECTORY = [
     states: [
       { name: "Maharashtra", hubs: "Mumbai, Navi Mumbai, Thane, Pune, PCMC, Nagpur, Nashik, Aurangabad, Kolhapur, Solapur & rural districts", linkSlug: "mumbai" },
       { name: "Gujarat", hubs: "Ahmedabad, Surat, Vadodara, Rajkot, Gandhinagar, Bhavnagar, Jamnagar, Vapi & GIDC hubs", linkSlug: "ahmedabad" },
-      { name: "Goa", hubs: "Panaji, Margao, Vasco da Gama, Mapusa & hospitality/tourism businesses", linkSlug: "india" },
-      { name: "Dadra and Nagar Haveli and Daman and Diu (UT)", hubs: "Silvassa, Vapi corridor, Daman & Diu industrial units", linkSlug: "ahmedabad" },
+      { name: "Goa", hubs: "Panaji, Margao, Vasco da Gama, Mapusa & hospitality/tourism businesses", linkSlug: "mumbai" },
+      { name: "Dadra and Nagar Haveli and Daman and Diu (UT)", hubs: "Silvassa, Vapi corridor, Daman & Diu industrial units", linkSlug: "surat" },
     ],
   },
   {
@@ -922,23 +975,23 @@ export const INDIA_ZONE_DIRECTORY = [
     states: [
       { name: "Karnataka", hubs: "Bengaluru, Mysuru, Mangaluru, Hubballi-Dharwad, Belagavi & Tumakuru", linkSlug: "bengaluru" },
       { name: "Telangana", hubs: "Hyderabad, Secunderabad, Warangal, Nizamabad, Karimnagar & Khammam", linkSlug: "hyderabad" },
-      { name: "Tamil Nadu", hubs: "Chennai, Coimbatore, Madurai, Tiruchirappalli, Salem, Tiruppur & Erode", linkSlug: "india" },
-      { name: "Andhra Pradesh", hubs: "Visakhapatnam, Vijayawada, Guntur, Tirupati, Nellore & Kakinada", linkSlug: "hyderabad" },
-      { name: "Kerala", hubs: "Kochi, Thiruvananthapuram, Kozhikode, Thrissur, Kannur & Kollam", linkSlug: "india" },
-      { name: "Puducherry (UT)", hubs: "Puducherry, Karaikal, Yanam & Mahe", linkSlug: "india" },
-      { name: "Lakshadweep (UT)", hubs: "Kavaratti & island tourism/enterprise remote portals", linkSlug: "india" },
-      { name: "Andaman and Nicobar Islands (UT)", hubs: "Port Blair (Sri Vijaya Puram) & travel/hospitality websites", linkSlug: "india" },
+      { name: "Tamil Nadu", hubs: "Chennai, Coimbatore, Madurai, Tiruchirappalli, Salem, Tiruppur & Erode", linkSlug: "chennai" },
+      { name: "Andhra Pradesh", hubs: "Visakhapatnam, Vijayawada, Guntur, Tirupati, Nellore & Kakinada", linkSlug: "visakhapatnam" },
+      { name: "Kerala", hubs: "Kochi, Thiruvananthapuram, Kozhikode, Thrissur, Kannur & Kollam", linkSlug: "kochi" },
+      { name: "Puducherry (UT)", hubs: "Puducherry, Karaikal, Yanam & Mahe", linkSlug: "chennai" },
+      { name: "Lakshadweep (UT)", hubs: "Kavaratti & island tourism/enterprise remote portals", linkSlug: "kochi" },
+      { name: "Andaman and Nicobar Islands (UT)", hubs: "Port Blair (Sri Vijaya Puram) & travel/hospitality websites", linkSlug: "chennai" },
     ],
   },
   {
     zone: "East & North-East India",
     states: [
       { name: "Bihar", hubs: "Patna, Gaya, Muzaffarpur, Bhagalpur, Darbhanga, Purnia & all 38 districts", linkSlug: "patna" },
-      { name: "Jharkhand", hubs: "Ranchi, Jamshedpur, Dhanbad, Bokaro, Hazaribagh & Deoghar", linkSlug: "patna" },
-      { name: "West Bengal", hubs: "Kolkata, Howrah, Siliguri, Durgapur, Asansol & Kharagpur", linkSlug: "india" },
-      { name: "Odisha", hubs: "Bhubaneswar, Cuttack, Rourkela, Sambalpur, Puri & Berhampur", linkSlug: "india" },
-      { name: "Assam", hubs: "Guwahati, Silchar, Dibrugarh, Jorhat, Tezpur & Nagaon", linkSlug: "india" },
-      { name: "Sikkim, Tripura, Meghalaya, Manipur, Nagaland, Arunachal Pradesh & Mizoram", hubs: "Gangtok, Agartala, Shillong, Imphal, Dimapur, Kohima, Itanagar & Aizawl", linkSlug: "india" },
+      { name: "Jharkhand", hubs: "Ranchi, Jamshedpur, Dhanbad, Bokaro, Hazaribagh & Deoghar", linkSlug: "ranchi" },
+      { name: "West Bengal", hubs: "Kolkata, Howrah, Siliguri, Durgapur, Asansol & Kharagpur", linkSlug: "kolkata" },
+      { name: "Odisha", hubs: "Bhubaneswar, Cuttack, Rourkela, Sambalpur, Puri & Berhampur", linkSlug: "bhubaneswar" },
+      { name: "Assam", hubs: "Guwahati, Silchar, Dibrugarh, Jorhat, Tezpur & Nagaon", linkSlug: "guwahati" },
+      { name: "Sikkim, Tripura, Meghalaya, Manipur, Nagaland, Arunachal Pradesh & Mizoram", hubs: "Gangtok, Agartala, Shillong, Imphal, Dimapur, Kohima, Itanagar & Aizawl", linkSlug: "guwahati" },
     ],
   },
 ] as const;

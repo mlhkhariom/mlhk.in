@@ -18,8 +18,11 @@ import {
   Redo,
   Code,
   Quote,
+  Check,
+  X,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { BLOG_COVER_PRESETS, estimateReadingMinutes, stripHtmlToText } from "@/lib/blog-articles";
 
 interface Props {
   value: string;
@@ -28,24 +31,38 @@ interface Props {
 }
 
 export default function RichEditor({ value, onChange, placeholder = "Start writing your content..." }: Props) {
+  const [popover, setPopover] = useState<"link" | "image" | null>(null);
+  const [urlDraft, setUrlDraft] = useState("");
+
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Image,
       Link.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder }),
     ],
-    content: value,
-    onUpdate: ({ editor }) => onChange(editor.getHTML()),
+    content: value || "",
+    onUpdate: ({ editor: ed }) => onChange(ed.getHTML()),
   });
 
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value);
+    const safeVal = value || "";
+    if (editor && safeVal !== editor.getHTML()) {
+      editor.commands.setContent(safeVal);
     }
   }, [value, editor]);
 
-  if (!editor) return null;
+  if (!editor) {
+    return (
+      <div className="min-h-[260px] rounded-xl border border-white/10 bg-[#090a0d] p-4 text-xs text-zinc-500">
+        Loading editor...
+      </div>
+    );
+  }
+
+  const wordCount = stripHtmlToText(value).split(/\s+/).filter(Boolean).length;
+  const readingMin = estimateReadingMinutes(value);
 
   const btn = (active: boolean, onClick: () => void, icon: React.ReactNode, title: string) => (
     <button
@@ -62,14 +79,23 @@ export default function RichEditor({ value, onChange, placeholder = "Start writi
     </button>
   );
 
-  function addLink() {
-    const url = prompt("Enter hyperlink URL (e.g. https://...):");
-    if (url) editor?.chain().focus().setLink({ href: url }).run();
-  }
-
-  function addImage() {
-    const url = prompt("Enter image source URL:");
-    if (url) editor?.chain().focus().setImage({ src: url }).run();
+  function applyPopover(e: React.FormEvent) {
+    e.preventDefault();
+    const clean = urlDraft.trim();
+    if (!clean || !editor) {
+      setPopover(null);
+      return;
+    }
+    if (!/^(https?:\/\/|\/|mailto:|tel:)/i.test(clean)) {
+      return;
+    }
+    if (popover === "link") {
+      editor.chain().focus().setLink({ href: clean }).run();
+    } else if (popover === "image") {
+      editor.chain().focus().setImage({ src: clean }).run();
+    }
+    setUrlDraft("");
+    setPopover(null);
   }
 
   return (
@@ -82,7 +108,7 @@ export default function RichEditor({ value, onChange, placeholder = "Start writi
 
         <div className="mx-1 h-4 w-px bg-white/10" />
 
-        {btn(editor.isActive("heading", { level: 2 }), () => editor.chain().focus().toggleHeading({ level: 2 }).run(), <Heading2 size={14} />, "Heading 2")}
+        {btn(editor.isActive("heading", { level: 2 }), () => editor.chain().focus().toggleHeading({ level: 2 }).run(), <Heading2 size={14} />, "Heading 2 (SEO Section)")}
         {btn(editor.isActive("heading", { level: 3 }), () => editor.chain().focus().toggleHeading({ level: 3 }).run(), <Heading3 size={14} />, "Heading 3")}
 
         <div className="mx-1 h-4 w-px bg-white/10" />
@@ -93,8 +119,24 @@ export default function RichEditor({ value, onChange, placeholder = "Start writi
 
         <div className="mx-1 h-4 w-px bg-white/10" />
 
-        {btn(editor.isActive("link"), addLink, <LinkIcon size={14} />, "Insert Link")}
-        {btn(false, addImage, <ImageIcon size={14} />, "Insert Image")}
+        {btn(
+          popover === "link" || editor.isActive("link"),
+          () => {
+            setPopover(popover === "link" ? null : "link");
+            setUrlDraft(editor.getAttributes("link").href || "https://");
+          },
+          <LinkIcon size={14} />,
+          "Insert Link",
+        )}
+        {btn(
+          popover === "image",
+          () => {
+            setPopover(popover === "image" ? null : "image");
+            setUrlDraft("/images/showcase/studio-hub.jpg");
+          },
+          <ImageIcon size={14} />,
+          "Insert Image",
+        )}
 
         <div className="mx-1 h-4 w-px bg-white/10" />
 
@@ -102,11 +144,64 @@ export default function RichEditor({ value, onChange, placeholder = "Start writi
         {btn(false, () => editor.chain().focus().redo().run(), <Redo size={14} />, "Redo")}
       </div>
 
+      {/* Inline URL Popover (Replaces window.prompt for iframe/modern UX safety) */}
+      {popover && (
+        <form onSubmit={applyPopover} className="space-y-2 border-b border-white/10 bg-[#101218] p-3">
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={urlDraft}
+              onChange={(e) => setUrlDraft(e.target.value)}
+              placeholder={popover === "link" ? "https://mlhk.in/services" : "/images/showcase/studio-hub.jpg"}
+              className="flex-1 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-white focus:border-[#ff9f1c] focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1 rounded-lg bg-[#ff9f1c] px-3 py-1.5 text-xs font-semibold text-black hover:bg-[#ffb84d]"
+            >
+              <Check size={12} /> Insert
+            </button>
+            <button
+              type="button"
+              onClick={() => setPopover(null)}
+              className="rounded-lg border border-white/10 p-1.5 text-zinc-400 hover:text-white"
+            >
+              <X size={12} />
+            </button>
+          </div>
+          {popover === "image" && (
+            <div className="flex flex-wrap gap-1.5">
+              {BLOG_COVER_PRESETS.map((preset) => (
+                <button
+                  key={preset.src}
+                  type="button"
+                  onClick={() => {
+                    editor.chain().focus().setImage({ src: preset.src, alt: preset.label }).run();
+                    setPopover(null);
+                  }}
+                  className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-[11px] text-zinc-300 hover:border-[#ff9f1c]/40 hover:text-[#ffb84d]"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </form>
+      )}
+
       {/* Editor Content Area */}
       <EditorContent
         editor={editor}
-        className="prose prose-invert prose-sm max-w-none p-4 min-h-[220px] text-zinc-100 placeholder-zinc-500 focus-within:outline-none [&_.ProseMirror]:min-h-[190px] [&_.ProseMirror]:outline-none"
+        className="prose prose-invert prose-sm max-w-none min-h-[260px] p-4 text-zinc-100 placeholder-zinc-500 focus-within:outline-none [&_.ProseMirror]:min-h-[220px] [&_.ProseMirror]:outline-none"
       />
+
+      {/* Live Word Count & SEO Reading Time Bar */}
+      <div className="flex items-center justify-between border-t border-white/10 bg-white/[0.02] px-4 py-2 text-[11px] text-zinc-400">
+        <span>Tip: Use Heading 2 (H2) sections to auto-generate Table of Contents on the live blog page.</span>
+        <span className="font-mono tabular-nums text-zinc-300">
+          {wordCount} words · {readingMin} min read
+        </span>
+      </div>
     </div>
   );
 }

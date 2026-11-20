@@ -377,22 +377,26 @@ export default async function Footer() {
             </div>
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                Pan-India Service Hubs (All 28 States, Cities &amp; Villages)
+                Pan-India Service Hubs (38+ Tier-1, 2 &amp; 3 Cities · English &amp; हिन्दी)
               </p>
               <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-zinc-400">
-                <Link href="/locations" className="font-medium text-[#ffb84d] hover:underline">All India Directory</Link>
+                <Link href="/locations" className="font-medium text-[#ffb84d] hover:underline">All 38+ Cities (EN)</Link>
+                <Link href="/hi/locations" className="font-medium text-[#ffb84d] hover:underline">हिन्दी शहर हब (HI)</Link>
                 <Link href="/locations/indore" className="hover:text-[#ffb84d]">Indore</Link>
                 <Link href="/locations/shajapur" className="hover:text-[#ffb84d]">Shajapur (HQ)</Link>
                 <Link href="/locations/madhya-pradesh" className="hover:text-[#ffb84d]">Madhya Pradesh</Link>
                 <Link href="/locations/bhopal" className="hover:text-[#ffb84d]">Bhopal</Link>
                 <Link href="/locations/ujjain" className="hover:text-[#ffb84d]">Ujjain</Link>
-                <Link href="/locations/dewas" className="hover:text-[#ffb84d]">Dewas</Link>
+                <Link href="/locations/ratlam" className="hover:text-[#ffb84d]">Ratlam</Link>
                 <Link href="/locations/delhi-ncr" className="hover:text-[#ffb84d]">Delhi NCR</Link>
                 <Link href="/locations/mumbai" className="hover:text-[#ffb84d]">Mumbai</Link>
                 <Link href="/locations/bengaluru" className="hover:text-[#ffb84d]">Bengaluru</Link>
-                <Link href="/locations/ahmedabad" className="hover:text-[#ffb84d]">Ahmedabad</Link>
+                <Link href="/locations/surat" className="hover:text-[#ffb84d]">Surat</Link>
                 <Link href="/locations/jaipur" className="hover:text-[#ffb84d]">Jaipur</Link>
+                <Link href="/locations/kota" className="hover:text-[#ffb84d]">Kota</Link>
+                <Link href="/locations/varanasi" className="hover:text-[#ffb84d]">Varanasi</Link>
                 <Link href="/locations/lucknow" className="hover:text-[#ffb84d]">Lucknow</Link>
+                <Link href="/locations/chandigarh" className="hover:text-[#ffb84d]">Chandigarh</Link>
                 <Link href="/locations/india" className="hover:text-[#ffb84d]">Tier 2–5 &amp; Villages</Link>
               </div>
             </div>

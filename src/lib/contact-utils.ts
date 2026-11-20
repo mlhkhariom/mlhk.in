@@ -3,6 +3,7 @@ export interface ContactSubmissionInput {
   email?: unknown;
   phone?: unknown;
   company?: unknown;
+  city?: unknown;
   message?: unknown;
   service?: unknown;
   timeline?: unknown;
@@ -16,6 +17,7 @@ export interface NormalizedContactLead {
   email: string;
   phone: string | null;
   company: string | null;
+  city: string | null;
   notes: string;
   service: string | null;
   timeline: string | null;
@@ -65,6 +67,7 @@ export function validateContactSubmission(input: ContactSubmissionInput): Valida
         email: "honeypot@invalid.local",
         phone: null,
         company: null,
+        city: null,
         notes: "",
         service: null,
         timeline: null,
@@ -79,6 +82,7 @@ export function validateContactSubmission(input: ContactSubmissionInput): Valida
   const email = clampText(input.email, MAX.email);
   const phone = clampText(input.phone, MAX.phone);
   const company = clampText(input.company, MAX.company);
+  const city = clampText(input.city, MAX.meta) || null;
   const message = clampText(input.message, MAX.message);
   const service = clampText(input.service, MAX.meta) || null;
   const timeline = clampText(input.timeline, MAX.meta) || null;
@@ -97,6 +101,7 @@ export function validateContactSubmission(input: ContactSubmissionInput): Valida
 
   const scopeLines: string[] = [];
   if (service) scopeLines.push(`Service: ${service}`);
+  if (city) scopeLines.push(`City: ${city}`);
   if (timeline) scopeLines.push(`Timeline: ${timeline}`);
   if (budget) scopeLines.push(`Budget: ${budget}`);
 
@@ -112,6 +117,7 @@ export function validateContactSubmission(input: ContactSubmissionInput): Valida
       email,
       phone: phone || null,
       company: company || null,
+      city,
       notes: composedNotes.slice(0, MAX.message),
       service,
       timeline,

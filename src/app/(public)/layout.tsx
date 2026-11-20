@@ -1,5 +1,6 @@
 import Navbar from "@/components/public/Navbar";
 import Footer from "@/components/public/Footer";
+import { QuickContactModal } from "@/components/public/QuickContactModal";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {children}
       </main>
       <Footer />
+      <QuickContactModal />
     </>
   );
 }

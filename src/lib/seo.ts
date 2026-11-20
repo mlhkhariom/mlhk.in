@@ -17,6 +17,8 @@ type SeoInput = {
   publishedAt?: string;
   noIndex?: boolean;
   keywords?: string[];
+  locale?: "en_IN" | "hi_IN";
+  alternateLanguages?: Record<string, string>;
 };
 
 /**
@@ -38,6 +40,11 @@ export async function buildSeo(input: SeoInput = {}): Promise<Metadata> {
   const rawImage = input.image?.trim() || defaultImage;
   const image = rawImage.startsWith("http") ? rawImage : `${BASE_URL}${rawImage.startsWith("/") ? rawImage : `/${rawImage}`}`;
   const isDefaultLogo = image === DEFAULT_OG_IMAGE || image.endsWith("/brand/logo-full.png");
+  const ogLocale = input.locale ?? "en_IN";
+  const languages = input.alternateLanguages ?? {
+    "en-IN": url,
+    "x-default": url,
+  };
 
   return {
     title: cleanTitle,
@@ -45,17 +52,14 @@ export async function buildSeo(input: SeoInput = {}): Promise<Metadata> {
     ...(input.keywords && input.keywords.length > 0 ? { keywords: input.keywords } : {}),
     alternates: {
       canonical: url,
-      languages: {
-        "en-IN": url,
-        "x-default": url,
-      },
+      languages,
     },
     openGraph: {
       title: fullTitle,
       description,
       url,
       siteName,
-      locale: "en_IN",
+      locale: ogLocale,
       type: input.type ?? "website",
       images: [
         {
