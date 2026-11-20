@@ -5,6 +5,7 @@ import "./globals.css";
 import Script from "next/script";
 import { NavigationProgressBar } from "@/components/ui/NavigationProgressBar";
 import { WebMcpProvider } from "@/components/public/WebMcpProvider";
+import { GTM_ID, GtmPageView } from "@/components/analytics/GoogleTagManager";
 import { PAN_INDIA_SEO_KEYWORDS } from "@/lib/seo-utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
@@ -81,15 +82,42 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`dark ${geist.variable} ${unbounded.variable}`}>
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json" />
         <link rel="describedby" href="/llms.txt" type="text/plain" />
         <link rel="describedby" href="/auth.md" type="text/markdown" />
         <link rel="service-doc" href="/llms-full.txt" type="text/plain" />
       </head>
       <body className="font-sans bg-[#050607] text-zinc-100 antialiased">
+        {/* Google Tag Manager (noscript fallback) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
+        {/* Google Tag Manager + gtag dataLayer bootstrap across all routes */}
+        <Script id="gtm-datalayer-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('js', new Date());
+window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`}
+        </Script>
+        <Script
+          id="gtm-script"
+          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+          strategy="afterInteractive"
+        />
+
         <WebMcpProvider />
         <Suspense fallback={null}>
           <NavigationProgressBar />
+          <GtmPageView />
         </Suspense>
         {children}
         {cfAnalyticsToken && (

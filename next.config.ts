@@ -4,9 +4,9 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 /**
  * Security & Discovery headers.
  *
- * Note on CSP: Next.js hydration requires inline scripts, so `script-src` keeps
- * `'unsafe-inline'`. Primary XSS defences are admin auth, `src/lib/sanitize.ts`,
- * and sandboxed SVG delivery on `/api/media/*`.
+ * Note on CSP: Next.js hydration and Google Tag Manager (`GTM-NLP5P6CG`) require
+ * inline bootstrap scripts and Google Analytics endpoints. Primary XSS defences are
+ * admin auth, `src/lib/sanitize.ts`, and sandboxed SVG delivery on `/api/media/*`.
  */
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -24,11 +24,12 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com",
-      "style-src 'self' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://static.cloudflareinsights.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https:",
-      "font-src 'self' data:",
-      "connect-src 'self' https://cloudflareinsights.com",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://cloudflareinsights.com",
+      "frame-src 'self' https://www.googletagmanager.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -40,7 +41,14 @@ const securityHeaders = [
 const noIndexHeaders = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+  compress: true,
+  reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "gsap", "three"],
+  },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
