@@ -242,6 +242,7 @@ export function OrganizationJsonLd() {
     ],
     telephone: BRAND.phoneE164,
     email: BRAND.email,
+    knowsLanguage: ["en-IN", "hi-IN"],
     priceRange: "₹₹ - ₹₹₹₹",
     currenciesAccepted: "INR, USD, EUR, AED",
     paymentAccepted:
@@ -601,3 +602,207 @@ export function PolicyPageJsonLd({
     />
   );
 }
+
+/**
+ * Location-specific Service + Local Geo + Speakable JSON-LD for /locations/[slug] pages.
+ * 100% Google Search Console compliant — references canonical #organization via @id,
+ * declares real GeoCoordinates, served towns/areas, and honest INR starting offers.
+ */
+export function LocationServiceJsonLd({
+  slug,
+  name,
+  state,
+  regionType,
+  description,
+  lat,
+  lng,
+  areasCovered,
+  packages,
+}: {
+  slug: string;
+  name: string;
+  state: string;
+  regionType: "City" | "AdministrativeArea" | "Country";
+  description: string;
+  lat: number;
+  lng: number;
+  areasCovered: readonly string[];
+  packages: readonly { name: string; price: string; summary: string }[];
+}) {
+  const pageUrl = `${BRAND.url}/locations/${slug}`;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": `${pageUrl}#webpage`,
+            url: pageUrl,
+            name: `Best IT, Website, App & Digital Marketing Company in ${name} | ${BRAND.name}`,
+            description,
+            inLanguage: ["en-IN", "hi-IN"],
+            isPartOf: { "@id": `${BRAND.url}/#website` },
+            about: { "@id": `${pageUrl}#service` },
+            speakable: {
+              "@type": "SpeakableSpecification",
+              cssSelector: ["h1", "[data-speakable='summary']"],
+            },
+          },
+          {
+            "@type": "Service",
+            "@id": `${pageUrl}#service`,
+            name: `IT, Website Development, Mobile App, SEO & Digital Marketing Services in ${name}`,
+            serviceType: "Software Engineering, Website Development, SEO & Digital Marketing",
+            description,
+            url: pageUrl,
+            provider: { "@id": `${BRAND.url}/#organization` },
+            areaServed: [
+              {
+                "@type": regionType,
+                name: state !== name && regionType === "City" ? `${name}, ${state}` : name,
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: lat,
+                  longitude: lng,
+                },
+              },
+              ...areasCovered.map((area) => ({
+                "@type": "Place",
+                name: area,
+              })),
+            ],
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: `${BRAND.name} Solutions in ${name}`,
+              itemListElement: packages.map((pkg) => ({
+                "@type": "Offer",
+                name: pkg.name,
+                description: pkg.summary,
+                priceCurrency: "INR",
+                availability: "https://schema.org/InStock",
+                url: `${BRAND.url}/contact`,
+                itemOffered: {
+                  "@type": "Service",
+                  name: `${pkg.name} in ${name}`,
+                  description: `${pkg.summary} (${pkg.price})`,
+                },
+              })),
+            },
+          },
+        ],
+      }}
+    />
+  );
+}
+
+/**
+ * High-intent Solution Service + PriceSpecification + Speakable JSON-LD for /solutions/[slug].
+ */
+export function SolutionServiceJsonLd({
+  slug,
+  title,
+  category,
+  description,
+  minPrice,
+  maxPrice,
+}: {
+  slug: string;
+  title: string;
+  category: string;
+  description: string;
+  minPrice: number;
+  maxPrice: number;
+}) {
+  const pageUrl = `${BRAND.url}/solutions/${slug}`;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": `${pageUrl}#webpage`,
+            url: pageUrl,
+            name: `${title} | ${BRAND.name}`,
+            description,
+            inLanguage: ["en-IN", "hi-IN"],
+            isPartOf: { "@id": `${BRAND.url}/#website` },
+            about: { "@id": `${pageUrl}#service` },
+            speakable: {
+              "@type": "SpeakableSpecification",
+              cssSelector: ["h1", "[data-speakable='summary']"],
+            },
+          },
+          {
+            "@type": "Service",
+            "@id": `${pageUrl}#service`,
+            name: title,
+            serviceType: category,
+            description,
+            url: pageUrl,
+            provider: { "@id": `${BRAND.url}/#organization` },
+            areaServed: buildPanIndiaAreaServed(),
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "INR",
+              availability: "https://schema.org/InStock",
+              url: `${BRAND.url}/contact`,
+              priceSpecification: {
+                "@type": "PriceSpecification",
+                minPrice,
+                maxPrice,
+                priceCurrency: "INR",
+              },
+            },
+          },
+        ],
+      }}
+    />
+  );
+}
+
+/** CollectionPage + valid ListItem-wrapped ItemList for /locations and /solutions hubs */
+export function CollectionHubJsonLd({
+  path,
+  name,
+  description,
+  items,
+}: {
+  path: string;
+  name: string;
+  description: string;
+  items: readonly { name: string; url: string; description: string }[];
+}) {
+  const pageUrl = `${BRAND.url}${path}`;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": `${pageUrl}#collection`,
+        url: pageUrl,
+        name,
+        description,
+        inLanguage: ["en-IN", "hi-IN"],
+        isPartOf: { "@id": `${BRAND.url}/#website` },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["h1", "[data-speakable='summary']"],
+        },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: items.length,
+          itemListElement: items.map((item, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            name: item.name,
+            url: item.url,
+            description: item.description,
+          })),
+        },
+      }}
+    />
+  );
+}
+

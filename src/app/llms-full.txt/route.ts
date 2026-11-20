@@ -5,14 +5,14 @@
  */
 import {
   BRAND,
-  SERVICE_LINES,
-  CAPABILITIES,
   VENTURES,
   TECH_STACK,
   FAQS,
   TIMELINE,
   SERVICE_DETAILS,
 } from "@/lib/brand";
+import { LOCATION_HUBS } from "@/lib/seo-locations";
+import { SOLUTION_PAGES } from "@/lib/seo-solutions";
 
 export const dynamic = "force-static";
 export const revalidate = 86400; // 24 hours
@@ -40,7 +40,7 @@ SECTION 1: ORGANIZATIONAL IDENTITY & LEADERSHIP
 - GSTIN: ${BRAND.gstin}
 - Registered Headquarters: ${BRAND.location}
 - Central Operations Office: ${BRAND.operatingBase}
-- Geographic Serving Scope: Nationwide delivery across India (metro and tier 2/3 cities), with remote collaboration for global clients.
+- Geographic Serving Scope: All 28 Indian states and 8 Union Territories (Tier 1 metros, Tier 2/3/4/5 cities, district towns, rural & village businesses across India), plus international remote collaboration for global clients.
 - Direct Communications:
   - Executive & Business: ${BRAND.email}
   - Technical Support: ${BRAND.supportEmail}
@@ -80,7 +80,7 @@ ${service.faqs.map((f) => `  Q: ${f.question}\n  A: ${f.answer}`).join("\n\n")}`
 SECTION 3: ADVANCED ENTERPRISE CAPABILITIES
 ================================================================================
 
-3.1. AI & OPERATIONAL WORKFLOW AUTOMATION (${BRAND.url}/ai-automation)
+3.1. AI & OPERATIONAL WORKFLOW AUTOMATION (${BRAND.url}/services/ai-automation)
 - Philosophy: We replace manual repetitive overhead with robust, deterministic pipelines and modern generative agents while enforcing human-in-the-loop validation for critical business decisions.
 - Engineering Capabilities:
   * Autonomous data processing pipelines connecting databases, CRMs, ERPs, and cloud storage.
@@ -152,9 +152,27 @@ SECTION 8: LEGAL COMPLIANCE & PRIVACY FRAMEWORK
 Official Policy Documents:
 - Privacy Policy: ${BRAND.url}/privacy-policy
 - Terms & Conditions: ${BRAND.url}/terms-and-conditions
-- Terms of Service (Alias): ${BRAND.url}/terms-of-service
 - Cancellation & Refund Policy: ${BRAND.url}/cancellation-refund-policy
 - Security Contact: ${BRAND.url}/.well-known/security.txt
+
+================================================================================
+SECTION 9: HIGH-INTENT SOLUTIONS & TRANSPARENT INR PRICING (${BRAND.url}/solutions)
+================================================================================
+${SOLUTION_PAGES.map(
+  (sol) => `* ${sol.shortTitle} (${BRAND.url}/solutions/${sol.slug})
+  - Category: ${sol.category} | Starting: ${sol.startingPriceInr} | Timeline: ${sol.deliveryTime}
+  - Summary: ${sol.heroSummary}
+  - Packages: ${sol.packages.map((p) => `${p.name} (${p.price})`).join("; ")}`
+).join("\n\n")}
+
+================================================================================
+SECTION 10: PAN-INDIA GEOGRAPHIC HUBS (${BRAND.url}/locations)
+================================================================================
+${LOCATION_HUBS.map(
+  (loc) => `* ${loc.name} (${loc.state}) — ${BRAND.url}/locations/${loc.slug}
+  - Title: ${loc.seoTitle}
+  - Areas & Towns Covered: ${loc.areasCovered.join(", ")}`
+).join("\n\n")}
 `;
 
 export async function GET() {

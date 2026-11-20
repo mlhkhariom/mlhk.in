@@ -4,6 +4,8 @@ import { getDb } from "@/lib/db";
 import { blogPosts, pages, subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { SERVICE_DETAILS } from "@/lib/brand";
+import { LOCATION_HUBS } from "@/lib/seo-locations";
+import { SOLUTION_PAGES } from "@/lib/seo-solutions";
 import {
   BASE_URL,
   CORE_STATIC_PATHS,
@@ -29,6 +31,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.9,
+      images: [DEFAULT_OG_IMAGE],
+    })),
+    ...SOLUTION_PAGES.map((sol) => ({
+      url: `${BASE_URL}/solutions/${sol.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+      images: [DEFAULT_OG_IMAGE],
+    })),
+    ...LOCATION_HUBS.map((loc) => ({
+      url: `${BASE_URL}/locations/${loc.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: loc.slug === "indore" || loc.slug === "madhya-pradesh" || loc.slug === "india" ? 0.9 : 0.85,
       images: [DEFAULT_OG_IMAGE],
     })),
   ];

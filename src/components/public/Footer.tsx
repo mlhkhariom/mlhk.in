@@ -358,6 +358,46 @@ export default async function Footer() {
             </div>
           </div>
         </div>
+        {/* Clean Internal Discovery Strip: Solutions & Pan-India Hubs (1-hop SEO crawlability) */}
+        <div className="mt-14 border-t border-white/10 pt-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                Popular Solutions
+              </p>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-zinc-400">
+                <Link href="/solutions" className="font-medium text-[#ffb84d] hover:underline">All Solutions</Link>
+                <Link href="/solutions/website-development-cost-india" className="hover:text-[#ffb84d]">Low-Cost Websites</Link>
+                <Link href="/solutions/website-redesign-editing-and-speed-fix" className="hover:text-[#ffb84d]">Website Redesign &amp; Editing</Link>
+                <Link href="/solutions/seo-and-google-ranking-services" className="hover:text-[#ffb84d]">SEO &amp; Google Ranking</Link>
+                <Link href="/solutions/instagram-facebook-google-ads-marketing" className="hover:text-[#ffb84d]">Instagram, FB &amp; Google Ads</Link>
+                <Link href="/solutions/mobile-app-development-india" className="hover:text-[#ffb84d]">Android &amp; Mobile Apps</Link>
+                <Link href="/solutions/all-in-one-digital-it-partner" className="hover:text-[#ffb84d]">All-in-One IT Partner</Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                Pan-India Service Hubs (All 28 States, Cities &amp; Villages)
+              </p>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-zinc-400">
+                <Link href="/locations" className="font-medium text-[#ffb84d] hover:underline">All India Directory</Link>
+                <Link href="/locations/indore" className="hover:text-[#ffb84d]">Indore</Link>
+                <Link href="/locations/shajapur" className="hover:text-[#ffb84d]">Shajapur (HQ)</Link>
+                <Link href="/locations/madhya-pradesh" className="hover:text-[#ffb84d]">Madhya Pradesh</Link>
+                <Link href="/locations/bhopal" className="hover:text-[#ffb84d]">Bhopal</Link>
+                <Link href="/locations/ujjain" className="hover:text-[#ffb84d]">Ujjain</Link>
+                <Link href="/locations/dewas" className="hover:text-[#ffb84d]">Dewas</Link>
+                <Link href="/locations/delhi-ncr" className="hover:text-[#ffb84d]">Delhi NCR</Link>
+                <Link href="/locations/mumbai" className="hover:text-[#ffb84d]">Mumbai</Link>
+                <Link href="/locations/bengaluru" className="hover:text-[#ffb84d]">Bengaluru</Link>
+                <Link href="/locations/ahmedabad" className="hover:text-[#ffb84d]">Ahmedabad</Link>
+                <Link href="/locations/jaipur" className="hover:text-[#ffb84d]">Jaipur</Link>
+                <Link href="/locations/lucknow" className="hover:text-[#ffb84d]">Lucknow</Link>
+                <Link href="/locations/india" className="hover:text-[#ffb84d]">Tier 2–5 &amp; Villages</Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Sub-Footer Bottom Bar (Mobile + Desktop) */}

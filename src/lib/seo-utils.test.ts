@@ -12,6 +12,8 @@ import {
   CORE_STATIC_PATHS,
   INDIA_STATES_AND_UTS,
 } from "./seo-utils";
+import { LOCATION_HUBS, getLocationHub, INDIA_ZONE_DIRECTORY } from "./seo-locations";
+import { SOLUTION_PAGES, getSolutionPage } from "./seo-solutions";
 
 test("normalizeSeoTitle strips duplicate MLHK Infotech suffixes cleanly", () => {
   assert.equal(
@@ -56,6 +58,8 @@ test("isNoIndexPath flags private/auth/API routes and leaves public pages indexa
 
   assert.equal(isNoIndexPath("/"), false);
   assert.equal(isNoIndexPath("/services/web-development"), false);
+  assert.equal(isNoIndexPath("/locations/indore"), false);
+  assert.equal(isNoIndexPath("/solutions/seo-and-google-ranking-services"), false);
   assert.equal(isNoIndexPath("/blog"), false);
 });
 
@@ -77,12 +81,14 @@ test("pickAllowedFields blocks mass assignment of disallowed keys", () => {
   assert.equal("role" in filtered, false);
 });
 
-test("CORE_STATIC_PATHS excludes redirected duplicate URLs", () => {
+test("CORE_STATIC_PATHS includes /locations and /solutions and excludes redirected aliases", () => {
   const paths = CORE_STATIC_PATHS.map((entry) => entry.path);
   assert.equal(paths.includes("/terms-of-service"), false);
   assert.equal(paths.includes("/ai-automation"), false);
   assert.equal(paths.includes("/terms-and-conditions"), true);
   assert.equal(paths.includes("/services"), true);
+  assert.equal(paths.includes("/locations"), true);
+  assert.equal(paths.includes("/solutions"), true);
 });
 
 test("buildPanIndiaAreaServed covers India, all 36 states/UTs, major cities, and Worldwide", () => {
@@ -94,4 +100,45 @@ test("buildPanIndiaAreaServed covers India, all 36 states/UTs, major cities, and
   assert.equal(areas.some((a) => a["@type"] === "City" && a.name === "Shajapur"), true);
   assert.equal(areas.some((a) => a["@type"] === "City" && a.name === "Indore"), true);
   assert.equal(areas.some((a) => a["@type"] === "Place" && a.name === "Worldwide"), true);
+});
+
+test("LOCATION_HUBS have unique valid slugs, coordinates, nearby references, and rich local data", () => {
+  assert.ok(LOCATION_HUBS.length >= 15);
+  const slugs = new Set(LOCATION_HUBS.map((l) => l.slug));
+  assert.equal(slugs.size, LOCATION_HUBS.length);
+  assert.ok(getLocationHub("indore"));
+  assert.ok(getLocationHub("madhya-pradesh"));
+  assert.ok(getLocationHub("shajapur"));
+  assert.ok(getLocationHub("india"));
+
+  for (const loc of LOCATION_HUBS) {
+    assert.ok(loc.lat > 6 && loc.lat < 38, `Valid India lat for ${loc.slug}`);
+    assert.ok(loc.lng > 68 && loc.lng < 98, `Valid India lng for ${loc.slug}`);
+    assert.ok(loc.faqs.length >= 1, `Visible FAQs required for ${loc.slug}`);
+    assert.ok(loc.areasCovered.length >= 5, `Areas covered required for ${loc.slug}`);
+    assert.equal(loc.seoTitle.includes("| MLHK Infotech"), false, `No duplicate brand suffix in ${loc.slug}`);
+    for (const near of loc.nearbySlugs) {
+      assert.ok(slugs.has(near), `Valid nearbySlug ${near} on ${loc.slug}`);
+    }
+  }
+  assert.equal(INDIA_ZONE_DIRECTORY.length, 5);
+});
+
+test("SOLUTION_PAGES have unique slugs, transparent INR pricing, workflow steps, and visible FAQs", () => {
+  assert.equal(SOLUTION_PAGES.length, 6);
+  const slugs = new Set(SOLUTION_PAGES.map((s) => s.slug));
+  assert.equal(slugs.size, SOLUTION_PAGES.length);
+  assert.ok(getSolutionPage("website-development-cost-india"));
+  assert.ok(getSolutionPage("website-redesign-editing-and-speed-fix"));
+  assert.ok(getSolutionPage("seo-and-google-ranking-services"));
+  assert.ok(getSolutionPage("instagram-facebook-google-ads-marketing"));
+  assert.ok(getSolutionPage("mobile-app-development-india"));
+  assert.ok(getSolutionPage("all-in-one-digital-it-partner"));
+
+  for (const sol of SOLUTION_PAGES) {
+    assert.ok(sol.minPriceNumeric > 0 && sol.maxPriceNumeric >= sol.minPriceNumeric);
+    assert.ok(sol.workflowSteps.length >= 4);
+    assert.ok(sol.faqs.length >= 2);
+    assert.equal(sol.seoTitle.includes("| MLHK Infotech"), false);
+  }
 });

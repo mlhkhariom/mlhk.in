@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SERVICE_DETAILS } from "@/lib/brand";
+import { LOCATION_HUBS } from "@/lib/seo-locations";
+import { SOLUTION_PAGES } from "@/lib/seo-solutions";
 import { safeDb } from "@/lib/db/safe";
 import { blogPosts, pages, subsidiaries } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -44,6 +46,8 @@ export async function submitToIndexNow(customUrls?: string[]) {
   const baseUrls = [
     ...CORE_STATIC_PATHS.map((entry) => buildCanonicalUrl(entry.path)),
     ...SERVICE_DETAILS.map((s) => `${BASE_URL}/services/${s.slug}`),
+    ...SOLUTION_PAGES.map((sol) => `${BASE_URL}/solutions/${sol.slug}`),
+    ...LOCATION_HUBS.map((loc) => `${BASE_URL}/locations/${loc.slug}`),
   ];
 
   // Fetch verified published blog posts, CMS pages, and active subsidiaries from D1

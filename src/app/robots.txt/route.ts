@@ -91,6 +91,10 @@ Allow: /llms.txt
 Allow: /llms-full.txt
 Allow: /humans.txt
 Allow: /services/
+Allow: /solutions
+Allow: /solutions/
+Allow: /locations
+Allow: /locations/
 Allow: /about
 Allow: /portfolio
 Allow: /subsidiaries
