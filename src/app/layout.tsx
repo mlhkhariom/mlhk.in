@@ -5,7 +5,8 @@ import "./globals.css";
 import Script from "next/script";
 import { NavigationProgressBar } from "@/components/ui/NavigationProgressBar";
 import { WebMcpProvider } from "@/components/public/WebMcpProvider";
-import { GA4_ID, GTM_ID, GtmPageView } from "@/components/analytics/GoogleTagManager";
+import { GtmPageView } from "@/components/analytics/GoogleTagManager";
+import { GA4_ID, GTM_ID } from "@/lib/analytics";
 import { PAN_INDIA_SEO_KEYWORDS } from "@/lib/seo-utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
@@ -88,6 +89,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="describedby" href="/llms.txt" type="text/plain" />
         <link rel="describedby" href="/auth.md" type="text/markdown" />
         <link rel="service-doc" href="/llms-full.txt" type="text/plain" />
+        {/* Direct GA4 Tag (G-7LWCNB06R4) for 100% Real-Time Tracking */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('js', new Date());
+gtag('config', '${GA4_ID}', { 'send_page_view': true, 'linker': { 'domains': ['mlhk.in'] } });`,
+          }}
+        />
+        {/* Google Tag Manager (GTM-NLP5P6CG) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
       </head>
       <body className="font-sans bg-[#050607] text-zinc-100 antialiased">
         {/* Google Tag Manager (noscript fallback) */}
@@ -99,29 +121,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-
-        {/* Direct GA4 Tag (G-7LWCNB06R4) + Google Tag Manager (GTM-NLP5P6CG) for 100% Real-Time Tracking */}
-        <Script
-          id="ga4-gtag-js"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga4-gtm-bootstrap" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];
-function gtag(){window.dataLayer.push(arguments);}
-window.gtag = gtag;
-gtag('js', new Date());
-gtag('config', '${GA4_ID}', {
-  send_page_view: true,
-  linker: { domains: ['mlhk.in'] }
-});
-window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });`}
-        </Script>
-        <Script
-          id="gtm-container-js"
-          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
-          strategy="afterInteractive"
-        />
 
         <WebMcpProvider />
         <Suspense fallback={null}>

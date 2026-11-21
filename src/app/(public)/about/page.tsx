@@ -32,7 +32,7 @@ import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
 import { AboutBrand3D } from "@/components/public/AboutBrand3D";
-import { QuickContactTrigger } from "@/components/public/QuickContactModal";
+import { QuickContactTrigger } from "@/components/public/QuickContactTrigger";
 import { BRAND, TIMELINE, VENTURES, TECH_STACK, WHY_MLHK } from "@/lib/brand";
 import { ALL_MP_SILO_PAGES } from "@/lib/mp-silo-pages";
 
@@ -255,12 +255,11 @@ export default function AboutPage() {
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <QuickContactTrigger
-                  defaultService="Website Development"
-                  source="/about-3d-hero"
+                  service="Custom Business Website"
+                  city="Indore, MP"
                   className="inline-flex items-center gap-2 rounded-full bg-[#ff9f1c] px-5 py-2.5 text-xs font-semibold text-black transition-colors hover:bg-[#ffb84d]"
                 >
                   Start a Project With MLHK
-                  <ArrowUpRight className="size-3.5" />
                 </QuickContactTrigger>
                 <a
                   href={`mailto:${BRAND.email}`}
@@ -1074,9 +1073,9 @@ export default function AboutPage() {
                     </span>
                   </div>
                   <h4 className="mt-2 font-display text-sm font-bold text-white transition-colors group-hover:text-[#ffb84d]">
-                    {silo.h1}
+                    {silo.h1} {silo.h1Highlight}
                   </h4>
-                  <p className="mt-1.5 line-clamp-2 text-xs text-zinc-400">{silo.subtitle}</p>
+                  <p className="mt-1.5 line-clamp-2 text-xs text-zinc-400">{silo.introSummary}</p>
                 </div>
                 <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-[#ffb84d]">
                   Explore Portal <ArrowUpRight className="size-3" />
@@ -1105,14 +1104,11 @@ export default function AboutPage() {
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <QuickContactTrigger
-                defaultService="Custom CRM / ERP / Automation"
-                source="/about-footer-cta"
-                className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3.5 pl-7 pr-2.5 text-sm font-semibold text-black transition-all duration-300 hover:scale-[1.02] hover:bg-[#ffb84d]"
+                service="Custom CRM / GST ERP"
+                city="Indore, MP"
+                className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:scale-[1.02] hover:bg-[#ffb84d]"
               >
                 Schedule Technical Consultation
-                <span className="flex size-8 items-center justify-center rounded-full bg-black/10 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                  <ArrowUpRight className="size-4" />
-                </span>
               </QuickContactTrigger>
 
               <a

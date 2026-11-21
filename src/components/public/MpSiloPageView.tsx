@@ -76,7 +76,13 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
 
         <div className="relative mx-auto max-w-6xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
+            <p
+              className={
+                hi
+                  ? "text-xs font-semibold tracking-normal text-[#ffb84d]"
+                  : "font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]"
+              }
+            >
               {page.eyebrow}
             </p>
             {page.alternatePath && (
@@ -107,10 +113,9 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
               city={page.city}
               service={page.ctaServiceDefault}
               lang={page.lang}
-              className="mlhk-sheen inline-flex min-h-[46px] items-center gap-2.5 rounded-full bg-[#ff9f1c] px-6 py-2.5 text-sm font-semibold text-black transition-transform hover:scale-[1.02] hover:bg-[#ffb84d]"
+              className="mlhk-sheen inline-flex min-h-[46px] items-center gap-2 whitespace-nowrap rounded-full bg-[#ff9f1c] px-6 py-2.5 text-sm font-semibold text-black transition-transform hover:scale-[1.02] hover:bg-[#ffb84d]"
             >
-              <span>{hi ? "फ्री प्रोजेक्ट कोट पाएं" : "Get Fixed INR Quote"}</span>
-              <ArrowUpRight className="size-4" />
+              {hi ? "फ्री प्रोजेक्ट कोट पाएं" : "Get Fixed INR Quote"}
             </QuickContactTrigger>
 
             <a
@@ -162,7 +167,13 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
       <section className="border-t border-white/10 bg-[#07090e] px-4 py-16 md:px-6">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-8">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
+            <p
+              className={
+                hi
+                  ? "text-xs font-semibold tracking-normal text-[#ffb84d]"
+                  : "font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]"
+              }
+            >
               {hi ? "स्थानीय बाज़ार और ज़मीनी समझ" : "Local Market Ground Reality"}
             </p>
             <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
@@ -178,7 +189,13 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
           </div>
 
           <aside className="rounded-2xl border border-white/10 bg-[#0b0e17] p-6 lg:col-span-4">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#ffb84d]">
+            <div
+              className={
+                hi
+                  ? "flex items-center gap-2 text-xs font-semibold tracking-normal text-[#ffb84d]"
+                  : "flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#ffb84d]"
+              }
+            >
               <MapPin className="size-4 shrink-0" />
               <span>{hi ? "कवर किए जाने वाले प्रमुख क्षेत्र" : "Key Landmarks & Corridors"}</span>
             </div>
@@ -249,7 +266,13 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
       <section className="border-t border-white/10 bg-[#07090e] px-4 py-16 md:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
+            <p
+              className={
+                hi
+                  ? "text-xs font-semibold tracking-normal text-[#ffb84d]"
+                  : "font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]"
+              }
+            >
               {hi ? "पारदर्शी पैकेज और सेवाएं" : "Transparent Solutions & Pricing"}
             </p>
             <h2 className="mt-2 font-display text-2xl font-bold text-white md:text-3xl">
@@ -389,7 +412,13 @@ export function MpSiloPageView({ page }: { page: MpSiloPageData }) {
           <div>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
+                <p
+                  className={
+                    hi
+                      ? "text-xs font-semibold tracking-normal text-[#ffb84d]"
+                      : "font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]"
+                  }
+                >
                   {hi ? "जुड़े हुए मध्य प्रदेश डिजिटल हब" : "Connected Madhya Pradesh Silo Network"}
                 </p>
                 <h2 className="mt-1.5 font-display text-xl font-bold text-white md:text-2xl">

@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { GA4_ID, GTM_ID } from "@/lib/analytics";
 
-export const GTM_ID = "GTM-NLP5P6CG";
-export const GA4_ID = "G-7LWCNB06R4";
+export { GA4_ID, GTM_ID };
 
 declare global {
   interface Window {

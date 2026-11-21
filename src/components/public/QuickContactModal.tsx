@@ -201,7 +201,9 @@ export function QuickContactModal() {
             <span className="flex size-6 items-center justify-center rounded-full bg-[#ff9f1c] text-black transition-transform duration-200 group-hover:scale-105">
               <MessageSquare className="size-3.5" />
             </span>
-            <span className="tracking-wide">{hi ? "संपर्क करें" : "Contact Now"}</span>
+            <span className={hi ? "tracking-normal" : "tracking-wide"}>
+              {hi ? "संपर्क करें" : "Contact Now"}
+            </span>
           </button>
         </div>
       )}
