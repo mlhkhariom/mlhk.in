@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   X,
@@ -11,9 +11,12 @@ import {
   ShieldCheck,
   Phone,
   ArrowUpRight,
+  Sparkles,
+  Mail,
 } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 import { buildWhatsAppInquiryUrl } from "@/lib/contact-utils";
+import { trackMlhkEvent } from "@/components/analytics/GoogleTagManager";
 
 export interface OpenContactModalDetail {
   city?: string;
@@ -29,28 +32,28 @@ export function dispatchOpenContactModal(detail: OpenContactModalDetail = {}) {
   window.dispatchEvent(new CustomEvent<OpenContactModalDetail>(OPEN_CONTACT_MODAL_EVENT, { detail }));
 }
 
-const SERVICE_OPTIONS = [
-  { value: "Custom Business Website", en: "Business Website (₹15k+)", hi: "नई बिज़नेस वेबसाइट (₹15k+)" },
-  { value: "Website Redesign / Speed Fix", en: "Site Redesign / Fix (₹8k+)", hi: "पुरानी वेबसाइट सुधार (₹8k+)" },
-  { value: "E-Commerce / Online Store", en: "Online Store / E-Com (₹28k+)", hi: "ऑनलाइन दुकान / ई-कॉमर्स (₹28k+)" },
-  { value: "Android / Mobile App", en: "Android / Mobile App (₹45k+)", hi: "Android / मोबाइल ऐप (₹45k+)" },
-  { value: "SEO & Instagram / Google Ads", en: "Google SEO & Meta Ads", hi: "Google SEO व Insta/FB एड्स" },
-  { value: "Custom CRM / GST ERP", en: "Custom CRM / GST ERP", hi: "कस्टम CRM / GST ERP सॉफ्टवेयर" },
-  { value: "AI & WhatsApp Automation", en: "AI & WhatsApp Automation", hi: "AI व WhatsApp ऑटोमेशन" },
+const QUICK_SERVICE_CHIPS = [
+  { value: "Custom Business Website", en: "Website", hi: "वेबसाइट" },
+  { value: "SEO & Instagram / Google Ads", en: "SEO & Ads", hi: "SEO / एड्स" },
+  { value: "Android / Mobile App", en: "Mobile App", hi: "मोबाइल ऐप" },
+  { value: "Temple / Trust / Booking Portal", en: "Temple / Portal", hi: "मंदिर / बुकिंग पोर्टल" },
+  { value: "Custom CRM / GST ERP", en: "CRM / ERP", hi: "CRM / ERP" },
+  { value: "Website Redesign / Speed Fix", en: "Redesign / Fix", hi: "रीडिज़ाइन" },
 ] as const;
 
 const BUDGET_OPTIONS = [
-  { value: "Under ₹20,000", en: "Under ₹20,000", hi: "₹20,000 से कम" },
-  { value: "₹20,000 – ₹50,000", en: "₹20,000 – ₹50,000", hi: "₹20,000 – ₹50,000" },
-  { value: "₹50,000 – ₹1,20,000", en: "₹50,000 – ₹1,20,000", hi: "₹50,000 – ₹1,20,000" },
-  { value: "₹1,20,000+", en: "₹1,20,000+ (Enterprise)", hi: "₹1,20,000+ (एंटरप्राइज)" },
-  { value: "Monthly Retainer (SEO/Ads)", en: "Monthly Growth (SEO / Ads)", hi: "मासिक SEO / एड्स प्लान" },
+  { value: "Under ₹20,000", en: "Under ₹20k", hi: "₹20k से कम" },
+  { value: "₹20,000 – ₹50,000", en: "₹20k – ₹50k", hi: "₹20k – ₹50k" },
+  { value: "₹50,000 – ₹1,20,000", en: "₹50k – ₹1.2L", hi: "₹50k – ₹1.2L" },
+  { value: "₹1,20,000+", en: "₹1.2L+ Enterprise", hi: "₹1.2L+ एंटरप्राइज" },
+  { value: "Monthly Retainer (SEO/Ads)", en: "Monthly SEO/Ads", hi: "मासिक SEO/एड्स" },
 ] as const;
 
 export function QuickContactModal() {
   const pathname = usePathname();
   const isHindiRoute = pathname?.startsWith("/hi");
   const isContactPage = pathname === "/contact";
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
 
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<"en" | "hi">(isHindiRoute ? "hi" : "en");
@@ -86,6 +89,10 @@ export function QuickContactModal() {
       setError(null);
       setReferenceId(null);
       setOpen(true);
+      trackMlhkEvent("open_contact_modal", {
+        source_page: pathname || "/",
+        city: detail.city || "global",
+      });
     };
     window.addEventListener(OPEN_CONTACT_MODAL_EVENT, onOpen);
     return () => window.removeEventListener(OPEN_CONTACT_MODAL_EVENT, onOpen);
@@ -98,7 +105,11 @@ export function QuickContactModal() {
     };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
+    const focusTimer = window.setTimeout(() => {
+      nameInputRef.current?.focus();
+    }, 80);
     return () => {
+      window.clearTimeout(focusTimer);
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
@@ -121,7 +132,7 @@ export function QuickContactModal() {
           service: form.service,
           budget: form.budget,
           timeline: "Quick Callback Requested",
-          message: form.message || `Quick quote request from ${pathname || "/"}`,
+          message: form.message || `Quick quote request for ${form.service} from ${pathname || "/"}`,
           sourcePage: pathname || "/",
           website: form.website,
         }),
@@ -135,6 +146,12 @@ export function QuickContactModal() {
         throw new Error(data.error || "Unable to submit right now. Please try again or WhatsApp us.");
       }
       setReferenceId(data.referenceId || "MLHK-SAVED");
+      trackMlhkEvent("generate_lead", {
+        lead_source: "quick_contact_popup",
+        service_selected: form.service,
+        city: form.city || "unspecified",
+        budget_range: form.budget,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -163,9 +180,9 @@ export function QuickContactModal() {
 
   return (
     <>
-      {/* Global Floating Quick Quote Trigger (hidden on /contact page) */}
+      {/* Sleek Compact Floating Sticky Contact Trigger (hidden on /contact page) */}
       {!isContactPage && (
-        <div className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6">
+        <div className="fixed bottom-4 right-4 z-40 sm:bottom-5 sm:right-5">
           <button
             type="button"
             data-testid="quick-contact-fab"
@@ -173,55 +190,61 @@ export function QuickContactModal() {
               setReferenceId(null);
               setError(null);
               setOpen(true);
+              trackMlhkEvent("open_contact_modal", {
+                source_page: pathname || "/",
+                trigger: "sticky_button",
+              });
             }}
-            className="group inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[#ff9f1c] px-5 py-3 text-sm font-semibold text-black shadow-[0_14px_38px_-10px_rgba(255,159,28,0.65)] transition-transform duration-200 hover:scale-[1.03] hover:bg-[#ffb84d] active:scale-[0.98]"
-            aria-label={hi ? "तुरंत संपर्क करें — फ्री कोट पाएं" : "Contact Now — Get a Fast Quote"}
+            className="mlhk-sheen group inline-flex min-h-[40px] items-center gap-2 rounded-full border border-[#ff9f1c]/55 bg-[#0b0d14]/95 px-3.5 py-2 text-xs font-semibold text-white shadow-[0_12px_32px_-8px_rgba(255,159,28,0.45)] transition-transform duration-200 hover:-translate-y-0.5 hover:border-[#ffb84d] hover:bg-[#111521] active:scale-[0.97]"
+            aria-label={hi ? "तुरंत संपर्क करें — फ्री कोट पाएं" : "Contact Now — Fast Quote"}
           >
-            <MessageSquare className="size-4 shrink-0" />
-            <span>{hi ? "संपर्क करें · फ्री कोट" : "Contact Now"}</span>
+            <span className="flex size-6 items-center justify-center rounded-full bg-[#ff9f1c] text-black transition-transform duration-200 group-hover:scale-105">
+              <MessageSquare className="size-3.5" />
+            </span>
+            <span className="tracking-wide">{hi ? "संपर्क करें" : "Contact Now"}</span>
           </button>
         </div>
       )}
 
-      {/* Modal Overlay */}
+      {/* Fast High-Converting Contact Popup Dialog */}
       {open && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="quick-contact-title"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-3.5 backdrop-blur-md sm:p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) resetAndClose();
           }}
         >
-          <div className="relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-[1.75rem] border border-white/15 bg-[#0b0c10] p-6 shadow-[0_32px_90px_-20px_rgba(0,0,0,0.95)] sm:p-8">
+          <div className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-[1.5rem] border border-white/15 bg-[#090d16] p-5 shadow-[0_32px_90px_-20px_rgba(0,0,0,0.95)] sm:p-6">
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff9f1c]/65 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#ff9f1c]/70 to-transparent"
             />
 
             {/* Header Row */}
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="flex items-center gap-1.5 text-xs font-semibold text-[#ffb84d]">
+                <p className="flex items-center gap-1.5 text-[11px] font-semibold text-[#ffb84d]">
                   <ShieldCheck className="size-3.5 shrink-0" />
                   <span>
                     {hi
-                      ? `MSME & GST रजिस्टर्ड · सीधा फाउंडर रिस्पॉन्स`
-                      : `Direct Founder Desk · MSME & GST Registered`}
+                      ? "MSME & GST रजिस्टर्ड · सीधा फाउंडर रिस्पॉन्स"
+                      : "Direct Founder Desk · MSME & GST Registered"}
                   </span>
                 </p>
-                <h2 id="quick-contact-title" className="mt-1.5 font-display text-2xl font-bold text-white">
-                  {hi ? "30 सेकंड में फ्री प्रोजेक्ट कोट पाएं" : "Get a Fixed INR Quote in 30 Seconds"}
+                <h2 id="quick-contact-title" className="mt-1 font-display text-xl font-bold text-white sm:text-2xl">
+                  {hi ? "25 सेकंड में फ्री प्रोजेक्ट कोट" : "Get a Fast INR Quote"}
                 </h2>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-0.5 text-[11px] font-semibold">
+              <div className="flex items-center gap-1.5">
+                <div className="inline-flex rounded-full border border-white/10 bg-white/[0.04] p-0.5 text-[11px] font-semibold">
                   <button
                     type="button"
                     onClick={() => setLang("en")}
-                    className={`rounded-full px-2.5 py-1 transition-colors ${
+                    className={`rounded-full px-2.5 py-0.5 transition-colors ${
                       lang === "en" ? "bg-[#ff9f1c] text-black" : "text-zinc-400 hover:text-white"
                     }`}
                   >
@@ -230,7 +253,7 @@ export function QuickContactModal() {
                   <button
                     type="button"
                     onClick={() => setLang("hi")}
-                    className={`rounded-full px-2.5 py-1 transition-colors ${
+                    className={`rounded-full px-2.5 py-0.5 transition-colors ${
                       lang === "hi" ? "bg-[#ff9f1c] text-black" : "text-zinc-400 hover:text-white"
                     }`}
                   >
@@ -241,7 +264,7 @@ export function QuickContactModal() {
                   type="button"
                   onClick={resetAndClose}
                   aria-label="Close contact form"
-                  className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
+                  className="flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <X className="size-4" />
                 </button>
@@ -249,27 +272,27 @@ export function QuickContactModal() {
             </div>
 
             {referenceId ? (
-              <div className="mt-6 space-y-5 rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.06] p-6 text-center">
-                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
-                  <CheckCircle2 className="size-6" />
+              <div className="mt-5 space-y-4 rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.06] p-5 text-center">
+                <div className="mx-auto flex size-11 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                  <CheckCircle2 className="size-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                    {hi ? "आपकी इंक्वायरी सेव हो गई है" : "Inquiry Logged in MLHK CRM"}
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+                    {hi ? "आपकी इंक्वायरी CRM में सेव हो गई है" : "Inquiry Saved in MLHK CRM"}
                   </p>
-                  <p className="mt-1 font-mono text-lg font-bold text-white">{referenceId}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+                  <p className="mt-1 font-mono text-base font-bold text-white">{referenceId}</p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-zinc-300">
                     {hi
                       ? `धन्यवाद ${form.name} जी! हमारी टीम 2 घंटे के अंदर आपसे WhatsApp या कॉल पर संपर्क करेगी।`
-                      : `Thank you ${form.name}! Our engineering desk has recorded your inquiry and will reach out within 2 business hours.`}
+                      : `Thank you ${form.name}! Our engineering desk has logged your inquiry and will reply within 2 business hours.`}
                   </p>
                 </div>
-                <div className="flex flex-col justify-center gap-3 sm:flex-row">
+                <div className="flex flex-col justify-center gap-2.5 sm:flex-row">
                   <a
                     href={waUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ff9f1c] px-5 py-2.5 text-xs font-semibold text-black hover:bg-[#ffb84d]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ff9f1c] px-4 py-2 text-xs font-semibold text-black hover:bg-[#ffb84d]"
                   >
                     <Phone className="size-3.5" />
                     <span>{hi ? "WhatsApp पर तुरंत चैट करें" : "Continue on WhatsApp"}</span>
@@ -278,16 +301,16 @@ export function QuickContactModal() {
                   <button
                     type="button"
                     onClick={resetAndClose}
-                    className="rounded-full border border-white/15 px-5 py-2.5 text-xs font-semibold text-zinc-200 hover:bg-white/5"
+                    className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-zinc-200 hover:bg-white/5"
                   >
                     {hi ? "बंद करें" : "Done"}
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+              <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
                 {error && (
-                  <div className="rounded-xl border border-red-500/35 bg-red-500/10 px-4 py-3 text-xs text-red-200">
+                  <div className="rounded-xl border border-red-500/35 bg-red-500/10 px-3.5 py-2.5 text-xs text-red-200">
                     {error}
                   </div>
                 )}
@@ -304,12 +327,40 @@ export function QuickContactModal() {
                   aria-hidden="true"
                 />
 
-                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                {/* 1-Tap Service Selector for Rapid Form Completion */}
+                <div>
+                  <span className="mb-1.5 flex items-center gap-1.5 text-[11px] font-medium text-zinc-300">
+                    <Sparkles className="size-3 text-[#ffb84d]" />
+                    {hi ? "क्या बनवाना है? (1 क्लिक में चुनें)" : "What do you need? (1-tap select)"}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {QUICK_SERVICE_CHIPS.map((chip) => {
+                      const active = form.service === chip.value;
+                      return (
+                        <button
+                          key={chip.value}
+                          type="button"
+                          onClick={() => setForm((f) => ({ ...f, service: chip.value }))}
+                          className={`rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
+                            active
+                              ? "border-[#ff9f1c] bg-[#ff9f1c]/15 text-[#ffb84d]"
+                              : "border-white/10 bg-white/[0.03] text-zinc-300 hover:border-white/25 hover:text-white"
+                          }`}
+                        >
+                          {hi ? chip.hi : chip.en}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="qc-name" className="mb-1 block text-xs font-medium text-zinc-300">
+                    <label htmlFor="qc-name" className="mb-1 block text-[11px] font-medium text-zinc-300">
                       {hi ? "आपका नाम *" : "Full Name *"}
                     </label>
                     <input
+                      ref={nameInputRef}
                       id="qc-name"
                       name="name"
                       autoComplete="name"
@@ -317,13 +368,13 @@ export function QuickContactModal() {
                       value={form.name}
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                       placeholder={hi ? "जैसे: राजेश शर्मा" : "e.g. Rajesh Sharma"}
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="qc-phone" className="mb-1 block text-xs font-medium text-zinc-300">
-                      {hi ? "मोबाइल / WhatsApp नंबर *" : "Phone / WhatsApp *"}
+                    <label htmlFor="qc-phone" className="mb-1 block text-[11px] font-medium text-zinc-300">
+                      {hi ? "मोबाइल / WhatsApp *" : "Phone / WhatsApp *"}
                     </label>
                     <input
                       id="qc-phone"
@@ -334,14 +385,14 @@ export function QuickContactModal() {
                       value={form.phone}
                       onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                       placeholder="+91 98XXX XXXXX"
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="qc-email" className="mb-1 block text-xs font-medium text-zinc-300">
+                    <label htmlFor="qc-email" className="mb-1 block text-[11px] font-medium text-zinc-300">
                       {hi ? "ईमेल आईडी *" : "Email Address *"}
                     </label>
                     <input
@@ -353,13 +404,13 @@ export function QuickContactModal() {
                       value={form.email}
                       onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                       placeholder="you@business.in"
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="qc-city" className="mb-1 block text-xs font-medium text-zinc-300">
-                      {hi ? "आपका शहर / जिला" : "Your City / Town"}
+                    <label htmlFor="qc-city" className="mb-1 block text-[11px] font-medium text-zinc-300">
+                      {hi ? "शहर / कस्बा" : "City / Town"}
                     </label>
                     <input
                       id="qc-city"
@@ -367,91 +418,72 @@ export function QuickContactModal() {
                       autoComplete="address-level2"
                       value={form.city}
                       onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
-                      placeholder={hi ? "जैसे: इंदौर, भोपाल, जयपुर..." : "e.g. Indore, Delhi, Jaipur..."}
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+                      placeholder={hi ? "इंदौर, उज्जैन, नलखेड़ा, भोपाल..." : "Indore, Ujjain, Bhopal..."}
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="qc-service" className="mb-1 block text-xs font-medium text-zinc-300">
-                      {hi ? "क्या बनवाना है?" : "Service Needed"}
-                    </label>
-                    <select
-                      id="qc-service"
-                      name="service"
-                      value={form.service}
-                      onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}
-                      className="w-full rounded-xl border border-white/10 bg-[#12141a] px-3.5 py-2.5 text-sm text-white focus:border-[#ff9f1c] focus:outline-none"
-                    >
-                      {SERVICE_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-[#12141a] text-white">
-                          {hi ? opt.hi : opt.en}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="qc-budget" className="mb-1 block text-xs font-medium text-zinc-300">
-                      {hi ? "अनुमानित बजट" : "Estimated Budget"}
+                    <label htmlFor="qc-budget" className="mb-1 block text-[11px] font-medium text-zinc-300">
+                      {hi ? "अनुमानित बजट" : "Budget Range"}
                     </label>
                     <select
                       id="qc-budget"
                       name="budget"
                       value={form.budget}
                       onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
-                      className="w-full rounded-xl border border-white/10 bg-[#12141a] px-3.5 py-2.5 text-sm text-white focus:border-[#ff9f1c] focus:outline-none"
+                      className="w-full rounded-xl border border-white/10 bg-[#121622] px-3 py-2 text-sm text-white focus:border-[#ff9f1c] focus:outline-none"
                     >
                       {BUDGET_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-[#12141a] text-white">
+                        <option key={opt.value} value={opt.value} className="bg-[#121622] text-white">
                           {hi ? opt.hi : opt.en}
                         </option>
                       ))}
                     </select>
                   </div>
+
+                  <div>
+                    <label htmlFor="qc-message" className="mb-1 block text-[11px] font-medium text-zinc-300">
+                      {hi ? "संक्षिप्त जानकारी (वैकल्पिक)" : "Quick Note (Optional)"}
+                    </label>
+                    <input
+                      id="qc-message"
+                      name="message"
+                      value={form.message}
+                      onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                      placeholder={hi ? "वेबसाइट, SEO या ऐप की जानकारी..." : "Goal, timeline, or website URL..."}
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label htmlFor="qc-message" className="mb-1 block text-xs font-medium text-zinc-300">
-                    {hi ? "अपने काम के बारे में संक्षेप में लिखें" : "Brief Requirement (Optional)"}
-                  </label>
-                  <textarea
-                    id="qc-message"
-                    name="message"
-                    rows={2}
-                    value={form.message}
-                    onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                    placeholder={
-                      hi
-                        ? "जैसे: मेरी दुकान/बिज़नेस के लिए वेबसाइट और Google SEO चाहिए..."
-                        : "Tell us what you want to build, fix, or rank on Google..."
-                    }
-                    className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-[11px] text-zinc-400">
-                    {hi
-                      ? `सीधा कॉल/WhatsApp: ${BRAND.phoneDisplay}`
-                      : `Direct call / WhatsApp: ${BRAND.phoneDisplay}`}
-                  </p>
+                <div className="flex flex-col gap-3 border-t border-white/10 pt-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-400">
+                    <span className="inline-flex items-center gap-1">
+                      <Phone className="size-3 text-[#ffb84d]" />
+                      {BRAND.phoneDisplay}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Mail className="size-3 text-[#ffb84d]" />
+                      {BRAND.supportEmail}
+                    </span>
+                  </div>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#ff9f1c] px-6 py-2.5 text-sm font-semibold text-black transition-transform hover:scale-[1.02] hover:bg-[#ffb84d] disabled:opacity-60"
+                    className="mlhk-sheen inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full bg-[#ff9f1c] px-5 py-2 text-xs font-semibold text-black transition-transform hover:scale-[1.02] hover:bg-[#ffb84d] disabled:opacity-60"
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="size-4 animate-spin" />
+                        <Loader2 className="size-3.5 animate-spin" />
                         <span>{hi ? "भेज रहे हैं..." : "Sending..."}</span>
                       </>
                     ) : (
                       <>
-                        <Send className="size-4" />
-                        <span>{hi ? "फ्री कोट मंगवाएं" : "Request Free Proposal"}</span>
+                        <Send className="size-3.5" />
+                        <span>{hi ? "फ्री कोट मंगवाएं" : "Send Quote Request"}</span>
                       </>
                     )}
                   </button>

@@ -274,22 +274,25 @@ export function LeadsWorkspace({
   return (
     <div className="space-y-6">
       {/* Header Bar */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-            CRM Leads Pipeline
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+            CRM · Sales Pipeline
+          </p>
+          <h1 className="mt-1 font-display text-2xl font-bold tracking-tight text-white">
+            Leads Pipeline
           </h1>
           <p className="mt-1 text-xs text-zinc-400">
-            All popup quotes, website contact forms, and manual phone/WhatsApp leads land here automatically.
+            Website popup inquiries, contact forms, and manual phone/WhatsApp leads synced in real time.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={refreshLeads}
             disabled={refreshing}
-            className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 text-xs font-medium text-zinc-300 transition-colors hover:border-white/20 hover:text-white disabled:opacity-50"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/10 bg-[#0d0f14] px-3.5 text-xs font-medium text-zinc-300 transition-colors hover:border-white/20 hover:text-white disabled:opacity-50"
           >
             <RefreshCw className={`size-3.5 ${refreshing ? "animate-spin" : ""}`} />
             Refresh
@@ -297,7 +300,7 @@ export function LeadsWorkspace({
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-4 text-xs font-semibold text-black shadow-[0_0_24px_rgba(255,159,28,0.25)] transition-all hover:bg-[#ffb84d]"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 text-xs font-semibold text-[#07080a] transition-colors hover:bg-[#ffb043]"
           >
             <Plus size={15} strokeWidth={2.5} /> Add Lead
           </button>
@@ -340,14 +343,14 @@ export function LeadsWorkspace({
             type="button"
             disabled={kpi.filter === null}
             onClick={() => kpi.filter !== null && setStatusFilter(kpi.filter)}
-            className={`rounded-2xl border p-4 text-left transition-colors ${
+            className={`rounded-xl border p-4 text-left transition-colors ${
               kpi.filter && statusFilter === kpi.filter
                 ? "border-[#ff9f1c]/50 bg-[#ff9f1c]/[0.08]"
-                : "border-white/10 bg-[#0c0d11]/80 hover:border-white/20"
+                : "border-white/10 bg-[#0d0f14] hover:border-white/20"
             }`}
           >
             <p className="text-[11px] font-medium text-zinc-400">{kpi.label}</p>
-            <p className={`mt-1.5 font-display text-2xl font-bold tabular-nums ${kpi.tone}`}>
+            <p className={`mt-1.5 font-mono text-2xl font-bold tabular-nums ${kpi.tone}`}>
               {kpi.value}
             </p>
           </button>
@@ -355,14 +358,14 @@ export function LeadsWorkspace({
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#0c0d11]/80 p-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#0d0f14] p-3.5 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-zinc-500" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name, phone, email, city, service, or REF ID..."
-            className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-2 pl-10 pr-3.5 text-xs text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
+            className="h-9 w-full rounded-lg border border-white/10 bg-[#07080a] pl-8.5 pr-3 text-xs text-white placeholder:text-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">

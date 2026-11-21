@@ -175,7 +175,7 @@ export function ContactHub() {
   });
 
   const handleCopyEmail = () => {
-    navigator.clipboard?.writeText("contact@mlhk.in");
+    navigator.clipboard?.writeText("support@mlhk.in");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -222,6 +222,21 @@ export function ContactHub() {
       if (res.ok && data?.success) {
         setReferenceId(data.referenceId ?? "");
         setStatus("done");
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "generate_lead",
+            lead_source: "contact_page_wizard",
+            service_selected: activeServiceObj.label,
+            budget_range: activeBudgetObj.label,
+          });
+          window.gtag?.("event", "generate_lead", {
+            lead_source: "contact_page_wizard",
+            service_selected: activeServiceObj.label,
+            budget_range: activeBudgetObj.label,
+            send_to: "G-7LWCNB06R4",
+          });
+        }
       } else {
         setStatus("error");
         setErrorMessage(
@@ -414,7 +429,7 @@ export function ContactHub() {
               {copiedEmail ? (
                 <>
                   <Check className="size-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Copied contact@mlhk.in</span>
+                  <span className="text-emerald-400">Copied support@mlhk.in</span>
                 </>
               ) : (
                 <>

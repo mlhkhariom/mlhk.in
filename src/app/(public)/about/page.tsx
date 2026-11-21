@@ -23,19 +23,24 @@ import {
   Database,
   Lock,
   GraduationCap,
+  Mail,
+  MessageCircle,
 } from "lucide-react";
 import { buildSeo } from "@/lib/seo";
 import JsonLd from "@/components/seo/JsonLd";
 import Breadcrumbs from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { ShowcaseImage } from "@/components/ui/ShowcaseImage";
+import { AboutBrand3D } from "@/components/public/AboutBrand3D";
+import { QuickContactTrigger } from "@/components/public/QuickContactModal";
 import { BRAND, TIMELINE, VENTURES, TECH_STACK, WHY_MLHK } from "@/lib/brand";
+import { ALL_MP_SILO_PAGES } from "@/lib/mp-silo-pages";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildSeo({
-    title: "About MLHK Infotech & Founder Hariom Vishwkarma (MLHK)",
+    title: "About MLHK Infotech & Founder Hariom Vishwkarma (MLHK) — INNOVATE. INTEGRATE. ELEVATE",
     description:
-      "Founded on 1 April 2020 in Barnawad, Shajapur with an operating base in Indore, MP. Discover MLHK Infotech's journey, verified milestones, venture ecosystem, and founder Hariom Vishwkarma.",
+      "INNOVATE. INTEGRATE. ELEVATE — Make Your Life Digital. Founded on 1 April 2020 in Barnawad, Shajapur with an operating base in Indore, MP. Discover MLHK Infotech's engineering lab, verified MSME/GST credentials, and founder Hariom Vishwkarma. Contact support@mlhk.in.",
     path: "/about",
   });
 }
@@ -75,9 +80,9 @@ export default function AboutPage() {
           "@type": "AboutPage",
           "@id": `${BRAND.url}/about#page`,
           url: `${BRAND.url}/about`,
-          name: `About ${BRAND.name} & Founder ${BRAND.founder}`,
+          name: `About ${BRAND.name} & Founder ${BRAND.founder} — ${BRAND.tagline}`,
           description:
-            "MLHK Infotech is an indigenous enterprise technology and software engineering company founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ).",
+            "INNOVATE. INTEGRATE. ELEVATE — Make Your Life Digital. MLHK Infotech is an indigenous enterprise technology and software engineering company founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ). Official support: support@mlhk.in.",
           mainEntity: {
             "@id": `${BRAND.url}/#organization`,
           },
@@ -153,13 +158,13 @@ export default function AboutPage() {
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }]} />
 
       <PageHero
-        eyebrow="Company Dossier • Established 2020"
+        eyebrow={`${BRAND.tagline} · ${BRAND.digitalTagline} · Est. 2020`}
         title={
           <>
             Engineered in Bharat. <span className="text-brand">Deployed for the World.</span>
           </>
         }
-        description="Founded on 1 April 2020 in Barnawad, Shajapur with an operating base in Indore, Madhya Pradesh. MLHK Infotech builds sovereign digital systems, scalable enterprise applications, and operational AI automation for companies across India and worldwide."
+        description="Founded on 1 April 2020 in Barnawad, Shajapur with an operating base in Indore, Madhya Pradesh. MLHK Infotech builds sovereign digital systems, custom web & mobile applications, temple & city digital ecosystems, and AI automation for businesses across MP, India, and worldwide."
       />
 
       {/* Verified Corporate & Regulatory Badges Strip */}
@@ -217,7 +222,62 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#050607] px-4 py-20 md:px-6">
+      <section className="bg-[#050607] px-4 py-16 md:px-6 md:py-20">
+        {/* SECTION 0: INTERACTIVE 3D ENGINEERING ARCHITECTURE SHOWCASE */}
+        <div className="mx-auto mb-14 max-w-6xl">
+          <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#0b101d] via-[#070910] to-[#050607] p-6 md:p-10 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+                {BRAND.tagline}
+              </p>
+              <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+                {BRAND.digitalTagline} — One Unified Architecture.
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-300">
+                From Shajapur and Indore to global Cloudflare Edge nodes, every MLHK Infotech
+                deployment unites three concentric layers: a clean TypeScript &amp; D1 core, an
+                SEO/AEO/GEO growth shell, and an in-house CRM/ERP command layer.
+              </p>
+              <ul className="mt-5 space-y-2.5 text-xs text-zinc-300">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[#ff9f1c]" />
+                  <span>Interactive 3D Core — drag to orbit or isolate Core vs Edge rings</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[#ff9f1c]" />
+                  <span>Direct official support desk: {BRAND.email} · {BRAND.phoneDisplay}</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 shrink-0 text-[#ff9f1c]" />
+                  <span>100% sovereign IP handover with GST-compliant billing</span>
+                </li>
+              </ul>
+
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <QuickContactTrigger
+                  defaultService="Website Development"
+                  source="/about-3d-hero"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#ff9f1c] px-5 py-2.5 text-xs font-semibold text-black transition-colors hover:bg-[#ffb84d]"
+                >
+                  Start a Project With MLHK
+                  <ArrowUpRight className="size-3.5" />
+                </QuickContactTrigger>
+                <a
+                  href={`mailto:${BRAND.email}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2.5 text-xs font-medium text-zinc-200 transition-colors hover:border-[#ff9f1c]/50 hover:text-white"
+                >
+                  <Mail className="size-3.5 text-[#ffb84d]" />
+                  {BRAND.email}
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              <AboutBrand3D />
+            </div>
+          </div>
+        </div>
+
         {/* SECTION 1: FOUNDER & SYSTEM ARCHITECT DOSSIER */}
         <div className="mx-auto max-w-6xl">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.05] via-[#07080a] to-[#050607] p-8 md:p-12 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.8)]">
@@ -294,10 +354,10 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                {/* Verified GitHub & Social Links */}
+                {/* Verified Founder & Official Company Channels */}
                 <div className="mt-8 border-t border-white/10 pt-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 mb-3">
-                    Verified Founder Profiles &amp; Direct Channels
+                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                    Connected Founder &amp; Official Brand Profiles
                   </p>
                   <div className="flex flex-wrap items-center gap-2.5">
                     <SocialGlyph
@@ -309,21 +369,41 @@ export default function AboutPage() {
                     <SocialGlyph
                       href={BRAND.founderLinkedin}
                       icon={Globe}
-                      label="LinkedIn"
+                      label="Founder LinkedIn"
                       handle="in/mlhkhariom"
                     />
                     <SocialGlyph
-                      href={BRAND.founderInstagram}
-                      icon={Sparkles}
-                      label="Instagram"
-                      handle="@mlhkhariom"
+                      href={BRAND.companyLinkedin}
+                      icon={Building2}
+                      label="Company LinkedIn"
+                      handle="mlhkinfotech"
                     />
                     <SocialGlyph
-                      href={BRAND.founderTwitter}
+                      href={BRAND.instagramUrl}
+                      icon={Sparkles}
+                      label="Instagram"
+                      handle="@mlhkinfotech"
+                    />
+                    <SocialGlyph
+                      href={BRAND.xTwitterUrl}
                       icon={Zap}
                       label="X / Twitter"
-                      handle="@mlhkhariom"
+                      handle="@mlhkinfotech"
                     />
+                    <SocialGlyph
+                      href={`https://wa.me/${BRAND.phoneE164.replace("+", "")}`}
+                      icon={MessageCircle}
+                      label="WhatsApp"
+                      handle={BRAND.phoneDisplay}
+                    />
+                    <a
+                      href={`mailto:${BRAND.email}`}
+                      className="group inline-flex items-center gap-2 rounded-xl border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-2 text-xs text-zinc-100 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#ff9f1c] hover:bg-[#ff9f1c]/20"
+                    >
+                      <Mail className="size-3.5 text-[#ffb84d]" />
+                      <span className="font-medium">Official Email</span>
+                      <span className="font-mono text-[#ffb84d]">{BRAND.email}</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -331,21 +411,24 @@ export default function AboutPage() {
               {/* Right Column: Studio Visual & Technical Specializations */}
               <div className="flex flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6 lg:col-span-5">
                 <div>
-                  <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/10 bg-[#08090c]">
-                    <ShowcaseImage
-                      src="/images/showcase/studio-hub.jpg"
-                      alt="MLHK Infotech in-house engineering studio workstation"
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 40vw"
-                    />
-                    <div
-                      aria-hidden
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
-                    />
-                    <p className="absolute bottom-2.5 left-3.5 right-3.5 text-[11px] font-medium text-zinc-200">
-                      100% In-House Engineering · Shajapur &amp; Indore
-                    </p>
-                  </div>
+                  <figure className="mb-6">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/10 bg-[#08090c]">
+                      <ShowcaseImage
+                        src="/images/showcase/studio-hub.jpg"
+                        alt="MLHK Infotech in-house engineering studio workstation in Indore and Shajapur, Madhya Pradesh"
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                      />
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+                      />
+                    </div>
+                    <figcaption className="mt-2 text-[11px] leading-relaxed text-zinc-400">
+                      100% In-House Engineering Studio · Shajapur HQ &amp; Indore Operations —{" "}
+                      <span className="text-zinc-300">MLHK Infotech ({BRAND.email})</span>
+                    </figcaption>
+                  </figure>
 
                   <div className="flex items-center justify-between border-b border-white/10 pb-3.5 text-xs">
                     <span className="font-semibold text-[#ffb84d]">
@@ -958,36 +1041,82 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* SECTION 6.8: CONNECTED MADHYA PRADESH HUBS & TEMPLE DIGITAL SILOS */}
+        <div className="mx-auto mt-20 max-w-6xl">
+          <div className="flex flex-col gap-3 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+                Regional Digital Footprint · English &amp; हिन्दी
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
+                Madhya Pradesh Cities &amp; Temple Digital Silos
+              </h3>
+            </div>
+            <p className="max-w-md text-xs leading-relaxed text-zinc-400">
+              Dedicated regional portals built by MLHK Infotech for Indore IT hubs, Maa Baglamukhi
+              Nalkheda-Shajapur, Ujjain Mahakal Simhastha 2028, Omkareshwar, Bhopal, Gwalior-Datia,
+              and Jabalpur-Maihar-Chitrakoot.
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {ALL_MP_SILO_PAGES.map((silo) => (
+              <Link
+                key={silo.path}
+                href={silo.path}
+                className="mlhk-card-hover group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-[#ff9f1c]/45 hover:bg-white/[0.04]"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.16em]">
+                    <span className="text-[#ffb84d]">{silo.city}</span>
+                    <span className="font-mono text-zinc-500">
+                      {silo.lang === "hi" ? "हिन्दी" : "EN"}
+                    </span>
+                  </div>
+                  <h4 className="mt-2 font-display text-sm font-bold text-white transition-colors group-hover:text-[#ffb84d]">
+                    {silo.h1}
+                  </h4>
+                  <p className="mt-1.5 line-clamp-2 text-xs text-zinc-400">{silo.subtitle}</p>
+                </div>
+                <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-[#ffb84d]">
+                  Explore Portal <ArrowUpRight className="size-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* SECTION 7: EXECUTIVE CTA & ENGAGEMENT DESK */}
         <div className="mx-auto mt-20 max-w-6xl">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.06] via-[#0b0c0e] to-white/[0.02] p-8 md:p-12 text-center shadow-[0_24px_80px_-24px_rgba(255,159,28,0.25)]">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
-              Direct Engagement
-            </span>
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-r from-white/[0.06] via-[#0b0c0e] to-white/[0.02] p-8 text-center shadow-[0_24px_80px_-24px_rgba(255,159,28,0.25)] md:p-12">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#ffb84d]">
+              {BRAND.tagline} · {BRAND.digitalTagline}
+            </p>
 
             <h3 className="mt-4 font-display text-3xl font-bold text-white md:text-4xl">
               Ready to Engineer Your System?
             </h3>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-zinc-300">
-              Whether you need an enterprise CRM/ERP platform, native Android app, high-throughput
-              web application, or autonomous AI automation, let&apos;s build software that earns its
-              keep.
+              Whether you need an enterprise CRM/ERP platform, native Android app, temple &amp;
+              city digital portal, high-throughput website, or local SEO growth, let&apos;s build
+              software that earns its keep.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/contact"
+              <QuickContactTrigger
+                defaultService="Custom CRM / ERP / Automation"
+                source="/about-footer-cta"
                 className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3.5 pl-7 pr-2.5 text-sm font-semibold text-black transition-all duration-300 hover:scale-[1.02] hover:bg-[#ffb84d]"
               >
                 Schedule Technical Consultation
                 <span className="flex size-8 items-center justify-center rounded-full bg-black/10 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   <ArrowUpRight className="size-4" />
                 </span>
-              </Link>
+              </QuickContactTrigger>
 
               <a
-                href="https://wa.me/919165100124"
+                href={`https://wa.me/${BRAND.phoneE164.replace("+", "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366]"
@@ -995,10 +1124,19 @@ export default function AboutPage() {
                 <span>Direct WhatsApp Chat</span>
                 <ArrowUpRight className="size-4" />
               </a>
+
+              <a
+                href={`mailto:${BRAND.email}`}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 text-sm font-semibold text-zinc-200 transition-all duration-300 hover:border-[#ff9f1c]/50 hover:text-white"
+              >
+                <Mail className="size-4 text-[#ffb84d]" />
+                <span>{BRAND.email}</span>
+              </a>
             </div>
 
             <p className="mt-6 text-xs text-zinc-500">
-              Registered HQ: {BRAND.location} • Operations: {BRAND.operatingBase}
+              Registered HQ: {BRAND.location} · Operations: {BRAND.operatingBase} · Official Desk:{" "}
+              {BRAND.email}
             </p>
           </div>
         </div>

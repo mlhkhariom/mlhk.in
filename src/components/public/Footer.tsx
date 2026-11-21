@@ -55,8 +55,7 @@ export default async function Footer() {
   const instagram = settings.social_instagram || BRAND.instagramUrl;
   const rawPhone = settings.contact_phone || "";
   const phone = rawPhone && !rawPhone.includes("X") && rawPhone.length > 8 ? rawPhone : BRAND.phoneDisplay;
-  const email = settings.contact_email && !settings.contact_email.includes("gmail") ? settings.contact_email : BRAND.email;
-  const supportEmail = BRAND.supportEmail;
+  const email = BRAND.supportEmail;
   const address = BRAND.location;
   const mapsUrl = BRAND.mapsUrl;
   const year = new Date().getFullYear();
@@ -118,10 +117,12 @@ export default async function Footer() {
               Enterprise digital systems, high-speed web platforms, scalable Android apps, CRM/ERP infrastructure, and AI automation. Headquartered in Shajapur with an operating base in Indore, MP.
             </p>
 
-            <div className="mt-4 flex items-center gap-2">
-              <span className="size-1.5 rounded-full bg-[#ff9f1c] shadow-[0_0_8px_#ff9f1c]" />
-              <p className="font-display text-xs tracking-[0.25em] text-[#ffb84d] font-semibold">
-                INNOVATE. INTEGRATE. ELEVATE.
+            <div className="mt-4 space-y-1">
+              <p className="font-display text-xs tracking-[0.22em] text-[#ffb84d] font-semibold">
+                INNOVATE. INTEGRATE. ELEVATE
+              </p>
+              <p className="text-xs font-medium text-zinc-300">
+                Make Your Life Digital · MLHK Infotech
               </p>
             </div>
 
@@ -297,21 +298,10 @@ export default async function Footer() {
                 <a
                   href={`mailto:${email}`}
                   className="group inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-[#ffb84d]"
-                  title="Direct Inquiries"
+                  title="Official Support & Project Inquiries"
                 >
                   <Mail className="size-3.5 text-[#ff9f1c] shrink-0" strokeWidth={1.75} />
                   <span>{email}</span>
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href={`mailto:${supportEmail}`}
-                  className="group inline-flex items-center gap-2 text-zinc-400 transition-colors hover:text-[#ffb84d]"
-                  title="Client Helpdesk"
-                >
-                  <Mail className="size-3.5 text-zinc-500 shrink-0" strokeWidth={1.75} />
-                  <span>{supportEmail}</span>
                 </a>
               </li>
 
@@ -377,27 +367,22 @@ export default async function Footer() {
             </div>
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                Pan-India Service Hubs (38+ Tier-1, 2 &amp; 3 Cities · English &amp; हिन्दी)
+                Madhya Pradesh Cities &amp; Temple Digital Silos (EN &amp; हिन्दी)
               </p>
               <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-zinc-400">
-                <Link href="/locations" className="font-medium text-[#ffb84d] hover:underline">All 38+ Cities (EN)</Link>
-                <Link href="/hi/locations" className="font-medium text-[#ffb84d] hover:underline">हिन्दी शहर हब (HI)</Link>
-                <Link href="/locations/indore" className="hover:text-[#ffb84d]">Indore</Link>
-                <Link href="/locations/shajapur" className="hover:text-[#ffb84d]">Shajapur (HQ)</Link>
-                <Link href="/locations/madhya-pradesh" className="hover:text-[#ffb84d]">Madhya Pradesh</Link>
-                <Link href="/locations/bhopal" className="hover:text-[#ffb84d]">Bhopal</Link>
-                <Link href="/locations/ujjain" className="hover:text-[#ffb84d]">Ujjain</Link>
-                <Link href="/locations/ratlam" className="hover:text-[#ffb84d]">Ratlam</Link>
-                <Link href="/locations/delhi-ncr" className="hover:text-[#ffb84d]">Delhi NCR</Link>
-                <Link href="/locations/mumbai" className="hover:text-[#ffb84d]">Mumbai</Link>
-                <Link href="/locations/bengaluru" className="hover:text-[#ffb84d]">Bengaluru</Link>
-                <Link href="/locations/surat" className="hover:text-[#ffb84d]">Surat</Link>
-                <Link href="/locations/jaipur" className="hover:text-[#ffb84d]">Jaipur</Link>
-                <Link href="/locations/kota" className="hover:text-[#ffb84d]">Kota</Link>
-                <Link href="/locations/varanasi" className="hover:text-[#ffb84d]">Varanasi</Link>
-                <Link href="/locations/lucknow" className="hover:text-[#ffb84d]">Lucknow</Link>
-                <Link href="/locations/chandigarh" className="hover:text-[#ffb84d]">Chandigarh</Link>
-                <Link href="/locations/india" className="hover:text-[#ffb84d]">Tier 2–5 &amp; Villages</Link>
+                <Link href="/indore-it-digital-marketing-company" className="font-medium text-[#ffb84d] hover:underline">Indore IT &amp; SEO Hub</Link>
+                <Link href="/indore/web-app-development-vijay-nagar-bhawarkuan" className="hover:text-[#ffb84d]">Vijay Nagar &amp; Bhawarkuan</Link>
+                <Link href="/indore/khajrana-ganesh-temple-digital-solutions" className="hover:text-[#ffb84d]">Khajrana Ganesh Digital</Link>
+                <Link href="/hi/indore-digital-services-hindi" className="hover:text-[#ffb84d]">इंदौर डिजिटल सेवाएं (HI)</Link>
+                <Link href="/maa-baglamukhi-nalkheda-shajapur-digital-portal" className="font-medium text-[#ffb84d] hover:underline">Maa Baglamukhi Nalkheda</Link>
+                <Link href="/hi/maa-baglamukhi-nalkheda-havan-pujan-website-seo" className="hover:text-[#ffb84d]">माँ बगलामुखी नलखेड़ा (HI)</Link>
+                <Link href="/ujjain-mahakal-simhastha-2028-it-solutions" className="font-medium text-[#ffb84d] hover:underline">Ujjain Simhastha 2028</Link>
+                <Link href="/hi/ujjain-simhastha-2028-digital-taiyari" className="hover:text-[#ffb84d]">उज्जैन सिंहस्थ 2028 (HI)</Link>
+                <Link href="/omkareshwar-maheshwar-tourism-temple-digital-solutions" className="hover:text-[#ffb84d]">Omkareshwar &amp; Maheshwar</Link>
+                <Link href="/bhopal-bhojpur-it-web-development-services" className="hover:text-[#ffb84d]">Bhopal &amp; Bhojpur</Link>
+                <Link href="/gwalior-datia-pitambara-peeth-digital-services" className="hover:text-[#ffb84d]">Gwalior &amp; Datia Pitambara</Link>
+                <Link href="/jabalpur-maihar-chitrakoot-temple-web-seo" className="hover:text-[#ffb84d]">Jabalpur, Maihar &amp; Chitrakoot</Link>
+                <Link href="/locations" className="hover:text-[#ffb84d]">All 38+ India Hubs →</Link>
               </div>
             </div>
           </div>

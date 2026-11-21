@@ -6,8 +6,9 @@
 export const BRAND = {
   name: "MLHK Infotech",
   shortName: "MLHK",
-  tagline: "Innovate. Integrate. Elevate.",
-  alternateTagline: "We Build Digital Power.",
+  tagline: "INNOVATE. INTEGRATE. ELEVATE",
+  digitalTagline: "Make Your Life Digital",
+  alternateTagline: "Make Your Life Digital",
   motto: "Ideas | Solutions | Growth",
   founder: "Hariom Vishwkarma",
   founderAlias: "MLHK",
@@ -31,7 +32,8 @@ export const BRAND = {
   geoLongitude: "76.3220",
   supportEmail: "support@mlhk.in",
   city: "Shajapur",
-  email: "admin@mlhk.in",
+  email: "support@mlhk.in",
+  adminEmail: "admin@mlhk.in",
   phoneDisplay: "+91-9165100124",
   phoneE164: "+919165100124",
   instagramHandle: "mlhkinfotech",
@@ -356,7 +358,7 @@ export const FAQS = [
   {
     question: "How do I get started?",
     answer:
-      "Just message us on WhatsApp at +91-9165100124 or send a mail to admin@mlhk.in. Tell us roughly what you need — a website, an app, a dashboard, whatever it is. We will have a quick call, understand your requirements, and send you a clear proposal with timeline and cost. No pressure, no spam follow-ups.",
+      "Just message us on WhatsApp at +91-9165100124 or send a mail to support@mlhk.in. Tell us roughly what you need — a website, an app, a dashboard, or SEO growth. We will have a quick call, understand your requirements, and send you a clear proposal with timeline and cost.",
   },
 ] as const;
 

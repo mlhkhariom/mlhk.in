@@ -7,22 +7,23 @@ import {
   type LucideIcon,
   LayoutDashboard,
   FileText,
-  Image,
+  Image as ImageIcon,
   Users,
   UserCheck,
+  CalendarClock,
   FolderKanban,
   Receipt,
   Ticket,
   Settings,
-  ChevronRight,
   Building2,
-  Sparkles,
   ExternalLink,
   Layers,
   Sliders,
-  DollarSign,
+  IndianRupee,
   MessageSquareQuote,
   MenuSquare,
+  Briefcase,
+  ShieldCheck,
   Menu,
   X,
 } from "lucide-react";
@@ -38,30 +39,30 @@ const nav: NavItem[] = [
   { label: "Overview", type: "group" },
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
 
+  { label: "CRM & Sales", type: "group" },
+  { label: "Leads Pipeline", href: "/admin/crm/leads", icon: Users },
+  { label: "Clients", href: "/admin/crm/clients", icon: UserCheck },
+  { label: "Follow-ups", href: "/admin/crm/followups", icon: CalendarClock },
+
+  { label: "ERP & Operations", type: "group" },
+  { label: "Projects & Kanban", href: "/admin/erp/projects", icon: FolderKanban },
+  { label: "GST Invoices", href: "/admin/erp/invoices", icon: Receipt },
+  { label: "Expenses", href: "/admin/erp/expenses", icon: IndianRupee },
+  { label: "Support Desk", href: "/admin/erp/tickets", icon: Ticket },
+
   { label: "Content & CMS", type: "group" },
   { label: "Blog Posts", href: "/admin/cms/posts", icon: FileText },
   { label: "Pages", href: "/admin/cms/pages", icon: Layers },
   { label: "Services", href: "/admin/cms/services", icon: Sliders },
-  { label: "Portfolio", href: "/admin/cms/portfolio", icon: FolderKanban },
+  { label: "Portfolio", href: "/admin/cms/portfolio", icon: Briefcase },
   { label: "Testimonials", href: "/admin/cms/testimonials", icon: MessageSquareQuote },
   { label: "Subsidiaries", href: "/admin/cms/subsidiaries", icon: Building2 },
-  { label: "Media Library", href: "/admin/cms/media", icon: Image },
-  { label: "Menus", href: "/admin/cms/menus", icon: MenuSquare },
-  { label: "Site Settings", href: "/admin/cms/settings", icon: Settings },
-
-  { label: "CRM & Sales", type: "group" },
-  { label: "Leads", href: "/admin/crm/leads", icon: Users },
-  { label: "Clients", href: "/admin/crm/clients", icon: UserCheck },
-  { label: "Follow-ups", href: "/admin/crm/followups", icon: UserCheck },
-
-  { label: "ERP & Operations", type: "group" },
-  { label: "Projects", href: "/admin/erp/projects", icon: FolderKanban },
-  { label: "Invoices", href: "/admin/erp/invoices", icon: Receipt },
-  { label: "Expenses", href: "/admin/erp/expenses", icon: DollarSign },
-  { label: "Support Tickets", href: "/admin/erp/tickets", icon: Ticket },
+  { label: "Media Library", href: "/admin/cms/media", icon: ImageIcon },
+  { label: "Navigation Menus", href: "/admin/cms/menus", icon: MenuSquare },
+  { label: "Site Identity", href: "/admin/cms/settings", icon: Settings },
 
   { label: "System", type: "group" },
-  { label: "Admin Settings", href: "/admin/settings", icon: Settings },
+  { label: "Team & Security", href: "/admin/settings", icon: ShieldCheck },
 ];
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
@@ -72,15 +73,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       {/* Brand Header */}
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
         <Link href="/admin/dashboard" onClick={onNavigate} className="group flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff9f1c] to-[#c2410c] text-black shadow-[0_0_18px_rgba(255,159,28,0.3)] transition-transform group-hover:scale-105">
-            <Sparkles className="size-4 text-[#050607]" />
+          <div className="flex size-8 items-center justify-center rounded-lg bg-[#ff9f1c] font-display text-sm font-black tracking-tight text-[#07080a] transition-transform group-hover:scale-105">
+            M
           </div>
-          <div>
-            <span className="flex items-center gap-1 font-display text-sm font-bold tracking-tight text-white">
+          <div className="leading-none">
+            <span className="font-display text-sm font-bold tracking-tight text-white">
               MLHK<span className="text-[#ff9f1c]">.</span>
             </span>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-              Control Console
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-zinc-500">
+              ERP · CRM · CMS
             </p>
           </div>
         </Link>
@@ -89,7 +90,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             type="button"
             onClick={onNavigate}
             aria-label="Close navigation menu"
-            className="flex size-9 items-center justify-center rounded-xl text-zinc-400 hover:bg-white/5 hover:text-white lg:hidden"
+            className="flex size-8 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-white lg:hidden"
           >
             <X className="size-4" />
           </button>
@@ -97,13 +98,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {/* Navigation List */}
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4 text-xs font-medium" aria-label="Admin Navigation">
+      <nav
+        className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4 text-[13px] font-medium"
+        aria-label="Admin Navigation"
+      >
         {nav.map((item, i) => {
           if (item.type === "group") {
             return (
               <p
                 key={i}
-                className="px-3 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 first:pt-1"
+                className="px-3 pb-1.5 pt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500 first:pt-1"
               >
                 {item.label}
               </p>
@@ -111,7 +115,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           }
 
           const Icon = item.icon!;
-          const active = path === item.href || (item.href !== "/admin/dashboard" && path?.startsWith(`${item.href}/`));
+          const active =
+            path === item.href ||
+            (item.href !== "/admin/dashboard" && path?.startsWith(`${item.href}/`));
 
           return (
             <Link
@@ -120,34 +126,40 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               prefetch={false}
               onClick={onNavigate}
               aria-current={active ? "page" : undefined}
-              className={`group flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs transition-all ${
+              className={`group relative flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs transition-colors ${
                 active
-                  ? "bg-[#ff9f1c]/10 font-semibold text-[#ffb84d] shadow-[inset_0_0_0_1px_rgba(255,159,28,0.25)]"
-                  : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-100"
+                  ? "bg-white/[0.06] font-semibold text-white"
+                  : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-100"
               }`}
             >
+              {active && (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-[#ff9f1c]"
+                />
+              )}
               <Icon
-                className={`size-4 transition-colors ${
+                className={`size-4 shrink-0 transition-colors ${
                   active ? "text-[#ff9f1c]" : "text-zinc-500 group-hover:text-zinc-300"
                 }`}
               />
               <span className="truncate">{item.label}</span>
-              {active && <ChevronRight className="ml-auto size-3 text-[#ff9f1c]/70" />}
             </Link>
           );
         })}
       </nav>
 
-      {/* Footer Info */}
-      <div className="border-t border-white/10 bg-white/[0.01] p-3">
+      {/* Footer Link */}
+      <div className="border-t border-white/10 p-3">
         <Link
           href="/"
           target="_blank"
+          rel="noopener noreferrer"
           onClick={onNavigate}
-          className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-xs text-zinc-300 transition-colors hover:border-white/10 hover:bg-white/[0.05] hover:text-white"
+          className="flex items-center justify-between rounded-lg border border-white/10 bg-[#0d0f14] px-3 py-2 text-xs text-zinc-300 transition-colors hover:border-white/20 hover:text-white"
         >
-          <span>Live Website</span>
-          <ExternalLink className="size-3" />
+          <span>mlhk.in Live Site</span>
+          <ExternalLink className="size-3.5 text-zinc-500" />
         </Link>
       </div>
     </>
@@ -156,7 +168,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export default function AdminSidebar() {
   return (
-    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-white/10 bg-[#07080a] text-zinc-300 lg:flex">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-white/10 bg-[#07080a] text-zinc-300 lg:flex print:hidden">
       <SidebarContent />
     </aside>
   );
@@ -186,9 +198,9 @@ export function AdminMobileNav() {
         onClick={() => setOpen(true)}
         aria-label="Open admin menu"
         aria-expanded={open}
-        className="flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200 hover:bg-white/10"
+        className="flex size-9 items-center justify-center rounded-lg border border-white/10 bg-[#0d0f14] text-zinc-200 hover:bg-white/[0.06]"
       >
-        <Menu className="size-5" />
+        <Menu className="size-4" />
       </button>
 
       {open && (

@@ -300,8 +300,48 @@ export default async function ServicesPage() {
         </div>
       </section>
 
-      <section className="bg-[#050607] px-4 py-24 text-center md:px-6">
-        <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-7 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
+      {/* Connected Madhya Pradesh Regional & Temple Digital Silos */}
+      <section className="border-t border-white/10 bg-[#050607] px-4 py-16 md:px-6">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#ffb84d]">
+            Madhya Pradesh Regional Delivery · INNOVATE. INTEGRATE. ELEVATE
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-white md:text-3xl">
+            Dedicated City &amp; Temple Corridor Digital Hubs (English &amp; हिन्दी)
+          </h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: "Indore IT & SEO Hub", href: "/indore-it-digital-marketing-company" },
+              { label: "Vijay Nagar & Bhawarkuan", href: "/indore/web-app-development-vijay-nagar-bhawarkuan" },
+              { label: "Khajrana Ganesh Digital", href: "/indore/khajrana-ganesh-temple-digital-solutions" },
+              { label: "इंदौर डिजिटल सेवाएं (HI)", href: "/hi/indore-digital-services-hindi" },
+              { label: "Maa Baglamukhi Nalkheda", href: "/maa-baglamukhi-nalkheda-shajapur-digital-portal" },
+              { label: "माँ बगलामुखी नलखेड़ा (HI)", href: "/hi/maa-baglamukhi-nalkheda-havan-pujan-website-seo" },
+              { label: "Ujjain Simhastha 2028", href: "/ujjain-mahakal-simhastha-2028-it-solutions" },
+              { label: "उज्जैन सिंहस्थ 2028 (HI)", href: "/hi/ujjain-simhastha-2028-digital-taiyari" },
+              { label: "Omkareshwar & Maheshwar", href: "/omkareshwar-maheshwar-tourism-temple-digital-solutions" },
+              { label: "Bhopal & Bhojpur ERP/Web", href: "/bhopal-bhojpur-it-web-development-services" },
+              { label: "Gwalior & Datia Pitambara", href: "/gwalior-datia-pitambara-peeth-digital-services" },
+              { label: "Jabalpur, Maihar & Chitrakoot", href: "/jabalpur-maihar-chitrakoot-temple-web-seo" },
+            ].map((hub) => (
+              <Link
+                key={hub.href}
+                href={hub.href}
+                className="mlhk-card-hover flex items-center justify-between rounded-xl border border-white/10 bg-[#0b0d14] px-4 py-3 text-xs font-semibold text-zinc-200 hover:text-[#ffb84d]"
+              >
+                <span>{hub.label}</span>
+                <ArrowUpRight className="size-3.5 shrink-0 text-[#ffb84d]" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#050607] px-4 py-20 text-center md:px-6">
+        <p className="mb-4 text-xs font-medium text-zinc-400">
+          {BRAND.tagline} · {BRAND.digitalTagline} · {BRAND.supportEmail}
+        </p>
+        <Link href="/contact" className="mlhk-sheen group inline-flex items-center gap-3 rounded-full bg-[#ff9f1c] py-3 pl-7 pr-2 text-sm font-semibold text-black transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]">
           Discuss your project
           <span className="flex size-9 items-center justify-center rounded-full bg-black/10 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px">
             <ArrowUpRight className="size-4" />

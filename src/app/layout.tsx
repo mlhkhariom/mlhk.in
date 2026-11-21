@@ -5,7 +5,7 @@ import "./globals.css";
 import Script from "next/script";
 import { NavigationProgressBar } from "@/components/ui/NavigationProgressBar";
 import { WebMcpProvider } from "@/components/public/WebMcpProvider";
-import { GTM_ID, GtmPageView } from "@/components/analytics/GoogleTagManager";
+import { GA4_ID, GTM_ID, GtmPageView } from "@/components/analytics/GoogleTagManager";
 import { PAN_INDIA_SEO_KEYWORDS } from "@/lib/seo-utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | MLHK Infotech",
   },
   description:
-    "MLHK Infotech builds custom websites, mobile apps, SEO, digital marketing, CRM & ERP systems, and AI automation for businesses across India and worldwide. Innovate. Integrate. Elevate.",
+    "MLHK Infotech — Innovate. Integrate. Elevate. Make Your Life Digital. Custom websites, mobile apps, SEO, AEO & GEO, digital marketing, CRM & ERP, and AI automation across Indore, Shajapur, Ujjain, Madhya Pradesh, India & worldwide.",
   metadataBase: new URL("https://mlhk.in"),
   applicationName: "MLHK Infotech",
   authors: [{ name: "Hariom Vishwkarma (MLHK)", url: "https://mlhk.in/about" }],
@@ -100,16 +100,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </noscript>
 
-        {/* Google Tag Manager + gtag dataLayer bootstrap across all routes */}
-        <Script id="gtm-datalayer-init" strategy="afterInteractive">
+        {/* Direct GA4 Tag (G-7LWCNB06R4) + Google Tag Manager (GTM-NLP5P6CG) for 100% Real-Time Tracking */}
+        <Script
+          id="ga4-gtag-js"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-gtm-bootstrap" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){window.dataLayer.push(arguments);}
 window.gtag = gtag;
 gtag('js', new Date());
-window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`}
+gtag('config', '${GA4_ID}', {
+  send_page_view: true,
+  linker: { domains: ['mlhk.in'] }
+});
+window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });`}
         </Script>
         <Script
-          id="gtm-script"
+          id="gtm-container-js"
           src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
           strategy="afterInteractive"
         />

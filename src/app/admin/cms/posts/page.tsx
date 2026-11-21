@@ -31,27 +31,30 @@ export default async function PostsPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-            Blog &amp; SEO Journal CMS
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+            CMS · Editorial &amp; SEO Journal
+          </p>
+          <h1 className="mt-1 font-display text-2xl font-bold tracking-tight text-white">
+            Blog Posts
           </h1>
           <p className="mt-1 text-xs text-zinc-400">
             Publish bilingual English &amp; Hindi SEO articles with automatic sitemap, RSS, and IndexNow updates.
           </p>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <a
             href="/blog"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 text-xs font-medium text-zinc-300 hover:border-white/20 hover:text-white"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/10 bg-[#0d0f14] px-3.5 text-xs font-medium text-zinc-300 hover:border-white/25 hover:text-white"
           >
             <ExternalLink size={13} /> View Live Blog
           </a>
           <Link
             href="/admin/cms/posts/new"
-            className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-4 text-xs font-semibold text-black shadow-[0_0_24px_rgba(255,159,28,0.25)] transition-all hover:bg-[#ffb84d]"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 text-xs font-semibold text-[#07080a] transition-colors hover:bg-[#ffb043]"
           >
             <Plus size={15} strokeWidth={2.5} /> New Article
           </Link>
@@ -60,17 +63,17 @@ export default async function PostsPage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl border border-white/10 bg-[#0c0d11]/80 p-4">
-          <p className="text-[11px] font-medium text-zinc-400">CMS Published</p>
-          <p className="mt-1 font-display text-2xl font-bold tabular-nums text-emerald-400">{publishedCount}</p>
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">CMS Published</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-emerald-400">{publishedCount}</p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-[#0c0d11]/80 p-4">
-          <p className="text-[11px] font-medium text-zinc-400">CMS Drafts</p>
-          <p className="mt-1 font-display text-2xl font-bold tabular-nums text-amber-400">{draftCount}</p>
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">CMS Drafts</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-[#ff9f1c]">{draftCount}</p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-[#0c0d11]/80 p-4">
-          <p className="text-[11px] font-medium text-zinc-400">Built-In SEO Guides</p>
-          <p className="mt-1 font-display text-2xl font-bold tabular-nums text-[#ffb84d]">{EDITORIAL_ARTICLES.length}</p>
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">Built-In SEO Guides</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-white">{EDITORIAL_ARTICLES.length}</p>
         </div>
       </div>
 

@@ -1,7 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Plus, Check, Clock, CheckCircle2, Loader2, Sparkles, Trash2, RotateCcw } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Plus,
+  Check,
+  Clock,
+  CheckCircle2,
+  Loader2,
+  Trash2,
+  RotateCcw,
+  CalendarClock,
+  AlertCircle,
+} from "lucide-react";
 
 type FollowUp = {
   id: string;
@@ -20,10 +30,13 @@ export default function FollowUpsPage() {
   const [leadsList, setLeadsList] = useState<OptionRecord[]>([]);
   const [clientsList, setClientsList] = useState<OptionRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"pending" | "overdue" | "completed" | "all">("pending");
   const [form, setForm] = useState({ note: "", dueDate: "", leadId: "", clientId: "" });
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const todayIso = new Date().toISOString().slice(0, 10);
 
   const load = async () => {
     setError(null);
@@ -112,70 +125,121 @@ export default function FollowUpsPage() {
     }
   }
 
-  const leadNameMap = new Map(leadsList.map((l) => [l.id, l.name]));
-  const clientNameMap = new Map(clientsList.map((c) => [c.id, c.name]));
+  const leadNameMap = useMemo(() => new Map(leadsList.map((l) => [l.id, l.name])), [leadsList]);
+  const clientNameMap = useMemo(() => new Map(clientsList.map((c) => [c.id, c.name])), [clientsList]);
 
-  const pending = items.filter((i) => !Boolean(i.done));
-  const completed = items.filter((i) => Boolean(i.done));
+  const pending = useMemo(() => items.filter((i) => !Boolean(i.done)), [items]);
+  const overdue = useMemo(
+    () => pending.filter((i) => Boolean(i.dueDate && i.dueDate < todayIso)),
+    [pending, todayIso]
+  );
+  const completed = useMemo(() => items.filter((i) => Boolean(i.done)), [items]);
+
+  const visible = useMemo(() => {
+    if (filter === "pending") return pending;
+    if (filter === "overdue") return overdue;
+    if (filter === "completed") return completed;
+    return items;
+  }, [filter, pending, overdue, completed, items]);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-            CRM Follow-ups &amp; Reminders
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+            CRM · Activity Queue
+          </p>
+          <h1 className="mt-1 font-display text-2xl font-bold tracking-tight text-white">
+            Follow-ups &amp; Reminders
           </h1>
           <p className="mt-1 text-xs text-zinc-400">
-            Track lead callbacks, proposal follow-ups, and active client check-ins.
+            Schedule lead callbacks, proposal check-ins, and renewal reminders tied to CRM records.
           </p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-4 text-xs font-semibold text-black shadow-[0_0_24px_rgba(255,159,28,0.25)] transition-all hover:bg-[#ffb84d]"
+          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 text-xs font-semibold text-[#07080a] transition-colors hover:bg-[#ffb043]"
         >
-          <Plus size={15} strokeWidth={2.5} /> Add Follow-up
+          <Plus size={15} strokeWidth={2.5} />
+          <span>Add Follow-up</span>
         </button>
       </div>
 
+      {/* KPI Strip */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">Pending</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-white">
+            {pending.length}
+          </p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">Overdue</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-rose-400">
+            {overdue.length}
+          </p>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-4">
+          <p className="text-xs text-zinc-400">Completed</p>
+          <p className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-emerald-400">
+            {completed.length}
+          </p>
+        </div>
+      </div>
+
       {error && (
-        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs text-rose-200">
-          {error}
+        <div
+          role="alert"
+          className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-xs text-red-300"
+        >
+          <AlertCircle className="size-4 shrink-0" />
+          <span>{error}</span>
         </div>
       )}
 
       {showForm && (
-        <form
-          onSubmit={add}
-          className="rounded-2xl border border-white/15 bg-[#0c0d11] p-5 shadow-2xl"
-        >
-          <h3 className="font-display text-sm font-semibold text-white">New Follow-up Task</h3>
+        <form onSubmit={add} className="rounded-xl border border-white/15 bg-[#0d0f14] p-5">
+          <h2 className="font-display text-sm font-semibold text-white">New Follow-up Reminder</h2>
           <div className="mt-3 space-y-3">
-            <textarea
-              rows={2}
-              required
-              placeholder="Follow up with prospect regarding website quote or proposal..."
-              value={form.note}
-              onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
-              className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-[#ff9f1c] focus:outline-none"
-            />
+            <div>
+              <label htmlFor="fu-note" className="mb-1 block text-xs font-medium text-zinc-300">
+                Action Note <span className="text-[#ff9f1c]">*</span>
+              </label>
+              <textarea
+                id="fu-note"
+                rows={2}
+                required
+                placeholder="Call prospect regarding website quote or send updated GST estimate..."
+                value={form.note}
+                onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
+                className="w-full resize-none rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#ff9f1c]"
+              />
+            </div>
+
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div>
-                <label className="mb-1 block text-[11px] font-semibold text-zinc-400">Due Date</label>
+                <label htmlFor="fu-date" className="mb-1 block text-xs font-medium text-zinc-300">
+                  Due Date
+                </label>
                 <input
+                  id="fu-date"
                   type="date"
                   value={form.dueDate}
                   onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white focus:border-[#ff9f1c] focus:outline-none"
+                  className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white outline-none focus:border-[#ff9f1c]"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-[11px] font-semibold text-zinc-400">Attach Lead</label>
+                <label htmlFor="fu-lead" className="mb-1 block text-xs font-medium text-zinc-300">
+                  Link Lead
+                </label>
                 <select
+                  id="fu-lead"
                   value={form.leadId}
                   onChange={(e) => setForm((f) => ({ ...f, leadId: e.target.value }))}
-                  className="w-full rounded-xl border border-white/10 bg-[#121318] px-3 py-2 text-xs text-white focus:border-[#ff9f1c] focus:outline-none"
+                  className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white outline-none focus:border-[#ff9f1c]"
                 >
                   <option value="">None</option>
                   {leadsList.map((l) => (
@@ -186,11 +250,14 @@ export default function FollowUpsPage() {
                 </select>
               </div>
               <div>
-                <label className="mb-1 block text-[11px] font-semibold text-zinc-400">Attach Client</label>
+                <label htmlFor="fu-client" className="mb-1 block text-xs font-medium text-zinc-300">
+                  Link Client
+                </label>
                 <select
+                  id="fu-client"
                   value={form.clientId}
                   onChange={(e) => setForm((f) => ({ ...f, clientId: e.target.value }))}
-                  className="w-full rounded-xl border border-white/10 bg-[#121318] px-3 py-2 text-xs text-white focus:border-[#ff9f1c] focus:outline-none"
+                  className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white outline-none focus:border-[#ff9f1c]"
                 >
                   <option value="">None</option>
                   {clientsList.map((c) => (
@@ -201,18 +268,20 @@ export default function FollowUpsPage() {
                 </select>
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-2">
+
+            <div className="flex items-center gap-2.5 pt-2">
               <button
                 type="submit"
                 disabled={saving || !form.note.trim()}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-5 py-2 text-xs font-semibold text-black hover:bg-[#ffb84d] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 py-2 text-xs font-semibold text-[#07080a] hover:bg-[#ffb043] disabled:opacity-50"
               >
-                {saving ? <Loader2 size={13} className="animate-spin" /> : <Check size={13} />} Save Task
+                {saving ? <Loader2 size={13} className="animate-spin" /> : <Check size={13} strokeWidth={2.5} />}
+                <span>Save Reminder</span>
               </button>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-400 hover:bg-white/5 hover:text-white"
+                className="rounded-lg border border-white/10 px-4 py-2 text-xs text-zinc-400 hover:text-white"
               >
                 Cancel
               </button>
@@ -221,104 +290,114 @@ export default function FollowUpsPage() {
         </form>
       )}
 
-      {/* Pending Tasks */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
-          <span>Pending Tasks ({pending.length})</span>
+      {/* Filter Tabs */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="inline-flex rounded-lg border border-white/10 bg-[#0d0f14] p-0.5 text-xs">
+          {[
+            { id: "pending", label: `Pending (${pending.length})` },
+            { id: "overdue", label: `Overdue (${overdue.length})` },
+            { id: "completed", label: `Completed (${completed.length})` },
+            { id: "all", label: `All (${items.length})` },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setFilter(tab.id as typeof filter)}
+              className={`rounded-md px-3 py-1.5 text-xs transition-colors ${
+                filter === tab.id
+                  ? "bg-white/10 font-medium text-white"
+                  : "text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-
-        {loading ? (
-          <div className="flex h-32 items-center justify-center">
-            <Loader2 className="size-6 animate-spin text-[#ff9f1c]" />
-          </div>
-        ) : pending.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 text-center text-zinc-400">
-            <Sparkles className="mx-auto size-6 text-[#ff9f1c]/60" />
-            <p className="mt-2 text-xs font-medium text-zinc-300">No pending follow-ups</p>
-            <p className="mt-0.5 text-[11px] text-zinc-500">All current callbacks and check-ins are up to date.</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {pending.map((item) => {
-              const isPastDue = item.dueDate ? new Date(item.dueDate) < new Date() : false;
-              const linkedLead = item.leadId ? leadNameMap.get(item.leadId) : null;
-              const linkedClient = item.clientId ? clientNameMap.get(item.clientId) : null;
-
-              return (
-                <div
-                  key={item.id}
-                  className="flex items-start gap-3.5 rounded-xl border border-white/10 bg-[#0c0d11] p-3.5 transition-colors hover:border-white/20"
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleDone(item.id, true)}
-                    className="mt-0.5 size-5 shrink-0 rounded-full border-2 border-white/20 transition-all hover:border-emerald-400 hover:bg-emerald-400/20"
-                    title="Mark as completed"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-medium text-white">{item.note}</p>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-3 text-[11px]">
-                      {item.dueDate && (
-                        <span className={`flex items-center gap-1 font-mono ${isPastDue ? "text-rose-400" : "text-zinc-400"}`}>
-                          <Clock size={11} /> {item.dueDate}
-                          {isPastDue && <span className="font-bold uppercase">(Overdue)</span>}
-                        </span>
-                      )}
-                      {linkedLead && <span className="text-[#ffb84d]">Lead: {linkedLead}</span>}
-                      {linkedClient && <span className="text-emerald-400">Client: {linkedClient}</span>}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => remove(item.id)}
-                    title="Delete task"
-                    className="rounded-lg p-1.5 text-zinc-500 hover:bg-rose-500/10 hover:text-rose-400"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
-      {completed.length > 0 && (
-        <div className="space-y-3 pt-4">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Completed Archive ({completed.length})
-          </span>
-          <div className="space-y-2">
-            {completed.map((item) => (
+      {/* Follow-up List */}
+      {loading ? (
+        <div className="flex h-36 items-center justify-center rounded-xl border border-white/10 bg-[#0d0f14]">
+          <Loader2 className="size-6 animate-spin text-[#ff9f1c]" />
+        </div>
+      ) : visible.length === 0 ? (
+        <div className="rounded-xl border border-white/10 bg-[#0d0f14] p-12 text-center">
+          <CalendarClock className="mx-auto size-7 text-zinc-600" />
+          <p className="mt-3 text-sm font-medium text-zinc-300">No reminders in this view</p>
+          <p className="mt-1 text-xs text-zinc-500">
+            Click &ldquo;Add Follow-up&rdquo; to schedule a callback or client check-in.
+          </p>
+        </div>
+      ) : (
+        <div className="divide-y divide-white/[0.06] overflow-hidden rounded-xl border border-white/10 bg-[#0d0f14]">
+          {visible.map((item) => {
+            const isDone = Boolean(item.done);
+            const isPastDue = !isDone && Boolean(item.dueDate && item.dueDate < todayIso);
+            const linkedLead = item.leadId ? leadNameMap.get(item.leadId) : null;
+            const linkedClient = item.clientId ? clientNameMap.get(item.clientId) : null;
+
+            return (
               <div
                 key={item.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.01] p-3"
+                className="flex items-start gap-3.5 px-5 py-3.5 transition-colors hover:bg-white/[0.02]"
               >
-                <div className="flex items-start gap-3 opacity-60">
-                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-emerald-500" />
-                  <p className="text-xs text-zinc-400 line-through">{item.note}</p>
+                <button
+                  type="button"
+                  onClick={() => toggleDone(item.id, !isDone)}
+                  title={isDone ? "Reopen reminder" : "Mark completed"}
+                  className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                    isDone
+                      ? "border-emerald-500 bg-emerald-500/20 text-emerald-400"
+                      : "border-white/25 hover:border-emerald-400"
+                  }`}
+                >
+                  {isDone && <CheckCircle2 size={13} />}
+                </button>
+
+                <div className="min-w-0 flex-1">
+                  <p className={`text-xs ${isDone ? "text-zinc-500 line-through" : "font-medium text-zinc-100"}`}>
+                    {item.note}
+                  </p>
+                  <div className="mt-1 flex flex-wrap items-center gap-2.5 text-[11px]">
+                    {item.dueDate && (
+                      <span
+                        className={`inline-flex items-center gap-1 font-mono ${
+                          isPastDue ? "text-rose-400" : "text-zinc-500"
+                        }`}
+                      >
+                        <Clock size={11} />
+                        {item.dueDate}
+                        {isPastDue && <span className="font-semibold">· Overdue</span>}
+                      </span>
+                    )}
+                    {linkedLead && <span className="text-[#ff9f1c]">Lead: {linkedLead}</span>}
+                    {linkedClient && <span className="text-emerald-400">Client: {linkedClient}</span>}
+                  </div>
                 </div>
+
                 <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => toggleDone(item.id, false)}
-                    title="Reopen task"
-                    className="rounded-lg p-1.5 text-zinc-500 hover:bg-white/10 hover:text-white"
-                  >
-                    <RotateCcw size={13} />
-                  </button>
+                  {isDone && (
+                    <button
+                      type="button"
+                      onClick={() => toggleDone(item.id, false)}
+                      title="Reopen"
+                      className="rounded-md p-1.5 text-zinc-500 hover:bg-white/5 hover:text-white"
+                    >
+                      <RotateCcw size={13} />
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => remove(item.id)}
-                    title="Delete task"
-                    className="rounded-lg p-1.5 text-zinc-500 hover:bg-rose-500/10 hover:text-rose-400"
+                    title="Delete reminder"
+                    className="rounded-md p-1.5 text-zinc-500 hover:bg-red-500/10 hover:text-red-400"
                   >
                     <Trash2 size={13} />
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       )}
     </div>

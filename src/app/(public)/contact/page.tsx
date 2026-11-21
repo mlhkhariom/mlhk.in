@@ -91,9 +91,9 @@ export default function ContactPage() {
     {
       icon: Mail,
       label: "Official Email",
-      value: "contact@mlhk.in",
-      sub: "admin@mlhk.in / support@mlhk.in",
-      href: "mailto:contact@mlhk.in",
+      value: "support@mlhk.in",
+      sub: "Direct Engineering & Support Desk",
+      href: "mailto:support@mlhk.in",
       accent: "text-[#ffb84d] bg-[#ff9f1c]/10 border-[#ff9f1c]/30",
     },
     {

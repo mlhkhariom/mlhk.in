@@ -4,44 +4,71 @@ import { siteSettings } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin, getSession } from "@/lib/auth/session";
+import { isSafeAdminUrl } from "@/lib/erp-utils";
 
-/** Keys that a non-super-admin must not be able to change. */
 const PROTECTED_KEYS = new Set(["google_analytics", "search_console_verification"]);
+const URL_KEYS = new Set([
+  "site_logo",
+  "favicon",
+  "og_image",
+  "contact_map",
+  "social_facebook",
+  "social_instagram",
+  "social_twitter",
+  "social_linkedin",
+  "social_youtube",
+]);
 const VALID_KEY_RE = /^[a-z0-9_]{1,64}$/i;
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);
   if (denied) return denied;
 
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
-  const rows = await db.select().from(siteSettings).all();
-  const result: Record<string, string> = {};
-  rows.forEach((r) => {
-    result[r.key] = r.value ?? "";
-  });
-  return NextResponse.json(result);
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    if (!env?.DB) return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+    const db = getDb(env.DB);
+    const rows = await db.select().from(siteSettings).all();
+    const result: Record<string, string> = {};
+    rows.forEach((r) => {
+      result[r.key] = r.value ?? "";
+    });
+    return NextResponse.json(result);
+  } catch (err) {
+    console.error("[ADMIN_SITE_SETTINGS_GET_ERROR]", err);
+    return NextResponse.json({ error: "Failed to load site settings" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
   const denied = await requireAdmin(req, ["super_admin", "admin"]);
   if (denied) return denied;
 
-  const session = await getSession(req);
-  // Only a super admin may write the protected keys; everyone else silently skips them.
-  const isSuperAdmin = session?.user.role === "super_admin";
+  try {
+    const session = await getSession(req);
+    const isSuperAdmin = session?.user.role === "super_admin";
 
-  const { env } = getCloudflareContext();
-  const db = getDb(env.DB);
-  const body = (await req.json()) as Record<string, string>;
-  for (const [key, value] of Object.entries(body)) {
-    if (!VALID_KEY_RE.test(key)) continue;
-    if (PROTECTED_KEYS.has(key) && !isSuperAdmin) continue;
-    await db
-      .insert(siteSettings)
-      .values({ key, value: String(value ?? ""), group: "general" })
-      .onConflictDoUpdate({ target: siteSettings.key, set: { value: String(value ?? "") } });
+    const { env } = await getCloudflareContext({ async: true });
+    if (!env?.DB) return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+    const db = getDb(env.DB);
+    const body = (await req.json()) as Record<string, unknown>;
+
+    for (const [key, rawVal] of Object.entries(body)) {
+      if (!VALID_KEY_RE.test(key)) continue;
+      if (PROTECTED_KEYS.has(key) && !isSuperAdmin) continue;
+      const value = String(rawVal ?? "").trim();
+      if (URL_KEYS.has(key) && value && !isSafeAdminUrl(value)) {
+        return NextResponse.json({ error: `Unsafe URL rejected for setting "${key}".` }, { status: 400 });
+      }
+      await db
+        .insert(siteSettings)
+        .values({ key, value, group: "general" })
+        .onConflictDoUpdate({ target: siteSettings.key, set: { value } });
+    }
+    revalidatePath("/", "layout");
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("[ADMIN_SITE_SETTINGS_POST_ERROR]", err);
+    return NextResponse.json({ error: "Failed to save site settings" }, { status: 500 });
   }
-  revalidatePath("/", "layout");
-  return NextResponse.json({ success: true });
 }

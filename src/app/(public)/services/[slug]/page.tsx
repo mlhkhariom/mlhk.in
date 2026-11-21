@@ -876,8 +876,23 @@ export default async function ServiceDetailPage({
             </a>
           </div>
 
-          <p className="mt-6 text-xs text-zinc-500">
-            Registered HQ: {BRAND.location} • Guaranteed response within business hours
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-xs text-zinc-400">
+            <span className="text-zinc-500">Regional Delivery Hubs:</span>
+            <Link href="/indore-it-digital-marketing-company" className="text-zinc-300 hover:text-[#ffb84d]">Indore</Link>
+            <span>·</span>
+            <Link href="/maa-baglamukhi-nalkheda-shajapur-digital-portal" className="text-zinc-300 hover:text-[#ffb84d]">Shajapur &amp; Nalkheda</Link>
+            <span>·</span>
+            <Link href="/ujjain-mahakal-simhastha-2028-it-solutions" className="text-zinc-300 hover:text-[#ffb84d]">Ujjain Simhastha 2028</Link>
+            <span>·</span>
+            <Link href="/bhopal-bhojpur-it-web-development-services" className="text-zinc-300 hover:text-[#ffb84d]">Bhopal</Link>
+            <span>·</span>
+            <Link href="/gwalior-datia-pitambara-peeth-digital-services" className="text-zinc-300 hover:text-[#ffb84d]">Gwalior &amp; Datia</Link>
+            <span>·</span>
+            <Link href="/jabalpur-maihar-chitrakoot-temple-web-seo" className="text-zinc-300 hover:text-[#ffb84d]">Jabalpur &amp; Maihar</Link>
+          </div>
+
+          <p className="mt-5 text-xs text-zinc-500">
+            {BRAND.tagline} · {BRAND.digitalTagline} · {BRAND.supportEmail} · Registered HQ: {BRAND.location}
           </p>
         </div>
       </section>

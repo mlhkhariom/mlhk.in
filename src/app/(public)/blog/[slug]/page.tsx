@@ -159,16 +159,22 @@ export default async function BlogPostPage({
               {article.excerpt}
             </p>
 
-            {/* Cover Showcase Image */}
-            <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-950">
-              <ShowcaseImage
-                src={article.coverImage}
-                alt={article.title}
-                priority
-                sizes="(max-width: 1024px) 100vw, 896px"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050607]/60 via-transparent to-transparent" />
-            </div>
+            {/* Cover Showcase Image with Branded Figcaption */}
+            <figure className="mt-8 overflow-hidden rounded-3xl border border-white/10 bg-[#090d16]">
+              <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950">
+                <ShowcaseImage
+                  src={article.coverImage}
+                  alt={`${article.title} — MLHK Infotech`}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 896px"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050607]/60 via-transparent to-transparent" />
+              </div>
+              <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 bg-[#080b12] px-5 py-2.5 text-xs text-zinc-400">
+                <span>{article.category} · Visual Guide by MLHK Infotech</span>
+                <span className="font-mono text-[11px] text-[#ffb84d]">support@mlhk.in</span>
+              </figcaption>
+            </figure>
           </header>
 
           {/* Main Grid: Article Body + Sticky TOC / CTA Sidebar */}
@@ -205,18 +211,20 @@ export default async function BlogPostPage({
               )}
 
               {/* Author E-E-A-T Verification Box */}
-              <div className="mt-12 rounded-2xl border border-white/10 bg-[#0a0b0e] p-6">
+              <div className="mt-12 rounded-2xl border border-[#ff9f1c]/25 bg-[#0a0b0e] p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#ffb84d]">
-                      <ShieldCheck className="size-3.5" /> Verified Author · E-E-A-T
+                      <ShieldCheck className="size-3.5" /> Written by MLHK Digital Strategy Team, Indore (MP)
                     </p>
                     <h3 className="mt-2 font-display text-lg font-bold text-white">
-                      {BRAND.founder} ({BRAND.founderAlias})
+                      Led by {BRAND.founder} ({BRAND.founderAlias}) · {BRAND.founderRole}
                     </h3>
-                    <p className="text-xs text-zinc-400">{BRAND.founderRole}</p>
+                    <p className="mt-1 text-xs text-zinc-400">
+                      {BRAND.tagline} · {BRAND.digitalTagline} · Contact: {BRAND.supportEmail}
+                    </p>
                     <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-300">
-                      Founder &amp; System Architect at MLHK Infotech (est. April 2020 · MSME {BRAND.udyamNumber} · GSTIN {BRAND.gstin}). Engineering production web systems, Android apps, Local SEO, and GST ERP across Indore, Shajapur, and all 28 Indian states.
+                      Official MSME ({BRAND.udyamNumber}) &amp; GSTIN ({BRAND.gstin}) engineering studio headquartered in Shajapur with operations in Indore, MP — delivering custom websites, mobile apps, Local SEO/AEO/GEO, and GST ERP across India.
                     </p>
                   </div>
                   <Link

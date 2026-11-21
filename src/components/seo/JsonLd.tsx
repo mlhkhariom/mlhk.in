@@ -142,7 +142,7 @@ export function OrganizationJsonLd() {
     image: `${BRAND.url}/brand/logo-full.png`,
     description:
       "MLHK Infotech is an indigenous Indian IT and software engineering enterprise founded on 1 April 2020 by Hariom Vishwkarma (MLHK). Registered with MSME (UDYAM-MP-44-0005223) and GSTIN (23CHLPV2868R1CJ). Delivering custom websites, website redesign & editing, technical & local SEO, digital marketing, Android & mobile apps, CRM/ERP systems, cybersecurity, and AI automation across all Indian states, cities, towns, villages, and worldwide.",
-    slogan: BRAND.tagline,
+    slogan: `${BRAND.tagline} — ${BRAND.digitalTagline}`,
     foundingDate: "2020-04-01",
     taxID: BRAND.gstin,
     vatID: BRAND.gstin,
@@ -267,7 +267,7 @@ export function OrganizationJsonLd() {
         "@type": "ContactPoint",
         contactType: "sales",
         telephone: BRAND.phoneE164,
-        email: "contact@mlhk.in",
+        email: BRAND.supportEmail,
         availableLanguage: ["English", "Hindi"],
         areaServed: ["IN", "Worldwide"],
       },

@@ -7,6 +7,7 @@ import { SERVICE_DETAILS } from "@/lib/brand";
 import { LOCATION_HUBS, getLocationHeroVisual } from "@/lib/seo-locations";
 import { SOLUTION_PAGES } from "@/lib/seo-solutions";
 import { EDITORIAL_ARTICLES } from "@/lib/blog-articles";
+import { ALL_MP_SILO_PAGES } from "@/lib/mp-silo-pages";
 import {
   BASE_URL,
   CORE_STATIC_PATHS,
@@ -68,6 +69,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         images: [heroImg],
       };
     }),
+    ...ALL_MP_SILO_PAGES.map((silo) => ({
+      url: `${BASE_URL}${silo.path}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.92,
+      images: [`${BASE_URL}${silo.bannerImage}`],
+    })),
   ];
 
   const editorialBlogEntries: MetadataRoute.Sitemap = EDITORIAL_ARTICLES.map((art) => ({

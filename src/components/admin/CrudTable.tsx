@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Pencil,
   Trash2,
@@ -8,18 +8,19 @@ import {
   X,
   Check,
   Search,
-  Sparkles,
   AlertCircle,
   Loader2,
   FolderOpen,
+  ExternalLink,
 } from "lucide-react";
 
 export type Field = {
   key: string;
   label: string;
-  type?: "text" | "textarea" | "select" | "number";
+  type?: "text" | "textarea" | "select" | "number" | "date" | "url" | "image" | "boolean";
   options?: string[];
   required?: boolean;
+  placeholder?: string;
 };
 
 type Row = Record<string, unknown>;
@@ -30,9 +31,31 @@ interface Props {
   fields: Field[];
   apiPath: string;
   onRefresh: () => void;
+  statusFilterKey?: string;
+  previewHref?: (row: Row) => string | null;
 }
 
-export default function CrudTable({ title, data, fields, apiPath, onRefresh }: Props) {
+const STATUS_DOT: Record<string, string> = {
+  published: "bg-emerald-400",
+  active: "bg-emerald-400",
+  paid: "bg-emerald-400",
+  resolved: "bg-emerald-400",
+  draft: "bg-zinc-400",
+  pending: "bg-[#ff9f1c]",
+  in_progress: "bg-sky-400",
+  archived: "bg-zinc-500",
+  overdue: "bg-red-400",
+};
+
+export default function CrudTable({
+  title,
+  data,
+  fields,
+  apiPath,
+  onRefresh,
+  statusFilterKey,
+  previewHref,
+}: Props) {
   const [showForm, setShowForm] = useState(false);
   const [editRow, setEditRow] = useState<Row | null>(null);
   const [form, setForm] = useState<Row>({});
@@ -40,11 +63,34 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
   const [deletingId, setDeletingId] = useState<unknown | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<unknown | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
   const [error, setError] = useState<string | null>(null);
   const [tableError, setTableError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!showForm) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowForm(false);
+        setForm({});
+        setEditRow(null);
+        setError(null);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showForm]);
+
   function openNew() {
-    setForm({});
+    const defaults: Row = {};
+    for (const f of fields) {
+      if (f.type === "select" && f.options?.length && f.required) {
+        defaults[f.key] = f.options[0];
+      } else if (f.type === "boolean") {
+        defaults[f.key] = false;
+      }
+    }
+    setForm(defaults);
     setEditRow(null);
     setError(null);
     setShowForm(true);
@@ -69,27 +115,40 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
     setSaving(true);
     setError(null);
     try {
+      const payload: Row = { ...form };
+      for (const f of fields) {
+        if (f.type === "number") {
+          const raw = payload[f.key];
+          if (raw === "" || raw === undefined || raw === null) {
+            payload[f.key] = null;
+          } else {
+            const parsed = Number(raw);
+            payload[f.key] = Number.isFinite(parsed) ? parsed : null;
+          }
+        }
+      }
+
       const res = editRow
         ? await fetch(apiPath, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
+            body: JSON.stringify(payload),
           })
         : await fetch(apiPath, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
+            body: JSON.stringify(payload),
           });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error((data as { error?: string })?.error || "Failed to save record");
+        const errBody = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errBody?.error || "Failed to save record");
       }
 
       close();
       onRefresh();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
     } finally {
       setSaving(false);
     }
@@ -117,287 +176,428 @@ export default function CrudTable({ title, data, fields, apiPath, onRefresh }: P
     }
   }
 
-  // Filter rows based on search
-  const filteredData = useMemo(() => {
-    if (!searchQuery.trim()) return data;
-    const q = searchQuery.toLowerCase();
-    return data.filter((row) =>
-      Object.values(row).some((val) =>
-        val !== null && val !== undefined && String(val).toLowerCase().includes(q)
-      )
-    );
-  }, [data, searchQuery]);
+  const filterField = useMemo(
+    () => (statusFilterKey ? fields.find((f) => f.key === statusFilterKey) : undefined),
+    [fields, statusFilterKey]
+  );
 
-  const displayFields = fields.slice(0, 4);
+  const filteredData = useMemo(() => {
+    let rows = Array.isArray(data) ? data : [];
+    if (statusFilterKey && statusFilter !== "all") {
+      rows = rows.filter((r) => String(r[statusFilterKey] ?? "") === statusFilter);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      rows = rows.filter((row) =>
+        Object.values(row).some(
+          (val) => val !== null && val !== undefined && String(val).toLowerCase().includes(q)
+        )
+      );
+    }
+    return rows;
+  }, [data, searchQuery, statusFilter, statusFilterKey]);
+
+  const displayFields = fields.slice(0, 5);
 
   return (
     <div className="space-y-4">
-      {/* Top action & filter bar */}
+      {/* Toolbar */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-zinc-500" />
             <input
               type="text"
+              aria-label={`Search ${title}`}
               placeholder={`Search ${title.toLowerCase()}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-9 w-64 rounded-xl border border-white/10 bg-white/[0.03] pl-9 pr-3 text-xs text-white placeholder-zinc-500 transition-colors focus:border-[#ff9f1c] focus:outline-none focus:ring-1 focus:ring-[#ff9f1c]"
+              className="h-9 w-60 rounded-lg border border-white/10 bg-[#0d0f14] pl-8.5 pr-7 text-xs text-white placeholder-zinc-500 outline-none transition-colors focus:border-[#ff9f1c]/60"
             />
             {searchQuery && (
               <button
                 type="button"
+                aria-label="Clear search"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white"
               >
-                ✕
+                <X className="size-3.5" />
               </button>
             )}
           </div>
-          <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-zinc-400">
-            {filteredData.length} {filteredData.length === 1 ? "entry" : "entries"}
+
+          {filterField?.options && filterField.options.length > 0 && (
+            <div className="flex items-center rounded-lg border border-white/10 bg-[#0d0f14] p-0.5 text-[11px]">
+              <button
+                type="button"
+                onClick={() => setStatusFilter("all")}
+                className={`rounded-md px-2.5 py-1 capitalize transition-colors ${
+                  statusFilter === "all"
+                    ? "bg-white/10 font-medium text-white"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                All
+              </button>
+              {filterField.options.map((opt) => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => setStatusFilter(opt)}
+                  className={`rounded-md px-2.5 py-1 capitalize transition-colors ${
+                    statusFilter === opt
+                      ? "bg-white/10 font-medium text-white"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  {opt.replace("_", " ")}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <span className="font-mono text-[11px] tabular-nums text-zinc-500">
+            {filteredData.length} {filteredData.length === 1 ? "record" : "records"}
           </span>
         </div>
 
         <button
+          type="button"
           onClick={openNew}
-          className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-4 text-xs font-semibold text-black shadow-[0_0_24px_rgba(255,159,28,0.25)] transition-all hover:bg-[#ffb84d] hover:shadow-[0_0_32px_rgba(255,159,28,0.35)]"
+          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 text-xs font-semibold text-[#07080a] transition-colors hover:bg-[#ffb043]"
         >
-          <Plus size={15} strokeWidth={2.5} /> Add {title}
+          <Plus size={15} strokeWidth={2.5} />
+          <span>Add {title}</span>
         </button>
       </div>
 
       {tableError && (
-        <div role="alert" className="flex items-center justify-between gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-xs text-red-300">
+        <div
+          role="alert"
+          className="flex items-center justify-between gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-xs text-red-300"
+        >
           <span className="flex items-center gap-2">
             <AlertCircle className="size-4 shrink-0" />
             {tableError}
           </span>
-          <button type="button" onClick={() => setTableError(null)} className="text-red-200 hover:text-white" aria-label="Dismiss error">
+          <button
+            type="button"
+            onClick={() => setTableError(null)}
+            className="text-red-200 hover:text-white"
+            aria-label="Dismiss error"
+          >
             <X size={14} />
           </button>
         </div>
       )}
 
-      {/* Main Table Card */}
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c0d11]/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md">
+      {/* Main Hairline Data Table */}
+      <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0d0f14]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-white/10 bg-white/[0.02] text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-400">
+              <tr className="border-b border-white/10 bg-white/[0.02] font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
                 {displayFields.map((f) => (
-                  <th key={f.key} className="px-5 py-3.5">
+                  <th key={f.key} className="px-4 py-3">
                     {f.label}
                   </th>
                 ))}
-                <th className="px-5 py-3.5 text-right">Actions</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-white/[0.06]">
               {filteredData.length === 0 ? (
                 <tr>
                   <td colSpan={displayFields.length + 1} className="px-6 py-14 text-center">
-                    <div className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-zinc-500">
-                      <FolderOpen className="size-6" />
+                    <div className="mx-auto flex size-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-zinc-500">
+                      <FolderOpen className="size-5" />
                     </div>
-                    <p className="mt-3 font-medium text-zinc-300">
-                      {searchQuery ? "No matching records found" : `No ${title.toLowerCase()} recorded yet`}
+                    <p className="mt-3 text-sm font-medium text-zinc-300">
+                      {searchQuery || statusFilter !== "all"
+                        ? "No matching records"
+                        : `No ${title.toLowerCase()} yet`}
                     </p>
                     <p className="mt-1 text-xs text-zinc-500">
-                      {searchQuery
-                        ? "Try clearing your search query"
-                        : `Click "Add ${title}" to create your first entry.`}
+                      {searchQuery || statusFilter !== "all"
+                        ? "Adjust your filters or search query."
+                        : `Use "Add ${title}" to create the first entry.`}
                     </p>
                   </td>
                 </tr>
               ) : (
-                filteredData.map((row, i) => (
-                  <tr
-                    key={(row.id as string) ?? i}
-                    className="group transition-colors hover:bg-white/[0.03]"
-                  >
-                    {displayFields.map((f, idx) => {
-                      const val = row[f.key];
-                      const isFirst = idx === 0;
+                filteredData.map((row, i) => {
+                  const previewUrl = previewHref ? previewHref(row) : null;
+                  return (
+                    <tr
+                      key={(row.id as string) ?? i}
+                      className="group transition-colors hover:bg-white/[0.025]"
+                    >
+                      {displayFields.map((f, idx) => {
+                        const val = row[f.key];
+                        const isFirst = idx === 0;
 
-                      return (
-                        <td key={f.key} className="max-w-xs truncate px-5 py-3.5">
-                          {f.type === "select" && val ? (
-                            <span className="inline-flex items-center rounded-md border border-[#ff9f1c]/20 bg-[#ff9f1c]/10 px-2 py-0.5 text-xs font-medium text-[#ffb84d]">
-                              {String(val)}
-                            </span>
-                          ) : isFirst ? (
-                            <span className="font-medium text-white">{String(val ?? "—")}</span>
+                        return (
+                          <td key={f.key} className="max-w-xs truncate px-4 py-3">
+                            {f.type === "select" && val ? (
+                              <span className="inline-flex items-center gap-1.5 text-xs capitalize text-zinc-200">
+                                <span
+                                  className={`size-1.5 rounded-full ${
+                                    STATUS_DOT[String(val).toLowerCase()] ?? "bg-[#ff9f1c]"
+                                  }`}
+                                />
+                                {String(val).replace("_", " ")}
+                              </span>
+                            ) : f.type === "boolean" ? (
+                              <span className="font-mono text-[11px] text-zinc-300">
+                                {val ? "Yes" : "No"}
+                              </span>
+                            ) : f.type === "number" ? (
+                              <span className="font-mono tabular-nums text-zinc-200">
+                                {val !== null && val !== undefined ? String(val) : "—"}
+                              </span>
+                            ) : f.type === "image" && val ? (
+                              <div className="flex items-center gap-2">
+                                <img
+                                  src={String(val)}
+                                  alt=""
+                                  className="size-7 rounded border border-white/10 object-cover"
+                                />
+                                <span className="truncate font-mono text-[11px] text-zinc-400">
+                                  {String(val)}
+                                </span>
+                              </div>
+                            ) : isFirst ? (
+                              <span className="font-medium text-white">
+                                {String(val ?? "—")}
+                              </span>
+                            ) : (
+                              <span className="text-zinc-400">{String(val ?? "—")}</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          {confirmDeleteId === row.id ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => del(row)}
+                                disabled={deletingId === row.id}
+                                className="inline-flex h-7 items-center gap-1 rounded-md border border-red-500/40 bg-red-500/20 px-2.5 text-[11px] font-semibold text-red-200 hover:bg-red-500/30 disabled:opacity-50"
+                              >
+                                {deletingId === row.id ? (
+                                  <Loader2 size={12} className="animate-spin" />
+                                ) : (
+                                  "Confirm"
+                                )}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setConfirmDeleteId(null)}
+                                className="inline-flex h-7 items-center rounded-md border border-white/10 px-2 text-[11px] text-zinc-400 hover:text-white"
+                              >
+                                Cancel
+                              </button>
+                            </>
                           ) : (
-                            <span className="text-zinc-400">{String(val ?? "—")}</span>
+                            <>
+                              {previewUrl && (
+                                <a
+                                  href={previewUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Open on live site"
+                                  className="flex size-7 items-center justify-center rounded-md border border-white/10 text-zinc-400 transition-colors hover:border-white/25 hover:text-white"
+                                >
+                                  <ExternalLink size={12} />
+                                </a>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => openEdit(row)}
+                                title={`Edit ${title}`}
+                                className="flex size-7 items-center justify-center rounded-md border border-white/10 text-zinc-400 transition-colors hover:border-white/25 hover:text-[#ff9f1c]"
+                              >
+                                <Pencil size={12} />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setConfirmDeleteId(row.id)}
+                                disabled={deletingId === row.id}
+                                title={`Delete ${title}`}
+                                className="flex size-7 items-center justify-center rounded-md border border-white/10 text-zinc-400 transition-colors hover:border-red-500/40 hover:text-red-400 disabled:opacity-50"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </>
                           )}
-                        </td>
-                      );
-                    })}
-                    <td className="px-5 py-3.5 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        {confirmDeleteId === row.id ? (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => del(row)}
-                              disabled={deletingId === row.id}
-                              className="inline-flex h-7 items-center gap-1 rounded-lg border border-red-500/40 bg-red-500/20 px-2.5 text-[11px] font-semibold text-red-200 hover:bg-red-500/30 disabled:opacity-50"
-                            >
-                              {deletingId === row.id ? <Loader2 size={12} className="animate-spin" /> : "Confirm"}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setConfirmDeleteId(null)}
-                              className="inline-flex h-7 items-center rounded-lg border border-white/10 bg-white/[0.03] px-2 text-[11px] text-zinc-400 hover:text-white"
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => openEdit(row)}
-                              title="Edit"
-                              className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-[#ffb84d]"
-                            >
-                              <Pencil size={13} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setConfirmDeleteId(row.id)}
-                              disabled={deletingId === row.id}
-                              title="Delete"
-                              className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-zinc-400 transition-colors hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
-                            >
-                              <Trash2 size={13} />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* Edit / New Modal Dialog */}
+      {/* Modal Dialog */}
       {showForm && (
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="crud-modal-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
         >
-          {/* Backdrop */}
           <div
             onClick={close}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            aria-hidden="true"
           />
 
-          {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-white/15 bg-[#0c0d11] p-6 shadow-2xl">
-            {/* Modal Header */}
+          <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-xl border border-white/15 bg-[#0d0f14] p-6 shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="flex size-7 items-center justify-center rounded-lg border border-[#ff9f1c]/30 bg-[#ff9f1c]/10 text-[#ffb84d]">
-                  <Sparkles size={14} />
-                </span>
-                <h3 className="font-display text-base font-bold text-white">
-                  {editRow ? "Edit" : "New"} {title}
-                </h3>
-              </div>
+              <h3 id="crud-modal-title" className="font-display text-base font-bold text-white">
+                {editRow ? "Edit" : "New"} {title}
+              </h3>
               <button
                 type="button"
                 onClick={close}
+                aria-label="Close modal"
                 className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-white/5 hover:text-white"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
-            {/* Error Message */}
             {error && (
-              <div className="mt-4 flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300">
+              <div
+                role="alert"
+                className="mt-4 flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300"
+              >
                 <AlertCircle className="size-4 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
-            {/* Form */}
             <form onSubmit={save} className="mt-4 space-y-4">
-              <div className="max-h-[60vh] space-y-3.5 overflow-y-auto pr-1">
-                {fields.map((f) => (
-                  <div key={f.key}>
-                    <label className="mb-1.5 block text-xs font-semibold tracking-wide text-zinc-300">
-                      {f.label}
-                      {f.required && <span className="ml-1 text-[#ff9f1c]">*</span>}
-                    </label>
-
-                    {f.type === "textarea" ? (
-                      <textarea
-                        rows={3}
-                        required={f.required}
-                        value={(form[f.key] as string) ?? ""}
-                        onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                        className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 transition-colors focus:border-[#ff9f1c] focus:outline-none focus:ring-1 focus:ring-[#ff9f1c]"
-                      />
-                    ) : f.type === "select" ? (
-                      <select
-                        required={f.required}
-                        value={(form[f.key] as string) ?? ""}
-                        onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                        className="w-full rounded-xl border border-white/10 bg-[#121318] px-3.5 py-2.5 text-xs text-white transition-colors focus:border-[#ff9f1c] focus:outline-none focus:ring-1 focus:ring-[#ff9f1c]"
+              <div className="max-h-[62vh] space-y-3.5 overflow-y-auto pr-1">
+                {fields.map((f) => {
+                  const inputId = `crud-field-${f.key}`;
+                  return (
+                    <div key={f.key}>
+                      <label
+                        htmlFor={inputId}
+                        className="mb-1.5 block text-xs font-medium text-zinc-300"
                       >
-                        <option value="">Select an option...</option>
-                        {f.options?.map((o) => (
-                          <option key={o} value={o} className="bg-[#121318] text-white">
-                            {o}
-                          </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input
-                        type={f.type ?? "text"}
-                        required={f.required}
-                        value={(form[f.key] as string) ?? ""}
-                        onChange={(e) =>
-                          setForm({
-                            ...form,
-                            [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value,
-                          })
-                        }
-                        className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 transition-colors focus:border-[#ff9f1c] focus:outline-none focus:ring-1 focus:ring-[#ff9f1c]"
-                      />
-                    )}
-                  </div>
-                ))}
+                        {f.label}
+                        {f.required && <span className="ml-1 text-[#ff9f1c]">*</span>}
+                      </label>
+
+                      {f.type === "textarea" ? (
+                        <textarea
+                          id={inputId}
+                          rows={3}
+                          required={f.required}
+                          placeholder={f.placeholder}
+                          value={String(form[f.key] ?? "")}
+                          onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                          className="w-full resize-y rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#ff9f1c]"
+                        />
+                      ) : f.type === "select" ? (
+                        <select
+                          id={inputId}
+                          required={f.required}
+                          value={String(form[f.key] ?? "")}
+                          onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                          className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white outline-none focus:border-[#ff9f1c]"
+                        >
+                          <option value="">Select an option...</option>
+                          {f.options?.map((o) => (
+                            <option key={o} value={o} className="bg-[#0d0f14] text-white">
+                              {o}
+                            </option>
+                          ))}
+                        </select>
+                      ) : f.type === "boolean" ? (
+                        <label className="inline-flex cursor-pointer items-center gap-2.5 text-xs text-zinc-300">
+                          <input
+                            id={inputId}
+                            type="checkbox"
+                            checked={Boolean(form[f.key])}
+                            onChange={(e) => setForm({ ...form, [f.key]: e.target.checked })}
+                            className="size-4 rounded border-white/20 bg-[#07080a] accent-[#ff9f1c]"
+                          />
+                          <span>Enabled</span>
+                        </label>
+                      ) : f.type === "image" ? (
+                        <div className="space-y-2">
+                          <input
+                            id={inputId}
+                            type="text"
+                            required={f.required}
+                            placeholder={f.placeholder ?? "/images/showcase/web-platform.jpg or https://..."}
+                            value={String(form[f.key] ?? "")}
+                            onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                            className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#ff9f1c]"
+                          />
+                          {Boolean(form[f.key]) && (
+                            <img
+                              src={String(form[f.key])}
+                              alt="Preview"
+                              className="h-24 w-40 rounded-lg border border-white/10 object-cover"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <input
+                          id={inputId}
+                          type={f.type === "url" ? "text" : f.type ?? "text"}
+                          required={f.required}
+                          placeholder={f.placeholder}
+                          value={
+                            form[f.key] === null || form[f.key] === undefined
+                              ? ""
+                              : String(form[f.key])
+                          }
+                          onChange={(e) =>
+                            setForm({
+                              ...form,
+                              [f.key]: e.target.value,
+                            })
+                          }
+                          className="w-full rounded-lg border border-white/10 bg-[#07080a] px-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#ff9f1c]"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+              <div className="flex items-center justify-end gap-2.5 border-t border-white/10 pt-4">
                 <button
                   type="button"
                   onClick={close}
-                  className="rounded-xl border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-400 transition-colors hover:bg-white/5 hover:text-white"
+                  className="rounded-lg border border-white/10 px-4 py-2 text-xs font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#ff9f1c] px-5 py-2 text-xs font-semibold text-black shadow-[0_0_20px_rgba(255,159,28,0.25)] transition-all hover:bg-[#ffb84d] disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#ff9f1c] px-4 py-2 text-xs font-semibold text-[#07080a] transition-colors hover:bg-[#ffb043] disabled:opacity-50"
                 >
                   {saving ? (
                     <>
-                      <Loader2 size={13} className="animate-spin" /> Saving...
+                      <Loader2 size={13} className="animate-spin" />
+                      <span>Saving...</span>
                     </>
                   ) : (
                     <>
-                      <Check size={13} strokeWidth={2.5} /> Save Record
+                      <Check size={13} strokeWidth={2.5} />
+                      <span>Save Record</span>
                     </>
                   )}
                 </button>
